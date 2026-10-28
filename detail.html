@@ -3,8 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Desofec Hub | Tool Detail</title>
-    <meta name="description" content="Desofec Hub tool detail and download information." />
+    <meta
+      name="description"
+      content="Desofec Hub — a curated discovery platform for AI vibe coding, ML, CAD, and creative tools."
+    />
+    <meta name="theme-color" content="#0b1020" />
+    <title>Desofec Hub</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -14,8 +18,8 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div class="page-shell detail-page-shell">
-      <header class="topbar detail-topbar">
+    <div class="page-shell">
+      <header class="topbar">
         <div class="brand-wrap">
           <div class="brand-mark">D</div>
           <div>
@@ -25,13 +29,190 @@
         </div>
 
         <nav class="topnav" aria-label="Main navigation">
-          <a href="index.html">Home</a>
-          <a href="index.html#categories">Catalog</a>
-          <a href="index.html#platform">Platform</a>
+          <a href="#featured">Featured</a>
+          <a href="#categories">Catalog</a>
+          <a href="#collections">Collections</a>
+          <a href="#platform">Platform</a>
+          <a href="#newsletter">Newsletter</a>
         </nav>
+
+        <a class="ghost-button" href="#categories">Explore tools</a>
       </header>
 
-      <main class="detail-view" id="tool-detail"></main>
+      <main>
+        <section class="hero" id="featured">
+          <div class="hero-copy">
+            <span class="eyebrow">Curated for creators and builders</span>
+            <h1>Discover the tools behind faster ideas.</h1>
+            <p>
+              Desofec Hub is a curated discovery platform for AI vibe coding,
+              machine learning, CAD design, and creative tooling. Find the right
+              resource, compare options, and move from idea to launch faster.
+            </p>
+
+            <div class="cta-row">
+              <a class="primary-button" href="#categories">Browse catalog</a>
+              <a class="secondary-button" href="#platform">See platform</a>
+            </div>
+
+            <div class="hero-stats" aria-label="Project statistics">
+              <div>
+                <strong>120+</strong>
+                <span>Curated tools</span>
+              </div>
+              <div>
+                <strong>18</strong>
+                <span>Categories</span>
+              </div>
+              <div>
+                <strong>4.9/5</strong>
+                <span>Community rating</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-panel" aria-label="Featured tools panel">
+            <div class="panel-header">
+              <span class="status-dot"></span>
+              <span>Featured collections</span>
+            </div>
+            <div class="tool-list" id="featured-tools"></div>
+          </div>
+        </section>
+
+        <section class="offer-strip" aria-label="Tool categories">
+          <article class="offer-card offer-ai">
+            <span class="offer-icon">✨</span>
+            <div>
+              <h3>AI Vibe Coding</h3>
+              <p>Prompt packs, starter kits, and AI-first workflows for fast product building.</p>
+            </div>
+          </article>
+
+          <article class="offer-card">
+            <span class="offer-icon">🧠</span>
+            <div>
+              <h3>ML & Data</h3>
+              <p>Data prep, training utilities, and inference playbooks for builders.</p>
+            </div>
+          </article>
+
+          <article class="offer-card">
+            <span class="offer-icon">📐</span>
+            <div>
+              <h3>CAD & Design</h3>
+              <p>Mechanical workflows, design presets, and precise modeling assets.</p>
+            </div>
+          </article>
+        </section>
+
+        <section class="searchbar-wrap" aria-label="Tool search and filters">
+          <label class="search-field" for="tool-search">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M10 3a7 7 0 015.4 11.9l4.4 4.4 1.4-1.4-4.4-4.4A7 7 0 1110 3zm0 2a5 5 0 100 10 5 5 0 000-10z" />
+            </svg>
+            <input id="tool-search" type="search" placeholder="Search downloads, tags, or tool names" />
+          </label>
+
+          <div class="filter-chips" aria-label="Categories filter">
+            <button class="chip active" type="button" data-filter="all">All</button>
+            <button class="chip" type="button" data-filter="ai">AI</button>
+            <button class="chip" type="button" data-filter="ml">ML</button>
+            <button class="chip" type="button" data-filter="cad">CAD</button>
+            <button class="chip" type="button" data-filter="creative">Creative</button>
+            <button class="chip" type="button" data-filter="utility">Utility</button>
+          </div>
+        </section>
+
+        <section class="catalog" id="categories">
+          <div class="section-heading">
+            <div>
+              <span class="eyebrow">Download catalog</span>
+              <h2>Explore by category</h2>
+            </div>
+            <a href="#newsletter">Get updates</a>
+          </div>
+
+          <div id="tool-grid" class="catalog-grid"></div>
+        </section>
+
+        <section class="collections" id="collections">
+          <div class="section-heading">
+            <div>
+              <span class="eyebrow">Featured collections</span>
+              <h2>Builds for ambitious workflows</h2>
+            </div>
+          </div>
+
+          <div class="collection-grid">
+            <article class="collection-card">
+              <span class="collection-icon">⚙️</span>
+              <h3>Creative Engineering</h3>
+              <p>For product designers, digital artists, and makers building interactive systems.</p>
+            </article>
+
+            <article class="collection-card">
+              <span class="collection-icon">🧠</span>
+              <h3>Machine Learning</h3>
+              <p>Everything from preprocessing utilities to deployment-ready starter stacks.</p>
+            </article>
+
+            <article class="collection-card">
+              <span class="collection-icon">✨</span>
+              <h3>AI Vibe Coding</h3>
+              <p>Prompt systems, rapid prototypes, and agent workflows for modern creative builders.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="hub-features" id="platform">
+          <div class="section-heading">
+            <div>
+              <span class="eyebrow">How it works</span>
+              <h2>The Desofec Hub platform</h2>
+            </div>
+          </div>
+
+          <div class="feature-grid">
+            <article class="feature-card">
+              <h3>1. Discover</h3>
+              <p>Search by category, tag, skill level, and workflow to find the exact tool you need.</p>
+            </article>
+
+            <article class="feature-card">
+              <h3>2. Compare</h3>
+              <p>Understand platform support, use case fit, productivity gain, and compatibility before downloading.</p>
+            </article>
+
+            <article class="feature-card">
+              <h3>3. Download</h3>
+              <p>Get reliable versions, install guidance, and curated release notes in one place.</p>
+            </article>
+
+            <article class="feature-card">
+              <h3>4. Build</h3>
+              <p>Turn the tool into a connected workflow with AI recommendations and starter packs.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="newsletter" id="newsletter">
+          <div>
+            <span class="eyebrow">Stay in the loop</span>
+            <h2>Get new downloads before they hit the public catalog.</h2>
+          </div>
+
+          <form class="newsletter-form" action="#" method="get">
+            <input type="email" placeholder="Email address" aria-label="Email address" />
+            <button type="submit">Subscribe</button>
+          </form>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <div>© 2026 Desofec</div>
+        <div>Discover. Download. Build.</div>
+      </footer>
     </div>
 
     <script src="script.js"></script>

@@ -1,40 +1,170 @@
-const searchInput = document.getElementById("tool-search");
-const chips = document.querySelectorAll(".chip");
-const cards = document.querySelectorAll(".download-card");
-
-let activeFilter = "all";
-
-const applyFilter = () => {
-  const query = searchInput.value.trim().toLowerCase();
-
-  cards.forEach((card) => {
-    const category = card.dataset.category;
-    const text = card.textContent.toLowerCase();
-    const categoryMatch = activeFilter === "all" || category === activeFilter;
-    const searchMatch = !query || text.includes(query);
-
-    card.classList.toggle("hidden", !(categoryMatch && searchMatch));
-  });
-};
-
-chips.forEach((chip) => {
-  chip.addEventListener("click", () => {
-    chips.forEach((item) => item.classList.remove("active"));
-    chip.classList.add("active");
-    activeFilter = chip.dataset.filter;
-    applyFilter();
-  });
-});
-
-searchInput.addEventListener("input", applyFilter);
-
-const newsletterForm = document.querySelector(".newsletter-form");
-newsletterForm.addEventListener("submit", (event) => {
-  event.preventDefault();
-  const button = newsletterForm.querySelector("button");
-  const input = newsletterForm.querySelector("input");
-
-  button.textContent = "Subscribed";
-  button.disabled = true;
-  input.value = "";
-});
+[
+  {
+    "id": "ai-vibe-coding-starter-kit",
+    "name": "AI Vibe Coding Starter Kit",
+    "slug": "ai-vibe-coding-starter-kit",
+    "category": "ai",
+    "categoryLabel": "AI",
+    "tags": ["ai", "vibe-coding", "prototype", "starter", "prompt"],
+    "description": "Prompt libraries, agent starter templates, and UI generation workflows for rapid prototyping.",
+    "longDescription": "A complete starter bundle for building AI-first products quickly. Includes prompt libraries, UI generation patterns, app bootstrap templates, and a simple agent workflow setup.",
+    "platforms": ["Web", "Windows", "macOS"],
+    "level": "Beginner",
+    "rating": 4.9,
+    "downloads": "12k",
+    "version": "v1.4.2",
+    "featured": true,
+    "downloadUrl": "#",
+    "lastUpdated": "2026-10-01",
+    "useCases": ["Prototype AI app UI", "Prompt workflow design", "Idea validation"],
+    "license": "MIT",
+    "features": ["Prompt library", "Starter templates", "AI app checklist", "Rapid workflow setup"]
+  },
+  {
+    "id": "vision-lab-suite",
+    "name": "Vision Lab Suite",
+    "slug": "vision-lab-suite",
+    "category": "ml",
+    "categoryLabel": "ML",
+    "tags": ["ml", "computer-vision", "dataset", "inference"],
+    "description": "Pretrained image models, dataset helpers, and inference scripts.",
+    "longDescription": "A curated machine learning bundle for vision workflows. Includes ready-to-use preprocessing scripts, common dataset utilities, and example inference assets.",
+    "platforms": ["Windows", "macOS", "Linux"],
+    "level": "Intermediate",
+    "rating": 4.8,
+    "downloads": "17k",
+    "version": "v2.4.1",
+    "featured": true,
+    "downloadUrl": "#",
+    "lastUpdated": "2026-09-22",
+    "useCases": ["Image classification", "Preprocessing", "Dataset cleanup"],
+    "license": "Apache 2.0",
+    "features": ["GPU ready", "Dataset tools", "Inference templates", "Model prep scripts"]
+  },
+  {
+    "id": "mesh-builder-pro",
+    "name": "Mesh Builder Pro",
+    "slug": "mesh-builder-pro",
+    "category": "cad",
+    "categoryLabel": "CAD",
+    "tags": ["cad", "3d", "modeling", "design"],
+    "description": "3D geometry tools with export presets for product design and prototyping.",
+    "longDescription": "An advanced design toolkit focused on 3D modeling, mesh preparation, and export workflows for CAD and rapid prototyping.",
+    "platforms": ["Windows", "macOS"],
+    "level": "Intermediate",
+    "rating": 4.7,
+    "downloads": "9.8k",
+    "version": "v7.8",
+    "featured": false,
+    "downloadUrl": "#",
+    "lastUpdated": "2026-10-05",
+    "useCases": ["3D modeling", "Product prototyping", "Export prep"],
+    "license": "Commercial",
+    "features": ["Batch export", "Parametric presets", "Geometry cleanup"]
+  },
+  {
+    "id": "generative-canvas-kit",
+    "name": "Generative Canvas Kit",
+    "slug": "generative-canvas-kit",
+    "category": "creative",
+    "categoryLabel": "Creative",
+    "tags": ["creative", "generative", "art", "visual"],
+    "description": "Creative coding scripts and visual experimentation templates.",
+    "longDescription": "A toolkit for visual experimentation, generative art, motion previews, and live creative coding setups.",
+    "platforms": ["Web", "Windows", "Linux"],
+    "level": "Beginner",
+    "rating": 4.9,
+    "downloads": "11k",
+    "version": "v3.1",
+    "featured": false,
+    "downloadUrl": "#",
+    "lastUpdated": "2026-09-10",
+    "useCases": ["Generative visuals", "Creative coding", "Concept mockups"],
+    "license": "MIT",
+    "features": ["Realtime preview", "Visual presets", "Creative templates"]
+  },
+  {
+    "id": "file-sync-manager",
+    "name": "File Sync Manager",
+    "slug": "file-sync-manager",
+    "category": "utility",
+    "categoryLabel": "Utility",
+    "tags": ["utility", "sync", "files", "archive"],
+    "description": "Local transfer utilities for managing large projects and archives.",
+    "longDescription": "A local workflow tool for syncing project folders, validating checksums, and managing large file transfers without friction.",
+    "platforms": ["Windows", "macOS", "Linux"],
+    "level": "Beginner",
+    "rating": 4.6,
+    "downloads": "7.5k",
+    "version": "v2.3",
+    "featured": false,
+    "downloadUrl": "#",
+    "lastUpdated": "2026-08-29",
+    "useCases": ["Sync large projects", "Checksum validation", "Archive management"],
+    "license": "GPL-3.0",
+    "features": ["Multi-source sync", "Checksums", "Archive workflows"]
+  },
+  {
+    "id": "agent-builder-pack",
+    "name": "Agent Builder Pack",
+    "slug": "agent-builder-pack",
+    "category": "ai",
+    "categoryLabel": "AI",
+    "tags": ["ai", "agent", "automation", "workflow"],
+    "description": "Workflow templates for AI agents, automations, and app idea testing.",
+    "longDescription": "A pack of agent design patterns for building AI workflows, testing ideas faster, and connecting automation chains across tools.",
+    "platforms": ["Web", "Windows", "macOS"],
+    "level": "Advanced",
+    "rating": 4.8,
+    "downloads": "8.1k",
+    "version": "v2.5",
+    "featured": false,
+    "downloadUrl": "#",
+    "lastUpdated": "2026-10-12",
+    "useCases": ["AI automation", "Agent prototyping", "Workflow design"],
+    "license": "MIT",
+    "features": ["Agent blueprints", "Automation templates", "Prototype loops"]
+  },
+  {
+    "id": "dataset-clean-room",
+    "name": "Dataset Clean Room",
+    "slug": "dataset-clean-room",
+    "category": "ml",
+    "categoryLabel": "ML",
+    "tags": ["dataset", "cleaning", "ml", "quality"],
+    "description": "Cleaning, labeling, and normalization tools for complex ML datasets.",
+    "longDescription": "A practical toolkit for normalizing messy datasets, identifying inconsistencies, and preparing clean training data for ML projects.",
+    "platforms": ["Windows", "Linux"],
+    "level": "Intermediate",
+    "rating": 4.7,
+    "downloads": "6.3k",
+    "version": "v1.8",
+    "featured": false,
+    "downloadUrl": "#",
+    "lastUpdated": "2026-09-14",
+    "useCases": ["Data cleaning", "Label validation", "Normalization"],
+    "license": "MIT",
+    "features": ["CSV validation", "Label cleanup", "Normalization presets"]
+  },
+  {
+    "id": "motion-lab-pack",
+    "name": "Motion Lab Pack",
+    "slug": "motion-lab-pack",
+    "category": "creative",
+    "categoryLabel": "Creative",
+    "tags": ["motion", "creative", "video", "design"],
+    "description": "Motion design starter kit with templates for creative workflows.",
+    "longDescription": "A motion-first creative toolkit designed for rapid experimentation with visual storytelling, transitions, and encapsulated project workflows.",
+    "platforms": ["Windows", "macOS", "Web"],
+    "level": "Beginner",
+    "rating": 4.8,
+    "downloads": "5.9k",
+    "version": "v2.1",
+    "featured": false,
+    "downloadUrl": "#",
+    "lastUpdated": "2026-10-11",
+    "useCases": ["Visual storytelling", "Motion experiments", "Creative mockups"],
+    "license": "MIT",
+    "features": ["Timeline presets", "Video export", "Creative blocks"]
+  }
+]
