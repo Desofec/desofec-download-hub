@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Desofec Download Hub — curated downloads for ML, CAD, and creative coding tools."
+    />
+    <meta name="theme-color" content="#0b1020" />
+    <title>Desofec Download Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="topbar">
+        <div class="brand-wrap">
+          <div class="brand-mark">D</div>
+          <div>
+            <div class="brand-name">Desofec</div>
+            <div class="brand-sub">Download Hub</div>
+          </div>
+        </div>
+
+        <nav class="topnav" aria-label="Main navigation">
+          <a href="#featured">Featured</a>
+          <a href="#categories">Categories</a>
+          <a href="#collections">Collections</a>
+          <a href="#newsletter">Newsletter</a>
+        </nav>
+
+        <button class="ghost-button" type="button">Explore tools</button>
+      </header>
+
+      <main>
+        <section class="hero" id="featured">
+          <div class="hero-copy">
+            <span class="eyebrow">Curated for creators and builders</span>
+            <h1>Download the tools that power your next build.</h1>
+            <p>
+              From machine learning utilities to CAD workflows and creative coding
+              experiments, Desofec Download Hub brings together the most useful
+              downloads in one clean, reliable place.
+            </p>
+
+            <div class="cta-row">
+              <a class="primary-button" href="#categories">Browse catalog</a>
+              <a class="secondary-button" href="#collections">View collections</a>
+            </div>
+
+            <div class="hero-stats" aria-label="Project statistics">
+              <div>
+                <strong>120+</strong>
+                <span>Curated assets</span>
+              </div>
+              <div>
+                <strong>18</strong>
+                <span>Categories</span>
+              </div>
+              <div>
+                <strong>4.9/5</strong>
+                <span>Community rating</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-panel" aria-label="Featured tools panel">
+            <div class="panel-header">
+              <span class="status-dot"></span>
+              <span>Featured downloads</span>
+            </div>
+
+            <div class="tool-list">
+              <article class="tool-item featured-item">
+                <div class="tool-meta">
+                  <span class="tag tag-blue">ML</span>
+                  <span class="tool-version">v2.4.1</span>
+                </div>
+                <h3>Neural Studio Toolkit</h3>
+                <p>Model prep, training templates, and dataset workflows.</p>
+                <div class="tool-footer">
+                  <span>17k downloads</span>
+                  <a href="#">Download</a>
+                </div>
+              </article>
+
+              <article class="tool-item">
+                <div class="tool-meta">
+                  <span class="tag tag-green">CAD</span>
+                  <span class="tool-version">v7.8</span>
+                </div>
+                <h3>Parametric Design Pack</h3>
+                <p>Modeling scripts and parametric toolsets for fast iteration.</p>
+                <div class="tool-footer">
+                  <span>9.8k downloads</span>
+                  <a href="#">Download</a>
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="searchbar-wrap" aria-label="Tool search and filters">
+          <label class="search-field" for="tool-search">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M10 3a7 7 0 015.4 11.9l4.4 4.4 1.4-1.4-4.4-4.4A7 7 0 1110 3zm0 2a5 5 0 100 10 5 5 0 000-10z"
+              />
+            </svg>
+            <input id="tool-search" type="search" placeholder="Search downloads, tags, or tool names" />
+          </label>
+
+          <div class="filter-chips" aria-label="Categories filter">
+            <button class="chip active" type="button" data-filter="all">All</button>
+            <button class="chip" type="button" data-filter="ml">ML</button>
+            <button class="chip" type="button" data-filter="cad">CAD</button>
+            <button class="chip" type="button" data-filter="creative">Creative</button>
+            <button class="chip" type="button" data-filter="utility">Utility</button>
+          </div>
+        </section>
+
+        <section class="catalog" id="categories">
+          <div class="section-heading">
+            <div>
+              <span class="eyebrow">Download catalog</span>
+              <h2>Explore by category</h2>
+            </div>
+            <a href="#newsletter">Get updates</a>
+          </div>
+
+          <div class="catalog-grid" id="tool-grid">
+            <article class="download-card" data-category="ml">
+              <div class="card-top">
+                <span class="tag tag-blue">ML</span>
+                <span class="card-badge">New</span>
+              </div>
+              <h3>Vision Lab Suite</h3>
+              <p>Pretrained image models, dataset helpers, and inference scripts.</p>
+              <ul>
+                <li>Windows / macOS / Linux</li>
+                <li>GPU ready</li>
+              </ul>
+              <button type="button">Download</button>
+            </article>
+
+            <article class="download-card" data-category="cad">
+              <div class="card-top">
+                <span class="tag tag-green">CAD</span>
+                <span class="card-badge">Popular</span>
+              </div>
+              <h3>Mesh Builder Pro</h3>
+              <p>3D geometry tools with export presets for product design and prototyping.</p>
+              <ul>
+                <li>STL / OBJ / STEP</li>
+                <li>Batch export</li>
+              </ul>
+              <button type="button">Download</button>
+            </article>
+
+            <article class="download-card" data-category="creative">
+              <div class="card-top">
+                <span class="tag tag-purple">Creative</span>
+                <span class="card-badge">Editor’s pick</span>
+              </div>
+              <h3>Generative Canvas Kit</h3>
+              <p>Creative coding scripts and visual experimentation templates.</p>
+              <ul>
+                <li>Web + desktop</li>
+                <li>Realtime preview</li>
+              </ul>
+              <button type="button">Download</button>
+            </article>
+
+            <article class="download-card" data-category="utility">
+              <div class="card-top">
+                <span class="tag tag-orange">Utility</span>
+                <span class="card-badge">Fast</span>
+              </div>
+              <h3>File Sync Manager</h3>
+              <p>Local transfer utilities for managing large projects and archives.</p>
+              <ul>
+                <li>Multi-source sync</li>
+                <li>Checksum checks</li>
+              </ul>
+              <button type="button">Download</button>
+            </article>
+
+            <article class="download-card" data-category="ml">
+              <div class="card-top">
+                <span class="tag tag-blue">ML</span>
+                <span class="card-badge">Stable</span>
+              </div>
+              <h3>Dataset Clean Room</h3>
+              <p>Cleaning, labeling, and normalization tools for complex ML datasets.</p>
+              <ul>
+                <li>CSV / JSON / Parquet</li>
+                <li>Auto-validation</li>
+              </ul>
+              <button type="button">Download</button>
+            </article>
+
+            <article class="download-card" data-category="creative">
+              <div class="card-top">
+                <span class="tag tag-purple">Creative</span>
+                <span class="card-badge">Fresh</span>
+              </div>
+              <h3>Motion Lab Pack</h3>
+              <p>Motion design starter kit with templates for creative workflows.</p>
+              <ul>
+                <li>Timeline presets</li>
+                <li>Video export options</li>
+              </ul>
+              <button type="button">Download</button>
+            </article>
+          </div>
+        </section>
+
+        <section class="collections" id="collections">
+          <div class="section-heading">
+            <div>
+              <span class="eyebrow">Featured collections</span>
+              <h2>Builds for ambitious workflows</h2>
+            </div>
+          </div>
+
+          <div class="collection-grid">
+            <article class="collection-card">
+              <span class="collection-icon">⚙️</span>
+              <h3>Creative Engineering</h3>
+              <p>For product designers, digital artists, and makers building interactive systems.</p>
+            </article>
+
+            <article class="collection-card">
+              <span class="collection-icon">🧠</span>
+              <h3>Machine Learning</h3>
+              <p>Everything from preprocessing utilities to deployment-ready starter stacks.</p>
+            </article>
+
+            <article class="collection-card">
+              <span class="collection-icon">📐</span>
+              <h3>3D and CAD</h3>
+              <p>Build precise workflows for product development, modeling, and rapid iteration.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="newsletter" id="newsletter">
+          <div>
+            <span class="eyebrow">Stay in the loop</span>
+            <h2>Get new downloads before they hit the public catalog.</h2>
+          </div>
+
+          <form class="newsletter-form" action="#" method="get">
+            <input type="email" placeholder="Email address" aria-label="Email address" />
+            <button type="submit">Subscribe</button>
+          </form>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <div>© 2026 Desofec</div>
+        <div>Download. Build. Create.</div>
+      </footer>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
