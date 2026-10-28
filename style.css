@@ -11,6 +11,7 @@
   --green: #6ee7b7;
   --purple: #c084fc;
   --orange: #fbbf24;
+  --pink: #f9a8d4;
   --shadow: 0 24px 55px rgba(15, 23, 42, 0.45);
 }
 
@@ -325,6 +326,11 @@ button {
   color: var(--orange);
 }
 
+.tag-pink {
+  background: rgba(249, 168, 212, 0.12);
+  color: var(--pink);
+}
+
 .tool-version,
 .card-badge {
   font-size: 0.75rem;
@@ -333,14 +339,16 @@ button {
 
 .tool-item h3,
 .download-card h3,
-.collection-card h3 {
+.collection-card h3,
+.offer-card h3 {
   margin: 14px 0 8px;
   font-size: 1.14rem;
 }
 
 .tool-item p,
 .download-card p,
-.collection-card p {
+.collection-card p,
+.offer-card p {
   margin: 0;
   color: var(--muted);
   line-height: 1.6;
@@ -359,6 +367,38 @@ button {
 .tool-footer a {
   color: var(--primary);
   text-decoration: none;
+}
+
+.offer-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  padding: 10px 0 16px;
+}
+
+.offer-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 18px 18px;
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  background: rgba(15, 23, 42, 0.7);
+}
+
+.offer-ai {
+  background: linear-gradient(135deg, rgba(249, 168, 212, 0.08), rgba(125, 211, 252, 0.08));
+  border-color: rgba(249, 168, 212, 0.22);
+}
+
+.offer-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  background: rgba(125, 211, 252, 0.1);
+  font-size: 1.3rem;
 }
 
 .searchbar-wrap {
@@ -547,6 +587,7 @@ button {
   .hero,
   .catalog-grid,
   .collection-grid,
+  .offer-strip,
   .newsletter {
     grid-template-columns: 1fr;
   }
@@ -556,7 +597,8 @@ button {
   }
 
   .catalog-grid,
-  .collection-grid {
+  .collection-grid,
+  .offer-strip {
     display: grid;
   }
 
@@ -581,7 +623,8 @@ button {
 
   .hero-stats,
   .catalog-grid,
-  .collection-grid {
+  .collection-grid,
+  .offer-strip {
     grid-template-columns: 1fr;
   }
 
