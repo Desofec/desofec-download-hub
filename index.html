@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Desofec Download Hub — curated downloads for ML, CAD, AI vibe coding, and creative coding tools."
+      content="Desofec Hub — a curated hub for AI vibe coding, ML, CAD, and creative tools."
     />
     <meta name="theme-color" content="#0b1020" />
-    <title>Desofec Download Hub</title>
+    <title>Desofec Hub</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -24,14 +24,15 @@
           <div class="brand-mark">D</div>
           <div>
             <div class="brand-name">Desofec</div>
-            <div class="brand-sub">Download Hub</div>
+            <div class="brand-sub">Hub</div>
           </div>
         </div>
 
         <nav class="topnav" aria-label="Main navigation">
           <a href="#featured">Featured</a>
-          <a href="#categories">Categories</a>
+          <a href="#categories">Catalog</a>
           <a href="#collections">Collections</a>
+          <a href="#platform">Platform</a>
           <a href="#newsletter">Newsletter</a>
         </nav>
 
@@ -42,29 +43,29 @@
         <section class="hero" id="featured">
           <div class="hero-copy">
             <span class="eyebrow">Curated for creators and builders</span>
-            <h1>Download the tools that power your next build.</h1>
+            <h1>Discover the tools behind faster ideas.</h1>
             <p>
-              From machine learning utilities to CAD workflows, AI vibe coding packs,
-              and creative coding experiments, Desofec Download Hub brings together
-              the most useful downloads in one clean, reliable place.
+              Desofec Hub is a curated discovery platform for AI vibe coding,
+              machine learning, CAD design, and creative tooling. Find the right
+              resource, compare options, and move from idea to launch faster.
             </p>
 
             <div class="cta-row">
               <a class="primary-button" href="#categories">Browse catalog</a>
-              <a class="secondary-button" href="#collections">View collections</a>
+              <a class="secondary-button" href="#platform">See platform</a>
             </div>
 
             <div class="hero-stats" aria-label="Project statistics">
               <div>
-                <strong>120+</strong>
-                <span>Curated assets</span>
+                <strong id="stat-tools">120+</strong>
+                <span>Curated tools</span>
               </div>
               <div>
-                <strong>18</strong>
+                <strong id="stat-categories">18</strong>
                 <span>Categories</span>
               </div>
               <div>
-                <strong>4.9/5</strong>
+                <strong id="stat-ratings">4.9/5</strong>
                 <span>Community rating</span>
               </div>
             </div>
@@ -73,36 +74,10 @@
           <div class="hero-panel" aria-label="Featured tools panel">
             <div class="panel-header">
               <span class="status-dot"></span>
-              <span>Featured downloads</span>
+              <span>Featured collections</span>
             </div>
 
-            <div class="tool-list">
-              <article class="tool-item featured-item">
-                <div class="tool-meta">
-                  <span class="tag tag-blue">ML</span>
-                  <span class="tool-version">v2.4.1</span>
-                </div>
-                <h3>Neural Studio Toolkit</h3>
-                <p>Model prep, training templates, and dataset workflows.</p>
-                <div class="tool-footer">
-                  <span>17k downloads</span>
-                  <a href="#">Download</a>
-                </div>
-              </article>
-
-              <article class="tool-item">
-                <div class="tool-meta">
-                  <span class="tag tag-green">CAD</span>
-                  <span class="tool-version">v7.8</span>
-                </div>
-                <h3>Parametric Design Pack</h3>
-                <p>Modeling scripts and parametric toolsets for fast iteration.</p>
-                <div class="tool-footer">
-                  <span>9.8k downloads</span>
-                  <a href="#">Download</a>
-                </div>
-              </article>
-            </div>
+            <div class="tool-list" id="featured-tools"></div>
           </div>
         </section>
 
@@ -111,7 +86,7 @@
             <span class="offer-icon">✨</span>
             <div>
               <h3>AI Vibe Coding</h3>
-              <p>Prompt packs, app starter templates, and no-code-to-code workflows for rapid product building.</p>
+              <p>Prompt packs, starters, and AI-first workflows for rapid product building.</p>
             </div>
           </article>
 
@@ -127,7 +102,7 @@
             <span class="offer-icon">📐</span>
             <div>
               <h3>CAD & Design</h3>
-              <p>Mechanical workflows, design presets, and pro-level modeling assets.</p>
+              <p>Mechanical workflows, design presets, and precise modeling assets.</p>
             </div>
           </article>
         </section>
@@ -135,9 +110,7 @@
         <section class="searchbar-wrap" aria-label="Tool search and filters">
           <label class="search-field" for="tool-search">
             <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path
-                d="M10 3a7 7 0 015.4 11.9l4.4 4.4 1.4-1.4-4.4-4.4A7 7 0 1110 3zm0 2a5 5 0 100 10 5 5 0 000-10z"
-              />
+              <path d="M10 3a7 7 0 015.4 11.9l4.4 4.4 1.4-1.4-4.4-4.4A7 7 0 1110 3zm0 2a5 5 0 100 10 5 5 0 000-10z" />
             </svg>
             <input id="tool-search" type="search" placeholder="Search downloads, tags, or tool names" />
           </label>
@@ -161,91 +134,7 @@
             <a href="#newsletter">Get updates</a>
           </div>
 
-          <div class="catalog-grid" id="tool-grid">
-            <article class="download-card" data-category="ai">
-              <div class="card-top">
-                <span class="tag tag-pink">AI</span>
-                <span class="card-badge">Hot</span>
-              </div>
-              <h3>AI Vibe Coding Starter Kit</h3>
-              <p>Prompt libraries, agent starter templates, and UI generation workflows for fast prototyping.</p>
-              <ul>
-                <li>Prompt packs</li>
-                <li>React + API starter</li>
-              </ul>
-              <button type="button">Download</button>
-            </article>
-
-            <article class="download-card" data-category="ml">
-              <div class="card-top">
-                <span class="tag tag-blue">ML</span>
-                <span class="card-badge">New</span>
-              </div>
-              <h3>Vision Lab Suite</h3>
-              <p>Pretrained image models, dataset helpers, and inference scripts.</p>
-              <ul>
-                <li>Windows / macOS / Linux</li>
-                <li>GPU ready</li>
-              </ul>
-              <button type="button">Download</button>
-            </article>
-
-            <article class="download-card" data-category="cad">
-              <div class="card-top">
-                <span class="tag tag-green">CAD</span>
-                <span class="card-badge">Popular</span>
-              </div>
-              <h3>Mesh Builder Pro</h3>
-              <p>3D geometry tools with export presets for product design and prototyping.</p>
-              <ul>
-                <li>STL / OBJ / STEP</li>
-                <li>Batch export</li>
-              </ul>
-              <button type="button">Download</button>
-            </article>
-
-            <article class="download-card" data-category="creative">
-              <div class="card-top">
-                <span class="tag tag-purple">Creative</span>
-                <span class="card-badge">Editor’s pick</span>
-              </div>
-              <h3>Generative Canvas Kit</h3>
-              <p>Creative coding scripts and visual experimentation templates.</p>
-              <ul>
-                <li>Web + desktop</li>
-                <li>Realtime preview</li>
-              </ul>
-              <button type="button">Download</button>
-            </article>
-
-            <article class="download-card" data-category="utility">
-              <div class="card-top">
-                <span class="tag tag-orange">Utility</span>
-                <span class="card-badge">Fast</span>
-              </div>
-              <h3>File Sync Manager</h3>
-              <p>Local transfer utilities for managing large projects and archives.</p>
-              <ul>
-                <li>Multi-source sync</li>
-                <li>Checksum checks</li>
-              </ul>
-              <button type="button">Download</button>
-            </article>
-
-            <article class="download-card" data-category="ai">
-              <div class="card-top">
-                <span class="tag tag-pink">AI</span>
-                <span class="card-badge">Bundle</span>
-              </div>
-              <h3>Agent Builder Pack</h3>
-              <p>Workflow templates for AI agents, automations, and app idea testing.</p>
-              <ul>
-                <li>Agent blueprints</li>
-                <li>Fast prototype loops</li>
-              </ul>
-              <button type="button">Download</button>
-            </article>
-          </div>
+          <div class="catalog-grid" id="tool-grid"></div>
         </section>
 
         <section class="collections" id="collections">
@@ -277,6 +166,37 @@
           </div>
         </section>
 
+        <section class="hub-features" id="platform">
+          <div class="section-heading">
+            <div>
+              <span class="eyebrow">How it works</span>
+              <h2>The Desofec Hub platform</h2>
+            </div>
+          </div>
+
+          <div class="feature-grid">
+            <article class="feature-card">
+              <h3>1. Discover</h3>
+              <p>Search by category, tag, skill level, and workflow to find the exact tool you need.</p>
+            </article>
+
+            <article class="feature-card">
+              <h3>2. Compare</h3>
+              <p>Understand platform support, use case fit, productivity gain, and compatibility before downloading.</p>
+            </article>
+
+            <article class="feature-card">
+              <h3>3. Download</h3>
+              <p>Get reliable versions, install guidance, and curated release notes in one place.</p>
+            </article>
+
+            <article class="feature-card">
+              <h3>4. Build</h3>
+              <p>Turn the tool into a connected workflow with AI recommendations, kit bundles, and starter packs.</p>
+            </article>
+          </div>
+        </section>
+
         <section class="newsletter" id="newsletter">
           <div>
             <span class="eyebrow">Stay in the loop</span>
@@ -292,7 +212,7 @@
 
       <footer class="site-footer">
         <div>© 2026 Desofec</div>
-        <div>Download. Build. Create.</div>
+        <div>Discover. Download. Build.</div>
       </footer>
     </div>
 
