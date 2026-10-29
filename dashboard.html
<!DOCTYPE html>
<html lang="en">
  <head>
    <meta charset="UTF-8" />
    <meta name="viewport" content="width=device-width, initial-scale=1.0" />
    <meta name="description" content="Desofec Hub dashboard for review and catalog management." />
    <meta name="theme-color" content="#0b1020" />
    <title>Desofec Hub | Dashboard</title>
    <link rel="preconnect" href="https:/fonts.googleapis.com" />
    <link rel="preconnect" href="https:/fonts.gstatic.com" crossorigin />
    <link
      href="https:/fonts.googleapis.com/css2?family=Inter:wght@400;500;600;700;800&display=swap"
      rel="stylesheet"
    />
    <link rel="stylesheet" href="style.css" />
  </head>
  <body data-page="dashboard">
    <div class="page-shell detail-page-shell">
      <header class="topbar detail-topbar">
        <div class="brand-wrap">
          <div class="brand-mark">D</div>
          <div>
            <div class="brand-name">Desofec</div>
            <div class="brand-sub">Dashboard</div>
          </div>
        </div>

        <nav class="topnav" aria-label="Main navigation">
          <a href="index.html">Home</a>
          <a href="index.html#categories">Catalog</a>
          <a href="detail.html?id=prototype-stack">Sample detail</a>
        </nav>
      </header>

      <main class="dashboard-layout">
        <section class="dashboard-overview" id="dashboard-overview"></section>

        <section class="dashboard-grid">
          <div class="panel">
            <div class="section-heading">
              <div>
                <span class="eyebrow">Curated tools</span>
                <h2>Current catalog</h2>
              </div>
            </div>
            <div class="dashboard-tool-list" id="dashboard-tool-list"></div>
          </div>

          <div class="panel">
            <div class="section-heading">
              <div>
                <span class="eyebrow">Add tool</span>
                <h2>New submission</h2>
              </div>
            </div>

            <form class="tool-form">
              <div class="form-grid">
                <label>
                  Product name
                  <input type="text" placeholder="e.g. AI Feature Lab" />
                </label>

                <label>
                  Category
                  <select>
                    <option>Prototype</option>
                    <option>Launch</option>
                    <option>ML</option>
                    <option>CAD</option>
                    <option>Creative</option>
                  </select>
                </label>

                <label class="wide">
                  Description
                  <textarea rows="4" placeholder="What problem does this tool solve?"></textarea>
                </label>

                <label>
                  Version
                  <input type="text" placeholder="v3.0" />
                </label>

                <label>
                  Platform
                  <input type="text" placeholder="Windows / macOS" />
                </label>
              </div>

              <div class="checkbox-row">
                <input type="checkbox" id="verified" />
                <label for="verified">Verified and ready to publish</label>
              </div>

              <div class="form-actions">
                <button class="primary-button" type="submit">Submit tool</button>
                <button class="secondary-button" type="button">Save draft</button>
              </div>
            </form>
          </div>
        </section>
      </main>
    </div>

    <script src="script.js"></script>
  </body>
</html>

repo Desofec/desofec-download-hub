@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Desofec Hub detail page" />
+    <meta name="theme-color" content="#0b1020" />
+    <title>Desofec Hub | Tool Detail</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body data-page="detail">
+    <div class="page-shell detail-page-shell">
+      <header class="topbar detail-topbar">
+        <div class="brand-wrap">
+          <div class="brand-mark">D</div>
+          <div>
+            <div class="brand-name">Desofec</div>
+            <div class="brand-sub">Hub</div>
+          </div>
+        </div>
+
+        <nav class="topnav" aria-label="Main navigation">
+          <a href="index.html">Home</a>
+          <a href="index.html#categories">Catalog</a>
+          <a href="dashboard.html">Dashboard</a>
+          <a href="index.html#platform">Platform</a>
+        </nav>
+      </header>
+
+      <main class="detail-view" id="tool-detail"></main>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
