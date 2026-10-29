@@ -1,279 +1,710 @@
-const categoryColors = {
-  ai: "pink",
-  ml: "blue",
-  cad: "green",
-  creative: "purple",
-  utility: "orange"
-};
+:root {
+  --bg: #070d18;
+  --bg-soft: #101a2d;
+  --panel: rgba(15, 23, 42, 0.78);
+  --panel-strong: rgba(15, 23, 42, 0.96);
+  --line: rgba(148, 163, 184, 0.2);
+  --text: #e5eefb;
+  --muted: #9db0c8;
+  --primary: #7dd3fc;
+  --primary-strong: #38bdf8;
+  --green: #6ee7b7;
+  --purple: #c084fc;
+  --orange: #fbbf24;
+  --pink: #f9a8d4;
+  --shadow: 0 24px 55px rgba(15, 23, 42, 0.45);
+}
 
-const state = {
-  activeFilter: "all",
-  searchTerm: "",
-  favorites: loadFavorites()
-};
+* {
+  box-sizing: border-box;
+}
 
-function loadFavorites() {
-  try {
-    return JSON.parse(localStorage.getItem("desofec-favorites") || "[]");
-  } catch {
-    return [];
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Inter", sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(circle at top left, rgba(56, 189, 248, 0.2), transparent 28%),
+    radial-gradient(circle at top right, rgba(249, 168, 212, 0.18), transparent 24%),
+    linear-gradient(180deg, #060b16 0%, #0b1020 100%);
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.page-shell {
+  width: min(1200px, calc(100% - 32px));
+  margin: 24px auto 40px;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 20px;
+  border: 1px solid var(--line);
+  background: rgba(8, 13, 22, 0.7);
+  border-radius: 18px;
+  backdrop-filter: blur(12px);
+  position: sticky;
+  top: 12px;
+  z-index: 20;
+}
+
+.brand-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-mark {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, var(--primary), #2563eb);
+  color: #021220;
+  font-weight: 800;
+  font-size: 1.3rem;
+  box-shadow: 0 12px 32px rgba(59, 130, 246, 0.4);
+}
+
+.brand-name {
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.brand-sub {
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+.topnav {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  flex-wrap: wrap;
+}
+
+.topnav a,
+.section-heading a {
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.topnav a:hover,
+.section-heading a:hover {
+  color: var(--text);
+}
+
+.ghost-button,
+.primary-button,
+.secondary-button,
+.newsletter-form button,
+.download-card button,
+.stack-card button {
+  border: none;
+  border-radius: 12px;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
+}
+
+.ghost-button,
+.secondary-button {
+  background: rgba(148, 163, 184, 0.08);
+  border: 1px solid var(--line);
+  color: var(--text);
+}
+
+.ghost-button,
+.primary-button,
+.newsletter-form button,
+.download-card button,
+.stack-card button {
+  padding: 0.8rem 1.1rem;
+  font-weight: 600;
+}
+
+.primary-button,
+.newsletter-form button,
+.download-card button,
+.stack-card button {
+  background: linear-gradient(135deg, var(--primary), var(--primary-strong));
+  color: #041521;
+  box-shadow: 0 16px 34px rgba(56, 189, 248, 0.28);
+}
+
+.secondary-button {
+  padding: 0.8rem 1.15rem;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ghost-button:hover,
+.primary-button:hover,
+.secondary-button:hover,
+.newsletter-form button:hover,
+.download-card button:hover,
+.stack-card button:hover {
+  transform: translateY(-1px);
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 28px;
+  align-items: center;
+  padding: 48px 0 22px;
+}
+
+.eyebrow {
+  display: inline-block;
+  margin-bottom: 12px;
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(125, 211, 252, 0.12);
+  color: var(--primary);
+  border: 1px solid rgba(125, 211, 252, 0.18);
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+}
+
+.hero-copy h1 {
+  font-size: clamp(2.5rem, 4vw, 4.3rem);
+  line-height: 1.02;
+  letter-spacing: -0.06em;
+  margin: 0 0 18px;
+}
+
+.hero-copy p {
+  max-width: 620px;
+  color: var(--muted);
+  font-size: 1.08rem;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 28px;
+}
+
+.primary-button,
+.secondary-button {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 30px;
+}
+
+.hero-stats div {
+  padding: 18px 14px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(148, 163, 184, 0.03);
+}
+
+.hero-stats strong {
+  display: block;
+  font-size: 1.5rem;
+  margin-bottom: 4px;
+}
+
+.hero-stats span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.hero-panel {
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.83), rgba(7, 13, 22, 0.96));
+  box-shadow: var(--shadow);
+}
+
+.panel-header {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.status-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background: var(--green);
+  border-radius: 50%;
+  box-shadow: 0 0 16px rgba(110, 231, 183, 0.8);
+}
+
+.tool-list {
+  display: grid;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.tool-item {
+  padding: 18px 16px 14px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(148, 163, 184, 0.03);
+}
+
+.featured-item {
+  border-color: rgba(249, 168, 212, 0.25);
+  background: linear-gradient(180deg, rgba(249, 168, 212, 0.12), rgba(15, 23, 42, 0.18));
+}
+
+.tool-meta,
+.card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 0.42rem 0.7rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.tag-pink {
+  background: rgba(249, 168, 212, 0.12);
+  color: var(--pink);
+}
+
+.tag-blue {
+  background: rgba(125, 211, 252, 0.12);
+  color: var(--primary);
+}
+
+.tag-green {
+  background: rgba(110, 231, 183, 0.12);
+  color: var(--green);
+}
+
+.tag-purple {
+  background: rgba(192, 132, 252, 0.12);
+  color: var(--purple);
+}
+
+.tag-orange {
+  background: rgba(251, 191, 36, 0.12);
+  color: var(--orange);
+}
+
+.tool-version,
+.card-badge,
+.stack-badge {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.stack-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(125, 211, 252, 0.1);
+  color: var(--primary);
+  border: 1px solid rgba(125, 211, 252, 0.15);
+  margin-bottom: 8px;
+}
+
+.tool-item h3,
+.download-card h3,
+.collection-card h3,
+.offer-card h3,
+.stack-card h3 {
+  margin: 14px 0 8px;
+  font-size: 1.14rem;
+}
+
+.tool-item p,
+.download-card p,
+.collection-card p,
+.offer-card p,
+.stack-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.tool-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 14px;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.tool-footer a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.stack-section {
+  padding: 18px 0 8px;
+}
+
+.stack-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.stack-card {
+  padding: 22px 20px;
+  border-radius: 22px;
+  border: 1px solid var(--line);
+  background: rgba(15, 23, 42, 0.72);
+  box-shadow: var(--shadow);
+}
+
+.stack-prototype {
+  background: linear-gradient(135deg, rgba(249, 168, 212, 0.08), rgba(15, 23, 42, 0.82));
+  border-color: rgba(249, 168, 212, 0.2);
+}
+
+.stack-launch {
+  background: linear-gradient(135deg, rgba(125, 211, 252, 0.08), rgba(15, 23, 42, 0.82));
+  border-color: rgba(125, 211, 252, 0.2);
+}
+
+.stack-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 16px 0 18px;
+  display: grid;
+  gap: 8px;
+  color: var(--muted);
+}
+
+.stack-card ul li::before {
+  content: "•";
+  color: var(--primary);
+  margin-right: 8px;
+}
+
+.stack-card button {
+  width: 100%;
+}
+
+.offer-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  padding: 22px 0 16px;
+}
+
+.offer-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 18px 18px;
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  background: rgba(15, 23, 42, 0.7);
+}
+
+.offer-ai {
+  background: linear-gradient(135deg, rgba(249, 168, 212, 0.08), rgba(125, 211, 252, 0.08));
+  border-color: rgba(249, 168, 212, 0.22);
+}
+
+.offer-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  background: rgba(125, 211, 252, 0.1);
+  font-size: 1.3rem;
+}
+
+.searchbar-wrap {
+  display: grid;
+  gap: 16px;
+  padding: 18px 0 30px;
+}
+
+.search-field {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0.9rem 1rem;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background: rgba(15, 23, 42, 0.6);
+}
+
+.search-field svg {
+  width: 18px;
+  height: 18px;
+  fill: var(--muted);
+}
+
+.search-field input {
+  width: 100%;
+  color: var(--text);
+  background: transparent;
+  border: none;
+  outline: none;
+}
+
+.search-field input::placeholder {
+  color: var(--muted);
+}
+
+.filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.chip {
+  border: 1px solid var(--line);
+  background: rgba(148, 163, 184, 0.04);
+  color: var(--text);
+  padding: 0.65rem 0.9rem;
+  border-radius: 999px;
+  transition: all 0.2s ease;
+}
+
+.chip.active {
+  background: rgba(125, 211, 252, 0.12);
+  border-color: rgba(125, 211, 252, 0.18);
+  color: var(--primary);
+}
+
+.catalog,
+.collections {
+  padding-top: 16px;
+}
+
+.section-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.section-heading h2 {
+  margin: 0;
+  font-size: clamp(1.8rem, 2vw, 2.4rem);
+}
+
+.catalog-grid,
+.collection-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.download-card,
+.collection-card {
+  padding: 20px 18px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: rgba(15, 23, 42, 0.7);
+  box-shadow: var(--shadow);
+}
+
+.download-card {
+  display: flex;
+  flex-direction: column;
+  min-height: 270px;
+}
+
+.download-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 14px 0 18px;
+  display: grid;
+  gap: 8px;
+  color: var(--muted);
+}
+
+.download-card ul li::before {
+  content: "•";
+  color: var(--primary);
+  margin-right: 8px;
+}
+
+.download-card button {
+  width: 100%;
+  margin-top: auto;
+}
+
+.collection-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.collection-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: rgba(125, 211, 252, 0.09);
+  font-size: 1.5rem;
+}
+
+.newsletter {
+  margin-top: 40px;
+  padding: 28px 24px;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.08), rgba(192, 132, 252, 0.07));
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 22px;
+}
+
+.newsletter h2 {
+  margin: 0;
+  font-size: clamp(1.7rem, 2vw, 2.2rem);
+}
+
+.newsletter-form {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: min(100%, 440px);
+}
+
+.newsletter-form input {
+  flex: 1;
+  border: 1px solid var(--line);
+  background: rgba(8, 13, 22, 0.55);
+  border-radius: 12px;
+  padding: 0.9rem 1rem;
+  color: var(--text);
+  outline: none;
+}
+
+.newsletter-form input::placeholder {
+  color: var(--muted);
+}
+
+.site-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 28px 4px 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.hidden {
+  display: none !important;
+}
+
+@media (max-width: 980px) {
+  .hero,
+  .catalog-grid,
+  .collection-grid,
+  .offer-strip,
+  .stack-grid,
+  .newsletter {
+    grid-template-columns: 1fr;
+  }
+
+  .hero,
+  .stack-grid {
+    display: grid;
+  }
+
+  .catalog-grid,
+  .collection-grid,
+  .offer-strip {
+    display: grid;
+  }
+
+  .newsletter {
+    display: grid;
   }
 }
 
-function saveFavorites() {
-  localStorage.setItem("desofec-favorites", JSON.stringify(state.favorites));
-}
-
-async function loadTools() {
-  try {
-    const response = await fetch("tools.json");
-    if (!response.ok) throw new Error("Failed to load tools");
-    return await response.json();
-  } catch (error) {
-    console.error(error);
-    return [];
-  }
-}
-
-function getTagClass(category) {
-  return categoryColors[category] || "blue";
-}
-
-function renderFeaturedTools(tools) {
-  const container = document.getElementById("featured-tools");
-  if (!container) return;
-
-  const featuredTools = tools.filter((tool) => tool.featured).slice(0, 2);
-
-  container.innerHTML = featuredTools
-    .map(
-      (tool) => `
-        <article class="tool-item featured-item">
-          <div class="tool-meta">
-            <span class="tag tag-${getTagClass(tool.category)}">${tool.categoryLabel}</span>
-            <span class="tool-version">${tool.version}</span>
-          </div>
-          <h3>${tool.name}</h3>
-          <p>${tool.description}</p>
-          <div class="tool-footer">
-            <span>${tool.downloads} downloads</span>
-            <a href="detail.html?id=${tool.id}">View</a>
-          </div>
-        </article>
-      `
-    )
-    .join("");
-}
-
-function buildToolCard(tool) {
-  const isFavorite = state.favorites.includes(tool.id);
-  return `
-    <article class="download-card" data-category="${tool.category}">
-      <div class="card-top">
-        <span class="tag tag-${getTagClass(tool.category)}">${tool.categoryLabel}</span>
-        <span class="card-badge">${tool.featured ? "Featured" : "Popular"}</span>
-      </div>
-      <h3>${tool.name}</h3>
-      <p>${tool.description}</p>
-      <ul>
-        <li>${tool.platforms.join(" / ")}</li>
-        <li>${tool.level}</li>
-      </ul>
-      <div class="card-actions">
-        <button class="favorite-toggle ${isFavorite ? "is-favorite" : ""}" data-tool-id="${tool.id}" type="button">
-          ${isFavorite ? "★ Saved" : "☆ Save"}
-        </button>
-        <a class="card-action" href="detail.html?id=${tool.id}">View details</a>
-      </div>
-    </article>
-  `;
-}
-
-function renderCatalog(tools) {
-  const container = document.getElementById("tool-grid");
-  if (!container) return;
-
-  const filtered = tools.filter((tool) => {
-    const matchesFilter = state.activeFilter === "all" || tool.category === state.activeFilter;
-    const matchesSearch = !state.searchTerm || `${tool.name} ${tool.tags.join(" ")} ${tool.description}`.toLowerCase().includes(state.searchTerm.toLowerCase());
-    return matchesFilter && matchesSearch;
-  });
-
-  if (!filtered.length) {
-    container.innerHTML = '<div class="empty-state">No tools match your current filters.</div>';
-    return;
+@media (max-width: 760px) {
+  .topbar {
+    flex-wrap: wrap;
+    justify-content: center;
   }
 
-  container.innerHTML = filtered.map(buildToolCard).join("");
-}
-
-function bindHomeControls() {
-  const searchInput = document.getElementById("tool-search");
-  if (searchInput) {
-    searchInput.addEventListener("input", (event) => {
-      state.searchTerm = event.target.value.trim();
-      renderCatalog(window.__desofecTools || []);
-    });
+  .topnav {
+    justify-content: center;
   }
 
-  document.querySelectorAll(".chip").forEach((chip) => {
-    chip.addEventListener("click", () => {
-      document.querySelectorAll(".chip").forEach((item) => item.classList.remove("active"));
-      chip.classList.add("active");
-      state.activeFilter = chip.dataset.filter;
-      renderCatalog(window.__desofecTools || []);
-    });
-  });
-
-  document.addEventListener("click", (event) => {
-    const target = event.target.closest(".favorite-toggle");
-    if (!target) return;
-
-    const toolId = target.dataset.toolId;
-    if (!toolId) return;
-
-    if (state.favorites.includes(toolId)) {
-      state.favorites = state.favorites.filter((id) => id !== toolId);
-    } else {
-      state.favorites.push(toolId);
-    }
-
-    saveFavorites();
-    renderCatalog(window.__desofecTools || []);
-  });
-}
-
-function renderToolDetail(tool) {
-  const container = document.getElementById("tool-detail");
-  if (!container) return;
-
-  if (!tool) {
-    container.innerHTML = `<div class="empty-state">Tool not found.</div>`;
-    return;
+  .hero {
+    padding-top: 28px;
   }
 
-  const isFavorite = state.favorites.includes(tool.id);
-
-  container.innerHTML = `
-    <article class="detail-card">
-      <div class="detail-header">
-        <div>
-          <span class="eyebrow">${tool.categoryLabel}</span>
-          <h1>${tool.name}</h1>
-        </div>
-        <div class="detail-actions">
-          <button class="favorite-toggle ${isFavorite ? "is-favorite" : ""}" data-tool-id="${tool.id}" type="button">
-            ${isFavorite ? "★ Saved" : "☆ Save"}
-          </button>
-          <a class="primary-button" href="${tool.downloadUrl}">Download</a>
-        </div>
-      </div>
-
-      <div class="detail-meta">
-        <span>Version: ${tool.version}</span>
-        <span>Rating: ${tool.rating}/5</span>
-        <span>Downloads: ${tool.downloads}</span>
-        <span>Updated: ${tool.lastUpdated}</span>
-      </div>
-
-      <div class="detail-grid">
-        <section class="detail-panel">
-          <h2>Overview</h2>
-          <p>${tool.longDescription}</p>
-
-          <h3>Key features</h3>
-          <ul>
-            ${tool.features.map((feature) => `<li>${feature}</li>`).join("")}
-          </ul>
-
-          <h3>Best use cases</h3>
-          <ul>
-            ${tool.useCases.map((item) => `<li>${item}</li>`).join("")}
-          </ul>
-        </section>
-
-        <aside class="detail-sidebar">
-          <div class="sidebar-section">
-            <h3>Platforms</h3>
-            <p>${tool.platforms.join(" / ")}</p>
-          </div>
-          <div class="sidebar-section">
-            <h3>Difficulty</h3>
-            <p>${tool.level}</p>
-          </div>
-          <div class="sidebar-section">
-            <h3>License</h3>
-            <p>${tool.license}</p>
-          </div>
-          <div class="sidebar-section">
-            <h3>Tags</h3>
-            <div class="tag-list">
-              ${tool.tags.map((tag) => `<span class="mini-tag">${tag}</span>`).join("")}
-            </div>
-          </div>
-        </aside>
-      </div>
-    </article>
-  `;
-}
-
-async function initializeHome() {
-  const tools = await loadTools();
-  window.__desofecTools = tools;
-  renderFeaturedTools(tools);
-  renderCatalog(tools);
-  bindHomeControls();
-}
-
-async function initializeDetail() {
-  const params = new URLSearchParams(window.location.search);
-  const toolId = params.get("id");
-  const tools = await loadTools();
-  const tool = tools.find((entry) => entry.id === toolId);
-  renderToolDetail(tool);
-
-  document.addEventListener("click", (event) => {
-    const target = event.target.closest(".favorite-toggle");
-    if (!target) return;
-
-    const id = target.dataset.toolId;
-    if (!id) return;
-
-    if (state.favorites.includes(id)) {
-      state.favorites = state.favorites.filter((item) => item !== id);
-    } else {
-      state.favorites.push(id);
-    }
-
-    saveFavorites();
-    renderToolDetail(tools.find((entry) => entry.id === toolId));
-  });
-}
-
-function bindNewsletter() {
-  const form = document.querySelector(".newsletter-form");
-  if (!form) return;
-
-  form.addEventListener("submit", (event) => {
-    event.preventDefault();
-    const button = form.querySelector("button");
-    const input = form.querySelector("input");
-    button.textContent = "Subscribed";
-    button.disabled = true;
-    input.value = "";
-  });
-}
-
-async function init() {
-  bindNewsletter();
-
-  if (document.getElementById("tool-grid")) {
-    initializeHome();
+  .hero-stats,
+  .catalog-grid,
+  .collection-grid,
+  .offer-strip,
+  .stack-grid {
+    grid-template-columns: 1fr;
   }
 
-  if (document.getElementById("tool-detail")) {
-    initializeDetail();
+  .newsletter-form {
+    display: grid;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .site-footer {
+    flex-direction: column;
+    text-align: center;
   }
 }
-
-init();
