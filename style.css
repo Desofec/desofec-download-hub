@@ -358,7 +358,8 @@ button {
 .download-card h3,
 .collection-card h3,
 .offer-card h3,
-.stack-card h3 {
+.stack-card h3,
+.compare-card h3 {
   margin: 14px 0 8px;
   font-size: 1.14rem;
 }
@@ -367,7 +368,8 @@ button {
 .download-card p,
 .collection-card p,
 .offer-card p,
-.stack-card p {
+.stack-card p,
+.compare-card p {
   margin: 0;
   color: var(--muted);
   line-height: 1.6;
@@ -416,7 +418,8 @@ button {
   border-color: rgba(125, 211, 252, 0.2);
 }
 
-.stack-card ul {
+.stack-card ul,
+.compare-card ul {
   list-style: none;
   padding: 0;
   margin: 16px 0 18px;
@@ -425,7 +428,8 @@ button {
   color: var(--muted);
 }
 
-.stack-card ul li::before {
+.stack-card ul li::before,
+.compare-card ul li::before {
   content: "•";
   color: var(--primary);
   margin-right: 8px;
@@ -433,6 +437,34 @@ button {
 
 .stack-card button {
   width: 100%;
+}
+
+.comparison {
+  padding-top: 18px;
+}
+
+.comparison-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.compare-card {
+  padding: 22px 20px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: rgba(15, 23, 42, 0.7);
+}
+
+.compare-card.highlight {
+  border-color: rgba(125, 211, 252, 0.24);
+  background: linear-gradient(135deg, rgba(125, 211, 252, 0.08), rgba(15, 23, 42, 0.8));
+}
+
+.price {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text);
 }
 
 .offer-strip {
@@ -655,12 +687,14 @@ button {
   .collection-grid,
   .offer-strip,
   .stack-grid,
+  .comparison-grid,
   .newsletter {
     grid-template-columns: 1fr;
   }
 
   .hero,
-  .stack-grid {
+  .stack-grid,
+  .comparison-grid {
     display: grid;
   }
 
@@ -693,7 +727,8 @@ button {
   .catalog-grid,
   .collection-grid,
   .offer-strip,
-  .stack-grid {
+  .stack-grid,
+  .comparison-grid {
     grid-template-columns: 1fr;
   }
 
