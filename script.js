@@ -1,40 +1,69 @@
 const searchInput = document.getElementById("tool-search");
 const chips = document.querySelectorAll(".chip");
-const cards = document.querySelectorAll(".download-card");
+const cards = Array.from(document.querySelectorAll(".download-card"));
+const grid = document.getElementById("tool-grid");
 
 let activeFilter = "all";
 
-const applyFilter = () => {
-  const query = searchInput.value.trim().toLowerCase();
+if (grid && cards.length) {
+  const emptyState = document.createElement("div");
+  emptyState.className = "empty-state hidden";
+  emptyState.textContent = "No tools match your current filters.";
+  grid.appendChild(emptyState);
 
-  cards.forEach((card) => {
-    const category = card.dataset.category;
-    const text = card.textContent.toLowerCase();
-    const categoryMatch = activeFilter === "all" || category === activeFilter;
-    const searchMatch = !query || text.includes(query);
+  const applyFilter = () => {
+    const query = searchInput ? searchInput.value.trim().toLowerCase() : "";
+    let visibleCount = 0;
 
-    card.classList.toggle("hidden", !(categoryMatch && searchMatch));
+    cards.forEach((card) => {
+      const category = (card.dataset.category || "").toLowerCase();
+      const cardText = card.textContent.toLowerCase();
+      const categoryMatch = activeFilter === "all" || category === activeFilter;
+      const searchMatch = !query || cardText.includes(query);
+
+      const isVisible = categoryMatch && searchMatch;
+      card.classList.toggle("hidden", !isVisible);
+
+      if (isVisible) {
+        visibleCount += 1;
+      }
+    });
+
+    emptyState.classList.toggle("hidden", visibleCount !== 0);
+  };
+
+  chips.forEach((chip) => {
+    chip.addEventListener("click", () => {
+      chips.forEach((item) => item.classList.remove("active"));
+      chip.classList.add("active");
+      activeFilter = chip.dataset.filter || "all";
+      applyFilter();
+    });
   });
-};
 
-chips.forEach((chip) => {
-  chip.addEventListener("click", () => {
-    chips.forEach((item) => item.classList.remove("active"));
-    chip.classList.add("active");
-    activeFilter = chip.dataset.filter;
-    applyFilter();
-  });
-});
+  if (searchInput) {
+    searchInput.addEventListener("input", applyFilter);
+  }
 
-searchInput.addEventListener("input", applyFilter);
+  applyFilter();
+}
 
 const newsletterForm = document.querySelector(".newsletter-form");
-newsletterForm.addEventListener("submit", (event) => {
-  event.preventDefault();
-  const button = newsletterForm.querySelector("button");
-  const input = newsletterForm.querySelector("input");
 
-  button.textContent = "Subscribed";
-  button.disabled = true;
-  input.value = "";
-});
+if (newsletterForm) {
+  newsletterForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const button = newsletterForm.querySelector("button");
+    const input = newsletterForm.querySelector("input");
+
+    if (button) {
+      button.textContent = "Subscribed";
+      button.disabled = true;
+    }
+
+    if (input) {
+      input.value = "";
+    }
+  });
+}
