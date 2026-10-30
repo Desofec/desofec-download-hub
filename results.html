@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Your recommended path | Desofec AI Studio</title>
-    <meta name="description" content="See your recommended path, tools, and starter packs based on your goals." />
+    <title>Starter packs | Desofec AI Studio</title>
+    <meta name="description" content="Download starter packs and practical resource bundles for AI, no-code, coding, and productivity." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -13,7 +13,7 @@
     />
     <link rel="stylesheet" href="./style.css" />
   </head>
-  <body data-page="results">
+  <body data-page="starter-packs">
     <header class="site-header">
       <div class="container nav-row">
         <a href="./index.html" class="brand">
@@ -32,25 +32,14 @@
 
     <main class="page-shell">
       <section class="section">
-        <div class="container results-container">
+        <div class="container">
           <div class="section-head">
             <div>
-              <span class="eyebrow">Your recommendation</span>
-              <h1 id="results-title">Your path</h1>
+              <span class="eyebrow">Starter packs</span>
+              <h1>Useful resources to begin quickly</h1>
             </div>
           </div>
-
-          <div id="result-summary" class="result-summary"></div>
-          <div class="results-grid">
-            <div>
-              <h3>Recommended tools</h3>
-              <div id="result-tools" class="stack-list"></div>
-            </div>
-            <div>
-              <h3>Starter packs</h3>
-              <div id="result-starters" class="stack-list"></div>
-            </div>
-          </div>
+          <div id="starter-directory" class="starter-directory"></div>
         </div>
       </section>
     </main>
@@ -62,6 +51,7 @@
       </div>
     </footer>
 
+    <script src="./data/content.js"></script>
     <script src="./script.js"></script>
   </body>
 </html>

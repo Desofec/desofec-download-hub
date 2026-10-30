@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tools | Desofec AI Studio</title>
-    <meta name="description" content="Explore beginner-friendly AI, coding, automation, and productivity tools." />
+    <title>Start your path | Desofec AI Studio</title>
+    <meta name="description" content="Answer a few quick questions to find the right tools and learning path for your goal." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -13,7 +13,7 @@
     />
     <link rel="stylesheet" href="./style.css" />
   </head>
-  <body data-page="tools">
+  <body data-page="onboarding">
     <header class="site-header">
       <div class="container nav-row">
         <a href="./index.html" class="brand">
@@ -31,15 +31,33 @@
     </header>
 
     <main class="page-shell">
-      <section class="section">
-        <div class="container">
-          <div class="section-head">
+      <section class="section narrow-section">
+        <div class="container small-container">
+          <div class="section-head center-head">
             <div>
-              <span class="eyebrow">Tool library</span>
-              <h1>Browse tools by purpose and skill level</h1>
+              <span class="eyebrow">Start here</span>
+              <h1>What do you want to build?</h1>
             </div>
           </div>
-          <div id="tools-directory" class="tool-directory"></div>
+
+          <form id="onboarding-form" class="onboarding-form">
+            <div class="form-group">
+              <label for="goal">What do you want to do?</label>
+              <select id="goal" name="goal">
+                <option value="learn-ai">Learn AI</option>
+                <option value="build-website">Build a website</option>
+                <option value="automate-work">Automate my work</option>
+                <option value="learn-coding">Learn coding</option>
+                <option value="learn-ml">Learn machine learning</option>
+                <option value="design-cad">Use CAD and design tools</option>
+                <option value="build-app">Build an app</option>
+                <option value="no-code">Use no-code tools</option>
+                <option value="ai-productivity">Improve AI productivity</option>
+              </select>
+            </div>
+
+            <button class="btn btn-primary block-btn" type="submit">Show my recommendation</button>
+          </form>
         </div>
       </section>
     </main>
@@ -51,6 +69,7 @@
       </div>
     </footer>
 
+    <script src="./data/content.js"></script>
     <script src="./script.js"></script>
   </body>
 </html>
