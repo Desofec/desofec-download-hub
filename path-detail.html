@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Learning path | Desofec AI Studio</title>
+    <meta name="description" content="Explore a beginner-friendly learning path, recommended tools, and downloadable starter packs." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body data-page="path-detail">
+    <header class="site-header">
+      <div class="container nav-row">
+        <a href="./index.html" class="brand">
+          <span class="brand-mark">D</span>
+          <span class="brand-text">Desofec AI Studio</span>
+        </a>
+        <nav class="main-nav" aria-label="Main navigation">
+          <a href="./index.html">Home</a>
+          <a href="./onboarding.html">Start</a>
+          <a href="./tools.html">Tools</a>
+          <a href="./paths.html">Paths</a>
+          <a href="./starter-packs.html">Starter Packs</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="page-shell">
+      <section id="path-not-found" class="section" hidden>
+        <div class="container">
+          <div class="section-head">
+            <span class="eyebrow">Learning path</span>
+            <h1>Path not found</h1>
+            <p>That learning path may have moved. Browse all paths to find another one.</p>
+          </div>
+          <a class="btn btn-primary" href="./paths.html">Browse learning paths</a>
+        </div>
+      </section>
+
+      <div id="path-detail" hidden>
+        <section class="section">
+          <div class="container">
+            <div class="section-head">
+              <span class="eyebrow">Learning path</span>
+              <h1 id="path-detail-title"></h1>
+              <p id="path-detail-description"></p>
+            </div>
+            <div id="path-detail-meta" class="tool-meta"></div>
+            <div class="section-head">
+              <h2>Your learning steps</h2>
+            </div>
+            <div id="path-detail-steps" class="result-summary"></div>
+            <div class="cta-row">
+              <a id="path-start-link" class="btn btn-primary" href="./onboarding.html">Start this path</a>
+              <a class="btn btn-secondary" href="./paths.html">Browse all paths</a>
+            </div>
+          </div>
+        </section>
+
+        <section id="path-tools-section" class="section muted-section" hidden>
+          <div class="container">
+            <div class="section-head">
+              <h2>Recommended tools</h2>
+            </div>
+            <div id="path-detail-tools" class="results-grid"></div>
+          </div>
+        </section>
+
+        <section id="path-starters-section" class="section" hidden>
+          <div class="container">
+            <div class="section-head">
+              <h2>Starter packs for this path</h2>
+            </div>
+            <div id="path-detail-starters" class="results-grid"></div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-row">
+        <div>© 2026 Desofec AI Studio</div>
+        <div>Learn the right tools. Build with confidence.</div>
+      </div>
+    </footer>
+
+    <script src="./script.js"></script>
+  </body>
+</html>

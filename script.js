@@ -208,10 +208,92 @@ function renderPathDirectory() {
         ${path.steps.map((step) => `<li>${escapeHTML(step)}</li>`).join('')}
       </ul>
       <div class="card-cta">
-        <a class="btn btn-secondary" href="./results.html?goal=${encodeURIComponent(path.goal)}">Take this path</a>
+        <a class="btn btn-secondary" href="./path-detail.html?path=${encodeURIComponent(path.id)}">View path</a>
       </div>
     </article>
   `).join('');
+}
+
+function renderPathDetail() {
+  const detail = document.querySelector('#path-detail');
+  if (!detail) return;
+
+  const pathId = new URLSearchParams(window.location.search).get('path');
+  const path = paths.find((entry) => entry.id === pathId);
+  const notFound = document.querySelector('#path-not-found');
+  if (!path) {
+    if (notFound) notFound.hidden = false;
+    return;
+  }
+
+  detail.hidden = false;
+  const title = document.querySelector('#path-detail-title');
+  const description = document.querySelector('#path-detail-description');
+  const meta = document.querySelector('#path-detail-meta');
+  const steps = document.querySelector('#path-detail-steps');
+  const startLink = document.querySelector('#path-start-link');
+
+  document.title = `${path.title} | Desofec AI Studio`;
+  document.querySelector('meta[name="description"]')?.setAttribute('content', path.description);
+  if (title) title.textContent = path.title;
+  if (description) description.textContent = path.description;
+  if (meta) {
+    meta.innerHTML = `
+      <span class="path-badge">${escapeHTML(path.badge)}</span>
+      <span class="skill-chip">${escapeHTML(path.level)}</span>
+    `;
+  }
+  if (steps) {
+    steps.innerHTML = path.steps.map((step, index) => `
+      <article class="result-card">
+        <h3>Step ${index + 1}</h3>
+        <p>${escapeHTML(step)}</p>
+      </article>
+    `).join('');
+  }
+  if (startLink) {
+    startLink.href = `./results.html?goal=${encodeURIComponent(path.goal)}`;
+  }
+
+  const recommendation = recommendationMap[path.goal];
+  if (!recommendation) return;
+
+  const recommendedTools = (recommendation.tools || [])
+    .map((toolId) => tools.find((tool) => tool.id === toolId))
+    .filter(Boolean);
+  const toolsContainer = document.querySelector('#path-detail-tools');
+  const toolsSection = document.querySelector('#path-tools-section');
+  if (toolsContainer && recommendedTools.length) {
+    toolsContainer.innerHTML = recommendedTools.map((tool) => `
+      <article class="result-card">
+        <div class="tool-meta">
+          <span class="tool-tag">${escapeHTML(tool.badge)}</span>
+          <span class="skill-chip">${escapeHTML(tool.skill)}</span>
+        </div>
+        <h3>${escapeHTML(tool.name)}</h3>
+        <p>${escapeHTML(tool.description)}</p>
+      </article>
+    `).join('');
+    if (toolsSection) toolsSection.hidden = false;
+  }
+
+  const recommendedPacks = (recommendation.starters || [])
+    .map((packId) => starterPacks.find((pack) => pack.id === packId))
+    .filter(Boolean);
+  const startersContainer = document.querySelector('#path-detail-starters');
+  const startersSection = document.querySelector('#path-starters-section');
+  if (startersContainer && recommendedPacks.length) {
+    startersContainer.innerHTML = recommendedPacks.map((pack) => `
+      <article class="result-card">
+        <h3>${escapeHTML(pack.title)}</h3>
+        <p>${escapeHTML(pack.description)}</p>
+        <div class="card-cta">
+          <a class="btn btn-secondary" href="${escapeHTML(encodeURI(pack.file))}" download>Download pack</a>
+        </div>
+      </article>
+    `).join('');
+    if (startersSection) startersSection.hidden = false;
+  }
 }
 
 function renderRecommendation() {
@@ -303,6 +385,7 @@ function initPage() {
   renderToolCards();
   renderStarterPacks();
   renderPathDirectory();
+  renderPathDetail();
   renderRecommendation();
   handleOnboardingSubmit();
 
