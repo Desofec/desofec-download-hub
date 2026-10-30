@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   },
   description:
     'Discover beginner-friendly AI tools, learning paths, and starter packs that match your goals.',
+  metadataBase: new URL('https://desofec.com'),
   applicationName: 'Desofec AI Studio',
   appleWebApp: {
     capable: true,
