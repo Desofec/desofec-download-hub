@@ -1,50 +1,122 @@
 [
   {
-    "id": "learn-ai",
-    "name": "Learn AI",
-    "description": "Understand AI basics, prompts, and useful productivity workflows.",
+    "id": "chatgpt",
+    "name": "ChatGPT",
+    "category": "AI",
+    "skill": "Beginner",
+    "description": "Helpful for prompt writing, brainstorming, research, and learning how AI works in practice.",
     "badge": "AI"
   },
   {
-    "id": "build-website",
-    "name": "Build a website",
-    "description": "Learn the basics of web design, structure, and simple publishing.",
-    "badge": "Web"
+    "id": "claude",
+    "name": "Claude",
+    "category": "AI",
+    "skill": "Beginner",
+    "description": "Good for long-form writing, summarization, and understanding complex ideas more clearly.",
+    "badge": "AI"
   },
   {
-    "id": "automate-work",
-    "name": "Automate my work",
-    "description": "Use tools to simplify repetitive tasks and improve daily workflows.",
-    "badge": "Workflow"
+    "id": "perplexity",
+    "name": "Perplexity",
+    "category": "AI",
+    "skill": "Beginner",
+    "description": "Useful for research, fast answers, and learning across many topics quickly.",
+    "badge": "AI"
   },
   {
-    "id": "learn-coding",
-    "name": "Learn coding",
-    "description": "Start with beginner-friendly coding tools and small projects.",
-    "badge": "Coding"
+    "id": "notion-ai",
+    "name": "Notion AI",
+    "category": "AI",
+    "skill": "Beginner",
+    "description": "Great for notes, summaries, planning, and personal productivity work.",
+    "badge": "Productivity"
   },
   {
-    "id": "learn-ml",
-    "name": "Learn machine learning",
-    "description": "Understand ML ideas, data, and beginner experiments with practical examples.",
-    "badge": "ML"
+    "id": "vscode",
+    "name": "VS Code",
+    "category": "Coding",
+    "skill": "Beginner",
+    "description": "The most common editor for learning code and building small projects.",
+    "badge": "Code"
   },
   {
-    "id": "design-cad",
-    "name": "Use CAD and design tools",
-    "description": "Explore design, prototyping, and digital product design workflows.",
+    "id": "git",
+    "name": "GitHub",
+    "category": "Coding",
+    "skill": "Beginner",
+    "description": "Essential for storing code, tracking progress, and collaborating on projects.",
+    "badge": "Code"
+  },
+  {
+    "id": "python",
+    "name": "Python",
+    "category": "Coding",
+    "skill": "Beginner",
+    "description": "A practical language for coding, automation, and data-focused beginner learning.",
+    "badge": "Code"
+  },
+  {
+    "id": "figma",
+    "name": "Figma",
+    "category": "Design",
+    "skill": "Beginner",
+    "description": "Great for UI design, mockups, concept exploration, and simple product layout work.",
     "badge": "Design"
   },
   {
-    "id": "build-app",
-    "name": "Build an app",
-    "description": "Start with simple product thinking and tool recommendations for your first app idea.",
-    "badge": "App"
+    "id": "canva",
+    "name": "Canva",
+    "category": "Design",
+    "skill": "Beginner",
+    "description": "Useful for posters, presentations, simple visuals, and design-learning projects.",
+    "badge": "Design"
   },
   {
-    "id": "no-code",
-    "name": "Use no-code tools",
-    "description": "Build faster with tools that help you automate and solve problems without writing code.",
-    "badge": "No-code"
+    "id": "zapier",
+    "name": "Zapier",
+    "category": "Automation",
+    "skill": "Beginner",
+    "description": "Connect apps and automate repetitive tasks without writing code.",
+    "badge": "Automation"
+  },
+  {
+    "id": "make",
+    "name": "Make",
+    "category": "Automation",
+    "skill": "Beginner",
+    "description": "A visual builder for connecting tools and simplifying everyday digital workflows.",
+    "badge": "Automation"
+  },
+  {
+    "id": "n8n",
+    "name": "n8n",
+    "category": "Automation",
+    "skill": "Intermediate",
+    "description": "A flexible automation platform for more advanced workflows and custom integrations.",
+    "badge": "Automation"
+  },
+  {
+    "id": "colab",
+    "name": "Google Colab",
+    "category": "ML",
+    "skill": "Beginner",
+    "description": "An easy environment for notebooks, data analysis, and beginner ML experiments.",
+    "badge": "ML"
+  },
+  {
+    "id": "kaggle",
+    "name": "Kaggle",
+    "category": "ML",
+    "skill": "Beginner",
+    "description": "A beginner-friendly place to learn from datasets, notebooks, and real examples.",
+    "badge": "ML"
+  },
+  {
+    "id": "fusion-360",
+    "name": "Fusion 360",
+    "category": "Design",
+    "skill": "Intermediate",
+    "description": "Helpful for CAD, product thinking, and 3D modeling for conceptual projects.",
+    "badge": "CAD"
   }
 ]

@@ -1,0 +1,166 @@
+{
+  "learn-ai": {
+    "title": "AI for Beginners",
+    "summary": "Start with AI basics, prompt writing, and simple real-world workflows before moving into deeper tool usage.",
+    "tools": [
+      "chatgpt",
+      "perplexity",
+      "notion-ai"
+    ],
+    "starters": [
+      "ai-prompt-pack",
+      "productivity-boost"
+    ],
+    "steps": [
+      "Understand AI basics",
+      "Learn prompt writing",
+      "Use AI in daily tasks",
+      "Build a small practical project"
+    ]
+  },
+  "build-website": {
+    "title": "Website Builder Path",
+    "summary": "Learn the essential steps for designing, creating, and publishing a simple website without feeling lost.",
+    "tools": [
+      "figma",
+      "vscode",
+      "git"
+    ],
+    "starters": [
+      "website-bundle"
+    ],
+    "steps": [
+      "Learn structure and design",
+      "Create a simple layout",
+      "Publish your first page",
+      "Refine and share"
+    ]
+  },
+  "automate-work": {
+    "title": "Automation Starter",
+    "summary": "Use beginner-friendly tools to reduce repetitive tasks and improve the way you work.",
+    "tools": [
+      "zapier",
+      "make",
+      "notion-ai"
+    ],
+    "starters": [
+      "automation-kit"
+    ],
+    "steps": [
+      "Identify a repetitive task",
+      "Choose a workflow tool",
+      "Connect two or three tools",
+      "Test and adjust"
+    ]
+  },
+  "learn-coding": {
+    "title": "Coding Foundations",
+    "summary": "Learn the basics of coding and use small projects to build confidence before deeper learning.",
+    "tools": [
+      "python",
+      "vscode",
+      "git"
+    ],
+    "starters": [
+      "coding-basics-kit"
+    ],
+    "steps": [
+      "Set up your workspace",
+      "Learn basic logic",
+      "Build a simple script",
+      "Practice with mini projects"
+    ]
+  },
+  "learn-ml": {
+    "title": "Machine Learning Foundations",
+    "summary": "Understand the big ideas behind ML, data patterns, and beginner-friendly experiments.",
+    "tools": [
+      "python",
+      "colab",
+      "kaggle"
+    ],
+    "starters": [
+      "ml-workbook"
+    ],
+    "steps": [
+      "Learn key ML concepts",
+      "Work with data",
+      "Try a notebook",
+      "Practice and review"
+    ]
+  },
+  "design-cad": {
+    "title": "Design and CAD Path",
+    "summary": "Use design thinking and simple CAD tools to build creative ideas and prototypes with confidence.",
+    "tools": [
+      "figma",
+      "fusion-360",
+      "canva"
+    ],
+    "starters": [
+      "website-bundle"
+    ],
+    "steps": [
+      "Learn design basics",
+      "Explore a tool",
+      "Create simple concepts",
+      "Refine and share"
+    ]
+  },
+  "build-app": {
+    "title": "App Building Path",
+    "summary": "Start with simple app ideas, product thinking, and the tools that help you build a first version.",
+    "tools": [
+      "vscode",
+      "figma",
+      "python"
+    ],
+    "starters": [
+      "coding-basics-kit"
+    ],
+    "steps": [
+      "Define the idea",
+      "Sketch the user flow",
+      "Create a prototype",
+      "Test and improve"
+    ]
+  },
+  "no-code": {
+    "title": "No-Code Starter",
+    "summary": "Use easy tools to build workflows and small systems without needing to write code.",
+    "tools": [
+      "notion-ai",
+      "zapier",
+      "make"
+    ],
+    "starters": [
+      "automation-kit"
+    ],
+    "steps": [
+      "Choose a simple problem",
+      "Map the flow",
+      "Build the workflow",
+      "Review and improve"
+    ]
+  },
+  "ai-productivity": {
+    "title": "AI Productivity Path",
+    "summary": "Learn how AI can support writing, planning, research, and daily work in a practical way.",
+    "tools": [
+      "chatgpt",
+      "perplexity",
+      "notion-ai"
+    ],
+    "starters": [
+      "productivity-boost",
+      "ai-prompt-pack"
+    ],
+    "steps": [
+      "Identify daily repetitive tasks",
+      "Create reusable prompts",
+      "Apply AI to real work",
+      "Review and improve results"
+    ]
+  }
+}
