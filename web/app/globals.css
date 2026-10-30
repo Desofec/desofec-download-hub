@@ -693,3 +693,136 @@ h3 {
   font-weight: 600;
   border-bottom: 2px solid var(--primary);
 }
+
+.menu-toggle,
+.mobile-nav-cta {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .nav-row {
+    position: relative;
+    min-height: 64px;
+  }
+
+  .brand {
+    gap: 9px;
+    min-width: 0;
+  }
+
+  .brand-text {
+    font-size: 0.92rem;
+  }
+
+  .menu-toggle {
+    display: grid;
+    gap: 5px;
+    place-content: center;
+    width: 42px;
+    height: 42px;
+    padding: 9px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: rgba(148, 163, 184, 0.06);
+    color: var(--text);
+  }
+
+  .menu-toggle span {
+    width: 20px;
+    height: 2px;
+    border-radius: 2px;
+    background: currentColor;
+  }
+
+  .desktop-nav-cta {
+    display: none;
+  }
+
+  .main-nav {
+    display: none;
+    position: absolute;
+    top: calc(100% + 1px);
+    right: -16px;
+    left: -16px;
+    align-items: stretch;
+    gap: 0;
+    padding: 8px 16px 16px;
+    border-bottom: 1px solid var(--line);
+    background: rgba(4, 10, 18, 0.98);
+    box-shadow: var(--shadow);
+  }
+
+  .main-nav.is-open {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .main-nav a:not(.btn) {
+    padding: 12px 4px;
+  }
+
+  .main-nav a[aria-current="page"] {
+    border-bottom: 0;
+    color: var(--primary);
+  }
+
+  .mobile-nav-cta {
+    display: inline-flex;
+    margin-top: 8px;
+  }
+
+  .container,
+  .small-container {
+    width: min(100% - 28px, 1180px);
+  }
+
+  .hero {
+    padding: 36px 0 24px;
+  }
+
+  .hero-copy h1 {
+    font-size: clamp(2.35rem, 11vw, 3.2rem);
+  }
+
+  .section {
+    padding: 36px 0;
+  }
+
+  .feature-panel,
+  .onboarding-form {
+    padding: 18px 16px;
+  }
+
+  .goal-card,
+  .tool-card,
+  .path-card,
+  .starter-card,
+  .result-card {
+    padding: 18px 16px;
+  }
+
+  .split-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .cta-row .btn {
+    flex: 1 1 145px;
+  }
+}
+
+@media (max-width: 420px) {
+  .mini-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .mini-stats li:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .tool-meta,
+  .card-row {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
