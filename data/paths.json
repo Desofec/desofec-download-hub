@@ -1,0 +1,12 @@
+[
+  { "id": "chatgpt", "name": "ChatGPT", "category": "AI", "skill": "Beginner", "description": "Helpful for prompts, brainstorming, writing, and learning AI basics.", "badge": "AI" },
+  { "id": "perplexity", "name": "Perplexity", "category": "AI", "skill": "Beginner", "description": "Useful for research, quick answers, and learning modern information flows.", "badge": "AI" },
+  { "id": "notion-ai", "name": "Notion AI", "category": "AI", "skill": "Beginner", "description": "Good for note organization, writing, and productivity workflows.", "badge": "Productivity" },
+  { "id": "vscode", "name": "VS Code", "category": "Coding", "skill": "Beginner", "description": "A great editor for learning coding and building projects.", "badge": "Code" },
+  { "id": "git", "name": "GitHub", "category": "Coding", "skill": "Beginner", "description": "Useful for managing project versions and working with code in teams.", "badge": "Code" },
+  { "id": "figma", "name": "Figma", "category": "Design", "skill": "Beginner", "description": "A simple design tool for small projects and product exploration.", "badge": "Design" },
+  { "id": "zapier", "name": "Zapier", "category": "Automation", "skill": "Beginner", "description": "Connect tools and automate practical tasks without writing code.", "badge": "Automation" },
+  { "id": "make", "name": "Make", "category": "Automation", "skill": "Beginner", "description": "A visual process builder for creating time-saving workflows.", "badge": "Automation" },
+  { "id": "python", "name": "Python", "category": "Coding", "skill": "Beginner", "description": "A very practical language for learning coding, automation, and data tasks.", "badge": "Code" },
+  { "id": "colab", "name": "Google Colab", "category": "ML", "skill": "Beginner", "description": "A notebook-friendly environment for learning and experimenting with ML ideas.", "badge": "ML" }
+]

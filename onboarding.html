@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Start your path | Desofec AI Studio</title>
+    <meta name="description" content="Answer a few quick questions to find the right tools and learning path for your goal." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body data-page="onboarding">
+    <header class="site-header">
+      <div class="container nav-row">
+        <a href="./index.html" class="brand">
+          <span class="brand-mark">D</span>
+          <span class="brand-text">Desofec AI Studio</span>
+        </a>
+        <nav class="main-nav" aria-label="Main navigation">
+          <a href="./index.html">Home</a>
+          <a href="./onboarding.html">Start</a>
+          <a href="./tools.html">Tools</a>
+          <a href="./paths.html">Paths</a>
+          <a href="./starter-packs.html">Starter Packs</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="page-shell">
+      <section class="section narrow-section">
+        <div class="container small-container">
+          <div class="section-head center-head">
+            <div>
+              <span class="eyebrow">Start here</span>
+              <h1>What do you want to build?</h1>
+            </div>
+          </div>
+
+          <form id="onboarding-form" class="onboarding-form">
+            <div class="form-group">
+              <label for="goal">What do you want to do?</label>
+              <select id="goal" name="goal">
+                <option value="learn-ai">Learn AI</option>
+                <option value="build-website">Build a website</option>
+                <option value="automate-work">Automate my work</option>
+                <option value="learn-coding">Learn coding</option>
+                <option value="learn-ml">Learn machine learning</option>
+                <option value="design-cad">Use CAD and design tools</option>
+                <option value="build-app">Build an app</option>
+                <option value="no-code">Use no-code tools</option>
+                <option value="ai-productivity">Improve AI productivity</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="level">What is your current level?</label>
+              <select id="level" name="level">
+                <option value="beginner">Beginner</option>
+                <option value="some-experience">Some experience</option>
+                <option value="comfortable">Comfortable</option>
+                <option value="advanced">Advanced</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="preference">What matters most right now?</label>
+              <select id="preference" name="preference">
+                <option value="simple-path">Simple, beginner-friendly path</option>
+                <option value="useful-tooling">Best tools for my goal</option>
+                <option value="project-based">Build a project quickly</option>
+                <option value="deep-learning">Learn fundamentals deeply</option>
+              </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary block-btn">Show my path</button>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-row">
+        <div>© 2026 Desofec AI Studio</div>
+        <div>Learn the right tools. Build with confidence.</div>
+      </div>
+    </footer>
+
+    <script src="./script.js"></script>
+  </body>
+</html>

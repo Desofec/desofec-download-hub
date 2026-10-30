@@ -1,0 +1,50 @@
+[
+  {
+    "id": "learn-ai",
+    "name": "Learn AI",
+    "description": "Understand AI basics, prompts, and useful productivity workflows.",
+    "badge": "AI"
+  },
+  {
+    "id": "build-website",
+    "name": "Build a website",
+    "description": "Learn the basics of web design, structure, and simple publishing.",
+    "badge": "Web"
+  },
+  {
+    "id": "automate-work",
+    "name": "Automate my work",
+    "description": "Use tools to simplify repetitive tasks and improve daily workflows.",
+    "badge": "Workflow"
+  },
+  {
+    "id": "learn-coding",
+    "name": "Learn coding",
+    "description": "Start with beginner-friendly coding tools and small projects.",
+    "badge": "Coding"
+  },
+  {
+    "id": "learn-ml",
+    "name": "Learn machine learning",
+    "description": "Understand ML ideas, data, and beginner experiments with practical examples.",
+    "badge": "ML"
+  },
+  {
+    "id": "design-cad",
+    "name": "Use CAD and design tools",
+    "description": "Explore design, prototyping, and digital product design workflows.",
+    "badge": "Design"
+  },
+  {
+    "id": "build-app",
+    "name": "Build an app",
+    "description": "Start with simple product thinking and tool recommendations for your first app idea.",
+    "badge": "App"
+  },
+  {
+    "id": "no-code",
+    "name": "Use no-code tools",
+    "description": "Build faster with tools that help you automate and solve problems without writing code.",
+    "badge": "No-code"
+  }
+]

@@ -1,0 +1,37 @@
+[
+  {
+    "id": "ai-beginner",
+    "title": "AI for Beginners",
+    "level": "Beginner",
+    "description": "Start by learning what AI is, how prompts work, and how to use AI in practical ways.",
+    "badge": "AI"
+  },
+  {
+    "id": "no-code-automation",
+    "title": "No-Code Automation",
+    "level": "Beginner",
+    "description": "Learn how to connect tools and create workflows that save time and reduce repetitive work.",
+    "badge": "Automation"
+  },
+  {
+    "id": "web-starter",
+    "title": "Website Starter",
+    "level": "Beginner",
+    "description": "Use the basics of design and web publishing to launch a simple project.",
+    "badge": "Web"
+  },
+  {
+    "id": "coding-foundations",
+    "title": "Coding Foundations",
+    "level": "Beginner",
+    "description": "Learn coding basics, setup, and a few simple project ideas that build confidence.",
+    "badge": "Code"
+  },
+  {
+    "id": "ml-foundations",
+    "title": "ML Foundations",
+    "level": "Beginner",
+    "description": "Learn the key ideas behind ML and how to begin with a small practical experiment.",
+    "badge": "ML"
+  }
+]
