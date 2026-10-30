@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { PackCard, ToolCard } from '@/components/cards';
+import { PathSteps } from '@/components/path-steps';
 import { getCatalog } from '@/lib/catalog';
 
 export async function generateStaticParams() {
@@ -43,14 +44,7 @@ export default async function PathDetailPage({ params }: { params: Promise<{ id:
           <div className="section-head">
             <h2>Your learning steps</h2>
           </div>
-          <div className="result-summary">
-            {path.steps.map((step, index) => (
-              <article className="result-card" key={step}>
-                <h3>Step {index + 1}</h3>
-                <p>{step}</p>
-              </article>
-            ))}
-          </div>
+          <PathSteps pathId={path.id} steps={path.steps} />
           <div className="cta-row">
             <Link className="btn btn-primary" href={`/results/${encodeURIComponent(path.goal)}`}>
               Start this path
