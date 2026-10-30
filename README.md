@@ -24,6 +24,7 @@ This repository contains a working prototype of the early product experience:
 - results page
 - tools directory
 - learning paths page
+- learning path detail pages with recommended tools and starter packs
 - starter pack page
 - structured data layer for goals, tools, and starter resources
 
