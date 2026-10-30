@@ -41,11 +41,13 @@ the service role and are intentionally not done from the app. Catalog reads are 
 `data/*.json` and `downloads/` in the repository root remain the source of truth. After editing them, run:
 
 ```bash
+npm run validate-content
 npm run sync-content
 ```
 
-This copies them into `content/` and `public/downloads/` and regenerates `../supabase/seed.sql`. Commit the
-results, then re-run the seed in Supabase.
+Validation checks required fields, unique IDs, cross-references, and downloadable files. Sync runs the same
+checks before copying the files into `content/` and `public/downloads/` and regenerating `../supabase/seed.sql`.
+Commit the results, then re-run the seed in Supabase.
 
 ## Structure
 
