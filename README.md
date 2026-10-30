@@ -74,4 +74,4 @@ The browser loads the product catalog from JSON files in `data/`:
 - `starter-packs.json` — starter resources
 - `recommendations.json` — goal-to-tools, paths, and packs mapping
 
-Update these files to change product content; `script.js` loads and renders them.
+Update these files to change product content; `script.js` loads and renders them. The onboarding goal selector is generated from `goals.json`.
