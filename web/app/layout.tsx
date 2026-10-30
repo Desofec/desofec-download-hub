@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
+import { PwaControls } from '@/components/pwa-controls';
 import { SiteHeader } from '@/components/site-header';
 import './globals.css';
 
@@ -9,7 +10,13 @@ export const metadata: Metadata = {
     template: '%s | Desofec AI Studio'
   },
   description:
-    'Discover beginner-friendly AI tools, learning paths, and starter packs that match your goals.'
+    'Discover beginner-friendly AI tools, learning paths, and starter packs that match your goals.',
+  applicationName: 'Desofec AI Studio',
+  appleWebApp: {
+    capable: true,
+    title: 'Desofec Studio',
+    statusBarStyle: 'black-translucent'
+  }
 };
 
 export default function RootLayout({ children }: LayoutProps<'/'>) {
@@ -19,6 +26,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
         <Suspense fallback={null}>
           <SiteHeader />
         </Suspense>
+        <PwaControls />
         <main>{children}</main>
         <footer className="site-footer">
           <div className="container footer-row">

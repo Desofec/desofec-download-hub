@@ -15,6 +15,10 @@ npm run dev        # http://localhost:3000
 npm run build && npm run start
 ```
 
+The app is installable on supported browsers. Use the browser's **Install app** button
+when available, or its menu option. The service worker caches visited pages, app assets,
+and starter pack downloads; the offline page appears when a page has not been cached yet.
+
 ## Connect Supabase
 
 1. Create a Supabase project.
@@ -55,3 +59,5 @@ results, then re-run the seed in Supabase.
 - Unknown `/results/[goal]` and `/paths/[id]` URLs show the 404 page but return HTTP 200 (documented behavior with
   Cache Components, where streaming starts before `notFound()` runs). The pages are marked `noindex`.
 - The newsletter form from the static site is not ported because there is no backend to store emails yet.
+
+On iPhone/iPad, use Safari's **Share → Add to Home Screen**. PWA installation and service workers require HTTPS (Vercel provides it; localhost is also treated as secure during development).
