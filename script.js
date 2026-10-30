@@ -110,7 +110,7 @@ function renderPathCards() {
       <h3>${escapeHTML(path.title)}</h3>
       <p>${escapeHTML(path.description)}</p>
       <div class="card-cta">
-        <a class="btn btn-secondary" href="./onboarding.html?goal=${encodeURIComponent(path.id)}">View path</a>
+        <a class="btn btn-secondary" href="./results.html?goal=${encodeURIComponent(path.goal)}">View path</a>
       </div>
     </article>
   `).join('');
@@ -147,7 +147,7 @@ function renderToolCards() {
         <h3>${escapeHTML(tool.name)}</h3>
         <p>${escapeHTML(tool.description)}</p>
         <div class="card-cta">
-          <a class="btn btn-secondary" href="./onboarding.html?goal=${encodeURIComponent(tool.id)}">Explore</a>
+          <a class="btn btn-secondary" href="./onboarding.html">Find my path</a>
         </div>
       </article>
     `).join('');
@@ -169,7 +169,7 @@ function renderStarterPacks() {
         <h3>${escapeHTML(pack.title)}</h3>
         <p>${escapeHTML(pack.description)}</p>
         <div class="card-cta">
-          <a class="btn btn-secondary" href="./starter-packs.html">Open pack</a>
+          <a class="btn btn-secondary" href="${escapeHTML(encodeURI(pack.file))}" download>Download pack</a>
         </div>
       </article>
     `).join('');
@@ -185,7 +185,7 @@ function renderStarterPacks() {
         <h3>${escapeHTML(pack.title)}</h3>
         <p>${escapeHTML(pack.description)}</p>
         <div class="card-cta">
-          <a class="btn btn-secondary" href="./starter-packs.html">Open pack</a>
+          <a class="btn btn-secondary" href="${escapeHTML(encodeURI(pack.file))}" download>Download pack</a>
         </div>
       </article>
     `).join('');
@@ -208,7 +208,7 @@ function renderPathDirectory() {
         ${path.steps.map((step) => `<li>${escapeHTML(step)}</li>`).join('')}
       </ul>
       <div class="card-cta">
-        <a class="btn btn-secondary" href="./onboarding.html?goal=${encodeURIComponent(path.id)}">Take this path</a>
+        <a class="btn btn-secondary" href="./results.html?goal=${encodeURIComponent(path.goal)}">Take this path</a>
       </div>
     </article>
   `).join('');
@@ -264,6 +264,9 @@ function renderRecommendation() {
       <article class="result-card">
         <h3>${escapeHTML(pack.title)}</h3>
         <p>${escapeHTML(pack.description)}</p>
+        <div class="card-cta">
+          <a class="btn btn-secondary" href="${escapeHTML(encodeURI(pack.file))}" download>Download pack</a>
+        </div>
       </article>
     `;
   }).join('');
@@ -284,7 +287,15 @@ function handleOnboardingSubmit() {
   });
 }
 
+function renderStats() {
+  const counts = { goals: goals.length, tools: tools.length };
+  document.querySelectorAll('[data-stat]').forEach((el) => {
+    if (el.dataset.stat in counts) el.textContent = counts[el.dataset.stat];
+  });
+}
+
 function initPage() {
+  renderStats();
   renderGoalCards();
   renderGoalOptions();
   renderFeatureList();

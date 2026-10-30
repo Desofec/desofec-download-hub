@@ -10,7 +10,8 @@
       "Understand prompt writing",
       "Use AI in real tasks",
       "Build a small workflow"
-    ]
+    ],
+    "goal": "learn-ai"
   },
   {
     "id": "no-code-automation",
@@ -23,7 +24,8 @@
       "Connect simple tools",
       "Automate a task",
       "Review results and improve"
-    ]
+    ],
+    "goal": "automate-work"
   },
   {
     "id": "web-starter",
@@ -36,7 +38,8 @@
       "Design the layout",
       "Build a simple page",
       "Publish and share"
-    ]
+    ],
+    "goal": "build-website"
   },
   {
     "id": "coding-foundations",
@@ -49,7 +52,8 @@
       "Understand basic logic",
       "Build small scripts",
       "Practice real examples"
-    ]
+    ],
+    "goal": "learn-coding"
   },
   {
     "id": "ml-foundations",
@@ -62,7 +66,8 @@
       "Understand data and patterns",
       "Try a notebook",
       "Practice with examples"
-    ]
+    ],
+    "goal": "learn-ml"
   },
   {
     "id": "ai-productivity",
@@ -75,6 +80,7 @@
       "Define a prompt system",
       "Apply AI routines",
       "Review and optimize"
-    ]
+    ],
+    "goal": "ai-productivity"
   }
 ]

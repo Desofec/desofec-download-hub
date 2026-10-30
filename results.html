@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Starter packs | Desofec AI Studio</title>
-    <meta name="description" content="Download starter packs and practical resource bundles for AI, no-code, coding, and productivity." />
+    <title>Your recommendation | Desofec AI Studio</title>
+    <meta name="description" content="Your recommended learning path, tools, and starter packs." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -13,7 +13,7 @@
     />
     <link rel="stylesheet" href="./style.css" />
   </head>
-  <body data-page="starter-packs">
+  <body data-page="results">
     <header class="site-header">
       <div class="container nav-row">
         <a href="./index.html" class="brand">
@@ -35,11 +35,26 @@
         <div class="container">
           <div class="section-head">
             <div>
-              <span class="eyebrow">Starter packs</span>
-              <h1>Useful resources to begin quickly</h1>
+              <span class="eyebrow">Your recommendation</span>
+              <h1 id="results-title">Your path</h1>
             </div>
           </div>
-          <div id="starter-directory" class="starter-directory"></div>
+          <div id="result-summary" class="result-summary"></div>
+
+          <div class="section-head">
+            <h2>Best tools to start with</h2>
+          </div>
+          <div id="result-tools" class="results-grid"></div>
+
+          <div class="section-head">
+            <h2>Starter packs for this path</h2>
+          </div>
+          <div id="result-starters" class="results-grid"></div>
+
+          <div class="cta-row">
+            <a class="btn btn-primary" href="./onboarding.html">Try another goal</a>
+            <a class="btn btn-secondary" href="./tools.html">Explore all tools</a>
+          </div>
         </div>
       </section>
     </main>
