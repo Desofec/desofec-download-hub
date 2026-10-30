@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Start your path | Desofec AI Studio</title>
-    <meta name="description" content="Answer a few quick questions to find the right tools and learning path for your goal." />
+    <title>Tools | Desofec AI Studio</title>
+    <meta name="description" content="Explore beginner-friendly AI, coding, automation, and productivity tools." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -13,7 +13,7 @@
     />
     <link rel="stylesheet" href="./style.css" />
   </head>
-  <body data-page="onboarding">
+  <body data-page="tools">
     <header class="site-header">
       <div class="container nav-row">
         <a href="./index.html" class="brand">
@@ -31,25 +31,15 @@
     </header>
 
     <main class="page-shell">
-      <section class="section narrow-section">
-        <div class="container small-container">
-          <div class="section-head center-head">
+      <section class="section">
+        <div class="container">
+          <div class="section-head">
             <div>
-              <span class="eyebrow">Start here</span>
-              <h1>What do you want to build?</h1>
+              <span class="eyebrow">Tool library</span>
+              <h1>Browse tools by purpose and skill level</h1>
             </div>
           </div>
-
-          <form id="onboarding-form" class="onboarding-form">
-            <div class="form-group">
-              <label for="goal">What do you want to do?</label>
-              <select id="goal" name="goal" required>
-                <option value="" selected disabled>Loading goals…</option>
-              </select>
-            </div>
-
-            <button class="btn btn-primary block-btn" type="submit">Show my recommendation</button>
-          </form>
+          <div id="tools-directory" class="tool-directory"></div>
         </div>
       </section>
     </main>

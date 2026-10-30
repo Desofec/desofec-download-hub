@@ -3,12 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Desofec AI Studio helps you discover the right AI tools, learning paths, and starter resources for your goals."
-    />
-    <meta name="theme-color" content="#08121f" />
-    <title>Desofec AI Studio | Learn the right tools</title>
+    <title>Start your path | Desofec AI Studio</title>
+    <meta name="description" content="Answer a few quick questions to find the right tools and learning path for your goal." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -17,14 +13,13 @@
     />
     <link rel="stylesheet" href="./style.css" />
   </head>
-  <body data-page="home">
+  <body data-page="onboarding">
     <header class="site-header">
       <div class="container nav-row">
         <a href="./index.html" class="brand">
           <span class="brand-mark">D</span>
           <span class="brand-text">Desofec AI Studio</span>
         </a>
-
         <nav class="main-nav" aria-label="Main navigation">
           <a href="./index.html">Home</a>
           <a href="./onboarding.html">Start</a>
@@ -32,118 +27,29 @@
           <a href="./paths.html">Paths</a>
           <a href="./starter-packs.html">Starter Packs</a>
         </nav>
-
-        <a class="btn btn-primary" href="./onboarding.html">Start my path</a>
       </div>
     </header>
 
-    <main>
-      <section class="hero">
-        <div class="container hero-grid">
-          <div class="hero-copy">
-            <span class="eyebrow">Guided AI discovery for beginners</span>
-            <h1>Learn the right tools. Build with confidence. Launch with clarity.</h1>
-            <p>
-              Desofec AI Studio helps you discover the tools, learning paths, and
-              starter resources that match your goals — without the confusion of too
-              many choices.
-            </p>
-
-            <div class="cta-row">
-              <a href="./onboarding.html" class="btn btn-primary">Find my path</a>
-              <a href="./tools.html" class="btn btn-secondary">Explore tools</a>
-            </div>
-
-            <ul class="mini-stats">
-              <li>
-                <strong>9</strong>
-                <span>goal tracks</span>
-              </li>
-              <li>
-                <strong>15</strong>
-                <span>featured tools</span>
-              </li>
-              <li>
-                <strong>6</strong>
-                <span>starter packs</span>
-              </li>
-            </ul>
-          </div>
-
-          <div class="feature-panel">
-            <div class="panel-header">
-              <span class="status-dot"></span>
-              Product snapshot
-            </div>
-            <div class="feature-list" id="home-feature-list"></div>
-          </div>
-        </div>
-      </section>
-
-      <section class="section">
-        <div class="container">
-          <div class="section-head split-head">
-            <div>
-              <span class="eyebrow">Choose your goal</span>
-              <h2>Start from what you want to achieve</h2>
-            </div>
-            <a href="./onboarding.html" class="text-link">Take the guided start</a>
-          </div>
-          <div id="goal-grid" class="goal-grid"></div>
-        </div>
-      </section>
-
-      <section class="section muted-section">
-        <div class="container">
+    <main class="page-shell">
+      <section class="section narrow-section">
+        <div class="container small-container">
           <div class="section-head center-head">
             <div>
-              <span class="eyebrow">Learning journeys</span>
-              <h2>Beginner-friendly paths built for action</h2>
+              <span class="eyebrow">Start here</span>
+              <h1>What do you want to build?</h1>
             </div>
           </div>
-          <div id="path-grid" class="path-grid"></div>
-        </div>
-      </section>
 
-      <section class="section">
-        <div class="container">
-          <div class="section-head split-head">
-            <div>
-              <span class="eyebrow">Tool library</span>
-              <h2>Discover tools that fit your level</h2>
-            </div>
-            <a href="./tools.html" class="text-link">Browse all tools</a>
-          </div>
-          <div id="tool-grid" class="tool-grid"></div>
-        </div>
-      </section>
-
-      <section class="section muted-section">
-        <div class="container">
-          <div class="section-head split-head">
-            <div>
-              <span class="eyebrow">Starter packs</span>
-              <h2>Jump in with ready-made resources</h2>
-            </div>
-            <a href="./starter-packs.html" class="text-link">See all packs</a>
-          </div>
-          <div id="starter-grid" class="starter-grid"></div>
-        </div>
-      </section>
-
-      <section class="newsletter">
-        <div class="container">
-          <div class="newsletter-row">
-            <div>
-              <span class="eyebrow">Stay in the loop</span>
-              <h2>Get simple product updates and new learning bundles.</h2>
+          <form id="onboarding-form" class="onboarding-form">
+            <div class="form-group">
+              <label for="goal">What do you want to do?</label>
+              <select id="goal" name="goal" required>
+                <option value="" selected disabled>Loading goals…</option>
+              </select>
             </div>
 
-            <form class="newsletter-form">
-              <input type="email" placeholder="Enter your email" aria-label="Email" />
-              <button type="submit" class="btn btn-primary">Notify me</button>
-            </form>
-          </div>
+            <button class="btn btn-primary block-btn" type="submit">Show my recommendation</button>
+          </form>
         </div>
       </section>
     </main>
