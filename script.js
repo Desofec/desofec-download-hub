@@ -284,7 +284,15 @@ function handleOnboardingSubmit() {
   });
 }
 
+function renderStats() {
+  const counts = { goals: goals.length, tools: tools.length };
+  document.querySelectorAll('[data-stat]').forEach((el) => {
+    if (el.dataset.stat in counts) el.textContent = counts[el.dataset.stat];
+  });
+}
+
 function initPage() {
+  renderStats();
   renderGoalCards();
   renderGoalOptions();
   renderFeatureList();
