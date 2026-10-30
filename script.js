@@ -169,7 +169,7 @@ function renderStarterPacks() {
         <h3>${escapeHTML(pack.title)}</h3>
         <p>${escapeHTML(pack.description)}</p>
         <div class="card-cta">
-          <a class="btn btn-secondary" href="./starter-packs.html">Open pack</a>
+          <a class="btn btn-secondary" href="${escapeHTML(encodeURI(pack.file))}" download>Download pack</a>
         </div>
       </article>
     `).join('');
@@ -185,7 +185,7 @@ function renderStarterPacks() {
         <h3>${escapeHTML(pack.title)}</h3>
         <p>${escapeHTML(pack.description)}</p>
         <div class="card-cta">
-          <a class="btn btn-secondary" href="./starter-packs.html">Open pack</a>
+          <a class="btn btn-secondary" href="${escapeHTML(encodeURI(pack.file))}" download>Download pack</a>
         </div>
       </article>
     `).join('');
@@ -264,6 +264,9 @@ function renderRecommendation() {
       <article class="result-card">
         <h3>${escapeHTML(pack.title)}</h3>
         <p>${escapeHTML(pack.description)}</p>
+        <div class="card-cta">
+          <a class="btn btn-secondary" href="${escapeHTML(encodeURI(pack.file))}" download>Download pack</a>
+        </div>
       </article>
     `;
   }).join('');
