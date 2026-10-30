@@ -1,12 +1,80 @@
 [
-  { "id": "chatgpt", "name": "ChatGPT", "category": "AI", "skill": "Beginner", "description": "Helpful for prompts, brainstorming, writing, and learning AI basics.", "badge": "AI" },
-  { "id": "perplexity", "name": "Perplexity", "category": "AI", "skill": "Beginner", "description": "Useful for research, quick answers, and learning modern information flows.", "badge": "AI" },
-  { "id": "notion-ai", "name": "Notion AI", "category": "AI", "skill": "Beginner", "description": "Good for note organization, writing, and productivity workflows.", "badge": "Productivity" },
-  { "id": "vscode", "name": "VS Code", "category": "Coding", "skill": "Beginner", "description": "A great editor for learning coding and building projects.", "badge": "Code" },
-  { "id": "git", "name": "GitHub", "category": "Coding", "skill": "Beginner", "description": "Useful for managing project versions and working with code in teams.", "badge": "Code" },
-  { "id": "figma", "name": "Figma", "category": "Design", "skill": "Beginner", "description": "A simple design tool for small projects and product exploration.", "badge": "Design" },
-  { "id": "zapier", "name": "Zapier", "category": "Automation", "skill": "Beginner", "description": "Connect tools and automate practical tasks without writing code.", "badge": "Automation" },
-  { "id": "make", "name": "Make", "category": "Automation", "skill": "Beginner", "description": "A visual process builder for creating time-saving workflows.", "badge": "Automation" },
-  { "id": "python", "name": "Python", "category": "Coding", "skill": "Beginner", "description": "A very practical language for learning coding, automation, and data tasks.", "badge": "Code" },
-  { "id": "colab", "name": "Google Colab", "category": "ML", "skill": "Beginner", "description": "A notebook-friendly environment for learning and experimenting with ML ideas.", "badge": "ML" }
+  {
+    "id": "ai-beginner",
+    "title": "AI for Beginners",
+    "level": "Beginner",
+    "description": "Learn what AI is, how prompts work, and how to use AI in practical day-to-day ways.",
+    "badge": "AI",
+    "steps": [
+      "Learn the core idea of AI",
+      "Understand prompt writing",
+      "Use AI in real tasks",
+      "Build a small workflow"
+    ]
+  },
+  {
+    "id": "no-code-automation",
+    "title": "No-Code Automation",
+    "level": "Beginner",
+    "description": "Explore practical automation ideas that save time and reduce repetitive work.",
+    "badge": "Automation",
+    "steps": [
+      "Understand workflows",
+      "Connect simple tools",
+      "Automate a task",
+      "Review results and improve"
+    ]
+  },
+  {
+    "id": "web-starter",
+    "title": "Website Starter",
+    "level": "Beginner",
+    "description": "Learn the fundamentals of web structure, publishing, and creating a simple online project.",
+    "badge": "Web",
+    "steps": [
+      "Learn web basics",
+      "Design the layout",
+      "Build a simple page",
+      "Publish and share"
+    ]
+  },
+  {
+    "id": "coding-foundations",
+    "title": "Coding Foundations",
+    "level": "Beginner",
+    "description": "Set up your environment, learn core concepts, and build tiny projects with confidence.",
+    "badge": "Code",
+    "steps": [
+      "Learn setup and tools",
+      "Understand basic logic",
+      "Build small scripts",
+      "Practice real examples"
+    ]
+  },
+  {
+    "id": "ml-foundations",
+    "title": "ML Foundations",
+    "level": "Beginner",
+    "description": "Understand the key ideas behind ML, data patterns, and small practical experiments.",
+    "badge": "ML",
+    "steps": [
+      "Learn the basics of ML",
+      "Understand data and patterns",
+      "Try a notebook",
+      "Practice with examples"
+    ]
+  },
+  {
+    "id": "ai-productivity",
+    "title": "AI Productivity Path",
+    "level": "Beginner",
+    "description": "Use AI to improve writing, planning, research, and everyday productivity tasks.",
+    "badge": "Productivity",
+    "steps": [
+      "Identify useful tasks",
+      "Define a prompt system",
+      "Apply AI routines",
+      "Review and optimize"
+    ]
+  }
 ]

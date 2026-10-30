@@ -1,12 +1,53 @@
-const content = window.desofecContent || {
-  goals: [],
-  tools: [],
-  paths: [],
-  starterPacks: [],
-  recommendationMap: {}
-};
+let goals = [];
+let tools = [];
+let paths = [];
+let starterPacks = [];
+let recommendationMap = {};
 
-const { goals, tools, paths, starterPacks, recommendationMap } = content;
+async function loadContent() {
+  const files = {
+    goals: './data/goals.json',
+    tools: './data/tools.json',
+    paths: './data/paths.json',
+    starterPacks: './data/starter-packs.json',
+    recommendationMap: './data/recommendations.json'
+  };
+  const entries = await Promise.all(Object.entries(files).map(async ([key, path]) => {
+    const response = await fetch(path);
+    if (!response.ok) {
+      throw new Error(`Could not load ${path} (${response.status}).`);
+    }
+    return [key, await response.json()];
+  }));
+  const content = Object.fromEntries(entries);
+
+  if (!Array.isArray(content.goals) || !Array.isArray(content.tools) ||
+      !Array.isArray(content.paths) || !Array.isArray(content.starterPacks) ||
+      !content.recommendationMap || typeof content.recommendationMap !== 'object') {
+    throw new Error('The product data files have an unexpected format.');
+  }
+
+  ({ goals, tools, paths, starterPacks, recommendationMap } = content);
+}
+
+function escapeHTML(value) {
+  return String(value ?? '').replace(/[&<>"']/g, (character) => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  })[character]);
+}
+
+function showContentLoadError(error) {
+  console.error('Unable to load Desofec AI Studio content.', error);
+  const message = document.createElement('p');
+  message.className = 'content-error';
+  message.setAttribute('role', 'alert');
+  message.textContent = 'We could not load the studio content. Please refresh the page, or try again later.';
+  document.querySelector('main')?.prepend(message);
+}
 
 function renderGoalCards() {
   const grid = document.querySelector('#goal-grid');
@@ -14,11 +55,11 @@ function renderGoalCards() {
 
   grid.innerHTML = goals.map((goal) => `
     <article class="goal-card">
-      <span class="goal-badge">${goal.badge}</span>
-      <h3>${goal.name}</h3>
-      <p>${goal.description}</p>
+      <span class="goal-badge">${escapeHTML(goal.badge)}</span>
+      <h3>${escapeHTML(goal.name)}</h3>
+      <p>${escapeHTML(goal.description)}</p>
       <div class="card-cta">
-        <a class="btn btn-secondary" href="./onboarding.html?goal=${goal.id}">Start here</a>
+        <a class="btn btn-secondary" href="./onboarding.html?goal=${encodeURIComponent(goal.id)}">Start here</a>
       </div>
     </article>
   `).join('');
@@ -42,6 +83,20 @@ function renderFeatureList() {
   `).join('');
 }
 
+function renderGoalOptions() {
+  const select = document.querySelector('#goal');
+  if (!select) return;
+
+  const requestedGoal = new URLSearchParams(window.location.search).get('goal');
+  select.innerHTML = goals.map((goal) => `
+    <option value="${escapeHTML(goal.id)}">${escapeHTML(goal.name)}</option>
+  `).join('');
+
+  if (goals.some((goal) => goal.id === requestedGoal)) {
+    select.value = requestedGoal;
+  }
+}
+
 function renderPathCards() {
   const grid = document.querySelector('#path-grid');
   if (!grid || !paths.length) return;
@@ -49,13 +104,13 @@ function renderPathCards() {
   grid.innerHTML = paths.map((path) => `
     <article class="path-card">
       <div class="card-row">
-        <span class="path-badge">${path.badge}</span>
-        <span class="skill-chip">${path.level}</span>
+        <span class="path-badge">${escapeHTML(path.badge)}</span>
+        <span class="skill-chip">${escapeHTML(path.level)}</span>
       </div>
-      <h3>${path.title}</h3>
-      <p>${path.description}</p>
+      <h3>${escapeHTML(path.title)}</h3>
+      <p>${escapeHTML(path.description)}</p>
       <div class="card-cta">
-        <a class="btn btn-secondary" href="./onboarding.html?goal=${path.id}">View path</a>
+        <a class="btn btn-secondary" href="./onboarding.html?goal=${encodeURIComponent(path.id)}">View path</a>
       </div>
     </article>
   `).join('');
@@ -70,11 +125,11 @@ function renderToolCards() {
     grid.innerHTML = featured.map((tool) => `
       <article class="tool-card">
         <div class="tool-meta">
-          <span class="tool-tag">${tool.badge}</span>
-          <span class="skill-chip">${tool.skill}</span>
+          <span class="tool-tag">${escapeHTML(tool.badge)}</span>
+          <span class="skill-chip">${escapeHTML(tool.skill)}</span>
         </div>
-        <h3>${tool.name}</h3>
-        <p>${tool.description}</p>
+        <h3>${escapeHTML(tool.name)}</h3>
+        <p>${escapeHTML(tool.description)}</p>
         <div class="card-cta">
           <a class="btn btn-secondary" href="./tools.html">Learn more</a>
         </div>
@@ -86,13 +141,13 @@ function renderToolCards() {
     directory.innerHTML = tools.map((tool) => `
       <article class="tool-card">
         <div class="tool-meta">
-          <span class="tool-tag">${tool.badge}</span>
-          <span class="skill-chip">${tool.skill}</span>
+          <span class="tool-tag">${escapeHTML(tool.badge)}</span>
+          <span class="skill-chip">${escapeHTML(tool.skill)}</span>
         </div>
-        <h3>${tool.name}</h3>
-        <p>${tool.description}</p>
+        <h3>${escapeHTML(tool.name)}</h3>
+        <p>${escapeHTML(tool.description)}</p>
         <div class="card-cta">
-          <a class="btn btn-secondary" href="./onboarding.html?goal=${tool.id}">Explore</a>
+          <a class="btn btn-secondary" href="./onboarding.html?goal=${encodeURIComponent(tool.id)}">Explore</a>
         </div>
       </article>
     `).join('');
@@ -109,10 +164,10 @@ function renderStarterPacks() {
       <article class="starter-card">
         <div class="tool-meta">
           <span class="tool-tag">Starter</span>
-          <span class="skill-chip">${pack.level}</span>
+          <span class="skill-chip">${escapeHTML(pack.level)}</span>
         </div>
-        <h3>${pack.title}</h3>
-        <p>${pack.description}</p>
+        <h3>${escapeHTML(pack.title)}</h3>
+        <p>${escapeHTML(pack.description)}</p>
         <div class="card-cta">
           <a class="btn btn-secondary" href="./starter-packs.html">Open pack</a>
         </div>
@@ -125,10 +180,10 @@ function renderStarterPacks() {
       <article class="starter-card">
         <div class="tool-meta">
           <span class="tool-tag">Starter</span>
-          <span class="skill-chip">${pack.level}</span>
+          <span class="skill-chip">${escapeHTML(pack.level)}</span>
         </div>
-        <h3>${pack.title}</h3>
-        <p>${pack.description}</p>
+        <h3>${escapeHTML(pack.title)}</h3>
+        <p>${escapeHTML(pack.description)}</p>
         <div class="card-cta">
           <a class="btn btn-secondary" href="./starter-packs.html">Open pack</a>
         </div>
@@ -144,16 +199,16 @@ function renderPathDirectory() {
   directory.innerHTML = paths.map((path) => `
     <article class="path-card">
       <div class="card-row">
-        <span class="path-badge">${path.badge}</span>
-        <span class="skill-chip">${path.level}</span>
+        <span class="path-badge">${escapeHTML(path.badge)}</span>
+        <span class="skill-chip">${escapeHTML(path.level)}</span>
       </div>
-      <h3>${path.title}</h3>
-      <p>${path.description}</p>
+      <h3>${escapeHTML(path.title)}</h3>
+      <p>${escapeHTML(path.description)}</p>
       <ul class="mini-checklist">
-        ${path.steps.map((step) => `<li>${step}</li>`).join('')}
+        ${path.steps.map((step) => `<li>${escapeHTML(step)}</li>`).join('')}
       </ul>
       <div class="card-cta">
-        <a class="btn btn-secondary" href="./onboarding.html?goal=${path.id}">Take this path</a>
+        <a class="btn btn-secondary" href="./onboarding.html?goal=${encodeURIComponent(path.id)}">Take this path</a>
       </div>
     </article>
   `).join('');
@@ -177,9 +232,9 @@ function renderRecommendation() {
     summary.innerHTML = `
       <article class="result-card">
         <h3>Recommended next step</h3>
-        <p>${selected.summary}</p>
+        <p>${escapeHTML(selected.summary)}</p>
         <ul class="mini-checklist">
-          ${selected.steps.map((step) => `<li>${step}</li>`).join('')}
+          ${selected.steps.map((step) => `<li>${escapeHTML(step)}</li>`).join('')}
         </ul>
       </article>
     `;
@@ -192,11 +247,11 @@ function renderRecommendation() {
     return `
       <article class="result-card">
         <div class="tool-meta">
-          <span class="tool-tag">${tool.badge}</span>
-          <span class="skill-chip">${tool.skill}</span>
+          <span class="tool-tag">${escapeHTML(tool.badge)}</span>
+          <span class="skill-chip">${escapeHTML(tool.skill)}</span>
         </div>
-        <h3>${tool.name}</h3>
-        <p>${tool.description}</p>
+        <h3>${escapeHTML(tool.name)}</h3>
+        <p>${escapeHTML(tool.description)}</p>
       </article>
     `;
   }).join('');
@@ -207,8 +262,8 @@ function renderRecommendation() {
 
     return `
       <article class="result-card">
-        <h3>${pack.title}</h3>
-        <p>${pack.description}</p>
+        <h3>${escapeHTML(pack.title)}</h3>
+        <p>${escapeHTML(pack.description)}</p>
       </article>
     `;
   }).join('');
@@ -225,12 +280,13 @@ function handleOnboardingSubmit() {
     event.preventDefault();
     const formData = new FormData(form);
     const goal = formData.get('goal') || 'learn-ai';
-    window.location.href = `./results.html?goal=${goal}`;
+    window.location.href = `./results.html?goal=${encodeURIComponent(goal)}`;
   });
 }
 
 function initPage() {
   renderGoalCards();
+  renderGoalOptions();
   renderFeatureList();
   renderPathCards();
   renderToolCards();
@@ -251,4 +307,4 @@ function initPage() {
   }
 }
 
-document.addEventListener('DOMContentLoaded', initPage);
+loadContent().then(initPage).catch(showContentLoadError);

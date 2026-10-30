@@ -468,6 +468,16 @@ h3 {
   padding: 30px 0 40px;
 }
 
+.content-error {
+  width: min(1180px, calc(100% - 32px));
+  margin: 16px auto;
+  padding: 14px 18px;
+  border: 1px solid rgba(248, 113, 113, 0.4);
+  border-radius: 12px;
+  background: rgba(248, 113, 113, 0.08);
+  color: #fecaca;
+}
+
 .narrow-section {
   padding-top: 60px;
 }

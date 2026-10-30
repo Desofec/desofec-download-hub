@@ -55,7 +55,7 @@ Planned improvements:
 
 ## Run locally
 
-Open the HTML files directly in a browser, or serve this directory using a simple static server if you want a local preview.
+The pages load the content files with `fetch`, so run the site through an HTTP server rather than opening the HTML files directly.
 
 Example:
 
@@ -64,3 +64,14 @@ python -m http.server 8000
 ```
 
 Then open http://localhost:8000
+
+## Content data
+
+The browser loads the product catalog from JSON files in `data/`:
+- `goals.json` — onboarding goals
+- `tools.json` — recommended tools
+- `paths.json` — learning paths and steps
+- `starter-packs.json` — starter resources
+- `recommendations.json` — goal-to-tools, paths, and packs mapping
+
+Update these files to change product content; `script.js` loads and renders them. The onboarding goal selector is generated from `goals.json`.
