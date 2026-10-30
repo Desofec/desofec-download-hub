@@ -1,0 +1,44 @@
+[
+  {
+    "id": "ai-prompt-pack",
+    "title": "Beginner AI Starter Pack",
+    "description": "Helpful prompts, examples, and quick AI workflow ideas for getting started fast.",
+    "level": "Beginner",
+    "file": "downloads/ai-prompt-pack.md"
+  },
+  {
+    "id": "automation-kit",
+    "title": "No-Code Automation Kit",
+    "description": "Workflow templates and practical steps for saving time and reducing repetitive work.",
+    "level": "Beginner",
+    "file": "downloads/automation-kit.md"
+  },
+  {
+    "id": "website-bundle",
+    "title": "Website Starter Bundle",
+    "description": "A practical toolkit for building and publishing a small online project.",
+    "level": "Beginner",
+    "file": "downloads/website-bundle.md"
+  },
+  {
+    "id": "coding-basics-kit",
+    "title": "Coding Basics Kit",
+    "description": "A starter set of learning tasks, concepts, and mini-project ideas.",
+    "level": "Beginner",
+    "file": "downloads/coding-basics-kit.md"
+  },
+  {
+    "id": "ml-workbook",
+    "title": "ML Foundations Workbook",
+    "description": "A beginner-friendly workbook for ML concepts, data thinking, and small experiments.",
+    "level": "Beginner",
+    "file": "downloads/ml-workbook.md"
+  },
+  {
+    "id": "productivity-boost",
+    "title": "AI Productivity Boost",
+    "description": "Use AI to simplify writing, planning, research, and daily task management.",
+    "level": "Beginner",
+    "file": "downloads/productivity-boost.md"
+  }
+]

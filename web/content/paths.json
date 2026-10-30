@@ -1,0 +1,86 @@
+[
+  {
+    "id": "ai-beginner",
+    "title": "AI for Beginners",
+    "level": "Beginner",
+    "description": "Learn what AI is, how prompts work, and how to use AI in practical day-to-day ways.",
+    "badge": "AI",
+    "steps": [
+      "Learn the core idea of AI",
+      "Understand prompt writing",
+      "Use AI in real tasks",
+      "Build a small workflow"
+    ],
+    "goal": "learn-ai"
+  },
+  {
+    "id": "no-code-automation",
+    "title": "No-Code Automation",
+    "level": "Beginner",
+    "description": "Explore practical automation ideas that save time and reduce repetitive work.",
+    "badge": "Automation",
+    "steps": [
+      "Understand workflows",
+      "Connect simple tools",
+      "Automate a task",
+      "Review results and improve"
+    ],
+    "goal": "automate-work"
+  },
+  {
+    "id": "web-starter",
+    "title": "Website Starter",
+    "level": "Beginner",
+    "description": "Learn the fundamentals of web structure, publishing, and creating a simple online project.",
+    "badge": "Web",
+    "steps": [
+      "Learn web basics",
+      "Design the layout",
+      "Build a simple page",
+      "Publish and share"
+    ],
+    "goal": "build-website"
+  },
+  {
+    "id": "coding-foundations",
+    "title": "Coding Foundations",
+    "level": "Beginner",
+    "description": "Set up your environment, learn core concepts, and build tiny projects with confidence.",
+    "badge": "Code",
+    "steps": [
+      "Learn setup and tools",
+      "Understand basic logic",
+      "Build small scripts",
+      "Practice real examples"
+    ],
+    "goal": "learn-coding"
+  },
+  {
+    "id": "ml-foundations",
+    "title": "ML Foundations",
+    "level": "Beginner",
+    "description": "Understand the key ideas behind ML, data patterns, and small practical experiments.",
+    "badge": "ML",
+    "steps": [
+      "Learn the basics of ML",
+      "Understand data and patterns",
+      "Try a notebook",
+      "Practice with examples"
+    ],
+    "goal": "learn-ml"
+  },
+  {
+    "id": "ai-productivity",
+    "title": "AI Productivity Path",
+    "level": "Beginner",
+    "description": "Use AI to improve writing, planning, research, and everyday productivity tasks.",
+    "badge": "Productivity",
+    "steps": [
+      "Identify useful tasks",
+      "Define a prompt system",
+      "Apply AI routines",
+      "Review and optimize"
+    ],
+    "goal": "ai-productivity"
+  }
+]
