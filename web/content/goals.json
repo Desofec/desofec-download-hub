@@ -1,0 +1,56 @@
+[
+  {
+    "id": "learn-ai",
+    "name": "Learn AI",
+    "description": "Understand AI basics, prompts, and practical workflows that improve everyday work.",
+    "badge": "AI"
+  },
+  {
+    "id": "build-website",
+    "name": "Build a website",
+    "description": "Learn the basics of design and publishing so you can launch a simple online presence.",
+    "badge": "Web"
+  },
+  {
+    "id": "automate-work",
+    "name": "Automate my work",
+    "description": "Use no-code workflows to handle repetitive tasks and save time in your day.",
+    "badge": "Workflow"
+  },
+  {
+    "id": "learn-coding",
+    "name": "Learn coding",
+    "description": "Start with beginner-friendly coding tools and tiny real-world project ideas.",
+    "badge": "Coding"
+  },
+  {
+    "id": "learn-ml",
+    "name": "Learn machine learning",
+    "description": "Understand the foundations of ML, data patterns, and practical experiments.",
+    "badge": "ML"
+  },
+  {
+    "id": "design-cad",
+    "name": "Use CAD and design tools",
+    "description": "Explore beginner-friendly design, 3D, and product design tools for creative work.",
+    "badge": "Design"
+  },
+  {
+    "id": "build-app",
+    "name": "Build an app",
+    "description": "Turn a product idea into a real first step with a simple app-building roadmap.",
+    "badge": "App"
+  },
+  {
+    "id": "no-code",
+    "name": "Use no-code tools",
+    "description": "Build faster with tools that help you automate, organize, and launch without code.",
+    "badge": "No-code"
+  },
+  {
+    "id": "ai-productivity",
+    "name": "Improve AI productivity",
+    "description": "Learn how AI can help with research, writing, planning, and smarter daily tasks.",
+    "badge": "Productivity"
+  }
+]

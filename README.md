@@ -54,6 +54,11 @@ Planned improvements:
 - stronger learning path detail pages
 - real downloadable resources and templates
 
+## Next.js + Supabase version
+
+`web/` contains a Next.js app that renders the same product from Supabase (or the bundled JSON when Supabase is not
+configured). `supabase/` holds the schema and seed. The static site here is unchanged. See `web/README.md`.
+
 ## Run locally
 
 The pages load the content files with `fetch`, so run the site through an HTTP server rather than opening the HTML files directly.
