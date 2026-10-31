@@ -427,6 +427,9 @@ h3 {
 
 .card-cta {
   margin-top: 18px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .onboarding-form {

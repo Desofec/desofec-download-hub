@@ -73,7 +73,12 @@ export async function readAndValidateCatalog(repoDir) {
   const starterIds = assertUniqueIds(catalog.starterPacks, 'starter-packs');
 
   assertFields(catalog.goals, 'goals', ['name', 'description', 'badge']);
-  assertFields(catalog.tools, 'tools', ['name', 'category', 'skill', 'description', 'badge']);
+  assertFields(catalog.tools, 'tools', ['name', 'category', 'skill', 'description', 'badge', 'url']);
+  catalog.tools.forEach((tool, index) => {
+    if (!/^https:\/\/[^\s]+$/.test(tool.url)) {
+      throw new Error(`tools[${index}]: "url" must be an https:// link.`);
+    }
+  });
   assertFields(catalog.paths, 'paths', ['title', 'level', 'description', 'badge', 'goal']);
   assertFields(catalog.starterPacks, 'starter-packs', ['title', 'description', 'level', 'file']);
 

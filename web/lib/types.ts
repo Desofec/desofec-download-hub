@@ -12,6 +12,7 @@ export type Tool = {
   skill: string;
   description: string;
   badge: string;
+  url: string;
 };
 
 export type StarterPack = {
