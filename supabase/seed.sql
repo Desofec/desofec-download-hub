@@ -12,23 +12,23 @@ insert into public.goals (id, name, description, badge, position) values
   ('ai-productivity', 'Improve AI productivity', 'Learn how AI can help with research, writing, planning, and smarter daily tasks.', 'Productivity', 8)
 on conflict (id) do update set name = excluded.name, description = excluded.description, badge = excluded.badge, position = excluded.position;
 
-insert into public.tools (id, name, category, skill, description, badge, position) values
-  ('chatgpt', 'ChatGPT', 'AI', 'Beginner', 'Helpful for prompt writing, brainstorming, research, and learning how AI works in practice.', 'AI', 0),
-  ('claude', 'Claude', 'AI', 'Beginner', 'Good for long-form writing, summarization, and understanding complex ideas more clearly.', 'AI', 1),
-  ('perplexity', 'Perplexity', 'AI', 'Beginner', 'Useful for research, fast answers, and learning across many topics quickly.', 'AI', 2),
-  ('notion-ai', 'Notion AI', 'AI', 'Beginner', 'Great for notes, summaries, planning, and personal productivity work.', 'Productivity', 3),
-  ('vscode', 'VS Code', 'Coding', 'Beginner', 'The most common editor for learning code and building small projects.', 'Code', 4),
-  ('git', 'GitHub', 'Coding', 'Beginner', 'Essential for storing code, tracking progress, and collaborating on projects.', 'Code', 5),
-  ('python', 'Python', 'Coding', 'Beginner', 'A practical language for coding, automation, and data-focused beginner learning.', 'Code', 6),
-  ('figma', 'Figma', 'Design', 'Beginner', 'Great for UI design, mockups, concept exploration, and simple product layout work.', 'Design', 7),
-  ('canva', 'Canva', 'Design', 'Beginner', 'Useful for posters, presentations, simple visuals, and design-learning projects.', 'Design', 8),
-  ('zapier', 'Zapier', 'Automation', 'Beginner', 'Connect apps and automate repetitive tasks without writing code.', 'Automation', 9),
-  ('make', 'Make', 'Automation', 'Beginner', 'A visual builder for connecting tools and simplifying everyday digital workflows.', 'Automation', 10),
-  ('n8n', 'n8n', 'Automation', 'Intermediate', 'A flexible automation platform for more advanced workflows and custom integrations.', 'Automation', 11),
-  ('colab', 'Google Colab', 'ML', 'Beginner', 'An easy environment for notebooks, data analysis, and beginner ML experiments.', 'ML', 12),
-  ('kaggle', 'Kaggle', 'ML', 'Beginner', 'A beginner-friendly place to learn from datasets, notebooks, and real examples.', 'ML', 13),
-  ('fusion-360', 'Fusion 360', 'Design', 'Intermediate', 'Helpful for CAD, product thinking, and 3D modeling for conceptual projects.', 'CAD', 14)
-on conflict (id) do update set name = excluded.name, category = excluded.category, skill = excluded.skill, description = excluded.description, badge = excluded.badge, position = excluded.position;
+insert into public.tools (id, name, category, skill, description, badge, url, position) values
+  ('chatgpt', 'ChatGPT', 'AI', 'Beginner', 'Helpful for prompt writing, brainstorming, research, and learning how AI works in practice.', 'AI', 'https://chatgpt.com', 0),
+  ('claude', 'Claude', 'AI', 'Beginner', 'Good for long-form writing, summarization, and understanding complex ideas more clearly.', 'AI', 'https://claude.ai', 1),
+  ('perplexity', 'Perplexity', 'AI', 'Beginner', 'Useful for research, fast answers, and learning across many topics quickly.', 'AI', 'https://www.perplexity.ai', 2),
+  ('notion-ai', 'Notion AI', 'AI', 'Beginner', 'Great for notes, summaries, planning, and personal productivity work.', 'Productivity', 'https://www.notion.com/product/ai', 3),
+  ('vscode', 'VS Code', 'Coding', 'Beginner', 'The most common editor for learning code and building small projects.', 'Code', 'https://code.visualstudio.com', 4),
+  ('git', 'GitHub', 'Coding', 'Beginner', 'Essential for storing code, tracking progress, and collaborating on projects.', 'Code', 'https://github.com', 5),
+  ('python', 'Python', 'Coding', 'Beginner', 'A practical language for coding, automation, and data-focused beginner learning.', 'Code', 'https://www.python.org', 6),
+  ('figma', 'Figma', 'Design', 'Beginner', 'Great for UI design, mockups, concept exploration, and simple product layout work.', 'Design', 'https://www.figma.com', 7),
+  ('canva', 'Canva', 'Design', 'Beginner', 'Useful for posters, presentations, simple visuals, and design-learning projects.', 'Design', 'https://www.canva.com', 8),
+  ('zapier', 'Zapier', 'Automation', 'Beginner', 'Connect apps and automate repetitive tasks without writing code.', 'Automation', 'https://zapier.com', 9),
+  ('make', 'Make', 'Automation', 'Beginner', 'A visual builder for connecting tools and simplifying everyday digital workflows.', 'Automation', 'https://www.make.com', 10),
+  ('n8n', 'n8n', 'Automation', 'Intermediate', 'A flexible automation platform for more advanced workflows and custom integrations.', 'Automation', 'https://n8n.io', 11),
+  ('colab', 'Google Colab', 'ML', 'Beginner', 'An easy environment for notebooks, data analysis, and beginner ML experiments.', 'ML', 'https://colab.research.google.com', 12),
+  ('kaggle', 'Kaggle', 'ML', 'Beginner', 'A beginner-friendly place to learn from datasets, notebooks, and real examples.', 'ML', 'https://www.kaggle.com', 13),
+  ('fusion-360', 'Fusion 360', 'Design', 'Intermediate', 'Helpful for CAD, product thinking, and 3D modeling for conceptual projects.', 'CAD', 'https://www.autodesk.com/products/fusion-360/overview', 14)
+on conflict (id) do update set name = excluded.name, category = excluded.category, skill = excluded.skill, description = excluded.description, badge = excluded.badge, url = excluded.url, position = excluded.position;
 
 insert into public.starter_packs (id, title, description, level, file_path, position) values
   ('ai-prompt-pack', 'Beginner AI Starter Pack', 'Helpful prompts, examples, and quick AI workflow ideas for getting started fast.', 'Beginner', 'downloads/ai-prompt-pack.md', 0),

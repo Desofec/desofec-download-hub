@@ -4,6 +4,7 @@ import goals from '@/content/goals.json';
 import tools from '@/content/tools.json';
 import paths from '@/content/paths.json';
 import starterPacks from '@/content/starter-packs.json';
+import starterPackChecklists from '@/content/starter-pack-checklists.json';
 import recommendations from '@/content/recommendations.json';
 import type { Catalog } from './types';
 
@@ -17,7 +18,8 @@ export function loadBundledCatalog(): Catalog {
     tools,
     paths,
     starterPacks,
-    recommendations
+    recommendations,
+    starterPackChecklists
   } as Catalog;
 }
 
@@ -37,7 +39,7 @@ export async function loadSupabaseCatalog(): Promise<Catalog> {
 
   const [goalRows, toolRows, packRows, pathRows, recRows, recToolRows, recStarterRows] = await Promise.all([
     client.from('goals').select('id, name, description, badge').order('position'),
-    client.from('tools').select('id, name, category, skill, description, badge').order('position'),
+    client.from('tools').select('id, name, category, skill, description, badge, url').order('position'),
     client.from('starter_packs').select('id, title, description, level, file_path').order('position'),
     client.from('paths').select('id, title, level, description, badge, goal_id, steps').order('position'),
     client.from('recommendations').select('goal_id, title, summary, steps'),
@@ -75,6 +77,7 @@ export async function loadSupabaseCatalog(): Promise<Catalog> {
       goal: row.goal_id,
       steps: row.steps
     })),
-    recommendations: recMap
+    recommendations: recMap,
+    starterPackChecklists
   };
 }

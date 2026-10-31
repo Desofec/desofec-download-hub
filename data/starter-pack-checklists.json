@@ -1,0 +1,51 @@
+{
+  "ai-prompt-pack": [
+    "Choose one small task you do every week.",
+    "Pick a prompt template and replace the bracketed details with your own.",
+    "Try the prompt with an AI tool; do not include passwords or private information.",
+    "Ask for one change, such as a shorter or clearer answer, and check the final result.",
+    "Save the prompt that worked best so you can reuse it."
+  ],
+  "automation-kit": [
+    "List a few tasks you repeat every week.",
+    "Choose one task that is frequent and frustrating.",
+    "Write down its trigger, action, and desired result.",
+    "Build the workflow one step at a time and test each step.",
+    "Run a complete test with sample information before turning it on.",
+    "Add a failure notification and review the run history after the first day."
+  ],
+  "coding-basics-kit": [
+    "Choose a beginner-friendly coding tool and create a small practice project.",
+    "Create a variable and print its value.",
+    "Write an if/else condition and try it with different values.",
+    "Use a loop to process a short list of values.",
+    "Write a function that takes input and returns a result.",
+    "Complete one practice task from the Coding Basics Kit.",
+    "Build a tiny project, run it yourself, and explain what each part does."
+  ],
+  "ml-workbook": [
+    "Choose a beginner dataset, such as Iris or Titanic, and note where it came from.",
+    "Write down the question you want your model to answer.",
+    "Identify the features and the label, and check for missing or duplicated data.",
+    "Create a simple baseline prediction to compare against.",
+    "Train a simple model and evaluate it on data it did not train on.",
+    "Inspect several incorrect predictions and note any patterns.",
+    "Record the model, score, and what you learned; consider what could go wrong if it is inaccurate."
+  ],
+  "productivity-boost": [
+    "Choose one real task you need to finish today.",
+    "Give an AI tool the relevant context and ask it to organize or draft the work.",
+    "Review the result, correct errors, and remove anything private or confidential.",
+    "Use the reviewed result to complete your task.",
+    "Save any prompt that helped, and note one improvement for next time."
+  ],
+  "website-bundle": [
+    "Write one sentence describing your website's purpose and audience.",
+    "Sketch a simple plan for the Home, About, content, and Contact pages.",
+    "Create a project with an HTML file, stylesheet, and script file.",
+    "Build a clear headline and one main action for visitors.",
+    "Add a descriptive page title, image alt text, and a way to contact you.",
+    "Check the site on a narrow/mobile-sized screen and test every link.",
+    "Publish the site, open the live URL, and ask one person what was confusing."
+  ]
+}

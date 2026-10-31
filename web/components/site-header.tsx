@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useState } from 'react';
 
 const links = [
   { href: '/', label: 'Home' },
@@ -18,6 +19,7 @@ function isActive(pathname: string, href: string, match?: string[]) {
 
 export function SiteHeader() {
   const pathname = usePathname();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <header className="site-header">
@@ -26,18 +28,38 @@ export function SiteHeader() {
           <span className="brand-mark">D</span>
           <span className="brand-text">Desofec AI Studio</span>
         </Link>
-        <nav className="main-nav" aria-label="Main navigation">
+        <button
+          className="menu-toggle"
+          type="button"
+          aria-expanded={menuOpen}
+          aria-controls="primary-navigation"
+          aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+          onClick={() => setMenuOpen((open) => !open)}
+        >
+          <span />
+          <span />
+          <span />
+        </button>
+        <nav
+          className={`main-nav${menuOpen ? ' is-open' : ''}`}
+          id="primary-navigation"
+          aria-label="Main navigation"
+        >
           {links.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               aria-current={isActive(pathname, link.href, link.match) ? 'page' : undefined}
+              onClick={() => setMenuOpen(false)}
             >
               {link.label}
             </Link>
           ))}
+          <Link className="btn btn-primary mobile-nav-cta" href="/onboarding" onClick={() => setMenuOpen(false)}>
+            Start my path
+          </Link>
         </nav>
-        <Link className="btn btn-primary" href="/onboarding">
+        <Link className="btn btn-primary desktop-nav-cta" href="/onboarding">
           Start my path
         </Link>
       </div>

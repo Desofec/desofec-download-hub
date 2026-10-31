@@ -427,6 +427,9 @@ h3 {
 
 .card-cta {
   margin-top: 18px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .onboarding-form {
@@ -462,6 +465,123 @@ h3 {
 
 .block-btn {
   width: 100%;
+}
+
+.narrow-container {
+  max-width: 860px;
+}
+
+.checklist-heading {
+  margin-top: 40px;
+}
+
+.pack-checklist {
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: var(--surface);
+}
+
+.checklist-progress {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.checklist-progress p,
+.checklist-footer p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.checklist-progress progress {
+  width: 100%;
+  height: 10px;
+  accent-color: var(--primary-strong);
+}
+
+.checklist-steps {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: checklist-step;
+}
+
+.checklist-steps li {
+  counter-increment: checklist-step;
+}
+
+.checklist-steps label {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(8, 15, 24, 0.55);
+  cursor: pointer;
+}
+
+.checklist-steps label::before {
+  content: counter(checklist-step);
+  display: grid;
+  flex: 0 0 28px;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(125, 211, 252, 0.12);
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.checklist-steps input {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  margin: 5px 0 0;
+  accent-color: var(--primary-strong);
+}
+
+.checklist-steps input:checked + span {
+  color: var(--muted);
+  text-decoration: line-through;
+}
+
+.checklist-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.form-message {
+  min-height: 1.4em;
+  margin: 8px 0 0;
+  color: var(--muted, #9fb0c3);
+}
+
+.form-message[data-status="success"] {
+  color: #86efac;
+}
+
+.form-message[data-status="error"] {
+  color: #fca5a5;
 }
 
 .page-shell {
@@ -699,3 +819,136 @@ h3 {
 .step-check { display: flex; align-items: center; gap: .5rem; margin-top: .75rem; cursor: pointer; }
 .step-done { opacity: .7; }
 .step-done h3 { text-decoration: line-through; }
+
+.menu-toggle,
+.mobile-nav-cta {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .nav-row {
+    position: relative;
+    min-height: 64px;
+  }
+
+  .brand {
+    gap: 9px;
+    min-width: 0;
+  }
+
+  .brand-text {
+    font-size: 0.92rem;
+  }
+
+  .menu-toggle {
+    display: grid;
+    gap: 5px;
+    place-content: center;
+    width: 42px;
+    height: 42px;
+    padding: 9px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: rgba(148, 163, 184, 0.06);
+    color: var(--text);
+  }
+
+  .menu-toggle span {
+    width: 20px;
+    height: 2px;
+    border-radius: 2px;
+    background: currentColor;
+  }
+
+  .desktop-nav-cta {
+    display: none;
+  }
+
+  .main-nav {
+    display: none;
+    position: absolute;
+    top: calc(100% + 1px);
+    right: -16px;
+    left: -16px;
+    align-items: stretch;
+    gap: 0;
+    padding: 8px 16px 16px;
+    border-bottom: 1px solid var(--line);
+    background: rgba(4, 10, 18, 0.98);
+    box-shadow: var(--shadow);
+  }
+
+  .main-nav.is-open {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .main-nav a:not(.btn) {
+    padding: 12px 4px;
+  }
+
+  .main-nav a[aria-current="page"] {
+    border-bottom: 0;
+    color: var(--primary);
+  }
+
+  .mobile-nav-cta {
+    display: inline-flex;
+    margin-top: 8px;
+  }
+
+  .container,
+  .small-container {
+    width: min(100% - 28px, 1180px);
+  }
+
+  .hero {
+    padding: 36px 0 24px;
+  }
+
+  .hero-copy h1 {
+    font-size: clamp(2.35rem, 11vw, 3.2rem);
+  }
+
+  .section {
+    padding: 36px 0;
+  }
+
+  .feature-panel,
+  .onboarding-form {
+    padding: 18px 16px;
+  }
+
+  .goal-card,
+  .tool-card,
+  .path-card,
+  .starter-card,
+  .result-card {
+    padding: 18px 16px;
+  }
+
+  .split-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .cta-row .btn {
+    flex: 1 1 145px;
+  }
+}
+
+@media (max-width: 420px) {
+  .mini-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .mini-stats li:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .tool-meta,
+  .card-row {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

@@ -376,7 +376,24 @@ function renderStats() {
   });
 }
 
+function markActiveNav() {
+  const sections = {
+    home: 'index.html',
+    onboarding: 'onboarding.html',
+    results: 'onboarding.html',
+    tools: 'tools.html',
+    paths: 'paths.html',
+    'path-detail': 'paths.html',
+    'starter-packs': 'starter-packs.html'
+  };
+  const target = sections[document.body.dataset.page];
+  document.querySelectorAll('.main-nav a').forEach((link) => {
+    if (link.getAttribute('href') === `./${target}`) link.setAttribute('aria-current', 'page');
+  });
+}
+
 function initPage() {
+  markActiveNav();
   renderStats();
   renderGoalCards();
   renderGoalOptions();

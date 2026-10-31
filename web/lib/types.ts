@@ -12,6 +12,7 @@ export type Tool = {
   skill: string;
   description: string;
   badge: string;
+  url: string;
 };
 
 export type StarterPack = {
@@ -46,4 +47,5 @@ export type Catalog = {
   paths: LearningPath[];
   starterPacks: StarterPack[];
   recommendations: Record<string, Recommendation>;
+  starterPackChecklists: Record<string, string[]>;
 };

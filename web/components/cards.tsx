@@ -26,13 +26,25 @@ export function ToolCard({ tool, cta = 'find' }: { tool: Tool; cta?: 'find' | 'n
       </div>
       <h3>{tool.name}</h3>
       <p>{tool.description}</p>
-      {cta === 'find' && (
-        <div className="card-cta">
+      <div className="card-cta">
+        <a
+          className="btn btn-primary"
+          href={tool.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`Open ${tool.name} (opens in a new tab)`}
+        >
+          Open tool
+        </a>
+        <Link className="btn btn-secondary" href={`/tools/${encodeURIComponent(tool.id)}`}>
+          Details
+        </Link>
+        {cta === 'find' && (
           <Link className="btn btn-secondary" href="/onboarding">
             Find my path
           </Link>
-        </div>
-      )}
+        )}
+      </div>
     </article>
   );
 }
@@ -72,6 +84,9 @@ export function PackCard({ pack }: { pack: StarterPack }) {
       <h3>{pack.title}</h3>
       <p>{pack.description}</p>
       <div className="card-cta">
+        <Link className="btn btn-secondary" href={`/starter-packs/${encodeURIComponent(pack.id)}`}>
+          View checklist
+        </Link>
         <a className="btn btn-secondary" href={downloadUrl(pack.file)} download>
           Download pack
         </a>

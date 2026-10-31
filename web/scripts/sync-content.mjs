@@ -1,18 +1,15 @@
 // Syncs the static site's catalog (../data, ../downloads) into the Next.js app
 // and regenerates the Supabase seed. Run: npm run sync-content
-import { cp, mkdir, readFile, writeFile } from 'node:fs/promises';
+import { cp, mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { readAndValidateCatalog } from './content-catalog.mjs';
 
 const webDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const repoDir = path.resolve(webDir, '..');
 const dataDir = path.join(repoDir, 'data');
-
-const files = ['goals', 'tools', 'paths', 'starter-packs', 'recommendations'];
-const content = {};
-for (const name of files) {
-  content[name] = JSON.parse(await readFile(path.join(dataDir, `${name}.json`), 'utf8'));
-}
+const content = await readAndValidateCatalog(repoDir);
+const files = ['goals', 'tools', 'paths', 'starter-packs', 'recommendations', 'starter-pack-checklists'];
 
 await mkdir(path.join(webDir, 'content'), { recursive: true });
 for (const name of files) {
@@ -31,7 +28,7 @@ const insert = (table, columns, rows, conflict) =>
     .join(', ')};\n`;
 
 const { goals, tools, paths, recommendations } = content;
-const packs = content['starter-packs'];
+const packs = content.starterPacks;
 const recEntries = Object.entries(recommendations);
 
 const sections = [
@@ -39,8 +36,8 @@ const sections = [
   'begin;',
   insert('goals', ['id', 'name', 'description', 'badge', 'position'],
     goals.map((g, i) => [q(g.id), q(g.name), q(g.description), q(g.badge), i]), 'id'),
-  insert('tools', ['id', 'name', 'category', 'skill', 'description', 'badge', 'position'],
-    tools.map((t, i) => [q(t.id), q(t.name), q(t.category), q(t.skill), q(t.description), q(t.badge), i]), 'id'),
+  insert('tools', ['id', 'name', 'category', 'skill', 'description', 'badge', 'url', 'position'],
+    tools.map((t, i) => [q(t.id), q(t.name), q(t.category), q(t.skill), q(t.description), q(t.badge), q(t.url), i]), 'id'),
   insert('starter_packs', ['id', 'title', 'description', 'level', 'file_path', 'position'],
     packs.map((p, i) => [q(p.id), q(p.title), q(p.description), q(p.level), q(p.file), i]), 'id'),
   insert('paths', ['id', 'title', 'level', 'description', 'badge', 'goal_id', 'steps', 'position'],
