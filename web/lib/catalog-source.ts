@@ -4,6 +4,7 @@ import goals from '@/content/goals.json';
 import tools from '@/content/tools.json';
 import paths from '@/content/paths.json';
 import starterPacks from '@/content/starter-packs.json';
+import starterPackChecklists from '@/content/starter-pack-checklists.json';
 import recommendations from '@/content/recommendations.json';
 import type { Catalog } from './types';
 
@@ -17,7 +18,8 @@ export function loadBundledCatalog(): Catalog {
     tools,
     paths,
     starterPacks,
-    recommendations
+    recommendations,
+    starterPackChecklists
   } as Catalog;
 }
 
@@ -75,6 +77,7 @@ export async function loadSupabaseCatalog(): Promise<Catalog> {
       goal: row.goal_id,
       steps: row.steps
     })),
-    recommendations: recMap
+    recommendations: recMap,
+    starterPackChecklists
   };
 }

@@ -6,7 +6,8 @@ const catalogFiles = {
   tools: 'tools.json',
   paths: 'paths.json',
   starterPacks: 'starter-packs.json',
-  recommendations: 'recommendations.json'
+  recommendations: 'recommendations.json',
+  starterPackChecklists: 'starter-pack-checklists.json'
 };
 
 function assertString(value, field, context) {
@@ -71,6 +72,15 @@ export async function readAndValidateCatalog(repoDir) {
   const toolIds = assertUniqueIds(catalog.tools, 'tools');
   assertUniqueIds(catalog.paths, 'paths');
   const starterIds = assertUniqueIds(catalog.starterPacks, 'starter-packs');
+  for (const [packId, steps] of Object.entries(catalog.starterPackChecklists)) {
+    if (!starterIds.has(packId)) throw new Error(`starter-pack-checklists: unknown starter pack "${packId}".`);
+    assertStringArray(steps, packId);
+  }
+  for (const packId of starterIds) {
+    if (!Object.hasOwn(catalog.starterPackChecklists, packId)) {
+      throw new Error(`starter-pack-checklists: missing checklist for "${packId}".`);
+    }
+  }
 
   assertFields(catalog.goals, 'goals', ['name', 'description', 'badge']);
   assertFields(catalog.tools, 'tools', ['name', 'category', 'skill', 'description', 'badge', 'url']);
