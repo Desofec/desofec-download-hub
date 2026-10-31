@@ -1,6 +1,7 @@
 [
   {
     "id": "chatgpt",
+    "url": "https://chatgpt.com",
     "name": "ChatGPT",
     "category": "AI",
     "skill": "Beginner",
@@ -9,6 +10,7 @@
   },
   {
     "id": "claude",
+    "url": "https://claude.ai",
     "name": "Claude",
     "category": "AI",
     "skill": "Beginner",
@@ -17,6 +19,7 @@
   },
   {
     "id": "perplexity",
+    "url": "https://www.perplexity.ai",
     "name": "Perplexity",
     "category": "AI",
     "skill": "Beginner",
@@ -25,6 +28,7 @@
   },
   {
     "id": "notion-ai",
+    "url": "https://www.notion.com/product/ai",
     "name": "Notion AI",
     "category": "AI",
     "skill": "Beginner",
@@ -33,6 +37,7 @@
   },
   {
     "id": "vscode",
+    "url": "https://code.visualstudio.com",
     "name": "VS Code",
     "category": "Coding",
     "skill": "Beginner",
@@ -41,6 +46,7 @@
   },
   {
     "id": "git",
+    "url": "https://github.com",
     "name": "GitHub",
     "category": "Coding",
     "skill": "Beginner",
@@ -49,6 +55,7 @@
   },
   {
     "id": "python",
+    "url": "https://www.python.org",
     "name": "Python",
     "category": "Coding",
     "skill": "Beginner",
@@ -57,6 +64,7 @@
   },
   {
     "id": "figma",
+    "url": "https://www.figma.com",
     "name": "Figma",
     "category": "Design",
     "skill": "Beginner",
@@ -65,6 +73,7 @@
   },
   {
     "id": "canva",
+    "url": "https://www.canva.com",
     "name": "Canva",
     "category": "Design",
     "skill": "Beginner",
@@ -73,6 +82,7 @@
   },
   {
     "id": "zapier",
+    "url": "https://zapier.com",
     "name": "Zapier",
     "category": "Automation",
     "skill": "Beginner",
@@ -81,6 +91,7 @@
   },
   {
     "id": "make",
+    "url": "https://www.make.com",
     "name": "Make",
     "category": "Automation",
     "skill": "Beginner",
@@ -89,6 +100,7 @@
   },
   {
     "id": "n8n",
+    "url": "https://n8n.io",
     "name": "n8n",
     "category": "Automation",
     "skill": "Intermediate",
@@ -97,6 +109,7 @@
   },
   {
     "id": "colab",
+    "url": "https://colab.research.google.com",
     "name": "Google Colab",
     "category": "ML",
     "skill": "Beginner",
@@ -105,6 +118,7 @@
   },
   {
     "id": "kaggle",
+    "url": "https://www.kaggle.com",
     "name": "Kaggle",
     "category": "ML",
     "skill": "Beginner",
@@ -113,6 +127,7 @@
   },
   {
     "id": "fusion-360",
+    "url": "https://www.autodesk.com/products/fusion-360/overview",
     "name": "Fusion 360",
     "category": "Design",
     "skill": "Intermediate",

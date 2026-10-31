@@ -26,13 +26,22 @@ export function ToolCard({ tool, cta = 'find' }: { tool: Tool; cta?: 'find' | 'n
       </div>
       <h3>{tool.name}</h3>
       <p>{tool.description}</p>
-      {cta === 'find' && (
-        <div className="card-cta">
+      <div className="card-cta">
+        <a
+          className="btn btn-primary"
+          href={tool.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`Open ${tool.name} (opens in a new tab)`}
+        >
+          Open tool
+        </a>
+        {cta === 'find' && (
           <Link className="btn btn-secondary" href="/onboarding">
             Find my path
           </Link>
-        </div>
-      )}
+        )}
+      </div>
     </article>
   );
 }
