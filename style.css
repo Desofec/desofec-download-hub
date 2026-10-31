@@ -109,8 +109,14 @@ button {
 }
 
 .main-nav a:hover,
+.main-nav a[aria-current="page"],
 .text-link:hover {
   color: var(--text);
+}
+
+.main-nav a[aria-current="page"] {
+  font-weight: 600;
+  border-bottom: 2px solid var(--primary);
 }
 
 .text-link {
@@ -642,4 +648,9 @@ h3 {
 
 .page-shell .section-head h2 {
   margin-top: 28px;
+}
+
+#path-detail-meta {
+  justify-content: flex-start;
+  gap: 10px;
 }
