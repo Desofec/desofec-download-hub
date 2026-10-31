@@ -1,8 +1,11 @@
-name: Deploy static site to GitHub Pages
+name: Deploy legacy redirect to GitHub Pages
 
 on:
   push:
     branches: ["main"]
+    paths:
+      - "legacy-redirect/**"
+      - ".github/workflows/jekyll-gh-pages.yml"
   workflow_dispatch:
 
 permissions:
@@ -30,7 +33,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: legacy-redirect
 
       - name: Deploy to GitHub Pages
         id: deployment

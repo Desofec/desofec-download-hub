@@ -4,7 +4,8 @@ Next.js (App Router, Cache Components) version of Desofec AI Studio. It reads th
 paths, starter packs, recommendations) from Supabase when configured, and falls back to the bundled JSON in
 `content/` otherwise, so it runs with no backend.
 
-The static GitHub Pages site in the repository root is unchanged and keeps deploying as before.
+The original static site files in the repository root are no longer deployed. GitHub Pages now publishes only
+`legacy-redirect/`, which sends visitors of the old `github.io` address to https://www.desofec.com.
 
 ## Run locally
 
