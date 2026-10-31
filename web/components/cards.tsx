@@ -81,6 +81,9 @@ export function PackCard({ pack }: { pack: StarterPack }) {
       <h3>{pack.title}</h3>
       <p>{pack.description}</p>
       <div className="card-cta">
+        <Link className="btn btn-secondary" href={`/starter-packs/${encodeURIComponent(pack.id)}`}>
+          View checklist
+        </Link>
         <a className="btn btn-secondary" href={downloadUrl(pack.file)} download>
           Download pack
         </a>

@@ -9,7 +9,7 @@ const webDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const repoDir = path.resolve(webDir, '..');
 const dataDir = path.join(repoDir, 'data');
 const content = await readAndValidateCatalog(repoDir);
-const files = ['goals', 'tools', 'paths', 'starter-packs', 'recommendations'];
+const files = ['goals', 'tools', 'paths', 'starter-packs', 'recommendations', 'starter-pack-checklists'];
 
 await mkdir(path.join(webDir, 'content'), { recursive: true });
 for (const name of files) {

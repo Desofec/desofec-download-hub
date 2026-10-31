@@ -47,4 +47,5 @@ export type Catalog = {
   paths: LearningPath[];
   starterPacks: StarterPack[];
   recommendations: Record<string, Recommendation>;
+  starterPackChecklists: Record<string, string[]>;
 };

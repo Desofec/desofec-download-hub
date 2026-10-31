@@ -43,3 +43,14 @@ test('rejects unknown recommendation references', async () => {
     await assert.rejects(readAndValidateCatalog(tempDir), /unknown reference "missing-tool"/);
   });
 });
+
+test('rejects missing starter pack checklists', async () => {
+  await withCatalog(async (tempDir) => {
+    const checklistPath = path.join(tempDir, 'data', 'starter-pack-checklists.json');
+    const checklists = JSON.parse(await readFile(checklistPath, 'utf8'));
+    delete checklists['ai-prompt-pack'];
+    await writeFile(checklistPath, JSON.stringify(checklists));
+
+    await assert.rejects(readAndValidateCatalog(tempDir), /missing checklist for "ai-prompt-pack"/);
+  });
+});

@@ -32,9 +32,9 @@ and starter pack downloads; the offline page appears when a page has not been ca
    NEXT_PUBLIC_SUPABASE_ANON_KEY=...
    ```
 
-All tables have row level security enabled with public read-only policies. Only the anon key is used; writes need
-the service role and are intentionally not done from the app. Catalog reads are cached for an hour
-(`lib/catalog.ts`).
+Catalog tables have row level security enabled with public read-only policies. The `subscribers` table permits
+public inserts only and does not expose signup emails for reading. Only the anon key is used in the app.
+Catalog reads are cached for an hour (`lib/catalog.ts`).
 
 ## Update the catalog
 
@@ -45,21 +45,22 @@ npm run validate-content
 npm run sync-content
 ```
 
-Validation checks required fields, unique IDs, cross-references, and downloadable files. Sync runs the same
-checks before copying the files into `content/` and `public/downloads/` and regenerating `../supabase/seed.sql`.
-Commit the results, then re-run the seed in Supabase.
+Validation checks required fields, unique IDs, cross-references, starter-pack checklists, and downloadable files.
+Sync runs the same checks before copying the files into `content/` and `public/downloads/` and regenerating
+`../supabase/seed.sql`. Commit the results, then re-run the seed in Supabase when catalog data changes.
 
 ## Structure
 
-- `app/` — routes: `/`, `/onboarding`, `/results/[goal]`, `/tools`, `/paths`, `/paths/[id]`, `/starter-packs`
+- `app/` — routes: `/`, `/onboarding`, `/results/[goal]`, `/tools`, `/paths`, `/paths/[id]`, `/starter-packs`,
+  `/starter-packs/[id]`
 - `components/` — shared cards, header, onboarding form, tools search/filter
 - `lib/catalog.ts` — cached `getCatalog()`; `lib/catalog-source.ts` — Supabase and bundled loaders
 - `scripts/sync-content.mjs` — content sync and seed generation
+- `data/starter-pack-checklists.json` — checklist steps shown on starter-pack detail pages; browser progress is
+  saved locally and does not require a Supabase migration
 
 ## Known limitations
 
 - Unknown `/results/[goal]` and `/paths/[id]` URLs show the 404 page but return HTTP 200 (documented behavior with
   Cache Components, where streaming starts before `notFound()` runs). The pages are marked `noindex`.
-- The newsletter form from the static site is not ported because there is no backend to store emails yet.
-
 On iPhone/iPad, use Safari's **Share → Add to Home Screen**. PWA installation and service workers require HTTPS (Vercel provides it; localhost is also treated as secure during development).
