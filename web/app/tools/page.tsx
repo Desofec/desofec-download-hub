@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { Suspense } from 'react';
 import { ToolsExplorer } from '@/components/tools-explorer';
 import { getCatalog } from '@/lib/catalog';
 
@@ -19,7 +20,9 @@ export default async function ToolsPage() {
             <h1>Beginner-friendly tools</h1>
           </div>
         </div>
-        <ToolsExplorer tools={tools} />
+        <Suspense fallback={null}>
+          <ToolsExplorer tools={tools} />
+        </Suspense>
       </div>
     </section>
   );

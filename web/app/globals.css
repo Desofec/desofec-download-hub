@@ -818,6 +818,28 @@ h3 {
   gap: 8px;
 }
 
+.filter-group {
+  display: grid;
+  gap: 8px;
+}
+
+.filter-label {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.filter-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.filter-summary p {
+  margin: 0;
+  color: var(--muted);
+}
+
 .chip {
   border: 1px solid var(--line);
   border-radius: 999px;
