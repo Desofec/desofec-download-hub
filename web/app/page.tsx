@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { GoalCard, PackCard, PathCard, ToolCard } from '@/components/cards';
+import { NewsletterForm } from '@/components/newsletter-form';
 import { getCatalog } from '@/lib/catalog';
 
 const steps = [
@@ -159,6 +160,17 @@ export default async function HomePage() {
               <PackCard key={pack.id} pack={pack} />
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="newsletter">
+        <div className="container newsletter-row">
+          <div>
+            <span className="eyebrow">Stay in the loop</span>
+            <h2>Get new tools and paths first</h2>
+            <p>Join the list for new beginner-friendly tools, learning paths, and starter packs.</p>
+          </div>
+          <NewsletterForm />
         </div>
       </section>
     </>
