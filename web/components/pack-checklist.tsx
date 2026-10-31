@@ -82,7 +82,8 @@ export function PackChecklist({ packId, steps }: { packId: string; steps: string
                 checked={checked[index]}
                 onChange={(event) => toggleStep(index, event.target.checked)}
               />
-              <span>{step}</span>
+              <span className="step-marker" aria-hidden="true" />
+              <span className="step-text">{step}</span>
             </label>
           </li>
         ))}

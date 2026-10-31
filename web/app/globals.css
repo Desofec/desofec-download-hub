@@ -514,38 +514,70 @@ h3 {
 }
 
 .checklist-steps label {
+  position: relative;
   display: flex;
   align-items: flex-start;
-  gap: 12px;
-  padding: 14px;
+  gap: 14px;
+  padding: 16px;
   border: 1px solid var(--line);
   border-radius: 14px;
   background: rgba(8, 15, 24, 0.55);
   cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
 }
 
-.checklist-steps label::before {
-  content: counter(checklist-step);
+.checklist-steps label:hover {
+  border-color: rgba(125, 211, 252, 0.45);
+}
+
+.checklist-steps label:has(input:checked) {
+  border-color: rgba(110, 231, 183, 0.5);
+  background: rgba(110, 231, 183, 0.08);
+}
+
+.checklist-steps label:has(input:focus-visible) {
+  outline: 2px solid var(--primary-strong);
+  outline-offset: 2px;
+}
+
+.checklist-steps input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.step-marker {
   display: grid;
-  flex: 0 0 28px;
-  width: 28px;
-  height: 28px;
+  flex: 0 0 32px;
+  width: 32px;
+  height: 32px;
   place-items: center;
+  border: 2px solid var(--primary);
   border-radius: 50%;
-  background: rgba(125, 211, 252, 0.12);
   color: var(--primary);
   font-weight: 700;
 }
 
-.checklist-steps input {
-  flex: 0 0 auto;
-  width: 18px;
-  height: 18px;
-  margin: 5px 0 0;
-  accent-color: var(--primary-strong);
+.step-marker::before {
+  content: counter(checklist-step);
 }
 
-.checklist-steps input:checked + span {
+.checklist-steps input:checked + .step-marker {
+  border-color: var(--green);
+  background: var(--green);
+  color: #052e1b;
+}
+
+.checklist-steps input:checked + .step-marker::before {
+  content: "\2713";
+}
+
+.step-text {
+  padding-top: 4px;
+  line-height: 1.5;
+}
+
+.checklist-steps input:checked ~ .step-text {
   color: var(--muted);
   text-decoration: line-through;
 }
