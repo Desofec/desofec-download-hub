@@ -36,6 +36,9 @@ export function ToolCard({ tool, cta = 'find' }: { tool: Tool; cta?: 'find' | 'n
         >
           Open tool
         </a>
+        <Link className="btn btn-secondary" href={`/tools/${encodeURIComponent(tool.id)}`}>
+          Details
+        </Link>
         {cta === 'find' && (
           <Link className="btn btn-secondary" href="/onboarding">
             Find my path
