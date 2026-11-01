@@ -1,0 +1,32 @@
+export type GoalMatch = { goalId: string; score: number };
+
+// Keywords per goal in English, French, German and Spanish. Matching is local and needs no AI service.
+const keywords: Record<string, string[]> = {
+  'learn-ai': ['ai', 'artificial intelligence', 'chatgpt', 'prompt', 'assistant', 'ia', 'intelligence artificielle', 'ki', 'künstliche', 'inteligencia artificial'],
+  'build-website': ['website', 'web site', 'web page', 'webpage', 'landing', 'portfolio', 'blog', 'site web', 'site internet', 'webseite', 'homepage', 'sitio web', 'página web'],
+  'automate-work': ['automate', 'automation', 'workflow', 'repetitive', 'zapier', 'save time', 'automatiser', 'automatisation', 'automatisieren', 'automatización', 'automatizar'],
+  'learn-coding': ['code', 'coding', 'program', 'python', 'developer', 'learn to code', 'programmer', 'coder', 'programmieren', 'programar', 'programación'],
+  'learn-ml': ['machine learning', 'ml', 'data science', 'model', 'dataset', 'neural', 'apprentissage automatique', 'maschinelles lernen', 'aprendizaje automático'],
+  'design-cad': ['cad', 'design', '3d', 'prototype', 'print', 'product', 'simulation', 'logo', 'poster', 'prototype 3d', 'diseño', 'conception', 'konstruktion'],
+  'build-app': ['app', 'application', 'mobile', 'software', 'tool', 'startup', 'saas', 'game', 'aplicación', 'anwendung', 'jeu', 'spiel', 'juego'],
+  'no-code': ['no code', 'no-code', 'nocode', 'without coding', 'without code', 'database', 'airtable', 'form', 'sans code', 'ohne code', 'sin código', 'sin programar'],
+  'ai-productivity': ['productivity', 'productive', 'email', 'summarize', 'plan my', 'research', 'notes', 'productivité', 'produktivität', 'productividad', 'organize']
+};
+
+function normalize(text: string) {
+  return ` ${text.toLowerCase().replace(/[^\p{L}\p{N}\s-]/gu, ' ').replace(/\s+/g, ' ')} `;
+}
+
+export function matchGoals(idea: string, limit = 3): GoalMatch[] {
+  const text = normalize(idea);
+  if (text.trim().length < 3) return [];
+
+  return Object.entries(keywords)
+    .map(([goalId, words]) => ({
+      goalId,
+      score: words.reduce((total, word) => (text.includes(` ${word} `) || (word.length > 4 && text.includes(word)) ? total + 1 : total), 0)
+    }))
+    .filter((entry) => entry.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, limit);
+}

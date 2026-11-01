@@ -3,6 +3,7 @@ import { Suspense } from 'react';
 import { AuthProvider } from '@/components/auth-provider';
 import { FavoritesSync } from '@/components/favorites-sync';
 import { PwaControls } from '@/components/pwa-controls';
+import { SiteFooter } from '@/components/site-footer';
 import { SiteHeader } from '@/components/site-header';
 import './globals.css';
 
@@ -24,7 +25,7 @@ export const metadata: Metadata = {
       'Discover beginner-friendly AI tools, learning paths, and starter packs that match your goals.'
   },
   twitter: {
-    card: 'summary',
+    card: 'summary_large_image',
     title: 'Desofec AI Studio | Learn the right tools',
     description:
       'Discover beginner-friendly AI tools, learning paths, and starter packs that match your goals.'
@@ -41,19 +42,17 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html lang="en">
       <body>
+        <a className="skip-link" href="#main-content">
+          Skip to content
+        </a>
         <AuthProvider>
           <FavoritesSync />
           <Suspense fallback={null}>
             <SiteHeader />
           </Suspense>
           <PwaControls />
-          <main>{children}</main>
-          <footer className="site-footer">
-            <div className="container footer-row">
-              <div>© 2026 Desofec AI Studio</div>
-              <div>Learn the right tools. Build with confidence.</div>
-            </div>
-          </footer>
+          <main id="main-content">{children}</main>
+          <SiteFooter />
         </AuthProvider>
       </body>
     </html>

@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useMemo, useState, useSyncExternalStore } from 'react';
+import { useT } from '@/components/language';
 import type { TutorialStep } from '@/lib/task-tracker-tutorial';
 
 const EVENT_NAME = 'desofec-tutorial-change';
@@ -23,6 +24,7 @@ function readSaved(storageKey: string) {
 }
 
 function CopyButton({ text, label }: { text: string; label: string }) {
+  const t = useT();
   const [copied, setCopied] = useState(false);
 
   const copy = () => {
@@ -37,12 +39,13 @@ function CopyButton({ text, label }: { text: string; label: string }) {
 
   return (
     <button type="button" className="btn btn-secondary tutorial-copy" onClick={copy}>
-      {copied ? 'Copied!' : label}
+      {copied ? t('tutorial.copied') : label}
     </button>
   );
 }
 
 export function TutorialSteps({ steps, storageKey }: { steps: TutorialStep[]; storageKey: string }) {
+  const t = useT();
   const raw = useSyncExternalStore(subscribe, () => readSaved(storageKey), () => null);
   const ready = raw !== null;
 
@@ -68,8 +71,9 @@ export function TutorialSteps({ steps, storageKey }: { steps: TutorialStep[]; st
 
   return (
     <div>
+      <p className="tutorial-lang-note">{t('tutorial.englishNote')}</p>
       <p className="path-progress" aria-live="polite">
-        {ready ? `${done.length} of ${steps.length} steps done` : ' '}
+        {ready ? t('tutorial.stepsDone', { done: done.length, total: steps.length }) : ' '}
       </p>
       <progress className="progress-bar" value={done.length} max={steps.length} aria-label="Tutorial progress" />
       <ol className="tutorial-steps">
@@ -85,11 +89,11 @@ export function TutorialSteps({ steps, storageKey }: { steps: TutorialStep[]; st
               <div className="tutorial-code">
                 <div className="tutorial-code-head">
                   <span>
-                    {step.replaceAll ? 'Replace everything in ' : 'Put this in '}
+                    {step.replaceAll ? `${t('tutorial.replace')} ` : `${t('tutorial.putIn')} `}
                     <code>{step.file}</code>
-                    {step.replaceAll ? ' with:' : ':'}
+                    {step.replaceAll ? ` ${t('tutorial.replaceWith')}` : ':'}
                   </span>
-                  <CopyButton text={step.code} label="Copy code" />
+                  <CopyButton text={step.code} label={t('tutorial.copyCode')} />
                 </div>
                 <pre>
                   <code>{step.code}</code>
@@ -97,23 +101,23 @@ export function TutorialSteps({ steps, storageKey }: { steps: TutorialStep[]; st
               </div>
             )}
             <p className="tutorial-check">
-              <strong>Check it works:</strong> {step.check}
+              <strong>{t('tutorial.check')}</strong> {step.check}
             </p>
             <details className="tutorial-ai">
-              <summary>Stuck? Ask an AI assistant</summary>
+              <summary>{t('tutorial.stuck')}</summary>
               <p>{step.aiPrompt}</p>
-              <CopyButton text={step.aiPrompt} label="Copy prompt" />
+              <CopyButton text={step.aiPrompt} label={t('tutorial.copyPrompt')} />
             </details>
             <label className="step-check">
               <input type="checkbox" checked={done.includes(step.id)} disabled={!ready} onChange={() => toggle(step.id)} />{' '}
-              Mark this step as done
+              {t('tutorial.markDone')}
             </label>
           </li>
         ))}
       </ol>
       {ready && done.length > 0 && (
         <button type="button" className="btn btn-secondary" onClick={() => persist([])}>
-          Reset tutorial progress
+          {t('tutorial.reset')}
         </button>
       )}
     </div>
