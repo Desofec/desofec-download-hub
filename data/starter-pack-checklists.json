@@ -68,5 +68,14 @@
     "Ask a friend to try it and watch where they get stuck.",
     "Publish it and write down your next three improvements.",
     "Ask an AI assistant to review your code for bugs, and verify its suggestions by running them."
+  ],
+  "ai-coding-prompts": [
+    "Pick one small task and write it as a clear prompt with input and expected output.",
+    "Ask the assistant to explain its code before you run it.",
+    "Run the code and check the result against your expectation.",
+    "Ask for edge cases and test at least two of them.",
+    "Ask for a code review and apply one change yourself.",
+    "Rewrite one generated function in your own words.",
+    "Save a commit describing what you built and learned."
   ]
 }

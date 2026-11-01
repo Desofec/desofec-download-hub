@@ -68,7 +68,8 @@
       "openai-codex"
     ],
     "starters": [
-      "coding-basics-kit"
+      "coding-basics-kit",
+      "ai-coding-prompts"
     ],
     "steps": [
       "Set up your workspace",
@@ -127,7 +128,8 @@
     ],
     "starters": [
       "app-launch-kit",
-      "coding-basics-kit"
+      "coding-basics-kit",
+      "ai-coding-prompts"
     ],
     "steps": [
       "Define the idea and tiny scope",
