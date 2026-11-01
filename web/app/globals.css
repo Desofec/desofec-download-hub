@@ -523,6 +523,7 @@ h3 {
   display: flex;
   align-items: center;
   gap: 10px;
+  flex-wrap: wrap;
   min-width: min(100%, 420px);
 }
 
@@ -693,3 +694,8 @@ h3 {
   font-weight: 600;
   border-bottom: 2px solid var(--primary);
 }
+
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.hp-field { position: absolute; left: -9999px; opacity: 0; height: 0; width: 0; }
+.newsletter-msg { flex-basis: 100%; margin: .5rem 0 0; min-height: 1.4em; font-weight: 600; }
+.newsletter-msg.error { color: #ffb4b4; }

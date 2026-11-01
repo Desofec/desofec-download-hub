@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { GoalCard, PackCard, PathCard, ToolCard } from '@/components/cards';
+import { NewsletterForm } from '@/components/newsletter-form';
 import { getCatalog } from '@/lib/catalog';
 
 const steps = [
@@ -161,6 +162,7 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+      <NewsletterForm />
     </>
   );
 }
