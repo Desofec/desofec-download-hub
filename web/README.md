@@ -23,7 +23,7 @@ and starter pack downloads; the offline page appears when a page has not been ca
 ## Connect Supabase
 
 1. Create a Supabase project.
-2. In the SQL editor, run the migrations in order, including `0004_user_progress.sql` and `0005_user_favorites.sql`, then `supabase/seed.sql`.
+2. In the SQL editor, run the migrations in order, including `0004_user_progress.sql`, `0005_user_favorites.sql`, and `0006_newsletter_confirmation.sql`, then `supabase/seed.sql`.
    Both are safe to re-run; the seed upserts.
 3. Copy `.env.example` to `.env.local` and fill in the project URL and anon key
    (Project settings → API):
@@ -34,7 +34,11 @@ and starter pack downloads; the offline page appears when a page has not been ca
    ```
 
 Catalog tables have row level security enabled with public read-only policies. The `subscribers` table permits
-public inserts only and does not expose signup emails for reading. Only the anon key is used in the app.
+no public access; newsletter signup, confirmation, and unsubscribe use server-only credentials. Configure
+`SUPABASE_SERVICE_ROLE_KEY` and `RESEND_API_KEY` as private Vercel environment variables (never share or expose
+them), and set `NEXT_PUBLIC_SITE_URL` to the deployed site URL. Resend must have a verified sending domain and
+`NEWSLETTER_FROM_EMAIL` must use that domain. New signups receive a confirmation email; only confirmed addresses
+are eligible for future newsletter sends. Existing addresses must confirm again before being treated as subscribed.
 Catalog reads are cached for an hour (`lib/catalog.ts`).
 
 For email sign-in, keep the Supabase email provider enabled and add the deployed account URL (for example

@@ -171,7 +171,7 @@ export default async function HomePage() {
           <div>
             <span className="eyebrow">Stay in the loop</span>
             <h2>Get new tools and paths first</h2>
-            <p>Join the list for new beginner-friendly tools, learning paths, and starter packs.</p>
+            <p>Join the list for new beginner-friendly tools, learning paths, and starter packs. Unsubscribe any time.</p>
           </div>
           <NewsletterForm />
         </div>
