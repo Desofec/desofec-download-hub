@@ -3,6 +3,7 @@ import { Suspense } from 'react';
 import { AuthProvider } from '@/components/auth-provider';
 import { FavoritesSync } from '@/components/favorites-sync';
 import { PwaControls } from '@/components/pwa-controls';
+import { SiteFooter } from '@/components/site-footer';
 import { SiteHeader } from '@/components/site-header';
 import './globals.css';
 
@@ -51,12 +52,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
           </Suspense>
           <PwaControls />
           <main id="main-content">{children}</main>
-          <footer className="site-footer">
-            <div className="container footer-row">
-              <div>© 2026 Desofec AI Studio</div>
-              <div>Learn the right tools. Build with confidence.</div>
-            </div>
-          </footer>
+          <SiteFooter />
         </AuthProvider>
       </body>
     </html>

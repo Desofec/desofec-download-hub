@@ -99,9 +99,14 @@ button {
 .main-nav {
   display: flex;
   align-items: center;
-  gap: 22px;
+  gap: 14px;
   color: var(--muted);
   flex-wrap: wrap;
+  font-size: .92rem;
+}
+
+.desktop-nav-cta {
+  white-space: nowrap;
 }
 
 .main-nav a {
@@ -1343,4 +1348,22 @@ h3 {
 
 .skip-link:focus {
   top: .75rem;
+}
+
+.language-select {
+  padding: .35rem .5rem;
+  border: 1px solid var(--line);
+  border-radius: .5rem;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+}
+
+.language-select option {
+  color: #061020;
+}
+
+.tutorial-lang-note {
+  color: var(--muted);
+  font-size: .9rem;
 }
