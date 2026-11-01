@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import { FirstAppLab } from '@/components/first-app-lab';
 
 export const metadata: Metadata = {
@@ -75,6 +76,9 @@ export default function FirstAppProjectPage() {
             app at once.”
           </p>
           <p>Your tasks in this demo are saved only in this browser on this device.</p>
+          <Link className="btn btn-primary" href="/projects/first-app/build">
+            Code it yourself: step-by-step tutorial
+          </Link>
         </aside>
       </div>
     </section>
