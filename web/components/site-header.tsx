@@ -10,6 +10,7 @@ const links = [
   { href: '/onboarding', label: 'Start', match: ['/onboarding', '/results'] },
   { href: '/tools', label: 'Tools' },
   { href: '/paths', label: 'Paths' },
+  { href: '/tutorials', label: 'Tutorials', match: ['/tutorials', '/projects'] },
   { href: '/starter-packs', label: 'Starter Packs' },
   { href: '/my-progress', label: 'My Progress' }
 ];
