@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useMemo, useSyncExternalStore } from 'react';
+import { useProgressSync } from '@/components/progress-sync';
 
 const listeners = new Set<() => void>();
 
@@ -51,16 +52,28 @@ export function PathSteps({ pathId, steps }: { pathId: string; steps: string[] }
     [key]
   );
 
+  const sync = useProgressSync({
+    type: 'path',
+    id: pathId,
+    stepsCount: steps.length,
+    completed: done,
+    ready,
+    applyProgress: persist
+  });
+  const percent = Math.round((done.length / steps.length) * 100);
   const toggle = (index: number) =>
     persist(done.includes(index) ? done.filter((n) => n !== index) : [...done, index]);
-
-  const percent = Math.round((done.length / steps.length) * 100);
 
   return (
     <div>
       <p className="path-progress" aria-live="polite">
         {ready ? `${done.length} of ${steps.length} steps done (${percent}%)` : ' '}
       </p>
+      {sync.signedIn && (
+        <p className="sync-status" role="status">
+          {sync.status === 'syncing' ? 'Syncing your progress…' : sync.status === 'error' ? 'Progress sync failed. Your device copy is still saved.' : 'Progress synced to your account.'}
+        </p>
+      )}
       <progress className="progress-bar" value={done.length} max={steps.length} aria-label="Path progress" />
       <div className="result-summary">
         {steps.map((step, index) => (

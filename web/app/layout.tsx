@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
+import { AuthProvider } from '@/components/auth-provider';
 import { PwaControls } from '@/components/pwa-controls';
 import { SiteHeader } from '@/components/site-header';
 import './globals.css';
@@ -39,17 +40,19 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html lang="en">
       <body>
-        <Suspense fallback={null}>
-          <SiteHeader />
-        </Suspense>
-        <PwaControls />
-        <main>{children}</main>
-        <footer className="site-footer">
-          <div className="container footer-row">
-            <div>© 2026 Desofec AI Studio</div>
-            <div>Learn the right tools. Build with confidence.</div>
-          </div>
-        </footer>
+        <AuthProvider>
+          <Suspense fallback={null}>
+            <SiteHeader />
+          </Suspense>
+          <PwaControls />
+          <main>{children}</main>
+          <footer className="site-footer">
+            <div className="container footer-row">
+              <div>© 2026 Desofec AI Studio</div>
+              <div>Learn the right tools. Build with confidence.</div>
+            </div>
+          </footer>
+        </AuthProvider>
       </body>
     </html>
   );
