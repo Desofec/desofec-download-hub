@@ -58,7 +58,10 @@ export function SiteHeader() {
               {link.label}
             </Link>
           ))}
-          <Link href="/account" onClick={() => setMenuOpen(false)}>
+          <Link
+            href="/account"
+            className={session?.user.email ? undefined : 'signin-pulse'}
+            onClick={() => setMenuOpen(false)}>
             {session?.user.email ? 'Account' : 'Sign in'}
           </Link>
           <Link className="btn btn-primary mobile-nav-cta" href="/onboarding" onClick={() => setMenuOpen(false)}>
