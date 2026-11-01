@@ -17,6 +17,8 @@ By Desofec AI Studio. Take a small app idea to a published first version.
 3. Build the core feature first, then add simple styling.
 4. Commit after each small step.
 
+Tip: describe one small task at a time to an AI coding assistant such as GitHub Copilot or OpenAI Codex, read the result, and run it before moving on.
+
 ## 4. Test
 - Try empty, very long and unexpected input.
 - Ask a friend to use it without instructions and watch quietly.

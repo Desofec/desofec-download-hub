@@ -74,6 +74,7 @@
       "Set up your workspace",
       "Learn basic logic",
       "Build a simple script",
+      "Use AI to explain and review your code",
       "Practice with mini projects"
     ]
   },
@@ -129,10 +130,11 @@
       "coding-basics-kit"
     ],
     "steps": [
-      "Define the idea",
+      "Define the idea and tiny scope",
       "Sketch the user flow",
-      "Create a prototype",
-      "Test and improve"
+      "Build a prototype with an AI coding assistant",
+      "Test with real people",
+      "Publish and improve"
     ]
   },
   "no-code": {

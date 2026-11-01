@@ -48,10 +48,13 @@
     "description": "Set up your environment, learn core concepts, and build tiny projects with confidence.",
     "badge": "Code",
     "steps": [
-      "Learn setup and tools",
-      "Understand basic logic",
-      "Build small scripts",
-      "Practice real examples"
+      "Install VS Code and Python, and run your first program",
+      "Learn variables, types and printing output",
+      "Use conditions and loops to make decisions",
+      "Write functions and work with lists",
+      "Track your code with Git and GitHub",
+      "Ask an AI assistant like Copilot or Codex to explain code",
+      "Build and share a mini project"
     ],
     "goal": "learn-coding"
   },
@@ -104,10 +107,13 @@
     "description": "Go from an app idea to a small working first version you can share.",
     "badge": "Code",
     "steps": [
-      "Define the problem and a tiny scope",
+      "Write the problem and a tiny scope",
       "Sketch the main screens",
-      "Build the core feature",
-      "Test with a friend and publish"
+      "Set up your project with Git and GitHub",
+      "Build the core feature with an AI coding assistant",
+      "Test with unusual input and fix bugs",
+      "Deploy it to a free host",
+      "Get feedback from a friend and plan version 2"
     ],
     "goal": "build-app"
   },
