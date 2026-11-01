@@ -945,6 +945,176 @@ h3 {
 .path-progress { margin: 0 0 .5rem; font-weight: 600; min-height: 1.5em; }
 .progress-bar { width: 100%; height: 10px; margin-bottom: 1rem; accent-color: #6d5efc; }
 .step-check { display: flex; align-items: center; gap: .5rem; margin-top: .75rem; cursor: pointer; }
+
+.first-app-project-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, .9fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.first-app-lessons {
+  display: grid;
+  gap: 1rem;
+}
+
+.first-app-lesson {
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr);
+  gap: .85rem;
+  padding: 1.1rem;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: var(--surface);
+}
+
+.first-app-step {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: rgba(125, 211, 252, .14);
+  font-weight: 700;
+}
+
+.first-app-lesson h2,
+.first-app-ai-tip h2 {
+  margin: 0 0 .45rem;
+  font-size: 1.1rem;
+}
+
+.first-app-lesson p,
+.first-app-ai-tip p {
+  margin: .4rem 0 0;
+  color: var(--muted);
+}
+
+.first-app-example {
+  padding: .65rem .8rem;
+  border-left: 3px solid var(--accent);
+  background: rgba(125, 211, 252, .07);
+}
+
+.first-app-lab {
+  padding: 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: 1.25rem;
+  background: var(--surface);
+  box-shadow: 0 16px 42px rgba(0, 0, 0, .12);
+}
+
+.first-app-lab-header,
+.first-app-task-input,
+.first-app-task-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+}
+
+.first-app-lab-header h2 {
+  margin: .25rem 0 0;
+}
+
+.first-app-count {
+  padding: .35rem .7rem;
+  border: 1px solid var(--line);
+  border-radius: 99px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.first-app-task-form {
+  margin-top: 1.2rem;
+}
+
+.first-app-task-form > label {
+  display: block;
+  margin-bottom: .45rem;
+  font-weight: 600;
+}
+
+.first-app-task-input input {
+  flex: 1;
+  min-width: 0;
+}
+
+.first-app-hint,
+.first-app-storage-note {
+  margin: .45rem 0 0;
+  color: var(--muted);
+  font-size: .88rem;
+}
+
+.first-app-task-list {
+  display: grid;
+  gap: .55rem;
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.first-app-task-list li {
+  padding: .7rem;
+  border: 1px solid var(--line);
+  border-radius: .75rem;
+}
+
+.first-app-task-list li label {
+  display: flex;
+  align-items: flex-start;
+  gap: .6rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.first-app-task-list .is-complete,
+.first-app-task-list li.is-complete span {
+  color: var(--muted);
+}
+
+.first-app-task-list li.is-complete label span {
+  text-decoration: line-through;
+}
+
+.first-app-remove {
+  flex: none;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.first-app-empty {
+  margin: 1rem 0 0;
+  padding: 1rem;
+  border: 1px dashed var(--line);
+  border-radius: .75rem;
+  color: var(--muted);
+  text-align: center;
+}
+
+.first-app-storage-note {
+  margin-top: 1rem;
+  padding-top: .8rem;
+  border-top: 1px solid var(--line);
+}
+
+.first-app-ai-tip {
+  margin-top: 1.5rem;
+  padding: 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: rgba(125, 211, 252, .06);
+}
+
+@media (max-width: 800px) {
+  .first-app-project-grid {
+    grid-template-columns: 1fr;
+  }
+}
 .step-done { opacity: .7; }
 .step-done h3 { text-decoration: line-through; }
 

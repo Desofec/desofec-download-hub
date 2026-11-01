@@ -5,7 +5,7 @@ const siteUrl = 'https://desofec.com';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const { goals, paths } = await getCatalog();
-  const publicPages = ['/', '/onboarding', '/tools', '/paths', '/starter-packs'];
+  const publicPages = ['/', '/onboarding', '/tools', '/paths', '/starter-packs', '/projects/first-app'];
 
   return [
     ...publicPages.map((path) => ({ url: new URL(path, siteUrl).toString() })),
