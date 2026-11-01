@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { PackCard, ToolCard } from '@/components/cards';
+import { FavoriteToolButton } from '@/components/favorite-tool-button';
 import { getCatalog } from '@/lib/catalog';
 
 export async function generateStaticParams() {
@@ -44,6 +45,9 @@ export default async function ToolDetailPage({ params }: { params: Promise<{ id:
           <div className="tool-meta path-meta">
             <span className="tool-tag">{tool.badge}</span>
             <span className="skill-chip">{tool.skill}</span>
+          </div>
+          <div className="cta-row">
+            <FavoriteToolButton toolId={tool.id} />
           </div>
           <div className="cta-row">
             <a
