@@ -42,7 +42,9 @@ insert into public.starter_packs (id, title, description, level, file_path, posi
   ('website-bundle', 'Website Starter Bundle', 'A practical toolkit for building and publishing a small online project.', 'Beginner', 'downloads/website-bundle.md', 2),
   ('coding-basics-kit', 'Coding Basics Kit', 'A starter set of learning tasks, concepts, and mini-project ideas.', 'Beginner', 'downloads/coding-basics-kit.md', 3),
   ('ml-workbook', 'ML Foundations Workbook', 'A beginner-friendly workbook for ML concepts, data thinking, and small experiments.', 'Beginner', 'downloads/ml-workbook.md', 4),
-  ('productivity-boost', 'AI Productivity Boost', 'Use AI to simplify writing, planning, research, and daily task management.', 'Beginner', 'downloads/productivity-boost.md', 5)
+  ('productivity-boost', 'AI Productivity Boost', 'Use AI to simplify writing, planning, research, and daily task management.', 'Beginner', 'downloads/productivity-boost.md', 5),
+  ('design-starter-kit', 'Design Starter Kit', 'Design principles, a prototyping routine and a feedback checklist for beginners.', 'Beginner', 'downloads/design-starter-kit.md', 6),
+  ('app-launch-kit', 'First App Launch Kit', 'A scoped plan for taking a small app idea to a published first version.', 'Intermediate', 'downloads/app-launch-kit.md', 7)
 on conflict (id) do update set title = excluded.title, description = excluded.description, level = excluded.level, file_path = excluded.file_path, position = excluded.position;
 
 insert into public.paths (id, title, level, description, badge, goal_id, steps, position) values
@@ -51,7 +53,10 @@ insert into public.paths (id, title, level, description, badge, goal_id, steps, 
   ('web-starter', 'Website Starter', 'Beginner', 'Learn the fundamentals of web structure, publishing, and creating a simple online project.', 'Web', 'build-website', array['Learn web basics', 'Design the layout', 'Build a simple page', 'Publish and share']::text[], 2),
   ('coding-foundations', 'Coding Foundations', 'Beginner', 'Set up your environment, learn core concepts, and build tiny projects with confidence.', 'Code', 'learn-coding', array['Learn setup and tools', 'Understand basic logic', 'Build small scripts', 'Practice real examples']::text[], 3),
   ('ml-foundations', 'ML Foundations', 'Beginner', 'Understand the key ideas behind ML, data patterns, and small practical experiments.', 'ML', 'learn-ml', array['Learn the basics of ML', 'Understand data and patterns', 'Try a notebook', 'Practice with examples']::text[], 4),
-  ('ai-productivity', 'AI Productivity Path', 'Beginner', 'Use AI to improve writing, planning, research, and everyday productivity tasks.', 'Productivity', 'ai-productivity', array['Identify useful tasks', 'Define a prompt system', 'Apply AI routines', 'Review and optimize']::text[], 5)
+  ('ai-productivity', 'AI Productivity Path', 'Beginner', 'Use AI to improve writing, planning, research, and everyday productivity tasks.', 'Productivity', 'ai-productivity', array['Identify useful tasks', 'Define a prompt system', 'Apply AI routines', 'Review and optimize']::text[], 5),
+  ('design-basics', 'Design & CAD Basics', 'Beginner', 'Learn core design principles and turn an idea into a simple visual or 3D prototype.', 'Design', 'design-cad', array['Learn basic design principles', 'Sketch an idea and choose a tool', 'Build a simple prototype', 'Gather feedback and refine']::text[], 6),
+  ('first-app', 'Build Your First App', 'Intermediate', 'Go from an app idea to a small working first version you can share.', 'Code', 'build-app', array['Define the problem and a tiny scope', 'Sketch the main screens', 'Build the core feature', 'Test with a friend and publish']::text[], 7),
+  ('no-code-builder', 'No-Code Builder', 'Beginner', 'Build a useful small system with a database and automations, without writing code.', 'Automation', 'no-code', array['Pick a simple problem to solve', 'Organize your data in a table', 'Connect an automation to it', 'Share it and improve it']::text[], 8)
 on conflict (id) do update set title = excluded.title, level = excluded.level, description = excluded.description, badge = excluded.badge, goal_id = excluded.goal_id, steps = excluded.steps, position = excluded.position;
 
 insert into public.recommendations (goal_id, title, summary, steps) values
@@ -112,8 +117,10 @@ insert into public.recommendation_starters (goal_id, pack_id, position) values
   ('automate-work', 'automation-kit', 0),
   ('learn-coding', 'coding-basics-kit', 0),
   ('learn-ml', 'ml-workbook', 0),
-  ('design-cad', 'website-bundle', 0),
-  ('build-app', 'coding-basics-kit', 0),
+  ('design-cad', 'design-starter-kit', 0),
+  ('design-cad', 'website-bundle', 1),
+  ('build-app', 'app-launch-kit', 0),
+  ('build-app', 'coding-basics-kit', 1),
   ('no-code', 'automation-kit', 0),
   ('ai-productivity', 'productivity-boost', 0),
   ('ai-productivity', 'ai-prompt-pack', 1)

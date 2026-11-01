@@ -40,5 +40,19 @@
     "description": "Use AI to simplify writing, planning, research, and daily task management.",
     "level": "Beginner",
     "file": "downloads/productivity-boost.md"
+  },
+  {
+    "id": "design-starter-kit",
+    "title": "Design Starter Kit",
+    "description": "Design principles, a prototyping routine and a feedback checklist for beginners.",
+    "level": "Beginner",
+    "file": "downloads/design-starter-kit.md"
+  },
+  {
+    "id": "app-launch-kit",
+    "title": "First App Launch Kit",
+    "description": "A scoped plan for taking a small app idea to a published first version.",
+    "level": "Intermediate",
+    "file": "downloads/app-launch-kit.md"
   }
 ]
