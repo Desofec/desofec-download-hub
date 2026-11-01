@@ -46,11 +46,12 @@ export function PathSteps({ pathId, steps }: { pathId: string; steps: string[] }
     (next: number[]) => {
       try {
         localStorage.setItem(key, JSON.stringify(next));
+        localStorage.setItem(`desofec:activity:path:${pathId}`, String(Date.now()));
       } catch {}
       listeners.forEach((listener) => listener());
       window.dispatchEvent(new Event('desofec-progress-change'));
     },
-    [key]
+    [key, pathId]
   );
 
   const sync = useProgressSync({

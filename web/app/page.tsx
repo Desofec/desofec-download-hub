@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { GoalCard, PackCard, PathCard, ToolCard } from '@/components/cards';
+import { ContinueLearning } from '@/components/continue-learning';
 import { NewsletterForm } from '@/components/newsletter-form';
 import { getCatalog } from '@/lib/catalog';
 
@@ -69,6 +70,8 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      <ContinueLearning paths={catalog.paths} packs={catalog.starterPacks} checklists={catalog.starterPackChecklists} />
 
       <section className="section">
         <div className="container">
