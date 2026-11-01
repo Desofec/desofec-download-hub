@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { PackCard, ToolCard } from '@/components/cards';
 import { PathSteps } from '@/components/path-steps';
 import { getCatalog } from '@/lib/catalog';
+import { getTutorialForPath } from '@/lib/tutorials';
 
 export async function generateStaticParams() {
   const { paths } = await getCatalog();
@@ -22,6 +23,7 @@ export default async function PathDetailPage({ params }: { params: Promise<{ id:
   const path = catalog.paths.find((entry) => entry.id === id);
   if (!path) notFound();
 
+  const tutorial = getTutorialForPath(path.id);
   const recommendation = catalog.recommendations[path.goal];
   const tools = (recommendation?.tools ?? []).flatMap((toolId) => catalog.tools.find((tool) => tool.id === toolId) ?? []);
   const packs = (recommendation?.starters ?? []).flatMap(
@@ -46,25 +48,15 @@ export default async function PathDetailPage({ params }: { params: Promise<{ id:
           </div>
           <PathSteps pathId={path.id} steps={path.steps} />
           <div className="cta-row">
-            {path.id === 'ai-assisted-coding' && (
-              <Link className="btn btn-primary" href="/projects/ai-assisted-coding/build">
-                Code it yourself: tutorial
-              </Link>
-            )}
-            {path.id === 'coding-foundations' && (
-              <Link className="btn btn-primary" href="/projects/coding-foundations/build">
-                Code it yourself: tutorial
+            {tutorial && (
+              <Link className="btn btn-primary" href={tutorial.href}>
+                Learn step by step: tutorial
               </Link>
             )}
             {path.id === 'first-app' && (
-              <>
-                <Link className="btn btn-primary" href="/projects/first-app/build">
-                  Code it yourself: tutorial
-                </Link>
-                <Link className="btn btn-secondary" href="/projects/first-app">
-                  Open hands-on app lab
-                </Link>
-              </>
+              <Link className="btn btn-secondary" href="/projects/first-app">
+                Open hands-on app lab
+              </Link>
             )}
             <Link className="btn btn-primary" href={`/results/${encodeURIComponent(path.goal)}`}>
               Start this path
