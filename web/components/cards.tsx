@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { FavoriteToolButton } from '@/components/favorite-tool-button';
 import { downloadUrl } from '@/lib/urls';
 import type { Goal, LearningPath, StarterPack, Tool } from '@/lib/types';
 
@@ -27,6 +28,7 @@ export function ToolCard({ tool, cta = 'find' }: { tool: Tool; cta?: 'find' | 'n
       <h3>{tool.name}</h3>
       <p>{tool.description}</p>
       <div className="card-cta">
+        <FavoriteToolButton toolId={tool.id} />
         <a
           className="btn btn-primary"
           href={tool.url}

@@ -629,6 +629,20 @@ h3 {
 .progress-card h3, .progress-card p { margin: 0; }
 .progress-card p { color: var(--muted); }
 .progress-card progress { width: 100%; height: 10px; accent-color: var(--primary-strong); }
+.btn-favorite {
+  border: 1px solid var(--line);
+  color: var(--text);
+  background: rgba(148, 163, 184, 0.06);
+}
+.btn-favorite:hover, .btn-favorite.is-favorite {
+  border-color: rgba(251, 191, 36, 0.55);
+  color: #fbbf24;
+  background: rgba(251, 191, 36, 0.1);
+}
+.favorite-control { display: inline-flex; flex-direction: column; align-items: flex-start; gap: 4px; }
+.favorite-error { color: #fca5a5; font-size: .8rem; }
+.favorite-tools-grid .tool-directory { margin-top: 0; }
+.empty-state a { color: var(--primary); text-decoration: underline; }
 .continue-section { padding-top: 12px; }
 .continue-card {
   display: flex;

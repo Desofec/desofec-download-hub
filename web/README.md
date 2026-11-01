@@ -66,6 +66,7 @@ Sync runs the same checks before copying the files into `content/` and `public/d
   saved locally and does not require a Supabase migration
 - `components/auth-provider.tsx` and `/account` — optional email magic-link sign-in
 - `components/progress-sync.tsx` — syncs path and starter-pack progress for signed-in users
+- Tool favorites are stored in browser local storage and listed on `/my-progress`; they do not sync across devices.
 
 ## Known limitations
 
