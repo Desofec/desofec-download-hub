@@ -23,7 +23,7 @@ and starter pack downloads; the offline page appears when a page has not been ca
 ## Connect Supabase
 
 1. Create a Supabase project.
-2. In the SQL editor, run the migrations in order, including `0004_user_progress.sql`, then `supabase/seed.sql`.
+2. In the SQL editor, run the migrations in order, including `0004_user_progress.sql` and `0005_user_favorites.sql`, then `supabase/seed.sql`.
    Both are safe to re-run; the seed upserts.
 3. Copy `.env.example` to `.env.local` and fill in the project URL and anon key
    (Project settings → API):
@@ -66,7 +66,7 @@ Sync runs the same checks before copying the files into `content/` and `public/d
   saved locally and does not require a Supabase migration
 - `components/auth-provider.tsx` and `/account` — optional email magic-link sign-in
 - `components/progress-sync.tsx` — syncs path and starter-pack progress for signed-in users
-- Tool favorites are stored in browser local storage and listed on `/my-progress`; they do not sync across devices.
+- Tool favorites are stored in browser local storage and listed on `/my-progress`; when signed in they also sync to Supabase (`user_favorites`) across devices.
 
 ## Known limitations
 

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import { AuthProvider } from '@/components/auth-provider';
+import { FavoritesSync } from '@/components/favorites-sync';
 import { PwaControls } from '@/components/pwa-controls';
 import { SiteHeader } from '@/components/site-header';
 import './globals.css';
@@ -41,6 +42,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
     <html lang="en">
       <body>
         <AuthProvider>
+          <FavoritesSync />
           <Suspense fallback={null}>
             <SiteHeader />
           </Suspense>
