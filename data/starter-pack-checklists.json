@@ -21,7 +21,9 @@
     "Use a loop to process a short list of values.",
     "Write a function that takes input and returns a result.",
     "Complete one practice task from the Coding Basics Kit.",
-    "Build a tiny project, run it yourself, and explain what each part does."
+    "Build a tiny project, run it yourself, and explain what each part does.",
+    "Put your project in a Git repository and save a commit.",
+    "Ask an AI assistant to explain one function line by line, then rewrite it yourself."
   ],
   "ml-workbook": [
     "Choose a beginner dataset, such as Iris or Titanic, and note where it came from.",
@@ -64,6 +66,7 @@
     "Build the core feature first, and commit your work often.",
     "Test it yourself with unusual inputs, such as empty or very long text.",
     "Ask a friend to try it and watch where they get stuck.",
-    "Publish it and write down your next three improvements."
+    "Publish it and write down your next three improvements.",
+    "Ask an AI assistant to review your code for bugs, and verify its suggestions by running them."
   ]
 }
