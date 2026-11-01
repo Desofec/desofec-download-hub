@@ -1367,3 +1367,39 @@ h3 {
   color: var(--muted);
   font-size: .9rem;
 }
+
+.planner-input {
+  width: 100%;
+  padding: .85rem;
+  border: 1px solid var(--line);
+  border-radius: .75rem;
+  background: var(--surface);
+  color: inherit;
+  font: inherit;
+  resize: vertical;
+}
+
+.planner-label {
+  display: block;
+  margin-bottom: .5rem;
+  font-weight: 600;
+}
+
+.planner-note {
+  color: var(--muted);
+  font-size: .9rem;
+}
+
+.planner-plan {
+  display: grid;
+  gap: 1rem;
+  padding: 0;
+  list-style: none;
+}
+
+.planner-card {
+  padding: 1.1rem;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: var(--surface);
+}

@@ -19,6 +19,9 @@ export default async function TutorialsPage() {
             <span className="eyebrow">Tutorials</span>
             <h1>Learn by building, step by step</h1>
             <p>Every learning path has a hands-on tutorial with explanations, copy-ready examples and checks.</p>
+            <Link className="btn btn-secondary" href="/plan">
+              Not sure where to start? Describe your idea
+            </Link>
           </div>
         </div>
         <div className="path-directory">
