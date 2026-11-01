@@ -57,6 +57,7 @@ Sync runs the same checks before copying the files into `content/` and `public/d
 ## Structure
 
 - `app/` — routes: `/`, `/onboarding`, `/results/[goal]`, `/tools`, `/paths`, `/paths/[id]`, `/starter-packs`,
+  `/my-progress`,
   `/starter-packs/[id]`
 - `components/` — shared cards, header, onboarding form, tools search/filter
 - `lib/catalog.ts` — cached `getCatalog()`; `lib/catalog-source.ts` — Supabase and bundled loaders

@@ -48,6 +48,7 @@ export function PathSteps({ pathId, steps }: { pathId: string; steps: string[] }
         localStorage.setItem(key, JSON.stringify(next));
       } catch {}
       listeners.forEach((listener) => listener());
+      window.dispatchEvent(new Event('desofec-progress-change'));
     },
     [key]
   );

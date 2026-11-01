@@ -10,7 +10,8 @@ const links = [
   { href: '/onboarding', label: 'Start', match: ['/onboarding', '/results'] },
   { href: '/tools', label: 'Tools' },
   { href: '/paths', label: 'Paths' },
-  { href: '/starter-packs', label: 'Starter Packs' }
+  { href: '/starter-packs', label: 'Starter Packs' },
+  { href: '/my-progress', label: 'My Progress' }
 ];
 
 function isActive(pathname: string, href: string, match?: string[]) {

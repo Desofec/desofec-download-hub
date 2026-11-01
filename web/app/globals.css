@@ -613,6 +613,22 @@ h3 {
 .account-form label { font-weight: 600; }
 .account-note { font-size: .9rem; }
 .sync-status { color: var(--muted); font-size: .9rem; }
+.progress-dashboard { display: grid; gap: 20px; }
+.progress-account { margin: 0; color: var(--muted); }
+.progress-error { margin: 0; color: #fca5a5; }
+.progress-section .section-head { margin: 0 0 14px; }
+.progress-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+.progress-card {
+  display: grid;
+  gap: 10px;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface);
+}
+.progress-card h3, .progress-card p { margin: 0; }
+.progress-card p { color: var(--muted); }
+.progress-card progress { width: 100%; height: 10px; accent-color: var(--primary-strong); }
 
 .sr-only {
   position: absolute;
