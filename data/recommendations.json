@@ -64,7 +64,8 @@
       "python",
       "vscode",
       "git",
-      "replit"
+      "replit",
+      "openai-codex"
     ],
     "starters": [
       "coding-basics-kit"
@@ -120,7 +121,8 @@
       "vscode",
       "figma",
       "python",
-      "github-copilot"
+      "github-copilot",
+      "openai-codex"
     ],
     "starters": [
       "app-launch-kit",
