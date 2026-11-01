@@ -54,5 +54,12 @@
     "description": "A scoped plan for taking a small app idea to a published first version.",
     "level": "Intermediate",
     "file": "downloads/app-launch-kit.md"
+  },
+  {
+    "id": "ai-coding-prompts",
+    "title": "AI Coding Prompt Pack",
+    "description": "Copy-ready prompts and habits for learning and building with coding assistants.",
+    "level": "Intermediate",
+    "file": "downloads/ai-coding-prompts.md"
   }
 ]

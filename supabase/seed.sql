@@ -45,7 +45,8 @@ insert into public.starter_packs (id, title, description, level, file_path, posi
   ('ml-workbook', 'ML Foundations Workbook', 'A beginner-friendly workbook for ML concepts, data thinking, and small experiments.', 'Beginner', 'downloads/ml-workbook.md', 4),
   ('productivity-boost', 'AI Productivity Boost', 'Use AI to simplify writing, planning, research, and daily task management.', 'Beginner', 'downloads/productivity-boost.md', 5),
   ('design-starter-kit', 'Design Starter Kit', 'Design principles, a prototyping routine and a feedback checklist for beginners.', 'Beginner', 'downloads/design-starter-kit.md', 6),
-  ('app-launch-kit', 'First App Launch Kit', 'A scoped plan for taking a small app idea to a published first version.', 'Intermediate', 'downloads/app-launch-kit.md', 7)
+  ('app-launch-kit', 'First App Launch Kit', 'A scoped plan for taking a small app idea to a published first version.', 'Intermediate', 'downloads/app-launch-kit.md', 7),
+  ('ai-coding-prompts', 'AI Coding Prompt Pack', 'Copy-ready prompts and habits for learning and building with coding assistants.', 'Intermediate', 'downloads/ai-coding-prompts.md', 8)
 on conflict (id) do update set title = excluded.title, description = excluded.description, level = excluded.level, file_path = excluded.file_path, position = excluded.position;
 
 insert into public.paths (id, title, level, description, badge, goal_id, steps, position) values
@@ -57,7 +58,8 @@ insert into public.paths (id, title, level, description, badge, goal_id, steps, 
   ('ai-productivity', 'AI Productivity Path', 'Beginner', 'Use AI to improve writing, planning, research, and everyday productivity tasks.', 'Productivity', 'ai-productivity', array['Identify useful tasks', 'Define a prompt system', 'Apply AI routines', 'Review and optimize']::text[], 5),
   ('design-basics', 'Design & CAD Basics', 'Beginner', 'Learn core design principles and turn an idea into a simple visual or 3D prototype.', 'Design', 'design-cad', array['Learn basic design principles', 'Sketch an idea and choose a tool', 'Build a simple prototype', 'Gather feedback and refine']::text[], 6),
   ('first-app', 'Build Your First App', 'Intermediate', 'Go from an app idea to a small working first version you can share.', 'Code', 'build-app', array['Write the problem and a tiny scope', 'Sketch the main screens', 'Set up your project with Git and GitHub', 'Build the core feature with an AI coding assistant', 'Test with unusual input and fix bugs', 'Deploy it to a free host', 'Get feedback from a friend and plan version 2']::text[], 7),
-  ('no-code-builder', 'No-Code Builder', 'Beginner', 'Build a useful small system with a database and automations, without writing code.', 'Automation', 'no-code', array['Pick a simple problem to solve', 'Organize your data in a table', 'Connect an automation to it', 'Share it and improve it']::text[], 8)
+  ('no-code-builder', 'No-Code Builder', 'Beginner', 'Build a useful small system with a database and automations, without writing code.', 'Automation', 'no-code', array['Pick a simple problem to solve', 'Organize your data in a table', 'Connect an automation to it', 'Share it and improve it']::text[], 8),
+  ('ai-assisted-coding', 'Code With an AI Assistant', 'Intermediate', 'Learn to pair with Copilot or Codex: write clear prompts, review output, and stay in control of your code.', 'Code', 'learn-coding', array['Pick an assistant and set it up in VS Code', 'Describe one small task with a clear prompt', 'Read and understand the generated code', 'Run it and write a simple test', 'Ask the assistant to find bugs and explain fixes', 'Refactor for clear names and small functions', 'Commit with Git and note what you learned']::text[], 9)
 on conflict (id) do update set title = excluded.title, level = excluded.level, description = excluded.description, badge = excluded.badge, goal_id = excluded.goal_id, steps = excluded.steps, position = excluded.position;
 
 insert into public.recommendations (goal_id, title, summary, steps) values
@@ -119,11 +121,13 @@ insert into public.recommendation_starters (goal_id, pack_id, position) values
   ('build-website', 'website-bundle', 0),
   ('automate-work', 'automation-kit', 0),
   ('learn-coding', 'coding-basics-kit', 0),
+  ('learn-coding', 'ai-coding-prompts', 1),
   ('learn-ml', 'ml-workbook', 0),
   ('design-cad', 'design-starter-kit', 0),
   ('design-cad', 'website-bundle', 1),
   ('build-app', 'app-launch-kit', 0),
   ('build-app', 'coding-basics-kit', 1),
+  ('build-app', 'ai-coding-prompts', 2),
   ('no-code', 'automation-kit', 0),
   ('ai-productivity', 'productivity-boost', 0),
   ('ai-productivity', 'ai-prompt-pack', 1)

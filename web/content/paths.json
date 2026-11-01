@@ -130,5 +130,22 @@
       "Share it and improve it"
     ],
     "goal": "no-code"
+  },
+  {
+    "id": "ai-assisted-coding",
+    "title": "Code With an AI Assistant",
+    "level": "Intermediate",
+    "description": "Learn to pair with Copilot or Codex: write clear prompts, review output, and stay in control of your code.",
+    "badge": "Code",
+    "steps": [
+      "Pick an assistant and set it up in VS Code",
+      "Describe one small task with a clear prompt",
+      "Read and understand the generated code",
+      "Run it and write a simple test",
+      "Ask the assistant to find bugs and explain fixes",
+      "Refactor for clear names and small functions",
+      "Commit with Git and note what you learned"
+    ],
+    "goal": "learn-coding"
   }
 ]
