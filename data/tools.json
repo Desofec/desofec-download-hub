@@ -133,5 +133,59 @@
     "skill": "Intermediate",
     "description": "Helpful for CAD, product thinking, and 3D modeling for conceptual projects.",
     "badge": "CAD"
+  },
+  {
+    "id": "gemini",
+    "url": "https://gemini.google.com",
+    "name": "Gemini",
+    "category": "AI",
+    "skill": "Beginner",
+    "description": "Google's AI assistant, handy for brainstorming, summarizing and working alongside Google apps.",
+    "badge": "AI"
+  },
+  {
+    "id": "github-copilot",
+    "url": "https://github.com/features/copilot",
+    "name": "GitHub Copilot",
+    "category": "Coding",
+    "skill": "Intermediate",
+    "description": "An AI pair programmer that suggests code and explains it inside your editor.",
+    "badge": "Code"
+  },
+  {
+    "id": "replit",
+    "url": "https://replit.com",
+    "name": "Replit",
+    "category": "Coding",
+    "skill": "Beginner",
+    "description": "Write, run and share code in the browser with nothing to install.",
+    "badge": "Code"
+  },
+  {
+    "id": "framer",
+    "url": "https://www.framer.com",
+    "name": "Framer",
+    "category": "Design",
+    "skill": "Beginner",
+    "description": "Design and publish a polished website visually, without writing code.",
+    "badge": "Design"
+  },
+  {
+    "id": "airtable",
+    "url": "https://airtable.com",
+    "name": "Airtable",
+    "category": "Automation",
+    "skill": "Beginner",
+    "description": "A friendly spreadsheet-database for organizing data and building simple no-code apps.",
+    "badge": "Automation"
+  },
+  {
+    "id": "github",
+    "url": "https://github.com",
+    "name": "GitHub",
+    "category": "Coding",
+    "skill": "Beginner",
+    "description": "Store your projects, track changes and collaborate or publish work for free.",
+    "badge": "Code"
   }
 ]
