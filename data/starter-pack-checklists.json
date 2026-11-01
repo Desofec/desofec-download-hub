@@ -47,5 +47,23 @@
     "Add a descriptive page title, image alt text, and a way to contact you.",
     "Check the site on a narrow/mobile-sized screen and test every link.",
     "Publish the site, open the live URL, and ask one person what was confusing."
+  ],
+  "design-starter-kit": [
+    "Write one sentence describing who the design is for and what it should do.",
+    "Collect three examples you like and note what works about each.",
+    "Sketch your idea on paper first, in at least two versions.",
+    "Build a simple prototype in your chosen tool.",
+    "Check contrast, text size and spacing.",
+    "Show it to one person and write down their feedback.",
+    "Make one improvement based on that feedback."
+  ],
+  "app-launch-kit": [
+    "Write the problem your app solves in one sentence.",
+    "List features and keep only the one that matters most.",
+    "Sketch the main screens on paper.",
+    "Build the core feature first, and commit your work often.",
+    "Test it yourself with unusual inputs, such as empty or very long text.",
+    "Ask a friend to try it and watch where they get stuck.",
+    "Publish it and write down your next three improvements."
   ]
 }

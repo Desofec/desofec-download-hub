@@ -82,5 +82,47 @@
       "Review and optimize"
     ],
     "goal": "ai-productivity"
+  },
+  {
+    "id": "design-basics",
+    "title": "Design & CAD Basics",
+    "level": "Beginner",
+    "description": "Learn core design principles and turn an idea into a simple visual or 3D prototype.",
+    "badge": "Design",
+    "steps": [
+      "Learn basic design principles",
+      "Sketch an idea and choose a tool",
+      "Build a simple prototype",
+      "Gather feedback and refine"
+    ],
+    "goal": "design-cad"
+  },
+  {
+    "id": "first-app",
+    "title": "Build Your First App",
+    "level": "Intermediate",
+    "description": "Go from an app idea to a small working first version you can share.",
+    "badge": "Code",
+    "steps": [
+      "Define the problem and a tiny scope",
+      "Sketch the main screens",
+      "Build the core feature",
+      "Test with a friend and publish"
+    ],
+    "goal": "build-app"
+  },
+  {
+    "id": "no-code-builder",
+    "title": "No-Code Builder",
+    "level": "Beginner",
+    "description": "Build a useful small system with a database and automations, without writing code.",
+    "badge": "Automation",
+    "steps": [
+      "Pick a simple problem to solve",
+      "Organize your data in a table",
+      "Connect an automation to it",
+      "Share it and improve it"
+    ],
+    "goal": "no-code"
   }
 ]
