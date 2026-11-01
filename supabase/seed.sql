@@ -27,7 +27,13 @@ insert into public.tools (id, name, category, skill, description, badge, url, po
   ('n8n', 'n8n', 'Automation', 'Intermediate', 'A flexible automation platform for more advanced workflows and custom integrations.', 'Automation', 'https://n8n.io', 11),
   ('colab', 'Google Colab', 'ML', 'Beginner', 'An easy environment for notebooks, data analysis, and beginner ML experiments.', 'ML', 'https://colab.research.google.com', 12),
   ('kaggle', 'Kaggle', 'ML', 'Beginner', 'A beginner-friendly place to learn from datasets, notebooks, and real examples.', 'ML', 'https://www.kaggle.com', 13),
-  ('fusion-360', 'Fusion 360', 'Design', 'Intermediate', 'Helpful for CAD, product thinking, and 3D modeling for conceptual projects.', 'CAD', 'https://www.autodesk.com/products/fusion-360/overview', 14)
+  ('fusion-360', 'Fusion 360', 'Design', 'Intermediate', 'Helpful for CAD, product thinking, and 3D modeling for conceptual projects.', 'CAD', 'https://www.autodesk.com/products/fusion-360/overview', 14),
+  ('gemini', 'Gemini', 'AI', 'Beginner', 'Google''s AI assistant, handy for brainstorming, summarizing and working alongside Google apps.', 'AI', 'https://gemini.google.com', 15),
+  ('github-copilot', 'GitHub Copilot', 'Coding', 'Intermediate', 'An AI pair programmer that suggests code and explains it inside your editor.', 'Code', 'https://github.com/features/copilot', 16),
+  ('replit', 'Replit', 'Coding', 'Beginner', 'Write, run and share code in the browser with nothing to install.', 'Code', 'https://replit.com', 17),
+  ('framer', 'Framer', 'Design', 'Beginner', 'Design and publish a polished website visually, without writing code.', 'Design', 'https://www.framer.com', 18),
+  ('airtable', 'Airtable', 'Automation', 'Beginner', 'A friendly spreadsheet-database for organizing data and building simple no-code apps.', 'Automation', 'https://airtable.com', 19),
+  ('github', 'GitHub', 'Coding', 'Beginner', 'Store your projects, track changes and collaborate or publish work for free.', 'Code', 'https://github.com', 20)
 on conflict (id) do update set name = excluded.name, category = excluded.category, skill = excluded.skill, description = excluded.description, badge = excluded.badge, url = excluded.url, position = excluded.position;
 
 insert into public.starter_packs (id, title, description, level, file_path, position) values
@@ -65,15 +71,19 @@ insert into public.recommendation_tools (goal_id, tool_id, position) values
   ('learn-ai', 'chatgpt', 0),
   ('learn-ai', 'perplexity', 1),
   ('learn-ai', 'notion-ai', 2),
+  ('learn-ai', 'gemini', 3),
   ('build-website', 'figma', 0),
   ('build-website', 'vscode', 1),
   ('build-website', 'git', 2),
+  ('build-website', 'framer', 3),
   ('automate-work', 'zapier', 0),
   ('automate-work', 'make', 1),
   ('automate-work', 'notion-ai', 2),
+  ('automate-work', 'airtable', 3),
   ('learn-coding', 'python', 0),
   ('learn-coding', 'vscode', 1),
   ('learn-coding', 'git', 2),
+  ('learn-coding', 'replit', 3),
   ('learn-ml', 'python', 0),
   ('learn-ml', 'colab', 1),
   ('learn-ml', 'kaggle', 2),
@@ -83,12 +93,15 @@ insert into public.recommendation_tools (goal_id, tool_id, position) values
   ('build-app', 'vscode', 0),
   ('build-app', 'figma', 1),
   ('build-app', 'python', 2),
+  ('build-app', 'github-copilot', 3),
   ('no-code', 'notion-ai', 0),
   ('no-code', 'zapier', 1),
   ('no-code', 'make', 2),
+  ('no-code', 'airtable', 3),
   ('ai-productivity', 'chatgpt', 0),
   ('ai-productivity', 'perplexity', 1),
-  ('ai-productivity', 'notion-ai', 2)
+  ('ai-productivity', 'notion-ai', 2),
+  ('ai-productivity', 'gemini', 3)
 on conflict (goal_id, tool_id) do update set position = excluded.position;
 
 delete from public.recommendation_starters;

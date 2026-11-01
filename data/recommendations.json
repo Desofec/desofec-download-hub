@@ -5,7 +5,8 @@
     "tools": [
       "chatgpt",
       "perplexity",
-      "notion-ai"
+      "notion-ai",
+      "gemini"
     ],
     "starters": [
       "ai-prompt-pack",
@@ -24,7 +25,8 @@
     "tools": [
       "figma",
       "vscode",
-      "git"
+      "git",
+      "framer"
     ],
     "starters": [
       "website-bundle"
@@ -42,7 +44,8 @@
     "tools": [
       "zapier",
       "make",
-      "notion-ai"
+      "notion-ai",
+      "airtable"
     ],
     "starters": [
       "automation-kit"
@@ -60,7 +63,8 @@
     "tools": [
       "python",
       "vscode",
-      "git"
+      "git",
+      "replit"
     ],
     "starters": [
       "coding-basics-kit"
@@ -114,7 +118,8 @@
     "tools": [
       "vscode",
       "figma",
-      "python"
+      "python",
+      "github-copilot"
     ],
     "starters": [
       "coding-basics-kit"
@@ -132,7 +137,8 @@
     "tools": [
       "notion-ai",
       "zapier",
-      "make"
+      "make",
+      "airtable"
     ],
     "starters": [
       "automation-kit"
@@ -150,7 +156,8 @@
     "tools": [
       "chatgpt",
       "perplexity",
-      "notion-ai"
+      "notion-ai",
+      "gemini"
     ],
     "starters": [
       "productivity-boost",
