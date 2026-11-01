@@ -33,7 +33,8 @@ insert into public.tools (id, name, category, skill, description, badge, url, po
   ('replit', 'Replit', 'Coding', 'Beginner', 'Write, run and share code in the browser with nothing to install.', 'Code', 'https://replit.com', 17),
   ('framer', 'Framer', 'Design', 'Beginner', 'Design and publish a polished website visually, without writing code.', 'Design', 'https://www.framer.com', 18),
   ('airtable', 'Airtable', 'Automation', 'Beginner', 'A friendly spreadsheet-database for organizing data and building simple no-code apps.', 'Automation', 'https://airtable.com', 19),
-  ('github', 'GitHub', 'Coding', 'Beginner', 'Store your projects, track changes and collaborate or publish work for free.', 'Code', 'https://github.com', 20)
+  ('github', 'GitHub', 'Coding', 'Beginner', 'Store your projects, track changes and collaborate or publish work for free.', 'Code', 'https://github.com', 20),
+  ('openai-codex', 'OpenAI Codex', 'Coding', 'Intermediate', 'An AI coding agent that can help explore a codebase, implement changes, and work through software tasks.', 'Code', 'https://chatgpt.com/codex/', 21)
 on conflict (id) do update set name = excluded.name, category = excluded.category, skill = excluded.skill, description = excluded.description, badge = excluded.badge, url = excluded.url, position = excluded.position;
 
 insert into public.starter_packs (id, title, description, level, file_path, position) values
@@ -89,6 +90,7 @@ insert into public.recommendation_tools (goal_id, tool_id, position) values
   ('learn-coding', 'vscode', 1),
   ('learn-coding', 'git', 2),
   ('learn-coding', 'replit', 3),
+  ('learn-coding', 'openai-codex', 4),
   ('learn-ml', 'python', 0),
   ('learn-ml', 'colab', 1),
   ('learn-ml', 'kaggle', 2),
@@ -99,6 +101,7 @@ insert into public.recommendation_tools (goal_id, tool_id, position) values
   ('build-app', 'figma', 1),
   ('build-app', 'python', 2),
   ('build-app', 'github-copilot', 3),
+  ('build-app', 'openai-codex', 4),
   ('no-code', 'notion-ai', 0),
   ('no-code', 'zapier', 1),
   ('no-code', 'make', 2),

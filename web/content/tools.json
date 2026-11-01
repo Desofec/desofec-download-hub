@@ -187,5 +187,14 @@
     "skill": "Beginner",
     "description": "Store your projects, track changes and collaborate or publish work for free.",
     "badge": "Code"
+  },
+  {
+    "id": "openai-codex",
+    "url": "https://chatgpt.com/codex/",
+    "name": "OpenAI Codex",
+    "category": "Coding",
+    "skill": "Intermediate",
+    "description": "An AI coding agent that can help explore a codebase, implement changes, and work through software tasks.",
+    "badge": "Code"
   }
 ]
