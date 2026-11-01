@@ -46,6 +46,11 @@ export default async function PathDetailPage({ params }: { params: Promise<{ id:
           </div>
           <PathSteps pathId={path.id} steps={path.steps} />
           <div className="cta-row">
+            {path.id === 'ai-assisted-coding' && (
+              <Link className="btn btn-primary" href="/projects/ai-assisted-coding/build">
+                Code it yourself: tutorial
+              </Link>
+            )}
             {path.id === 'coding-foundations' && (
               <Link className="btn btn-primary" href="/projects/coding-foundations/build">
                 Code it yourself: tutorial
