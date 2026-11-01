@@ -1,9 +1,9 @@
 'use client';
 
 import { useActionState } from 'react';
-import { subscribe, type SubscribeState } from '@/app/actions';
+import { subscribe, type NewsletterActionState } from '@/app/actions';
 
-const initialState: SubscribeState = { status: 'idle', message: '' };
+const initialState: NewsletterActionState = { status: 'idle', message: '' };
 
 export function NewsletterForm() {
   const [state, formAction, pending] = useActionState(subscribe, initialState);
@@ -30,6 +30,7 @@ export function NewsletterForm() {
       <p className="form-message" role="status" data-status={state.status}>
         {state.message}
       </p>
+      <p className="form-message">We’ll email you a confirmation link. You can unsubscribe any time.</p>
     </div>
   );
 }
