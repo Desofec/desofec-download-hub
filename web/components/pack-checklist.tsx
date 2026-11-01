@@ -45,6 +45,7 @@ export function PackChecklist({ packId, steps }: { packId: string; steps: string
       window.localStorage.setItem(storageKey, value);
       setFallbackSaved(null);
       window.dispatchEvent(new Event(eventName));
+      window.dispatchEvent(new Event('desofec-progress-change'));
     } catch {
       setFallbackSaved(value);
     }
