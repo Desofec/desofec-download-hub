@@ -3,7 +3,6 @@
 import { useCallback, useMemo, useState, useSyncExternalStore } from 'react';
 import type { TutorialStep } from '@/lib/task-tracker-tutorial';
 
-const STORAGE_KEY = 'desofec:tutorial:task-tracker';
 const EVENT_NAME = 'desofec-tutorial-change';
 
 function subscribe(callback: () => void) {
@@ -15,9 +14,9 @@ function subscribe(callback: () => void) {
   };
 }
 
-function readSaved() {
+function readSaved(storageKey: string) {
   try {
-    return localStorage.getItem(STORAGE_KEY) ?? '[]';
+    return localStorage.getItem(storageKey) ?? '[]';
   } catch {
     return '[]';
   }
@@ -43,8 +42,8 @@ function CopyButton({ text, label }: { text: string; label: string }) {
   );
 }
 
-export function TutorialSteps({ steps }: { steps: TutorialStep[] }) {
-  const raw = useSyncExternalStore(subscribe, readSaved, () => null);
+export function TutorialSteps({ steps, storageKey }: { steps: TutorialStep[]; storageKey: string }) {
+  const raw = useSyncExternalStore(subscribe, () => readSaved(storageKey), () => null);
   const ready = raw !== null;
 
   const done = useMemo(() => {
@@ -60,10 +59,10 @@ export function TutorialSteps({ steps }: { steps: TutorialStep[] }) {
 
   const persist = useCallback((next: string[]) => {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+      localStorage.setItem(storageKey, JSON.stringify(next));
     } catch {}
     window.dispatchEvent(new Event(EVENT_NAME));
-  }, []);
+  }, [storageKey]);
 
   const toggle = (id: string) => persist(done.includes(id) ? done.filter((entry) => entry !== id) : [...done, id]);
 
@@ -86,9 +85,9 @@ export function TutorialSteps({ steps }: { steps: TutorialStep[] }) {
               <div className="tutorial-code">
                 <div className="tutorial-code-head">
                   <span>
-                    {index === 0 ? '' : 'Replace everything in '}
+                    {step.replaceAll ? 'Replace everything in ' : 'Put this in '}
                     <code>{step.file}</code>
-                    {index === 0 ? '' : ' with:'}
+                    {step.replaceAll ? ' with:' : ':'}
                   </span>
                   <CopyButton text={step.code} label="Copy code" />
                 </div>

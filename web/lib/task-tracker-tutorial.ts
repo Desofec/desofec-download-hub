@@ -3,6 +3,7 @@ export type TutorialStep = {
   title: string;
   explanation: string[];
   file?: string;
+  replaceAll?: boolean;
   code?: string;
   check: string;
   aiPrompt: string;
@@ -256,6 +257,7 @@ export const taskTrackerSteps: TutorialStep[] = [
       'This code replaces everything in script.js. The only new part is inside render, where the checkbox and remove button are created.'
     ],
     file: 'script.js',
+    replaceAll: true,
     code: completeRemoveCode,
     check: 'Tick a task and it is crossed out. Untick it and it returns to normal. Remove deletes only that task.',
     aiPrompt: 'Explain how the Remove button deletes only one task, using the filter function in this code.'
@@ -268,6 +270,7 @@ export const taskTrackerSteps: TutorialStep[] = [
       'The save function turns your task list into text (JSON) and stores it. At startup, the code reads it back. The final render() call at the bottom draws any saved tasks.'
     ],
     file: 'script.js',
+    replaceAll: true,
     code: saveCode,
     check: 'Add two tasks, tick one, then reload the preview. Both tasks are still there and the tick is remembered.',
     aiPrompt: 'Explain what JSON.stringify and JSON.parse do in this code, and why we need both.'
