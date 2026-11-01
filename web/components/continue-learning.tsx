@@ -1,0 +1,210 @@
+'use client';
+
+import Link from 'next/link';
+import { useCallback, useEffect, useMemo, useState, useSyncExternalStore } from 'react';
+import { useAuth } from '@/components/auth-provider';
+import type { LearningPath, StarterPack } from '@/lib/types';
+import { getSupabaseBrowserClient } from '@/lib/supabase-browser';
+
+type Props = {
+  paths: LearningPath[];
+  packs: StarterPack[];
+  checklists: Record<string, string[]>;
+};
+
+type SavedProgress = {
+  completed: number[];
+  lastActivity: number;
+};
+
+type RemoteProgress = {
+  item_type: 'path' | 'pack';
+  item_id: string;
+  completed_steps: number[];
+  updated_at: string;
+};
+
+type Candidate = {
+  key: string;
+  kind: 'path' | 'pack';
+  title: string;
+  href: string;
+  total: number;
+  completed: number;
+  lastActivity: number;
+};
+
+const EMPTY_REMOTE_ROWS: RemoteProgress[] = [];
+
+function readProgress(paths: LearningPath[], packs: StarterPack[], checklists: Record<string, string[]>) {
+  const saved: Record<string, SavedProgress> = {};
+  try {
+    for (const path of paths) {
+      const progressKey = `desofec:progress:${path.id}`;
+      const completed = JSON.parse(localStorage.getItem(progressKey) ?? '[]');
+      const timestamp = Number(localStorage.getItem(`desofec:activity:path:${path.id}`) ?? 0);
+      saved[`path:${path.id}`] = {
+        completed: Array.isArray(completed)
+          ? completed.filter((index) => Number.isInteger(index) && index >= 0 && index < path.steps.length)
+          : [],
+        lastActivity: Number.isFinite(timestamp) ? timestamp : 0
+      };
+    }
+
+    for (const pack of packs) {
+      const completed = (localStorage.getItem(`desofec-pack-progress:${pack.id}`) ?? '')
+        .split(',')
+        .filter(Boolean)
+        .map(Number);
+      const timestamp = Number(localStorage.getItem(`desofec:activity:pack:${pack.id}`) ?? 0);
+      const count = checklists[pack.id]?.length ?? 0;
+      saved[`pack:${pack.id}`] = {
+        completed: completed.filter((index) => Number.isInteger(index) && index >= 0 && index < count),
+        lastActivity: Number.isFinite(timestamp) ? timestamp : 0
+      };
+    }
+  } catch {
+    return {};
+  }
+  return saved;
+}
+
+function subscribe(callback: () => void) {
+  window.addEventListener('storage', callback);
+  window.addEventListener('desofec-progress-change', callback);
+  return () => {
+    window.removeEventListener('storage', callback);
+    window.removeEventListener('desofec-progress-change', callback);
+  };
+}
+
+export function ContinueLearning({ paths, packs, checklists }: Props) {
+  const { session, ready: authReady } = useAuth();
+  const userId = session?.user.id;
+  const getSnapshot = useCallback(
+    () => JSON.stringify(readProgress(paths, packs, checklists)),
+    [checklists, packs, paths]
+  );
+  const snapshot = useSyncExternalStore(subscribe, getSnapshot, () => null);
+  const localProgress = useMemo(() => {
+    try {
+      return JSON.parse(snapshot ?? '{}') as Record<string, SavedProgress>;
+    } catch {
+      return {};
+    }
+  }, [snapshot]);
+  const [remoteState, setRemoteState] = useState<{ ownerId: string; rows: RemoteProgress[] } | null>(null);
+
+  useEffect(() => {
+    if (!authReady || !userId) return;
+    const client = getSupabaseBrowserClient();
+    if (!client) return;
+
+    let active = true;
+    client
+      .from('user_progress')
+      .select('item_type, item_id, completed_steps, updated_at')
+      .eq('user_id', userId)
+      .then(({ data, error }) => {
+        if (!active || error) return;
+        const rows = (data ?? []).filter(
+          (row): row is RemoteProgress =>
+            (row.item_type === 'path' || row.item_type === 'pack') &&
+            Array.isArray(row.completed_steps) &&
+            typeof row.updated_at === 'string'
+        );
+        setRemoteState({ ownerId: userId, rows });
+      }, () => {});
+
+    return () => {
+      active = false;
+    };
+  }, [authReady, userId]);
+
+  const remoteRows = remoteState && remoteState.ownerId === userId ? remoteState.rows : EMPTY_REMOTE_ROWS;
+  const candidates = useMemo(() => {
+    const remoteByKey = new Map(remoteRows.map((row) => [`${row.item_type}:${row.item_id}`, row]));
+    const all: Candidate[] = [
+      ...paths.map((path) => ({
+        key: `path:${path.id}`,
+        kind: 'path' as const,
+        title: path.title,
+        href: `/paths/${encodeURIComponent(path.id)}`,
+        total: path.steps.length
+      })),
+      ...packs.map((pack) => ({
+        key: `pack:${pack.id}`,
+        kind: 'pack' as const,
+        title: pack.title,
+        href: `/starter-packs/${encodeURIComponent(pack.id)}`,
+        total: checklists[pack.id]?.length ?? 0
+      }))
+    ].flatMap((item) => {
+      const local = localProgress[item.key] ?? { completed: [], lastActivity: 0 };
+      const remote = userId ? remoteByKey.get(item.key) : undefined;
+      const remoteSteps = (remote?.completed_steps ?? []).filter(
+        (index) => Number.isInteger(index) && index >= 0 && index < item.total
+      );
+      let completed = local.completed;
+      if (remote) {
+        const metaKey = `desofec:progress-sync:${userId}:${item.kind}:${item.key.slice(item.kind.length + 1)}`;
+        let localSyncTime = 0;
+        try {
+          localSyncTime = Number(localStorage.getItem(metaKey) ?? 0);
+        } catch {
+          localSyncTime = 0;
+        }
+        const remoteTime = Date.parse(remote.updated_at);
+        if (localSyncTime > remoteTime) {
+          completed = local.completed;
+        } else if (localSyncTime === 0) {
+          completed = [...new Set([...local.completed, ...remoteSteps])];
+        } else {
+          completed = remoteSteps;
+        }
+      }
+
+      const lastActivity = Math.max(
+        local.lastActivity,
+        remote ? Date.parse(remote.updated_at) || 0 : 0
+      );
+      if (completed.length === 0 || lastActivity === 0) return [];
+      return [{ ...item, completed: Math.min(completed.length, item.total), lastActivity }];
+    });
+
+    return all.sort((a, b) => b.lastActivity - a.lastActivity);
+  }, [checklists, localProgress, packs, paths, remoteRows, userId]);
+
+  if (!authReady || snapshot === null) return null;
+
+  const item = candidates[0];
+  const percent = item ? Math.round((item.completed / item.total) * 100) : 0;
+
+  return (
+    <section className="section continue-section">
+      <div className="container">
+        <div className="continue-card">
+          <div className="continue-copy">
+            <span className="eyebrow">{item ? 'Pick up where you left off' : 'Your next step'}</span>
+            <h2>{item ? item.title : 'Ready to start learning?'}</h2>
+            <p>
+              {item
+                ? `${item.completed} of ${item.total} steps complete · ${percent}%`
+                : userId
+                  ? 'Choose a learning path or starter pack and your progress will sync to your account.'
+                  : 'Choose a learning path or starter pack. Your progress saves on this device.'}
+            </p>
+            {item && <progress value={item.completed} max={item.total} aria-label={`${item.title} progress`} />}
+            {!userId && !item && <Link href="/account">Sign in to sync progress across devices</Link>}
+          </div>
+          <div className="continue-action">
+            <Link className="btn btn-primary" href={item?.href ?? '/paths'}>
+              {item ? 'Continue learning' : 'Explore learning paths'}
+            </Link>
+            {item && <Link className="text-link" href="/my-progress">View all progress</Link>}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}

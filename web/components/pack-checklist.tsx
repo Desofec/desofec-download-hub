@@ -43,13 +43,14 @@ export function PackChecklist({ packId, steps }: { packId: string; steps: string
     const value = indices.join(',');
     try {
       window.localStorage.setItem(storageKey, value);
+      window.localStorage.setItem(`desofec:activity:pack:${packId}`, String(Date.now()));
       setFallbackSaved(null);
       window.dispatchEvent(new Event(eventName));
       window.dispatchEvent(new Event('desofec-progress-change'));
     } catch {
       setFallbackSaved(value);
     }
-  }, [eventName, storageKey]);
+  }, [eventName, packId, storageKey]);
 
   const sync = useProgressSync({
     type: 'pack',
