@@ -47,9 +47,14 @@ export default async function PathDetailPage({ params }: { params: Promise<{ id:
           <PathSteps pathId={path.id} steps={path.steps} />
           <div className="cta-row">
             {path.id === 'first-app' && (
-              <Link className="btn btn-primary" href="/projects/first-app">
-                Open hands-on app lab
-              </Link>
+              <>
+                <Link className="btn btn-primary" href="/projects/first-app/build">
+                  Code it yourself: tutorial
+                </Link>
+                <Link className="btn btn-secondary" href="/projects/first-app">
+                  Open hands-on app lab
+                </Link>
+              </>
             )}
             <Link className="btn btn-primary" href={`/results/${encodeURIComponent(path.goal)}`}>
               Start this path
