@@ -1,5 +1,6 @@
 import { aiAssistedCodingSteps } from '@/lib/ai-assisted-coding-tutorial';
 import { aiBeginnerSteps, aiProductivitySteps } from '@/lib/ai-everyday-tutorials';
+import { designBasicsSteps, mlFoundationsSteps } from '@/lib/ml-design-tutorials';
 import { noCodeAutomationSteps, noCodeBuilderSteps, webStarterSteps } from '@/lib/web-nocode-tutorials';
 import { codingFoundationsSteps } from '@/lib/coding-foundations-tutorial';
 import { taskTrackerSteps, type TutorialStep } from '@/lib/task-tracker-tutorial';
@@ -80,6 +81,23 @@ export const tutorials: TutorialInfo[] = [
     intro: 'Understand workflows, connect your apps and build an automation that saves you time.',
     time: '45 minutes',
     steps: noCodeAutomationSteps
+  },
+  {
+    pathId: 'ml-foundations',
+    href: '/tutorials/ml-foundations',
+    title: 'Train your first machine learning model',
+    intro: 'Learn the core ideas of machine learning and train a small model in a free Google Colab notebook.',
+    time: '45 minutes',
+    steps: mlFoundationsSteps
+  },
+  {
+    pathId: 'design-basics',
+    href: '/tutorials/design-basics',
+    title: 'Design a prototype: from sketch to CAD and AI',
+    intro:
+      'Learn design basics, turn an idea into a 3D prototype, try text-to-CAD tools and run a first simulation.',
+    time: '75 minutes',
+    steps: designBasicsSteps
   }
 ];
 
