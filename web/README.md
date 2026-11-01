@@ -23,7 +23,7 @@ and starter pack downloads; the offline page appears when a page has not been ca
 ## Connect Supabase
 
 1. Create a Supabase project.
-2. In the SQL editor, run `supabase/migrations/0001_init.sql`, then `supabase/seed.sql`.
+2. In the SQL editor, run the migrations in order, including `0004_user_progress.sql`, then `supabase/seed.sql`.
    Both are safe to re-run; the seed upserts.
 3. Copy `.env.example` to `.env.local` and fill in the project URL and anon key
    (Project settings → API):
@@ -36,6 +36,10 @@ and starter pack downloads; the offline page appears when a page has not been ca
 Catalog tables have row level security enabled with public read-only policies. The `subscribers` table permits
 public inserts only and does not expose signup emails for reading. Only the anon key is used in the app.
 Catalog reads are cached for an hour (`lib/catalog.ts`).
+
+For email sign-in, keep the Supabase email provider enabled and add the deployed account URL (for example
+`https://your-domain.example/account`) under Authentication → URL Configuration → Redirect URLs. Add local
+development URLs there too if you test sign-in locally.
 
 ## Update the catalog
 
@@ -59,8 +63,15 @@ Sync runs the same checks before copying the files into `content/` and `public/d
 - `scripts/sync-content.mjs` — content sync and seed generation
 - `data/starter-pack-checklists.json` — checklist steps shown on starter-pack detail pages; browser progress is
   saved locally and does not require a Supabase migration
+- `components/auth-provider.tsx` and `/account` — optional email magic-link sign-in
+- `components/progress-sync.tsx` — syncs path and starter-pack progress for signed-in users
 
 ## Known limitations
+
+- To enable cross-device progress, apply all migrations and add the deployed
+  `/account` URL to Supabase Authentication's allowed redirect URLs. Without that migration/configuration,
+  device-only progress still works, but sign-in progress sync will report an error.
+- Email magic links require Supabase Authentication's email provider to be enabled and configured.
 
 - Unknown `/results/[goal]` and `/paths/[id]` URLs show the 404 page but return HTTP 200 (documented behavior with
   Cache Components, where streaming starts before `notFound()` runs). The pages are marked `noindex`.

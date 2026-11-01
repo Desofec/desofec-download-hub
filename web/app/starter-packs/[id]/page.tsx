@@ -47,7 +47,7 @@ export default async function StarterPackDetailPage({ params }: { params: Promis
         </div>
         <div className="section-head checklist-heading">
           <h2>Work through the steps</h2>
-          <p>Tick off each step as you go. Your progress is saved in this browser.</p>
+          <p>Tick off each step as you go. Progress saves on this device and syncs across devices when you sign in.</p>
         </div>
         <PackChecklist packId={pack.id} steps={steps} />
       </div>

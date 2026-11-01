@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
+import { useAuth } from '@/components/auth-provider';
 
 const links = [
   { href: '/', label: 'Home' },
@@ -20,6 +21,7 @@ function isActive(pathname: string, href: string, match?: string[]) {
 export function SiteHeader() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
+  const { session } = useAuth();
 
   return (
     <header className="site-header">
@@ -55,6 +57,9 @@ export function SiteHeader() {
               {link.label}
             </Link>
           ))}
+          <Link href="/account" onClick={() => setMenuOpen(false)}>
+            {session?.user.email ? 'Account' : 'Sign in'}
+          </Link>
           <Link className="btn btn-primary mobile-nav-cta" href="/onboarding" onClick={() => setMenuOpen(false)}>
             Start my path
           </Link>

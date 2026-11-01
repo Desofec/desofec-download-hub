@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useState, useSyncExternalStore } from 'react';
+import { useProgressSync } from '@/components/progress-sync';
 
 const STORAGE_ERROR = 'storage-unavailable';
 
@@ -25,9 +26,10 @@ export function PackChecklist({ packId, steps }: { packId: string; steps: string
       return STORAGE_ERROR;
     }
   }, [storageKey]);
-  const saved = useSyncExternalStore(subscribe, getSnapshot, () => '');
+  const saved = useSyncExternalStore(subscribe, getSnapshot, () => null);
   const [fallbackSaved, setFallbackSaved] = useState<string | null>(null);
-  const currentSaved = fallbackSaved ?? saved;
+  const ready = saved !== null;
+  const currentSaved = fallbackSaved ?? saved ?? '';
   const storageUnavailable = currentSaved === STORAGE_ERROR || fallbackSaved !== null;
   const completedSteps = currentSaved
     .split(',')
@@ -37,7 +39,7 @@ export function PackChecklist({ packId, steps }: { packId: string; steps: string
   const checked = steps.map((_, index) => completedSteps.includes(index));
   const completed = checked.filter(Boolean).length;
 
-  function saveProgress(indices: number[]) {
+  const saveProgress = useCallback((indices: number[]) => {
     const value = indices.join(',');
     try {
       window.localStorage.setItem(storageKey, value);
@@ -46,24 +48,25 @@ export function PackChecklist({ packId, steps }: { packId: string; steps: string
     } catch {
       setFallbackSaved(value);
     }
-  }
+  }, [eventName, storageKey]);
 
-  function toggleStep(index: number, isChecked: boolean) {
+  const sync = useProgressSync({
+    type: 'pack',
+    id: packId,
+    stepsCount: steps.length,
+    completed: completedSteps,
+    ready,
+    applyProgress: saveProgress
+  });
+
+  const toggleStep = (index: number, isChecked: boolean) => {
     const indices = new Set(completedSteps);
     if (isChecked) indices.add(index);
     else indices.delete(index);
     saveProgress([...indices]);
-  }
+  };
 
-  function resetProgress() {
-    try {
-      window.localStorage.removeItem(storageKey);
-      setFallbackSaved(null);
-      window.dispatchEvent(new Event(eventName));
-    } catch {
-      setFallbackSaved('');
-    }
-  }
+  const resetProgress = () => saveProgress([]);
 
   return (
     <div className="pack-checklist">
@@ -73,6 +76,11 @@ export function PackChecklist({ packId, steps }: { packId: string; steps: string
         </p>
         <progress value={completed} max={steps.length} aria-label="Checklist progress" />
       </div>
+      {sync.signedIn && (
+        <p className="sync-status" role="status">
+          {sync.status === 'syncing' ? 'Syncing your progress…' : sync.status === 'error' ? 'Progress sync failed. Your device copy is still saved.' : 'Progress synced to your account.'}
+        </p>
+      )}
       <ol className="checklist-steps">
         {steps.map((step, index) => (
           <li key={step}>
