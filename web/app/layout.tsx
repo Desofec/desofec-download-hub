@@ -24,7 +24,7 @@ export const metadata: Metadata = {
       'Discover beginner-friendly AI tools, learning paths, and starter packs that match your goals.'
   },
   twitter: {
-    card: 'summary',
+    card: 'summary_large_image',
     title: 'Desofec AI Studio | Learn the right tools',
     description:
       'Discover beginner-friendly AI tools, learning paths, and starter packs that match your goals.'
@@ -41,13 +41,16 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html lang="en">
       <body>
+        <a className="skip-link" href="#main-content">
+          Skip to content
+        </a>
         <AuthProvider>
           <FavoritesSync />
           <Suspense fallback={null}>
             <SiteHeader />
           </Suspense>
           <PwaControls />
-          <main>{children}</main>
+          <main id="main-content">{children}</main>
           <footer className="site-footer">
             <div className="container footer-row">
               <div>© 2026 Desofec AI Studio</div>

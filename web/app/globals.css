@@ -1328,3 +1328,19 @@ h3 {
 .tutorial-ai summary {
   cursor: pointer;
 }
+
+.skip-link {
+  position: absolute;
+  left: .75rem;
+  top: -4rem;
+  z-index: 100;
+  padding: .6rem 1rem;
+  border-radius: .5rem;
+  background: #7dd3fc;
+  color: #061020;
+  font-weight: 700;
+}
+
+.skip-link:focus {
+  top: .75rem;
+}
