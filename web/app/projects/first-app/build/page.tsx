@@ -23,7 +23,7 @@ export default function TaskTrackerTutorialPage() {
             account and a web browser. No installs and no experience required.
           </p>
         </div>
-        <TutorialSteps steps={taskTrackerSteps} />
+        <TutorialSteps steps={taskTrackerSteps} storageKey="desofec:tutorial:task-tracker" />
         <div className="cta-row">
           <Link className="btn btn-primary" href="/projects/first-app">
             Back to the app lab
