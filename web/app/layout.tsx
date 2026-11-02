@@ -15,6 +15,8 @@ export const metadata: Metadata = {
   description:
     'Discover beginner-friendly AI tools, learning paths, and starter packs that match your goals.',
   metadataBase: new URL('https://desofec.com'),
+  alternates: { canonical: './' },
+  keywords: ['AI tools for beginners', 'learn AI', 'AI tutorials', 'AI learning paths', 'AI starter packs'],
   openGraph: {
     type: 'website',
     locale: 'en_US',
@@ -38,10 +40,31 @@ export const metadata: Metadata = {
   }
 };
 
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      '@id': 'https://desofec.com/#website',
+      url: 'https://desofec.com',
+      name: 'Desofec AI Studio',
+      description: 'Beginner-friendly AI tools, learning paths, tutorials and starter packs.',
+      inLanguage: ['en', 'fr', 'de', 'es']
+    },
+    {
+      '@type': 'Organization',
+      '@id': 'https://desofec.com/#org',
+      name: 'Desofec AI Studio',
+      url: 'https://desofec.com'
+    }
+  ]
+};
+
 export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html lang="en">
       <body>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         <a className="skip-link" href="#main-content">
           Skip to content
         </a>
