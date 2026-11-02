@@ -23,7 +23,7 @@ and starter pack downloads; the offline page appears when a page has not been ca
 ## Connect Supabase
 
 1. Create a Supabase project.
-2. In the SQL editor, run the migrations in order, including `0004_user_progress.sql`, `0005_user_favorites.sql`, and `0006_newsletter_confirmation.sql`, then `supabase/seed.sql`.
+2. In the SQL editor, run the migrations in order, including `0004_user_progress.sql`, `0005_user_favorites.sql`, `0006_newsletter_confirmation.sql`, and `0007_tutorial_progress.sql`, then `supabase/seed.sql`.
    Both are safe to re-run; the seed upserts.
 3. Copy `.env.example` to `.env.local` and fill in the project URL and anon key
    (Project settings → API):

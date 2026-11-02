@@ -34,6 +34,9 @@ const en = {
   'tutorial.replace': 'Replace everything in',
   'tutorial.replaceWith': 'with:',
   'tutorial.putIn': 'Put this in',
+  'tutorial.syncing': "Syncing your progress…",
+  'tutorial.syncError': "Progress sync failed. Your device copy is still saved.",
+  'tutorial.synced': "Progress synced to your account.",
   'tutorial.englishNote': 'Tutorial lessons are currently available in English.'
 };
 
@@ -64,6 +67,9 @@ const fr: Record<TranslationKey, string> = {
   'tutorial.replace': 'Remplacez tout le contenu de',
   'tutorial.replaceWith': 'par :',
   'tutorial.putIn': 'Placez ceci dans',
+  'tutorial.syncing': "Synchronisation de votre progression…",
+  'tutorial.syncError': "Échec de la synchronisation. Votre copie sur cet appareil est conservée.",
+  'tutorial.synced': "Progression synchronisée avec votre compte.",
   'tutorial.englishNote': 'Les leçons des tutoriels sont pour le moment disponibles en anglais.'
 };
 
@@ -92,6 +98,9 @@ const de: Record<TranslationKey, string> = {
   'tutorial.replace': 'Ersetze den gesamten Inhalt von',
   'tutorial.replaceWith': 'durch:',
   'tutorial.putIn': 'Füge dies ein in',
+  'tutorial.syncing': "Dein Fortschritt wird synchronisiert …",
+  'tutorial.syncError': "Synchronisierung fehlgeschlagen. Deine Kopie auf diesem Gerät bleibt gespeichert.",
+  'tutorial.synced': "Fortschritt mit deinem Konto synchronisiert.",
   'tutorial.englishNote': 'Die Tutorial-Lektionen sind derzeit auf Englisch verfügbar.'
 };
 
@@ -120,6 +129,9 @@ const es: Record<TranslationKey, string> = {
   'tutorial.replace': 'Reemplaza todo en',
   'tutorial.replaceWith': 'con:',
   'tutorial.putIn': 'Pon esto en',
+  'tutorial.syncing': "Sincronizando tu progreso…",
+  'tutorial.syncError': "Falló la sincronización. Tu copia en este dispositivo sigue guardada.",
+  'tutorial.synced': "Progreso sincronizado con tu cuenta.",
   'tutorial.englishNote': 'Las lecciones de los tutoriales están disponibles por ahora en inglés.'
 };
 

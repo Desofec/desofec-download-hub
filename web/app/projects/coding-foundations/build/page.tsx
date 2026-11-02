@@ -20,7 +20,7 @@ export default function CodingFoundationsTutorialPage() {
             with Git and finish with a small game you can share.
           </p>
         </div>
-        <TutorialSteps steps={codingFoundationsSteps} storageKey="desofec:tutorial:coding-foundations" />
+        <TutorialSteps steps={codingFoundationsSteps} storageKey="desofec:tutorial:coding-foundations" syncId="coding-foundations" />
         <div className="cta-row">
           <Link className="btn btn-primary" href="/projects/first-app/build">
             Next: build a task tracker
