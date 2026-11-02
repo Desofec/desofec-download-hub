@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
 import { useLanguage } from '@/components/language';
 import { matchGoals } from '@/lib/idea-planner';
+import { useTr } from '@/components/tr';
 
 type PlannerGoal = { id: string; name: string; description: string };
 type PlannerPath = { id: string; title: string; goal: string; steps: string[]; tutorialHref?: string };
@@ -33,6 +34,7 @@ function getRecognition(): RecognitionConstructor | null {
 
 export function IdeaPlanner({ goals, paths }: { goals: PlannerGoal[]; paths: PlannerPath[] }) {
   const language = useLanguage();
+  const tr = useTr();
   const [idea, setIdea] = useState('');
   const [submitted, setSubmitted] = useState('');
   const [listening, setListening] = useState(false);
@@ -66,7 +68,7 @@ export function IdeaPlanner({ goals, paths }: { goals: PlannerGoal[]; paths: Pla
       for (let index = event.resultIndex; index < event.results.length; index += 1) spoken += event.results[index][0].transcript;
       setIdea(`${base} ${spoken}`.trim().slice(0, MAX_LENGTH));
     };
-    instance.onerror = () => setVoiceNote('Voice input did not work. Check microphone permission, or type your idea.');
+    instance.onerror = () => setVoiceNote(tr('Voice input did not work. Check microphone permission, or type your idea.'));
     instance.onend = () => {
       setListening(false);
       base = '';
@@ -86,7 +88,7 @@ export function IdeaPlanner({ goals, paths }: { goals: PlannerGoal[]; paths: Pla
         }}
       >
         <label htmlFor="idea-input" className="planner-label">
-          What would you like to build or learn?
+          {tr('What would you like to build or learn?')}
         </label>
         <textarea
           id="idea-input"
@@ -95,23 +97,23 @@ export function IdeaPlanner({ goals, paths }: { goals: PlannerGoal[]; paths: Pla
           maxLength={MAX_LENGTH}
           value={idea}
           onChange={(event) => setIdea(event.target.value)}
-          placeholder="Example: I want to build a website for my bakery and automate my orders."
+          placeholder={tr('Example: I want to build a website for my bakery and automate my orders.')}
         />
         <div className="cta-row">
           <button type="submit" className="btn btn-primary" disabled={idea.trim().length < 3}>
-            Make my plan
+            {tr('Make my plan')}
           </button>
           {supportsVoice && (
             <button type="button" className="btn btn-secondary" onClick={toggleVoice} aria-pressed={listening}>
-              {listening ? 'Stop listening' : 'Speak your idea'}
+              {listening ? tr('Stop listening') : tr('Speak your idea')}
             </button>
           )}
         </div>
         <p className="planner-note" aria-live="polite">
           {voiceNote ||
             (supportsVoice
-              ? 'Voice input uses your browser’s speech service, which may send audio to the browser provider. You can always type instead.'
-              : 'Voice input is not available in this browser, so please type your idea.')}
+              ? tr('Voice input uses your browser’s speech service, which may send audio to the browser provider. You can always type instead.')
+              : tr('Voice input is not available in this browser, so please type your idea.'))}
         </p>
       </form>
 
@@ -119,12 +121,12 @@ export function IdeaPlanner({ goals, paths }: { goals: PlannerGoal[]; paths: Pla
         <div className="planner-results" aria-live="polite">
           {matches.length === 0 ? (
             <p>
-              We could not match that yet. Try adding words such as website, app, automation, coding, design or AI, or{' '}
-              <Link href="/onboarding">pick a goal</Link>.
+              {tr('We could not match that yet. Try adding words such as website, app, automation, coding, design or AI, or')}{' '}
+              <Link href="/onboarding">{tr('pick a goal')}</Link>.
             </p>
           ) : (
             <>
-              <h2>Your plan</h2>
+              <h2>{tr('Your plan')}</h2>
               <ol className="planner-plan">
                 {matches.map((match, index) => {
                   const goal = goals.find((entry) => entry.id === match.goalId);
@@ -133,23 +135,22 @@ export function IdeaPlanner({ goals, paths }: { goals: PlannerGoal[]; paths: Pla
                   return (
                     <li key={goal.id} className="planner-card">
                       <h3>
-                        {index === 0 ? 'Start here: ' : 'Then: '}
-                        {goal.name}
+                        {index === 0 ? tr('Start here:') : tr('Then:')} {tr(goal.name)}
                       </h3>
-                      <p>{goal.description}</p>
+                      <p>{tr(goal.description)}</p>
                       {path && (
                         <p>
-                          First steps in <strong>{path.title}</strong>: {path.steps.slice(0, 3).join(' → ')}
+                          {tr('First steps in')} <strong>{tr(path.title)}</strong>: {path.steps.slice(0, 3).map((step) => tr(step)).join(' → ')}
                         </p>
                       )}
                       <div className="cta-row">
                         {path?.tutorialHref && (
                           <Link className="btn btn-primary" href={path.tutorialHref}>
-                            Start the tutorial
+                            {tr('Start the tutorial')}
                           </Link>
                         )}
                         <Link className="btn btn-secondary" href={`/results/${encodeURIComponent(goal.id)}`}>
-                          See tools and starter packs
+                          {tr('See tools and starter packs')}
                         </Link>
                       </div>
                     </li>

@@ -3,6 +3,7 @@ import { FavoriteTools } from '@/components/favorite-tools';
 import { getCatalog } from '@/lib/catalog';
 import { tutorialStorageKey, tutorials } from '@/lib/tutorials';
 import { ProgressDashboard } from '@/components/progress-dashboard';
+import { Tr } from '@/components/tr';
 
 export const metadata: Metadata = {
   title: 'My progress',
@@ -16,9 +17,9 @@ export default async function MyProgressPage() {
     <section className="section">
       <div className="container">
         <div className="section-head">
-          <span className="eyebrow">Your learning</span>
-          <h1>My progress</h1>
-          <p>Pick up where you left off, or choose something new to learn.</p>
+          <span className="eyebrow"><Tr>Your learning</Tr></span>
+          <h1><Tr>My progress</Tr></h1>
+          <p><Tr>Pick up where you left off, or choose something new to learn.</Tr></p>
         </div>
         <ProgressDashboard
           paths={paths}

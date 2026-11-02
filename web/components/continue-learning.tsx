@@ -5,6 +5,9 @@ import { useCallback, useEffect, useMemo, useState, useSyncExternalStore } from 
 import { useAuth } from '@/components/auth-provider';
 import type { LearningPath, StarterPack } from '@/lib/types';
 import { getSupabaseBrowserClient } from '@/lib/supabase-browser';
+import { useTr } from '@/components/tr';
+import { useLanguage } from '@/components/language';
+import { getTutorialTranslation } from '@/lib/tutorial-translations';
 
 export type ContinueTutorial = { id: string; title: string; href: string; stepIds: string[]; storageKey: string };
 
@@ -101,6 +104,8 @@ function subscribe(callback: () => void) {
 const NO_TUTORIALS: ContinueTutorial[] = [];
 
 export function ContinueLearning({ paths, packs, checklists, tutorials = NO_TUTORIALS }: Props) {
+  const tr = useTr();
+  const language = useLanguage();
   const { session, ready: authReady } = useAuth();
   const userId = session?.user.id;
   const getSnapshot = useCallback(
@@ -201,7 +206,7 @@ export function ContinueLearning({ paths, packs, checklists, tutorials = NO_TUTO
         {
           key: `tutorial:${tutorial.id}`,
           kind: 'tutorial' as const,
-          title: `Tutorial: ${tutorial.title}`,
+          title: tutorial.title,
           href: tutorial.href,
           total: tutorial.stepIds.length,
           completed: local.completed.length,
@@ -217,29 +222,36 @@ export function ContinueLearning({ paths, packs, checklists, tutorials = NO_TUTO
 
   const item = candidates[0];
   const percent = item ? Math.round((item.completed / item.total) * 100) : 0;
+  const itemTitle = item
+    ? item.kind === 'tutorial'
+      ? tr('Tutorial: {title}', { title: getTutorialTranslation(item.key.slice('tutorial:'.length), language)?.title ?? item.title })
+      : tr(item.title)
+    : '';
 
   return (
     <section className="section continue-section">
       <div className="container">
         <div className="continue-card">
           <div className="continue-copy">
-            <span className="eyebrow">{item ? 'Pick up where you left off' : 'Your next step'}</span>
-            <h2>{item ? item.title : 'Ready to start learning?'}</h2>
+            <span className="eyebrow">{item ? tr('Pick up where you left off') : tr('Your next step')}</span>
+            <h2>{item ? itemTitle : tr('Ready to start learning?')}</h2>
             <p>
               {item
-                ? `${item.completed} of ${item.total} steps complete · ${percent}%`
+                ? tr('{done} of {total} steps complete · {percent}%', { done: item.completed, total: item.total, percent })
                 : userId
-                  ? 'Choose a learning path or starter pack and your progress will sync to your account.'
-                  : 'Choose a learning path or starter pack. Your progress saves on this device.'}
+                  ? tr('Choose a learning path or starter pack and your progress will sync to your account.')
+                  : tr('Choose a learning path or starter pack. Your progress saves on this device.')}
             </p>
-            {item && <progress value={item.completed} max={item.total} aria-label={`${item.title} progress`} />}
-            {!userId && !item && <Link href="/account">Sign in to sync progress across devices</Link>}
+            {item && <progress value={item.completed} max={item.total} aria-label={tr('{title} progress', { title: itemTitle })} />}
+            {!userId && !item && <Link href="/account">{tr('Sign in to sync progress across devices')}</Link>}
           </div>
           <div className="continue-action">
             <Link className="btn btn-primary" href={item?.href ?? '/paths'}>
-              {item ? 'Continue learning' : 'Explore learning paths'}
+              {item ? tr('Continue learning') : tr('Explore learning paths')}
             </Link>
-            {item && <Link className="text-link" href="/my-progress">View all progress</Link>}
+            {item && <Link className="text-link" href="/my-progress">
+                {tr('View all progress')}
+              </Link>}
           </div>
         </div>
       </div>

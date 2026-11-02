@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { PackCard, ToolCard } from '@/components/cards';
 import { getCatalog } from '@/lib/catalog';
+import { Tr } from '@/components/tr';
 
 export async function generateStaticParams() {
   const { goals } = await getCatalog();
@@ -32,24 +33,24 @@ export default async function ResultsPage({ params }: { params: Promise<{ goal: 
       <div className="container">
         <div className="section-head">
           <div>
-            <span className="eyebrow">Your recommendation</span>
-            <h1>{recommendation.title}</h1>
+            <span className="eyebrow"><Tr>Your recommendation</Tr></span>
+            <h1><Tr>{recommendation.title}</Tr></h1>
           </div>
         </div>
         <div className="result-summary">
           <article className="result-card">
-            <h3>Recommended next step</h3>
-            <p>{recommendation.summary}</p>
+            <h3><Tr>Recommended next step</Tr></h3>
+            <p><Tr>{recommendation.summary}</Tr></p>
             <ul className="mini-checklist">
               {recommendation.steps.map((step) => (
-                <li key={step}>{step}</li>
+                <li key={step}><Tr>{step}</Tr></li>
               ))}
             </ul>
           </article>
         </div>
 
         <div className="section-head">
-          <h2>Best tools to start with</h2>
+          <h2><Tr>Best tools to start with</Tr></h2>
         </div>
         <div className="results-grid">
           {tools.map((tool) => (
@@ -58,7 +59,7 @@ export default async function ResultsPage({ params }: { params: Promise<{ goal: 
         </div>
 
         <div className="section-head">
-          <h2>Starter packs for this path</h2>
+          <h2><Tr>Starter packs for this path</Tr></h2>
         </div>
         <div className="results-grid">
           {packs.map((pack) => (
@@ -68,10 +69,10 @@ export default async function ResultsPage({ params }: { params: Promise<{ goal: 
 
         <div className="cta-row">
           <Link className="btn btn-primary" href="/onboarding">
-            Try another goal
+            <Tr>Try another goal</Tr>
           </Link>
           <Link className="btn btn-secondary" href="/tools">
-            Explore all tools
+            <Tr>Explore all tools</Tr>
           </Link>
         </div>
       </div>

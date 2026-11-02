@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { PackCard, ToolCard } from '@/components/cards';
 import { FavoriteToolButton } from '@/components/favorite-tool-button';
 import { getCatalog } from '@/lib/catalog';
+import { Tr } from '@/components/tr';
 
 export async function generateStaticParams() {
   const { tools } = await getCatalog();
@@ -38,13 +39,13 @@ export default async function ToolDetailPage({ params }: { params: Promise<{ id:
       <section className="section">
         <div className="container">
           <div className="section-head">
-            <span className="eyebrow">{tool.category}</span>
+            <span className="eyebrow"><Tr>{tool.category}</Tr></span>
             <h1>{tool.name}</h1>
-            <p>{tool.description}</p>
+            <p><Tr>{tool.description}</Tr></p>
           </div>
           <div className="tool-meta path-meta">
-            <span className="tool-tag">{tool.badge}</span>
-            <span className="skill-chip">{tool.skill}</span>
+            <span className="tool-tag"><Tr>{tool.badge}</Tr></span>
+            <span className="skill-chip"><Tr>{tool.skill}</Tr></span>
           </div>
           <div className="cta-row">
             <FavoriteToolButton toolId={tool.id} />
@@ -57,10 +58,10 @@ export default async function ToolDetailPage({ params }: { params: Promise<{ id:
               rel="noopener noreferrer"
               aria-label={`Open ${tool.name} (opens in a new tab)`}
             >
-              Open {tool.name}
+              <Tr values={{ name: tool.name }}>{'Open {name}'}</Tr>
             </a>
             <Link className="btn btn-secondary" href="/tools">
-              Back to all tools
+              <Tr>Back to all tools</Tr>
             </Link>
           </div>
         </div>
@@ -70,16 +71,18 @@ export default async function ToolDetailPage({ params }: { params: Promise<{ id:
         <section className="section muted-section">
           <div className="container">
             <div className="section-head">
-              <h2>Good for these goals</h2>
-              <p>Pick a goal to see how {tool.name} fits into a full recommendation.</p>
+              <h2><Tr>Good for these goals</Tr></h2>
+              <p>
+                <Tr values={{ name: tool.name }}>{'Pick a goal to see how {name} fits into a full recommendation.'}</Tr>
+              </p>
             </div>
             <div className="result-summary">
               {goals.map((goal) => (
                 <article className="result-card" key={goal.id}>
-                  <h3>{goal.name}</h3>
-                  <p>{goal.description}</p>
+                  <h3><Tr>{goal.name}</Tr></h3>
+                  <p><Tr>{goal.description}</Tr></p>
                   <Link className="text-link" href={`/results/${encodeURIComponent(goal.id)}`}>
-                    See recommendation
+                    <Tr>See recommendation</Tr>
                   </Link>
                 </article>
               ))}
@@ -92,15 +95,15 @@ export default async function ToolDetailPage({ params }: { params: Promise<{ id:
         <section className="section">
           <div className="container">
             <div className="section-head">
-              <h2>Learning paths that use it</h2>
+              <h2><Tr>Learning paths that use it</Tr></h2>
             </div>
             <div className="result-summary">
               {paths.map((path) => (
                 <article className="result-card" key={path.id}>
-                  <h3>{path.title}</h3>
-                  <p>{path.description}</p>
+                  <h3><Tr>{path.title}</Tr></h3>
+                  <p><Tr>{path.description}</Tr></p>
                   <Link className="text-link" href={`/paths/${encodeURIComponent(path.id)}`}>
-                    View path
+                    <Tr>View path</Tr>
                   </Link>
                 </article>
               ))}
@@ -113,7 +116,7 @@ export default async function ToolDetailPage({ params }: { params: Promise<{ id:
         <section className="section muted-section">
           <div className="container">
             <div className="section-head">
-              <h2>Starter packs to try</h2>
+              <h2><Tr>Starter packs to try</Tr></h2>
             </div>
             <div className="results-grid">
               {packs.map((pack) => (
@@ -128,7 +131,7 @@ export default async function ToolDetailPage({ params }: { params: Promise<{ id:
         <section className="section">
           <div className="container">
             <div className="section-head">
-              <h2>Similar tools</h2>
+              <h2><Tr>Similar tools</Tr></h2>
             </div>
             <div className="results-grid">
               {similar.map((entry) => (

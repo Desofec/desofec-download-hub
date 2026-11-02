@@ -1,18 +1,19 @@
 import Link from 'next/link';
+import { Tr } from '@/components/tr';
 
 export default function NotFound() {
   return (
     <section className="section narrow-section">
       <div className="container small-container center-head">
         <span className="eyebrow">404</span>
-        <h1>Page not found</h1>
-        <p>We could not find that page. Try browsing the learning paths instead.</p>
+        <h1><Tr>Page not found</Tr></h1>
+        <p><Tr>We could not find that page. Try browsing the learning paths instead.</Tr></p>
         <div className="cta-row">
           <Link className="btn btn-primary" href="/paths">
-            Browse learning paths
+            <Tr>Browse learning paths</Tr>
           </Link>
           <Link className="btn btn-secondary" href="/">
-            Go home
+            <Tr>Go home</Tr>
           </Link>
         </div>
       </div>

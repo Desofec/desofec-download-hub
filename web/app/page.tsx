@@ -4,18 +4,20 @@ import { ContinueLearning } from '@/components/continue-learning';
 import { NewsletterForm } from '@/components/newsletter-form';
 import { getCatalog } from '@/lib/catalog';
 import { tutorialStorageKey, tutorials } from '@/lib/tutorials';
+import { Tr } from '@/components/tr';
+import { phrase } from '@/lib/phrase-mark';
 
 const steps = [
-  ['01', 'Choose a goal', 'Pick what you want to do next, like building a site, learning AI, or automating work.'],
-  ['02', 'Get a learning path', 'We recommend the best beginner-friendly route and the tools that match your level.'],
-  ['03', 'Use starter resources', 'Open prompt packs, templates, design kits, and simple project ideas to start building.'],
-  ['04', 'Build with confidence', 'Move from confusion to real steps with a clearer path and practical next actions.']
+  ['01', phrase('Choose a goal'), phrase('Pick what you want to do next, like building a site, learning AI, or automating work.')],
+  ['02', phrase('Get a learning path'), phrase('We recommend the best beginner-friendly route and the tools that match your level.')],
+  ['03', phrase('Use starter resources'), phrase('Open prompt packs, templates, design kits, and simple project ideas to start building.')],
+  ['04', phrase('Build with confidence'), phrase('Move from confusion to real steps with a clearer path and practical next actions.')]
 ];
 
 const highlights = [
-  ['Find your direction', 'Choose a goal and get a clear path instead of guessing which tool to use.'],
-  ['Learn with confidence', 'Follow beginner-friendly steps that turn confusion into simple, practical actions.'],
-  ['Build with support', 'Use starter packs, prompts, and workflow ideas to take action quickly.']
+  [phrase('Find your direction'), phrase('Choose a goal and get a clear path instead of guessing which tool to use.')],
+  [phrase('Learn with confidence'), phrase('Follow beginner-friendly steps that turn confusion into simple, practical actions.')],
+  [phrase('Build with support'), phrase('Use starter packs, prompts, and workflow ideas to take action quickly.')]
 ];
 
 export default async function HomePage() {
@@ -26,45 +28,44 @@ export default async function HomePage() {
       <section className="hero">
         <div className="container hero-grid">
           <div className="hero-copy">
-            <span className="eyebrow">Guided AI discovery for beginners</span>
-            <h1>Learn the right tools. Build with confidence. Launch with clarity.</h1>
+            <span className="eyebrow"><Tr>Guided AI discovery for beginners</Tr></span>
+            <h1><Tr>Learn the right tools. Build with confidence. Launch with clarity.</Tr></h1>
             <p>
-              Desofec AI Studio helps you discover the tools, learning paths, and starter resources that match your
-              goals — without the confusion of too many choices.
+              <Tr>Desofec AI Studio helps you discover the tools, learning paths, and starter resources that match your goals — without the confusion of too many choices.</Tr>
             </p>
             <div className="cta-row">
               <Link className="btn btn-primary" href="/onboarding">
-                Start my path
+                <Tr>Start my path</Tr>
               </Link>
               <Link className="btn btn-secondary" href="/tools">
-                Explore tools
+                <Tr>Explore tools</Tr>
               </Link>
             </div>
             <ul className="mini-stats" aria-label="Project stats">
               <li>
                 <strong>{catalog.goals.length}</strong>
-                <span>goal paths</span>
+                <span><Tr>goal paths</Tr></span>
               </li>
               <li>
                 <strong>{catalog.tools.length}</strong>
-                <span>starter tools</span>
+                <span><Tr>starter tools</Tr></span>
               </li>
               <li>
-                <strong>Beginner-first</strong>
-                <span>clear guidance</span>
+                <strong><Tr>Beginner-first</Tr></strong>
+                <span><Tr>clear guidance</Tr></span>
               </li>
             </ul>
           </div>
           <div className="feature-panel">
             <div className="panel-header">
               <span className="status-dot"></span>
-              <span>Most useful paths</span>
+              <span><Tr>Most useful paths</Tr></span>
             </div>
             <div className="feature-list">
               {highlights.map(([title, text]) => (
                 <article className="feature-card" key={title}>
-                  <h3>{title}</h3>
-                  <p>{text}</p>
+                  <h3><Tr>{title}</Tr></h3>
+                  <p><Tr>{text}</Tr></p>
                 </article>
               ))}
             </div>
@@ -89,8 +90,8 @@ export default async function HomePage() {
         <div className="container">
           <div className="section-head">
             <div>
-              <span className="eyebrow">Choose your direction</span>
-              <h2>What do you want to build?</h2>
+              <span className="eyebrow"><Tr>Choose your direction</Tr></span>
+              <h2><Tr>What do you want to build?</Tr></h2>
             </div>
           </div>
           <div className="goal-grid">
@@ -105,16 +106,16 @@ export default async function HomePage() {
         <div className="container">
           <div className="section-head">
             <div>
-              <span className="eyebrow">How it works</span>
-              <h2>Get a clear path without the chaos</h2>
+              <span className="eyebrow"><Tr>How it works</Tr></span>
+              <h2><Tr>Get a clear path without the chaos</Tr></h2>
             </div>
           </div>
           <div className="steps-grid">
             {steps.map(([number, title, text]) => (
               <div className="step-card" key={number}>
                 <span className="step-number">{number}</span>
-                <h3>{title}</h3>
-                <p>{text}</p>
+                <h3><Tr>{title}</Tr></h3>
+                <p><Tr>{text}</Tr></p>
               </div>
             ))}
           </div>
@@ -125,11 +126,11 @@ export default async function HomePage() {
         <div className="container">
           <div className="section-head split-head">
             <div>
-              <span className="eyebrow">Learning paths</span>
-              <h2>Beginner-first journeys</h2>
+              <span className="eyebrow"><Tr>Learning paths</Tr></span>
+              <h2><Tr>Beginner-first journeys</Tr></h2>
             </div>
             <Link className="text-link" href="/paths">
-              View all paths
+              <Tr>View all paths</Tr>
             </Link>
           </div>
           <div className="path-grid">
@@ -144,11 +145,11 @@ export default async function HomePage() {
         <div className="container">
           <div className="section-head split-head">
             <div>
-              <span className="eyebrow">Tool library</span>
-              <h2>Pick tools by purpose and skill level</h2>
+              <span className="eyebrow"><Tr>Tool library</Tr></span>
+              <h2><Tr>Pick tools by purpose and skill level</Tr></h2>
             </div>
             <Link className="text-link" href="/tools">
-              Explore all tools
+              <Tr>Explore all tools</Tr>
             </Link>
           </div>
           <div className="tool-grid">
@@ -163,11 +164,11 @@ export default async function HomePage() {
         <div className="container">
           <div className="section-head split-head">
             <div>
-              <span className="eyebrow">Starter packs</span>
-              <h2>Useful resources to start with</h2>
+              <span className="eyebrow"><Tr>Starter packs</Tr></span>
+              <h2><Tr>Useful resources to start with</Tr></h2>
             </div>
             <Link className="text-link" href="/starter-packs">
-              Browse packs
+              <Tr>Browse packs</Tr>
             </Link>
           </div>
           <div className="starter-grid">
@@ -181,9 +182,9 @@ export default async function HomePage() {
       <section className="newsletter">
         <div className="container newsletter-row">
           <div>
-            <span className="eyebrow">Stay in the loop</span>
-            <h2>Get new tools and paths first</h2>
-            <p>Join the list for new beginner-friendly tools, learning paths, and starter packs. Unsubscribe any time.</p>
+            <span className="eyebrow"><Tr>Stay in the loop</Tr></span>
+            <h2><Tr>Get new tools and paths first</Tr></h2>
+            <p><Tr>Join the list for new beginner-friendly tools, learning paths, and starter packs. Unsubscribe any time.</Tr></p>
           </div>
           <NewsletterForm />
         </div>

@@ -5,6 +5,7 @@ import { PackCard, ToolCard } from '@/components/cards';
 import { PathSteps } from '@/components/path-steps';
 import { getCatalog } from '@/lib/catalog';
 import { getTutorialForPath } from '@/lib/tutorials';
+import { Tr } from '@/components/tr';
 
 export async function generateStaticParams() {
   const { paths } = await getCatalog();
@@ -35,34 +36,34 @@ export default async function PathDetailPage({ params }: { params: Promise<{ id:
       <section className="section">
         <div className="container">
           <div className="section-head">
-            <span className="eyebrow">Learning path</span>
-            <h1>{path.title}</h1>
-            <p>{path.description}</p>
+            <span className="eyebrow"><Tr>Learning path</Tr></span>
+            <h1><Tr>{path.title}</Tr></h1>
+            <p><Tr>{path.description}</Tr></p>
           </div>
           <div className="tool-meta path-meta">
-            <span className="path-badge">{path.badge}</span>
-            <span className="skill-chip">{path.level}</span>
+            <span className="path-badge"><Tr>{path.badge}</Tr></span>
+            <span className="skill-chip"><Tr>{path.level}</Tr></span>
           </div>
           <div className="section-head">
-            <h2>Your learning steps</h2>
+            <h2><Tr>Your learning steps</Tr></h2>
           </div>
           <PathSteps pathId={path.id} steps={path.steps} />
           <div className="cta-row">
             {tutorial && (
               <Link className="btn btn-primary" href={tutorial.href}>
-                Learn step by step: tutorial
+                <Tr>Learn step by step: tutorial</Tr>
               </Link>
             )}
             {path.id === 'first-app' && (
               <Link className="btn btn-secondary" href="/projects/first-app">
-                Open hands-on app lab
+                <Tr>Open hands-on app lab</Tr>
               </Link>
             )}
             <Link className="btn btn-primary" href={`/results/${encodeURIComponent(path.goal)}`}>
-              Start this path
+              <Tr>Start this path</Tr>
             </Link>
             <Link className="btn btn-secondary" href="/paths">
-              Browse all paths
+              <Tr>Browse all paths</Tr>
             </Link>
           </div>
         </div>
@@ -72,7 +73,7 @@ export default async function PathDetailPage({ params }: { params: Promise<{ id:
         <section className="section muted-section">
           <div className="container">
             <div className="section-head">
-              <h2>Recommended tools</h2>
+              <h2><Tr>Recommended tools</Tr></h2>
             </div>
             <div className="results-grid">
               {tools.map((tool) => (
@@ -87,7 +88,7 @@ export default async function PathDetailPage({ params }: { params: Promise<{ id:
         <section className="section">
           <div className="container">
             <div className="section-head">
-              <h2>Starter packs for this path</h2>
+              <h2><Tr>Starter packs for this path</Tr></h2>
             </div>
             <div className="results-grid">
               {packs.map((pack) => (

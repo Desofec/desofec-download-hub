@@ -3,6 +3,7 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import type { Goal } from '@/lib/types';
+import { Tr } from '@/components/tr';
 
 export function OnboardingForm({ goals }: { goals: Goal[] }) {
   const router = useRouter();
@@ -20,17 +21,19 @@ export function OnboardingForm({ goals }: { goals: Goal[] }) {
       }}
     >
       <div className="form-group">
-        <label htmlFor="goal">What do you want to do?</label>
+        <label htmlFor="goal">
+          <Tr>What do you want to do?</Tr>
+        </label>
         <select id="goal" name="goal" value={goal} onChange={(event) => setGoal(event.target.value)} required>
           {goals.map((entry) => (
             <option key={entry.id} value={entry.id}>
-              {entry.name}
+              <Tr>{entry.name}</Tr>
             </option>
           ))}
         </select>
       </div>
       <button className="btn btn-primary block-btn" type="submit">
-        Show my recommendation
+        <Tr>Show my recommendation</Tr>
       </button>
     </form>
   );

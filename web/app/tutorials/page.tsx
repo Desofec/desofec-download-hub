@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { TutorialList } from '@/components/tutorial-list';
 import { getCatalog } from '@/lib/catalog';
 import { tutorials } from '@/lib/tutorials';
+import { Tr } from '@/components/tr';
 
 export const metadata: Metadata = {
   title: 'Step-by-step tutorials',
@@ -17,11 +18,11 @@ export default async function TutorialsPage() {
       <div className="container">
         <div className="section-head">
           <div>
-            <span className="eyebrow">Tutorials</span>
-            <h1>Learn by building, step by step</h1>
-            <p>Every learning path has a hands-on tutorial with explanations, copy-ready examples and checks.</p>
+            <span className="eyebrow"><Tr>Tutorials</Tr></span>
+            <h1><Tr>Learn by building, step by step</Tr></h1>
+            <p><Tr>Every learning path has a hands-on tutorial with explanations, copy-ready examples and checks.</Tr></p>
             <Link className="btn btn-secondary" href="/plan">
-              Not sure where to start? Describe your idea
+              <Tr>Not sure where to start? Describe your idea</Tr>
             </Link>
           </div>
         </div>

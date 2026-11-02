@@ -2,6 +2,9 @@
 
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
+import { Tr, useTr } from '@/components/tr';
+import { useLanguage } from '@/components/language';
+import { getTutorialTranslation } from '@/lib/tutorial-translations';
 
 export type TutorialCardData = {
   pathId: string;
@@ -16,6 +19,8 @@ export type TutorialCardData = {
 };
 
 export function TutorialList({ items }: { items: TutorialCardData[] }) {
+  const tr = useTr();
+  const language = useLanguage();
   const [query, setQuery] = useState('');
   const [level, setLevel] = useState('All');
 
@@ -34,18 +39,18 @@ export function TutorialList({ items }: { items: TutorialCardData[] }) {
     <div>
       <div className="tutorial-filters">
         <label className="sr-only" htmlFor="tutorial-search">
-          Search tutorials
+          <Tr>Search tutorials</Tr>
         </label>
         <input
           id="tutorial-search"
           className="planner-input"
           type="search"
-          placeholder="Search tutorials, for example Python or automation"
+          placeholder={tr('Search tutorials, for example Python or automation')}
           value={query}
           maxLength={80}
           onChange={(event) => setQuery(event.target.value)}
         />
-        <div className="cta-row" role="group" aria-label="Filter by level">
+        <div className="cta-row" role="group" aria-label={tr('Filter by level')}>
           {levels.map((entry) => (
             <button
               key={entry}
@@ -54,33 +59,51 @@ export function TutorialList({ items }: { items: TutorialCardData[] }) {
               aria-pressed={level === entry}
               onClick={() => setLevel(entry)}
             >
-              {entry}
+              <Tr>{entry}</Tr>
             </button>
           ))}
         </div>
       </div>
       <p className="planner-note" aria-live="polite">
-        {visible.length} of {items.length} tutorials
+        <Tr values={{ shown: visible.length, total: items.length }}>{'{shown} of {total} tutorials'}</Tr>
       </p>
       <div className="path-directory">
         {visible.map((tutorial) => (
           <article className="path-card" key={tutorial.pathId}>
             <div className="tool-meta path-meta">
-              {tutorial.badge && <span className="path-badge">{tutorial.badge}</span>}
-              {tutorial.level && <span className="skill-chip">{tutorial.level}</span>}
-              <span className="skill-chip">{tutorial.time}</span>
+              {tutorial.badge && (
+                <span className="path-badge">
+                  <Tr>{tutorial.badge}</Tr>
+                </span>
+              )}
+              {tutorial.level && (
+                <span className="skill-chip">
+                  <Tr>{tutorial.level}</Tr>
+                </span>
+              )}
+              <span className="skill-chip">
+                <Tr values={{ minutes: Number.parseInt(tutorial.time, 10) }}>{'{minutes} minutes'}</Tr>
+              </span>
             </div>
-            <h3>{tutorial.title}</h3>
+            <h3>{getTutorialTranslation(tutorial.pathId, language)?.title ?? tutorial.title}</h3>
             <p>
-              {tutorial.stepCount} steps{tutorial.pathTitle ? ` · ${tutorial.pathTitle} path` : ''}
+              <Tr values={{ count: tutorial.stepCount }}>{'{count} steps'}</Tr>
+              {tutorial.pathTitle && (
+                <>
+                  {' · '}
+                  <Tr values={{ title: tr(tutorial.pathTitle) }}>{'{title} path'}</Tr>
+                </>
+              )}
             </p>
             <Link className="btn btn-primary" href={tutorial.href}>
-              Start tutorial
+              <Tr>Start tutorial</Tr>
             </Link>
           </article>
         ))}
       </div>
-      {visible.length === 0 && <p>No tutorials match. Try a different word or clear the filter.</p>}
+      {visible.length === 0 && <p>
+          <Tr>No tutorials match. Try a different word or clear the filter.</Tr>
+        </p>}
     </div>
   );
 }
