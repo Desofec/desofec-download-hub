@@ -6,7 +6,10 @@ import { useAuth } from '@/components/auth-provider';
 import type { LearningPath, StarterPack } from '@/lib/types';
 import { getSupabaseBrowserClient } from '@/lib/supabase-browser';
 
+export type ContinueTutorial = { id: string; title: string; href: string; stepIds: string[]; storageKey: string };
+
 type Props = {
+  tutorials?: ContinueTutorial[];
   paths: LearningPath[];
   packs: StarterPack[];
   checklists: Record<string, string[]>;
@@ -26,7 +29,7 @@ type RemoteProgress = {
 
 type Candidate = {
   key: string;
-  kind: 'path' | 'pack';
+  kind: 'path' | 'pack' | 'tutorial';
   title: string;
   href: string;
   total: number;
@@ -36,9 +39,24 @@ type Candidate = {
 
 const EMPTY_REMOTE_ROWS: RemoteProgress[] = [];
 
-function readProgress(paths: LearningPath[], packs: StarterPack[], checklists: Record<string, string[]>) {
+function readProgress(
+  paths: LearningPath[],
+  packs: StarterPack[],
+  checklists: Record<string, string[]>,
+  tutorials: ContinueTutorial[]
+) {
   const saved: Record<string, SavedProgress> = {};
   try {
+    for (const tutorial of tutorials) {
+      const done = JSON.parse(localStorage.getItem(tutorial.storageKey) ?? '[]');
+      const timestamp = Number(localStorage.getItem(`${tutorial.storageKey}:activity`) ?? 0);
+      const ids = Array.isArray(done) ? done.filter((id) => tutorial.stepIds.includes(id)) : [];
+      saved[`tutorial:${tutorial.id}`] = {
+        completed: ids.map((_, index) => index),
+        lastActivity: Number.isFinite(timestamp) ? timestamp : 0
+      };
+    }
+
     for (const path of paths) {
       const progressKey = `desofec:progress:${path.id}`;
       const completed = JSON.parse(localStorage.getItem(progressKey) ?? '[]');
@@ -72,18 +90,22 @@ function readProgress(paths: LearningPath[], packs: StarterPack[], checklists: R
 function subscribe(callback: () => void) {
   window.addEventListener('storage', callback);
   window.addEventListener('desofec-progress-change', callback);
+  window.addEventListener('desofec-tutorial-change', callback);
   return () => {
     window.removeEventListener('storage', callback);
     window.removeEventListener('desofec-progress-change', callback);
+    window.removeEventListener('desofec-tutorial-change', callback);
   };
 }
 
-export function ContinueLearning({ paths, packs, checklists }: Props) {
+const NO_TUTORIALS: ContinueTutorial[] = [];
+
+export function ContinueLearning({ paths, packs, checklists, tutorials = NO_TUTORIALS }: Props) {
   const { session, ready: authReady } = useAuth();
   const userId = session?.user.id;
   const getSnapshot = useCallback(
-    () => JSON.stringify(readProgress(paths, packs, checklists)),
-    [checklists, packs, paths]
+    () => JSON.stringify(readProgress(paths, packs, checklists, tutorials)),
+    [checklists, packs, paths, tutorials]
   );
   const snapshot = useSyncExternalStore(subscribe, getSnapshot, () => null);
   const localProgress = useMemo(() => {
@@ -172,8 +194,24 @@ export function ContinueLearning({ paths, packs, checklists }: Props) {
       return [{ ...item, completed: Math.min(completed.length, item.total), lastActivity }];
     });
 
-    return all.sort((a, b) => b.lastActivity - a.lastActivity);
-  }, [checklists, localProgress, packs, paths, remoteRows, userId]);
+    const tutorialItems: Candidate[] = tutorials.flatMap((tutorial) => {
+      const local = localProgress[`tutorial:${tutorial.id}`];
+      if (!local || local.completed.length === 0 || local.lastActivity === 0) return [];
+      return [
+        {
+          key: `tutorial:${tutorial.id}`,
+          kind: 'tutorial' as const,
+          title: `Tutorial: ${tutorial.title}`,
+          href: tutorial.href,
+          total: tutorial.stepIds.length,
+          completed: local.completed.length,
+          lastActivity: local.lastActivity
+        }
+      ];
+    });
+
+    return [...all, ...tutorialItems].sort((a, b) => b.lastActivity - a.lastActivity);
+  }, [checklists, localProgress, packs, paths, remoteRows, tutorials, userId]);
 
   if (!authReady || snapshot === null) return null;
 

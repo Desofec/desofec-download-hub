@@ -101,6 +101,11 @@ export const tutorials: TutorialInfo[] = [
   }
 ];
 
+// The first tutorial predates the registry and keeps its original storage key.
+export function tutorialStorageKey(pathId: string) {
+  return pathId === 'first-app' ? 'desofec:tutorial:task-tracker' : `desofec:tutorial:${pathId}`;
+}
+
 export function getTutorialForPath(pathId: string) {
   return tutorials.find((tutorial) => tutorial.pathId === pathId);
 }

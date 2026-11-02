@@ -63,6 +63,7 @@ export function TutorialSteps({ steps, storageKey }: { steps: TutorialStep[]; st
   const persist = useCallback((next: string[]) => {
     try {
       localStorage.setItem(storageKey, JSON.stringify(next));
+      localStorage.setItem(`${storageKey}:activity`, String(Date.now()));
     } catch {}
     window.dispatchEvent(new Event(EVENT_NAME));
   }, [storageKey]);
