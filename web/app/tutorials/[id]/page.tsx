@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { TutorialHeader } from '@/components/tutorial-header';
 import { TutorialSteps } from '@/components/tutorial-steps';
-import { BackToPathLabel } from '@/components/tutorial-back-label';
+import { TutorialLabel } from '@/components/tutorial-back-label';
 import { tutorialStorageKey, tutorials } from '@/lib/tutorials';
 
 const hosted = tutorials.filter((tutorial) => tutorial.href.startsWith('/tutorials/'));
@@ -35,7 +35,7 @@ export default async function TutorialPage({ params }: { params: Promise<{ id: s
         <TutorialSteps steps={tutorial.steps} storageKey={tutorialStorageKey(tutorial.pathId)} syncId={tutorial.pathId} />
         <div className="cta-row">
           <Link className="btn btn-secondary" href={`/paths/${tutorial.pathId}`}>
-            <BackToPathLabel />
+            <TutorialLabel k="tutorial.back" />
           </Link>
         </div>
       </div>
