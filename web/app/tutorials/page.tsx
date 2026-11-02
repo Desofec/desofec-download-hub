@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { TutorialList } from '@/components/tutorial-list';
 import { getCatalog } from '@/lib/catalog';
 import { tutorials } from '@/lib/tutorials';
 
@@ -24,27 +25,22 @@ export default async function TutorialsPage() {
             </Link>
           </div>
         </div>
-        <div className="path-directory">
-          {tutorials.map((tutorial) => {
+        <TutorialList
+          items={tutorials.map((tutorial) => {
             const path = paths.find((entry) => entry.id === tutorial.pathId);
-            return (
-              <article className="path-card" key={tutorial.pathId}>
-                <div className="tool-meta path-meta">
-                  {path && <span className="path-badge">{path.badge}</span>}
-                  {path && <span className="skill-chip">{path.level}</span>}
-                  <span className="skill-chip">{tutorial.time}</span>
-                </div>
-                <h3>{tutorial.title}</h3>
-                <p>
-                  {tutorial.steps.length} steps{path ? ` · ${path.title} path` : ''}
-                </p>
-                <Link className="btn btn-primary" href={tutorial.href}>
-                  Start tutorial
-                </Link>
-              </article>
-            );
+            return {
+              pathId: tutorial.pathId,
+              href: tutorial.href,
+              title: tutorial.title,
+              intro: tutorial.intro,
+              time: tutorial.time,
+              stepCount: tutorial.steps.length,
+              badge: path?.badge,
+              level: path?.level,
+              pathTitle: path?.title
+            };
           })}
-        </div>
+        />
       </div>
     </section>
   );
