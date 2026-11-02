@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { PathCard } from '@/components/cards';
 import { getCatalog } from '@/lib/catalog';
+import { Tr } from '@/components/tr';
 
 export const metadata: Metadata = {
   title: 'Learning paths',
@@ -15,8 +16,8 @@ export default async function PathsPage() {
       <div className="container">
         <div className="section-head">
           <div>
-            <span className="eyebrow">Learning paths</span>
-            <h1>Beginner-first journeys</h1>
+            <span className="eyebrow"><Tr>Learning paths</Tr></span>
+            <h1><Tr>Beginner-first journeys</Tr></h1>
           </div>
         </div>
         <div className="path-directory">

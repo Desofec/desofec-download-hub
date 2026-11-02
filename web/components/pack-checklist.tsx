@@ -2,10 +2,12 @@
 
 import { useCallback, useState, useSyncExternalStore } from 'react';
 import { useProgressSync } from '@/components/progress-sync';
+import { useTr } from '@/components/tr';
 
 const STORAGE_ERROR = 'storage-unavailable';
 
 export function PackChecklist({ packId, steps }: { packId: string; steps: string[] }) {
+  const tr = useTr();
   const storageKey = `desofec-pack-progress:${packId}`;
   const eventName = `desofec-pack-progress:${packId}`;
   const subscribe = useCallback(
@@ -74,13 +76,17 @@ export function PackChecklist({ packId, steps }: { packId: string; steps: string
     <div className="pack-checklist">
       <div className="checklist-progress">
         <p>
-          {completed} of {steps.length} steps complete
+          {tr('{done} of {total} steps complete', { done: completed, total: steps.length })}
         </p>
-        <progress value={completed} max={steps.length} aria-label="Checklist progress" />
+        <progress value={completed} max={steps.length} aria-label={tr('Checklist progress')} />
       </div>
       {sync.signedIn && (
         <p className="sync-status" role="status">
-          {sync.status === 'syncing' ? 'Syncing your progress…' : sync.status === 'error' ? 'Progress sync failed. Your device copy is still saved.' : 'Progress synced to your account.'}
+          {sync.status === 'syncing'
+            ? tr('Syncing your progress…')
+            : sync.status === 'error'
+              ? tr('Progress sync failed. Your device copy is still saved.')
+              : tr('Progress synced to your account.')}
         </p>
       )}
       <ol className="checklist-steps">
@@ -93,15 +99,15 @@ export function PackChecklist({ packId, steps }: { packId: string; steps: string
                 onChange={(event) => toggleStep(index, event.target.checked)}
               />
               <span className="step-marker" aria-hidden="true" />
-              <span className="step-text">{step}</span>
+              <span className="step-text">{tr(step)}</span>
             </label>
           </li>
         ))}
       </ol>
       <div className="checklist-footer">
-        {storageUnavailable && <p role="status">Progress cannot be saved in this browser right now.</p>}
+        {storageUnavailable && <p role="status">{tr('Progress cannot be saved in this browser right now.')}</p>}
         <button className="btn btn-secondary" type="button" onClick={resetProgress} disabled={completed === 0}>
-          Reset checklist
+          {tr('Reset checklist')}
         </button>
       </div>
     </div>

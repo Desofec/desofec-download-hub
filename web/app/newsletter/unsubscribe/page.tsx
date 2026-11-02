@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
+import { Tr } from '@/components/tr';
 import { NewsletterTokenPage } from '@/components/newsletter-token-page';
 
 export const metadata: Metadata = {
@@ -11,10 +12,10 @@ export default function UnsubscribeNewsletterPage() {
   return (
     <section className="section">
       <div className="container">
-        <span className="eyebrow">Newsletter</span>
-        <h1>Unsubscribe</h1>
-        <p>Confirm that you want to stop receiving Desofec AI Studio updates.</p>
-        <Suspense fallback={<p>Loading unsubscribe form…</p>}>
+        <span className="eyebrow"><Tr>Newsletter</Tr></span>
+        <h1><Tr>Unsubscribe</Tr></h1>
+        <p><Tr>Confirm that you want to stop receiving Desofec AI Studio updates.</Tr></p>
+        <Suspense fallback={<p><Tr>Loading unsubscribe form…</Tr></p>}>
           <NewsletterTokenPage mode="unsubscribe" />
         </Suspense>
       </div>

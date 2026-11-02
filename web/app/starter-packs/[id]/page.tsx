@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { PackChecklist } from '@/components/pack-checklist';
 import { downloadUrl } from '@/lib/urls';
 import { getCatalog } from '@/lib/catalog';
+import { Tr } from '@/components/tr';
 
 export async function generateStaticParams() {
   const { starterPacks } = await getCatalog();
@@ -29,25 +30,25 @@ export default async function StarterPackDetailPage({ params }: { params: Promis
     <section className="section">
       <div className="container narrow-container">
         <div className="section-head">
-          <span className="eyebrow">Starter pack checklist</span>
-          <h1>{pack.title}</h1>
-          <p>{pack.description}</p>
+          <span className="eyebrow"><Tr>Starter pack checklist</Tr></span>
+          <h1><Tr>{pack.title}</Tr></h1>
+          <p><Tr>{pack.description}</Tr></p>
         </div>
         <div className="tool-meta path-meta">
-          <span className="tool-tag">Starter</span>
-          <span className="skill-chip">{pack.level}</span>
+          <span className="tool-tag"><Tr>Starter</Tr></span>
+          <span className="skill-chip"><Tr>{pack.level}</Tr></span>
         </div>
         <div className="cta-row">
           <a className="btn btn-primary" href={downloadUrl(pack.file)} download>
-            Download the pack
+            <Tr>Download the pack</Tr>
           </a>
           <Link className="btn btn-secondary" href="/starter-packs">
-            All starter packs
+            <Tr>All starter packs</Tr>
           </Link>
         </div>
         <div className="section-head checklist-heading">
-          <h2>Work through the steps</h2>
-          <p>Tick off each step as you go. Progress saves on this device and syncs across devices when you sign in.</p>
+          <h2><Tr>Work through the steps</Tr></h2>
+          <p><Tr>Tick off each step as you go. Progress saves on this device and syncs across devices when you sign in.</Tr></p>
         </div>
         <PackChecklist packId={pack.id} steps={steps} />
       </div>

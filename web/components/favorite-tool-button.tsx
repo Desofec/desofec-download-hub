@@ -2,8 +2,10 @@
 
 import { useState } from 'react';
 import { useFavoriteToolIds, updateFavoriteTool } from '@/lib/favorites';
+import { useTr } from '@/components/tr';
 
 export function FavoriteToolButton({ toolId }: { toolId: string }) {
+  const tr = useTr();
   const favorites = useFavoriteToolIds();
   const isFavorite = favorites.includes(toolId);
   const [storageError, setStorageError] = useState(false);
@@ -23,13 +25,13 @@ export function FavoriteToolButton({ toolId }: { toolId: string }) {
         className={`btn btn-favorite${isFavorite ? ' is-favorite' : ''}`}
         type="button"
         aria-pressed={isFavorite}
-        aria-label={isFavorite ? 'Remove from saved tools' : 'Save tool'}
+        aria-label={isFavorite ? tr('Remove from saved tools') : tr('Save tool')}
         onClick={toggle}
       >
         <span aria-hidden="true">{isFavorite ? '★' : '☆'}</span>
-        {isFavorite ? 'Saved' : 'Save tool'}
+        {isFavorite ? tr('Saved') : tr('Save tool')}
       </button>
-      {storageError && <span className="favorite-error" role="status">Could not save this tool in this browser.</span>}
+      {storageError && <span className="favorite-error" role="status">{tr('Could not save this tool in this browser.')}</span>}
     </span>
   );
 }

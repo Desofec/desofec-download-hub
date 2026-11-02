@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { PackCard } from '@/components/cards';
 import { getCatalog } from '@/lib/catalog';
+import { Tr } from '@/components/tr';
 
 export const metadata: Metadata = {
   title: 'Starter packs',
@@ -15,8 +16,8 @@ export default async function StarterPacksPage() {
       <div className="container">
         <div className="section-head">
           <div>
-            <span className="eyebrow">Starter packs</span>
-            <h1>Practical resources to start with</h1>
+            <span className="eyebrow"><Tr>Starter packs</Tr></span>
+            <h1><Tr>Practical resources to start with</Tr></h1>
           </div>
         </div>
         <div className="starter-directory">

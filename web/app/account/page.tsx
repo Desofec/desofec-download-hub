@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { AccountPanel } from '@/components/account-panel';
+import { Tr } from '@/components/tr';
 
 export const metadata: Metadata = {
   title: 'Your account',
@@ -11,9 +12,9 @@ export default function AccountPage() {
     <section className="section">
       <div className="container narrow-container">
         <div className="section-head">
-          <span className="eyebrow">Optional account</span>
-          <h1>Keep your progress with you</h1>
-          <p>Sign in to save your learning progress across devices.</p>
+          <span className="eyebrow"><Tr>Optional account</Tr></span>
+          <h1><Tr>Keep your progress with you</Tr></h1>
+          <p><Tr>Sign in to save your learning progress across devices.</Tr></p>
         </div>
         <AccountPanel />
       </div>

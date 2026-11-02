@@ -2,16 +2,17 @@ import Link from 'next/link';
 import { FavoriteToolButton } from '@/components/favorite-tool-button';
 import { downloadUrl } from '@/lib/urls';
 import type { Goal, LearningPath, StarterPack, Tool } from '@/lib/types';
+import { Tr } from '@/components/tr';
 
 export function GoalCard({ goal }: { goal: Goal }) {
   return (
     <article className="goal-card">
-      <span className="goal-badge">{goal.badge}</span>
-      <h3>{goal.name}</h3>
-      <p>{goal.description}</p>
+      <span className="goal-badge"><Tr>{goal.badge}</Tr></span>
+      <h3><Tr>{goal.name}</Tr></h3>
+      <p><Tr>{goal.description}</Tr></p>
       <div className="card-cta">
         <Link className="btn btn-secondary" href={`/onboarding?goal=${encodeURIComponent(goal.id)}`}>
-          Start here
+          <Tr>Start here</Tr>
         </Link>
       </div>
     </article>
@@ -22,11 +23,11 @@ export function ToolCard({ tool, cta = 'find' }: { tool: Tool; cta?: 'find' | 'n
   return (
     <article className="tool-card">
       <div className="tool-meta">
-        <span className="tool-tag">{tool.badge}</span>
-        <span className="skill-chip">{tool.skill}</span>
+        <span className="tool-tag"><Tr>{tool.badge}</Tr></span>
+        <span className="skill-chip"><Tr>{tool.skill}</Tr></span>
       </div>
       <h3>{tool.name}</h3>
-      <p>{tool.description}</p>
+      <p><Tr>{tool.description}</Tr></p>
       <div className="card-cta">
         <FavoriteToolButton toolId={tool.id} />
         <a
@@ -36,14 +37,14 @@ export function ToolCard({ tool, cta = 'find' }: { tool: Tool; cta?: 'find' | 'n
           rel="noopener noreferrer"
           aria-label={`Open ${tool.name} (opens in a new tab)`}
         >
-          Open tool
+          <Tr>Open tool</Tr>
         </a>
         <Link className="btn btn-secondary" href={`/tools/${encodeURIComponent(tool.id)}`}>
-          Details
+          <Tr>Details</Tr>
         </Link>
         {cta === 'find' && (
           <Link className="btn btn-secondary" href="/onboarding">
-            Find my path
+            <Tr>Find my path</Tr>
           </Link>
         )}
       </div>
@@ -55,21 +56,21 @@ export function PathCard({ path, showSteps = false }: { path: LearningPath; show
   return (
     <article className="path-card">
       <div className="card-row">
-        <span className="path-badge">{path.badge}</span>
-        <span className="skill-chip">{path.level}</span>
+        <span className="path-badge"><Tr>{path.badge}</Tr></span>
+        <span className="skill-chip"><Tr>{path.level}</Tr></span>
       </div>
-      <h3>{path.title}</h3>
-      <p>{path.description}</p>
+      <h3><Tr>{path.title}</Tr></h3>
+      <p><Tr>{path.description}</Tr></p>
       {showSteps && (
         <ul className="mini-checklist">
           {path.steps.map((step) => (
-            <li key={step}>{step}</li>
+            <li key={step}><Tr>{step}</Tr></li>
           ))}
         </ul>
       )}
       <div className="card-cta">
         <Link className="btn btn-secondary" href={`/paths/${encodeURIComponent(path.id)}`}>
-          View path
+          <Tr>View path</Tr>
         </Link>
       </div>
     </article>
@@ -80,17 +81,17 @@ export function PackCard({ pack }: { pack: StarterPack }) {
   return (
     <article className="starter-card">
       <div className="tool-meta">
-        <span className="tool-tag">Starter</span>
-        <span className="skill-chip">{pack.level}</span>
+        <span className="tool-tag"><Tr>Starter</Tr></span>
+        <span className="skill-chip"><Tr>{pack.level}</Tr></span>
       </div>
-      <h3>{pack.title}</h3>
-      <p>{pack.description}</p>
+      <h3><Tr>{pack.title}</Tr></h3>
+      <p><Tr>{pack.description}</Tr></p>
       <div className="card-cta">
         <Link className="btn btn-secondary" href={`/starter-packs/${encodeURIComponent(pack.id)}`}>
-          View checklist
+          <Tr>View checklist</Tr>
         </Link>
         <a className="btn btn-secondary" href={downloadUrl(pack.file)} download>
-          Download pack
+          <Tr>Download pack</Tr>
         </a>
       </div>
     </article>

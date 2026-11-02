@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { IdeaPlanner } from '@/components/idea-planner';
 import { getCatalog } from '@/lib/catalog';
 import { getTutorialForPath } from '@/lib/tutorials';
+import { Tr } from '@/components/tr';
 
 export const metadata: Metadata = {
   title: 'Describe your idea',
@@ -16,11 +17,10 @@ export default async function PlanPage() {
       <div className="container">
         <div className="section-head">
           <div>
-            <span className="eyebrow">Idea planner</span>
-            <h1>Describe your idea</h1>
+            <span className="eyebrow"><Tr>Idea planner</Tr></span>
+            <h1><Tr>Describe your idea</Tr></h1>
             <p>
-              Say or type what you imagine. We match it to the right learning paths and tutorials. No writing skills
-              needed, and your idea is not stored or sent to us.
+              <Tr>Say or type what you imagine. We match it to the right learning paths and tutorials. No writing skills needed, and your idea is not stored or sent to us.</Tr>
             </p>
           </div>
         </div>

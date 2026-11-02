@@ -2,6 +2,7 @@
 
 import { useCallback, useMemo, useSyncExternalStore } from 'react';
 import { useProgressSync } from '@/components/progress-sync';
+import { Tr, useTr } from '@/components/tr';
 
 const listeners = new Set<() => void>();
 
@@ -23,6 +24,7 @@ function read(key: string) {
 }
 
 export function PathSteps({ pathId, steps }: { pathId: string; steps: string[] }) {
+  const tr = useTr();
   const key = `desofec:progress:${pathId}`;
   const raw = useSyncExternalStore(
     subscribe,
@@ -69,19 +71,23 @@ export function PathSteps({ pathId, steps }: { pathId: string; steps: string[] }
   return (
     <div>
       <p className="path-progress" aria-live="polite">
-        {ready ? `${done.length} of ${steps.length} steps done (${percent}%)` : ' '}
+        {ready ? tr('{done} of {total} steps done ({percent}%)', { done: done.length, total: steps.length, percent }) : ' '}
       </p>
       {sync.signedIn && (
         <p className="sync-status" role="status">
-          {sync.status === 'syncing' ? 'Syncing your progress…' : sync.status === 'error' ? 'Progress sync failed. Your device copy is still saved.' : 'Progress synced to your account.'}
+          {sync.status === 'syncing'
+            ? tr('Syncing your progress…')
+            : sync.status === 'error'
+              ? tr('Progress sync failed. Your device copy is still saved.')
+              : tr('Progress synced to your account.')}
         </p>
       )}
-      <progress className="progress-bar" value={done.length} max={steps.length} aria-label="Path progress" />
+      <progress className="progress-bar" value={done.length} max={steps.length} aria-label={tr('Path progress')} />
       <div className="result-summary">
         {steps.map((step, index) => (
           <article className={`result-card${done.includes(index) ? ' step-done' : ''}`} key={step}>
-            <h3>Step {index + 1}</h3>
-            <p>{step}</p>
+            <h3>{tr('Step {number}', { number: index + 1 })}</h3>
+            <p>{tr(step)}</p>
             <label className="step-check">
               <input
                 type="checkbox"
@@ -89,14 +95,14 @@ export function PathSteps({ pathId, steps }: { pathId: string; steps: string[] }
                 disabled={!ready}
                 onChange={() => toggle(index)}
               />{' '}
-              Mark as done
+              <Tr>Mark as done</Tr>
             </label>
           </article>
         ))}
       </div>
       {ready && done.length > 0 && (
         <button type="button" className="btn btn-secondary" onClick={() => persist([])}>
-          Reset progress
+          <Tr>Reset progress</Tr>
         </button>
       )}
     </div>

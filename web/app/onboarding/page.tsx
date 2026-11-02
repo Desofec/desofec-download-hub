@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import { OnboardingForm } from '@/components/onboarding-form';
 import { getCatalog } from '@/lib/catalog';
+import { Tr } from '@/components/tr';
 
 export const metadata: Metadata = {
   title: 'Start your path',
@@ -16,8 +17,8 @@ export default async function OnboardingPage() {
       <div className="container small-container">
         <div className="section-head center-head">
           <div>
-            <span className="eyebrow">Start here</span>
-            <h1>What do you want to build?</h1>
+            <span className="eyebrow"><Tr>Start here</Tr></span>
+            <h1><Tr>What do you want to build?</Tr></h1>
           </div>
         </div>
         <Suspense fallback={null}>

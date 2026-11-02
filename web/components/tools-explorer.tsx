@@ -4,8 +4,10 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useMemo, useState } from 'react';
 import { ToolCard } from '@/components/cards';
 import type { Tool } from '@/lib/types';
+import { Tr, useTr } from '@/components/tr';
 
 export function ToolsExplorer({ tools }: { tools: Tool[] }) {
+  const tr = useTr();
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -56,12 +58,12 @@ export function ToolsExplorer({ tools }: { tools: Tool[] }) {
             setQuery(event.target.value);
             updateUrl({ q: event.target.value });
           }}
-          placeholder="Search tools"
-          aria-label="Search tools"
+          placeholder={tr('Search tools')}
+          aria-label={tr('Search tools')}
         />
         <div className="filter-group">
-          <span className="filter-label">Category</span>
-          <div className="filter-chips" role="group" aria-label="Filter by category">
+          <span className="filter-label"><Tr>Category</Tr></span>
+          <div className="filter-chips" role="group" aria-label={tr('Filter by category')}>
             {categories.map((name) => (
               <button
                 key={name}
@@ -70,14 +72,14 @@ export function ToolsExplorer({ tools }: { tools: Tool[] }) {
                 aria-pressed={name === category}
                 onClick={() => updateUrl({ category: name })}
               >
-                {name}
+                <Tr>{name}</Tr>
               </button>
             ))}
           </div>
         </div>
         <div className="filter-group">
-          <span className="filter-label">Skill level</span>
-          <div className="filter-chips" role="group" aria-label="Filter by skill level">
+          <span className="filter-label"><Tr>Skill level</Tr></span>
+          <div className="filter-chips" role="group" aria-label={tr('Filter by skill level')}>
             {skills.map((name) => (
               <button
                 key={name}
@@ -86,18 +88,18 @@ export function ToolsExplorer({ tools }: { tools: Tool[] }) {
                 aria-pressed={name === skill}
                 onClick={() => updateUrl({ skill: name })}
               >
-                {name}
+                <Tr>{name}</Tr>
               </button>
             ))}
           </div>
         </div>
         <div className="filter-summary">
           <p role="status">
-            Showing {visible.length} of {tools.length} tools
+            <Tr values={{ shown: visible.length, total: tools.length }}>{'Showing {shown} of {total} tools'}</Tr>
           </p>
           {filtersActive && (
             <button className="chip" type="button" onClick={clearFilters}>
-              Clear filters
+              <Tr>Clear filters</Tr>
             </button>
           )}
         </div>
@@ -109,7 +111,9 @@ export function ToolsExplorer({ tools }: { tools: Tool[] }) {
           ))}
         </div>
       ) : (
-        <p className="empty-state">No tools match your filters. Try another keyword or clear the filters.</p>
+        <p className="empty-state">
+          <Tr>No tools match your filters. Try another keyword or clear the filters.</Tr>
+        </p>
       )}
     </>
   );

@@ -6,6 +6,9 @@ import { useAuth } from '@/components/auth-provider';
 import type { ContinueTutorial } from '@/components/continue-learning';
 import type { LearningPath, StarterPack } from '@/lib/types';
 import { getSupabaseBrowserClient } from '@/lib/supabase-browser';
+import { useTr } from '@/components/tr';
+import { useLanguage } from '@/components/language';
+import { getTutorialTranslation } from '@/lib/tutorial-translations';
 
 type Props = {
   tutorials?: ContinueTutorial[];
@@ -81,6 +84,7 @@ function subscribe(callback: () => void) {
 const NO_TUTORIALS: ContinueTutorial[] = [];
 
 export function ProgressDashboard({ paths, packs, checklists, tutorials = NO_TUTORIALS }: Props) {
+  const tr = useTr();
   const { session, ready: authReady } = useAuth();
   const userId = session?.user.id;
   const getSnapshot = useCallback(
@@ -193,44 +197,55 @@ export function ProgressDashboard({ paths, packs, checklists, tutorials = NO_TUT
   const completed = items.filter((item) => item.total > 0 && item.completed === item.total);
   const notStarted = items.filter((item) => item.completed === 0);
 
-  if (!authReady) return <p role="status">Loading your progress…</p>;
+  if (!authReady) return <p role="status">{tr('Loading your progress…')}</p>;
 
   return (
     <div className="progress-dashboard">
       {userId ? (
-        <p className="progress-account">Signed in as <strong>{session?.user.email}</strong>. Progress syncs across devices.</p>
+        <p className="progress-account">
+          {tr('Signed in as')} <strong>{session?.user.email}</strong>. {tr('Progress syncs across devices.')}
+        </p>
       ) : (
         <p className="progress-account">
-          Progress is saved on this device. <Link href="/account">Sign in</Link> to sync it across devices.
+          {tr('Progress is saved on this device.')} <Link href="/account">{tr('Sign in')}</Link>{' '}
+          {tr('to sync it across devices.')}
         </p>
       )}
-      {loadError && <p className="progress-error" role="status">Could not load synced progress. Your device progress is still shown.</p>}
-      {inProgress.length > 0 && <ProgressSection title="In progress" items={inProgress} />}
-      {completed.length > 0 && <ProgressSection title="Completed" items={completed} />}
-      {notStarted.length > 0 && <ProgressSection title="Not started" items={notStarted} />}
+      {loadError && <p className="progress-error" role="status">{tr('Could not load synced progress. Your device progress is still shown.')}</p>}
+      {inProgress.length > 0 && <ProgressSection title={tr('In progress')} items={inProgress} />}
+      {completed.length > 0 && <ProgressSection title={tr('Completed')} items={completed} />}
+      {notStarted.length > 0 && <ProgressSection title={tr('Not started')} items={notStarted} />}
       <div className="cta-row">
-        <Link className="btn btn-primary" href="/paths">Explore learning paths</Link>
-        <Link className="btn btn-secondary" href="/starter-packs">Browse starter packs</Link>
+        <Link className="btn btn-primary" href="/paths">
+          {tr('Explore learning paths')}
+        </Link>
+        <Link className="btn btn-secondary" href="/starter-packs">
+          {tr('Browse starter packs')}
+        </Link>
       </div>
     </div>
   );
 }
 
 function ProgressSection({ title, items }: { title: string; items: ProgressItem[] }) {
+  const tr = useTr();
+  const language = useLanguage();
   return (
     <section className="progress-section">
       <div className="section-head"><h2>{title}</h2></div>
       <div className="progress-grid">
         {items.map((item) => {
           const percent = item.total ? Math.round((item.completed / item.total) * 100) : 0;
+          const title =
+            item.kind === 'tutorial' ? (getTutorialTranslation(item.id, language)?.title ?? item.title) : tr(item.title);
           return (
             <article className="progress-card" key={`${item.kind}:${item.id}`}>
-              <span className="eyebrow">{item.kind === 'path' ? 'Learning path' : item.kind === 'pack' ? 'Starter pack' : 'Tutorial'}</span>
-              <h3>{item.title}</h3>
-              <p>{item.completed} of {item.total} steps · {percent}%</p>
-              <progress value={item.completed} max={item.total || 1} aria-label={`${item.title} progress`} />
+              <span className="eyebrow">{item.kind === 'path' ? tr('Learning path') : item.kind === 'pack' ? tr('Starter pack') : tr('Tutorial')}</span>
+              <h3>{title}</h3>
+              <p>{tr('{done} of {total} steps · {percent}%', { done: item.completed, total: item.total, percent })}</p>
+              <progress value={item.completed} max={item.total || 1} aria-label={tr('{title} progress', { title })} />
               <Link className="btn btn-secondary" href={item.href}>
-                {item.completed === item.total && item.total > 0 ? 'Review' : item.completed > 0 ? 'Continue' : 'Start'}
+                {item.completed === item.total && item.total > 0 ? tr('Review') : item.completed > 0 ? tr('Continue') : tr('Start')}
               </Link>
             </article>
           );

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useTr } from '@/components/tr';
 
 type InstallPromptEvent = Event & {
   prompt: () => Promise<void>;
@@ -8,6 +9,7 @@ type InstallPromptEvent = Event & {
 };
 
 export function PwaControls() {
+  const tr = useTr();
   const [installPrompt, setInstallPrompt] = useState<InstallPromptEvent | null>(null);
 
   useEffect(() => {
@@ -44,7 +46,7 @@ export function PwaControls() {
         if (choice.outcome === 'accepted') setInstallPrompt(null);
       }}
     >
-      Install app
+      {tr('Install app')}
     </button>
   );
 }

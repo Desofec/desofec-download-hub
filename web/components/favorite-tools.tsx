@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useFavoriteToolIds } from '@/lib/favorites';
 import type { Tool } from '@/lib/types';
 import { ToolCard } from '@/components/cards';
+import { Tr } from '@/components/tr';
 
 export function FavoriteTools({ tools }: { tools: Tool[] }) {
   const favoriteIds = useFavoriteToolIds();
@@ -13,17 +14,22 @@ export function FavoriteTools({ tools }: { tools: Tool[] }) {
     <section className="progress-section">
       <div className="section-head split-head">
         <div>
-          <span className="eyebrow">Saved for later</span>
-          <h2>Favorite tools</h2>
+          <span className="eyebrow"><Tr>Saved for later</Tr></span>
+          <h2><Tr>Favorite tools</Tr></h2>
         </div>
-        <Link className="text-link" href="/tools">Explore all tools</Link>
+        <Link className="text-link" href="/tools">
+          <Tr>Explore all tools</Tr>
+        </Link>
       </div>
       {favorites.length ? (
         <div className="progress-grid">
           {favorites.map((tool) => <ToolCard key={tool.id} tool={tool} cta="none" />)}
         </div>
       ) : (
-        <p className="empty-state">No favorites yet. Save a tool from the <Link href="/tools">tool library</Link> and it will appear here.</p>
+        <p className="empty-state">
+          <Tr>No favorites yet. Save a tool from the</Tr> <Link href="/tools"><Tr>tool library</Tr></Link>{' '}
+          <Tr>and it will appear here.</Tr>
+        </p>
       )}
     </section>
   );
