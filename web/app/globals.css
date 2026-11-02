@@ -1494,3 +1494,72 @@ h3 {
   .section { animation: none; }
   .goal-card:hover, .tool-card:hover, .path-card:hover, .starter-card:hover, .step-card:hover { transform: none; }
 }
+
+/* Aurora hero */
+.hero-aurora {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.hero-aurora::before,
+.hero-aurora::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  width: 520px;
+  height: 520px;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.35;
+  animation: aurora-drift 18s ease-in-out infinite alternate;
+}
+
+.hero-aurora::before {
+  top: -160px;
+  left: -120px;
+  background: radial-gradient(circle, #38bdf8, transparent 70%);
+}
+
+.hero-aurora::after {
+  right: -140px;
+  bottom: -200px;
+  background: radial-gradient(circle, #c084fc, transparent 70%);
+  animation-delay: -6s;
+}
+
+@keyframes aurora-drift {
+  from { transform: translate(0, 0) scale(1); }
+  to { transform: translate(60px, 40px) scale(1.18); }
+}
+
+.hero-art {
+  display: block;
+  width: 100%;
+  max-width: 340px;
+  margin: 0 auto 16px;
+}
+
+.hero-art-path {
+  stroke-dasharray: 400;
+  stroke-dashoffset: 400;
+  animation: draw-path 2.4s ease forwards;
+}
+
+.hero-art-node {
+  opacity: 0;
+  animation: pop-node 0.5s ease forwards;
+}
+
+.hero-art-node.n1 { animation-delay: 0.2s; }
+.hero-art-node.n2 { animation-delay: 1.1s; }
+.hero-art-node.n3 { animation-delay: 2s; }
+
+@keyframes draw-path { to { stroke-dashoffset: 0; } }
+@keyframes pop-node { from { opacity: 0; } to { opacity: 1; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-aurora::before, .hero-aurora::after { animation: none; }
+  .hero-art-path { animation: none; stroke-dashoffset: 0; }
+  .hero-art-node { animation: none; opacity: 1; }
+}

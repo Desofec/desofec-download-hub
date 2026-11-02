@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { GoalCard, PackCard, PathCard, ToolCard } from '@/components/cards';
 import { ContinueLearning } from '@/components/continue-learning';
+import { HeroArt } from '@/components/hero-art';
 import { NewsletterForm } from '@/components/newsletter-form';
 import { getCatalog } from '@/lib/catalog';
 import { tutorialStorageKey, tutorials } from '@/lib/tutorials';
@@ -42,7 +43,7 @@ export default async function HomePage() {
 
   return (
     <>
-      <section className="hero">
+      <section className="hero hero-aurora">
         <div className="container hero-grid">
           <div className="hero-copy">
             <span className="eyebrow"><Tr>Guided AI discovery for beginners</Tr></span>
@@ -74,6 +75,7 @@ export default async function HomePage() {
             </ul>
           </div>
           <div className="feature-panel">
+            <HeroArt />
             <div className="panel-header">
               <span className="status-dot"></span>
               <span><Tr>Most useful paths</Tr></span>
