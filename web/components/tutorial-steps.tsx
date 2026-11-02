@@ -2,6 +2,7 @@
 
 import { useCallback, useMemo, useState, useSyncExternalStore } from 'react';
 import { useT } from '@/components/language';
+import { useProgressSync } from '@/components/progress-sync';
 import type { TutorialStep } from '@/lib/task-tracker-tutorial';
 
 const EVENT_NAME = 'desofec-tutorial-change';
@@ -44,7 +45,7 @@ function CopyButton({ text, label }: { text: string; label: string }) {
   );
 }
 
-export function TutorialSteps({ steps, storageKey }: { steps: TutorialStep[]; storageKey: string }) {
+export function TutorialSteps({ steps, storageKey, syncId }: { steps: TutorialStep[]; storageKey: string; syncId: string }) {
   const t = useT();
   const raw = useSyncExternalStore(subscribe, () => readSaved(storageKey), () => null);
   const ready = raw !== null;
@@ -68,6 +69,23 @@ export function TutorialSteps({ steps, storageKey }: { steps: TutorialStep[]; st
     window.dispatchEvent(new Event(EVENT_NAME));
   }, [storageKey]);
 
+  const completedIndices = useMemo(
+    () => done.map((id) => steps.findIndex((step) => step.id === id)).filter((index) => index >= 0),
+    [done, steps]
+  );
+  const applyProgress = useCallback(
+    (indices: number[]) => persist(indices.flatMap((index) => steps[index]?.id ?? [])),
+    [persist, steps]
+  );
+  const sync = useProgressSync({
+    type: 'tutorial',
+    id: syncId,
+    stepsCount: steps.length,
+    completed: completedIndices,
+    ready,
+    applyProgress
+  });
+
   const toggle = (id: string) => persist(done.includes(id) ? done.filter((entry) => entry !== id) : [...done, id]);
 
   return (
@@ -76,6 +94,11 @@ export function TutorialSteps({ steps, storageKey }: { steps: TutorialStep[]; st
       <p className="path-progress" aria-live="polite">
         {ready ? t('tutorial.stepsDone', { done: done.length, total: steps.length }) : ' '}
       </p>
+      {sync.signedIn && (
+        <p className="sync-status" role="status">
+          {sync.status === 'syncing' ? t('tutorial.syncing') : sync.status === 'error' ? t('tutorial.syncError') : t('tutorial.synced')}
+        </p>
+      )}
       <progress className="progress-bar" value={done.length} max={steps.length} aria-label="Tutorial progress" />
       <ol className="tutorial-steps">
         {steps.map((step, index) => (

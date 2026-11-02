@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useAuth } from '@/components/auth-provider';
 import { getSupabaseBrowserClient } from '@/lib/supabase-browser';
 
-type ProgressType = 'path' | 'pack';
+type ProgressType = 'path' | 'pack' | 'tutorial';
 type SyncStatus = 'device' | 'syncing' | 'synced' | 'error';
 
 export function useProgressSync({
@@ -31,6 +31,8 @@ export function useProgressSync({
   const currentCompleted = useMemo(() => (value ? value.split(',').map(Number) : []), [value]);
   const progressRef = useRef({ completed: currentCompleted, applyProgress });
   const storageKey = type === 'path' ? `desofec:progress:${id}` : `desofec-pack-progress:${id}`;
+  // Tutorials store step ids, so their component writes the local copy through applyProgress.
+  const writesLocalCopy = type !== 'tutorial';
   const metadataKey = userId ? `desofec:progress-sync:${userId}:${type}:${id}` : '';
   const syncKey = userId ? `${userId}:${type}:${id}` : '';
 
@@ -99,7 +101,7 @@ export function useProgressSync({
 
         if (shouldApply) {
           try {
-            localStorage.setItem(storageKey, type === 'path' ? JSON.stringify(next) : next.join(','));
+            if (writesLocalCopy) localStorage.setItem(storageKey, type === 'path' ? JSON.stringify(next) : next.join(','));
             localStorage.setItem(metadataKey, String(Date.parse(syncedAt)));
           } catch {
             setStatus('error');
@@ -125,7 +127,7 @@ export function useProgressSync({
     return () => {
       active = false;
     };
-  }, [authReady, id, metadataKey, ready, stepsCount, storageKey, syncKey, type, userId]);
+  }, [authReady, id, metadataKey, ready, stepsCount, storageKey, syncKey, type, userId, writesLocalCopy]);
 
   useEffect(() => {
     if (loadedForUserId !== userId || !userId || !metadataKey || loadingKey.current === syncKey) return;
