@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { TutorialSteps } from '@/components/tutorial-steps';
-import { tutorials } from '@/lib/tutorials';
+import { tutorialStorageKey, tutorials } from '@/lib/tutorials';
 
 const hosted = tutorials.filter((tutorial) => tutorial.href.startsWith('/tutorials/'));
 
@@ -29,7 +29,7 @@ export default async function TutorialPage({ params }: { params: Promise<{ id: s
           <h1>{tutorial.title}</h1>
           <p>{tutorial.intro}</p>
         </div>
-        <TutorialSteps steps={tutorial.steps} storageKey={`desofec:tutorial:${tutorial.pathId}`} />
+        <TutorialSteps steps={tutorial.steps} storageKey={tutorialStorageKey(tutorial.pathId)} />
         <div className="cta-row">
           <Link className="btn btn-secondary" href={`/paths/${tutorial.pathId}`}>
             Back to the path
