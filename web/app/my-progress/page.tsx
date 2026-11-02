@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { FavoriteTools } from '@/components/favorite-tools';
 import { getCatalog } from '@/lib/catalog';
+import { tutorialStorageKey, tutorials } from '@/lib/tutorials';
 import { ProgressDashboard } from '@/components/progress-dashboard';
 
 export const metadata: Metadata = {
@@ -19,7 +20,18 @@ export default async function MyProgressPage() {
           <h1>My progress</h1>
           <p>Pick up where you left off, or choose something new to learn.</p>
         </div>
-        <ProgressDashboard paths={paths} packs={starterPacks} checklists={starterPackChecklists} />
+        <ProgressDashboard
+          paths={paths}
+          packs={starterPacks}
+          checklists={starterPackChecklists}
+          tutorials={tutorials.map((tutorial) => ({
+            id: tutorial.pathId,
+            title: tutorial.title,
+            href: tutorial.href,
+            stepIds: tutorial.steps.map((step) => step.id),
+            storageKey: tutorialStorageKey(tutorial.pathId)
+          }))}
+        />
         <FavoriteTools tools={tools} />
       </div>
     </section>

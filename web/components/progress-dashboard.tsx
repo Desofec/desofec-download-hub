@@ -3,17 +3,19 @@
 import Link from 'next/link';
 import { useCallback, useEffect, useMemo, useSyncExternalStore, useState } from 'react';
 import { useAuth } from '@/components/auth-provider';
+import type { ContinueTutorial } from '@/components/continue-learning';
 import type { LearningPath, StarterPack } from '@/lib/types';
 import { getSupabaseBrowserClient } from '@/lib/supabase-browser';
 
 type Props = {
+  tutorials?: ContinueTutorial[];
   paths: LearningPath[];
   packs: StarterPack[];
   checklists: Record<string, string[]>;
 };
 
 type ProgressRow = {
-  item_type: 'path' | 'pack';
+  item_type: 'path' | 'pack' | 'tutorial';
   item_id: string;
   completed_steps: number[];
   updated_at: string;
@@ -22,7 +24,7 @@ type ProgressRow = {
 type ProgressItem = {
   id: string;
   title: string;
-  kind: 'path' | 'pack';
+  kind: 'path' | 'pack' | 'tutorial';
   href: string;
   completed: number;
   total: number;
@@ -30,9 +32,20 @@ type ProgressItem = {
 
 const EMPTY_PROGRESS: Record<string, ProgressRow> = {};
 
-function readLocalProgress(paths: LearningPath[], packs: StarterPack[], checklists: Record<string, string[]>) {
+function readLocalProgress(
+  paths: LearningPath[],
+  packs: StarterPack[],
+  checklists: Record<string, string[]>,
+  tutorials: ContinueTutorial[]
+) {
   const result: Record<string, number[]> = {};
   try {
+    for (const tutorial of tutorials) {
+      const saved = JSON.parse(localStorage.getItem(tutorial.storageKey) ?? '[]');
+      result[`tutorial:${tutorial.id}`] = Array.isArray(saved)
+        ? saved.map((id) => tutorial.stepIds.indexOf(id)).filter((index) => index >= 0)
+        : [];
+    }
     for (const path of paths) {
       const saved = JSON.parse(localStorage.getItem(`desofec:progress:${path.id}`) ?? '[]');
       result[`path:${path.id}`] = Array.isArray(saved)
@@ -57,18 +70,22 @@ function readLocalProgress(paths: LearningPath[], packs: StarterPack[], checklis
 function subscribe(callback: () => void) {
   window.addEventListener('storage', callback);
   window.addEventListener('desofec-progress-change', callback);
+  window.addEventListener('desofec-tutorial-change', callback);
   return () => {
     window.removeEventListener('storage', callback);
     window.removeEventListener('desofec-progress-change', callback);
+    window.removeEventListener('desofec-tutorial-change', callback);
   };
 }
 
-export function ProgressDashboard({ paths, packs, checklists }: Props) {
+const NO_TUTORIALS: ContinueTutorial[] = [];
+
+export function ProgressDashboard({ paths, packs, checklists, tutorials = NO_TUTORIALS }: Props) {
   const { session, ready: authReady } = useAuth();
   const userId = session?.user.id;
   const getSnapshot = useCallback(
-    () => JSON.stringify(readLocalProgress(paths, packs, checklists)),
-    [checklists, packs, paths]
+    () => JSON.stringify(readLocalProgress(paths, packs, checklists, tutorials)),
+    [checklists, packs, paths, tutorials]
   );
   const localSnapshot = useSyncExternalStore(subscribe, getSnapshot, () => '{}');
   const localProgress = useMemo(() => {
@@ -103,7 +120,7 @@ export function ProgressDashboard({ paths, packs, checklists }: Props) {
         }
         const rows: Record<string, ProgressRow> = {};
         for (const row of data ?? []) {
-          if (row.item_type !== 'path' && row.item_type !== 'pack') continue;
+          if (row.item_type !== 'path' && row.item_type !== 'pack' && row.item_type !== 'tutorial') continue;
           rows[`${row.item_type}:${row.item_id}`] = row as ProgressRow;
         }
         setRemoteState({ ownerId: userId, rows });
@@ -132,6 +149,13 @@ export function ProgressDashboard({ paths, packs, checklists }: Props) {
         kind: 'pack' as const,
         href: `/starter-packs/${encodeURIComponent(pack.id)}`,
         total: checklists[pack.id]?.length ?? 0
+      })),
+      ...tutorials.map((tutorial) => ({
+        id: tutorial.id,
+        title: tutorial.title,
+        kind: 'tutorial' as const,
+        href: tutorial.href,
+        total: tutorial.stepIds.length
       }))
     ].map((item) => {
       const key = `${item.kind}:${item.id}`;
@@ -163,7 +187,7 @@ export function ProgressDashboard({ paths, packs, checklists }: Props) {
       const bStarted = b.completed > 0 ? 1 : 0;
       return bStarted - aStarted || a.title.localeCompare(b.title);
     });
-  }, [checklists, localProgress, packs, paths, remoteProgress, userId]);
+  }, [checklists, localProgress, packs, paths, remoteProgress, tutorials, userId]);
 
   const inProgress = items.filter((item) => item.completed > 0 && item.completed < item.total);
   const completed = items.filter((item) => item.total > 0 && item.completed === item.total);
@@ -201,7 +225,7 @@ function ProgressSection({ title, items }: { title: string; items: ProgressItem[
           const percent = item.total ? Math.round((item.completed / item.total) * 100) : 0;
           return (
             <article className="progress-card" key={`${item.kind}:${item.id}`}>
-              <span className="eyebrow">{item.kind === 'path' ? 'Learning path' : 'Starter pack'}</span>
+              <span className="eyebrow">{item.kind === 'path' ? 'Learning path' : item.kind === 'pack' ? 'Starter pack' : 'Tutorial'}</span>
               <h3>{item.title}</h3>
               <p>{item.completed} of {item.total} steps · {percent}%</p>
               <progress value={item.completed} max={item.total || 1} aria-label={`${item.title} progress`} />
