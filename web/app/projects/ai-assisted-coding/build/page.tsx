@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { TutorialHeader } from '@/components/tutorial-header';
+import { TutorialLabel } from '@/components/tutorial-back-label';
 import { TutorialSteps } from '@/components/tutorial-steps';
 import { aiAssistedCodingSteps } from '@/lib/ai-assisted-coding-tutorial';
 
@@ -12,20 +14,19 @@ export default function AiAssistedCodingTutorialPage() {
   return (
     <section className="section">
       <div className="container first-app-project">
-        <div className="section-head">
-          <span className="eyebrow">Step-by-step tutorial · about 60 minutes</span>
-          <h1>Code with an AI assistant</h1>
-          <p>
-            Learn to pair with Copilot or Codex without losing control. You will write a small Python function with
+        <TutorialHeader
+          pathId="ai-assisted-coding"
+          title="Code with an AI assistant"
+          minutes={60}
+          intro={
+            <>Learn to pair with Copilot or Codex without losing control. You will write a small Python function with
             AI help, then read it, test it, debug it and improve it. If Python is new to you, start with the{' '}
-            <Link href="/projects/coding-foundations/build">Python tutorial</Link> first.
-          </p>
-        </div>
+            <Link href="/projects/coding-foundations/build">Python tutorial</Link> first.</>
+          }
+        />
         <TutorialSteps steps={aiAssistedCodingSteps} storageKey="desofec:tutorial:ai-assisted-coding" syncId="ai-assisted-coding" />
         <div className="cta-row">
-          <Link className="btn btn-secondary" href="/paths/ai-assisted-coding">
-            Back to the path
-          </Link>
+          <Link className="btn btn-secondary" href="/paths/ai-assisted-coding"><TutorialLabel k="tutorial.back" /></Link>
         </div>
       </div>
     </section>

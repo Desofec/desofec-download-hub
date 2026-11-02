@@ -1,4 +1,8 @@
 import type { LanguageCode } from '@/lib/i18n';
+import { codingTranslations } from '@/lib/translations/coding';
+import { mlDesignTranslations } from '@/lib/translations/ml-design';
+import { taskTrackerTranslations } from '@/lib/translations/task-tracker';
+import { webNocodeTranslations } from '@/lib/translations/web-nocode';
 
 export type StepTranslation = {
   title: string;
@@ -15,7 +19,7 @@ export type TutorialTranslation = {
 };
 
 // Keyed by tutorial id (the learning path id), then language. English lives in the tutorial source files.
-export const tutorialTranslations: Record<string, Partial<Record<Exclude<LanguageCode, 'en'>, TutorialTranslation>>> = {
+const baseTranslations: Record<string, Partial<Record<Exclude<LanguageCode, 'en'>, TutorialTranslation>>> = {
   'ai-beginner': {
     fr: {
       title: 'Vos premiers pas avec l’IA',
@@ -308,3 +312,11 @@ export function getTutorialTranslation(tutorialId: string, language: LanguageCod
   if (language === 'en') return undefined;
   return tutorialTranslations[tutorialId]?.[language];
 }
+
+export const tutorialTranslations: Record<string, Partial<Record<Exclude<LanguageCode, 'en'>, TutorialTranslation>>> = {
+  ...baseTranslations,
+  ...taskTrackerTranslations,
+  ...codingTranslations,
+  ...webNocodeTranslations,
+  ...mlDesignTranslations
+};

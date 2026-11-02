@@ -1,8 +1,8 @@
 'use client';
 
 import { useT } from '@/components/language';
+import type { TranslationKey } from '@/lib/i18n';
 
-export function BackToPathLabel() {
-  const t = useT();
-  return <>{t('tutorial.back')}</>;
+export function TutorialLabel({ k }: { k: TranslationKey }) {
+  return <>{useT()(k)}</>;
 }

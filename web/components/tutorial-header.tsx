@@ -1,5 +1,6 @@
 'use client';
 
+import type { ReactNode } from 'react';
 import { useLanguage, useT } from '@/components/language';
 import { getTutorialTranslation } from '@/lib/tutorial-translations';
 
@@ -11,7 +12,7 @@ export function TutorialHeader({
 }: {
   pathId: string;
   title: string;
-  intro: string;
+  intro: ReactNode;
   minutes: number;
 }) {
   const t = useT();
