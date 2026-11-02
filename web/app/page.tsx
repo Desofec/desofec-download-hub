@@ -20,6 +20,23 @@ const highlights = [
   [phrase('Build with support'), phrase('Use starter packs, prompts, and workflow ideas to take action quickly.')]
 ];
 
+const faqs = [
+  ['Is Desofec AI Studio free?', 'Yes. Browsing tools, paths, tutorials and starter packs is free. Signing in only adds progress sync across your devices.'],
+  ['Do I need coding experience?', 'No. Every path and tutorial is written for complete beginners, with plain-language steps you can follow at your own pace.'],
+  ['Which languages are supported?', 'English, French, German and Spanish. Use the language switcher in the header. Translations are automatic and improving.'],
+  ['Can I use it on my phone?', 'Yes. It works in any browser and can be installed like an app from your browser menu.']
+].map(([q, a]) => [phrase(q), phrase(a)]);
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(([q, a]) => ({
+    '@type': 'Question',
+    name: q,
+    acceptedAnswer: { '@type': 'Answer', text: a }
+  }))
+};
+
 export default async function HomePage() {
   const catalog = await getCatalog();
 
@@ -177,6 +194,26 @@ export default async function HomePage() {
             ))}
           </div>
         </div>
+      </section>
+
+      <section className="section muted-section">
+        <div className="container faq">
+          <div className="section-head">
+            <div>
+              <span className="eyebrow"><Tr>Quick answers</Tr></span>
+              <h2><Tr>Questions beginners ask</Tr></h2>
+            </div>
+          </div>
+          <div className="faq-list">
+            {faqs.map(([q, a]) => (
+              <details className="faq-item" key={q}>
+                <summary><Tr>{q}</Tr></summary>
+                <p><Tr>{a}</Tr></p>
+              </details>
+            ))}
+          </div>
+        </div>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
       </section>
 
       <section className="newsletter">
