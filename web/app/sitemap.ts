@@ -5,7 +5,7 @@ import { tutorials } from '@/lib/tutorials';
 const siteUrl = 'https://desofec.com';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const { goals, paths } = await getCatalog();
+  const { goals, paths, tools, starterPacks } = await getCatalog();
   const publicPages = ['/', '/onboarding', '/tools', '/paths', '/starter-packs', '/tutorials', '/plan', '/projects/first-app'];
   const tutorialPages = tutorials.map((tutorial) => tutorial.href);
 
@@ -13,6 +13,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...[...publicPages, ...tutorialPages].map((path) => ({ url: new URL(path, siteUrl).toString() })),
     ...paths.map((path) => ({
       url: new URL(`/paths/${encodeURIComponent(path.id)}`, siteUrl).toString()
+    })),
+    ...tools.map((tool) => ({
+      url: new URL(`/tools/${encodeURIComponent(tool.id)}`, siteUrl).toString()
+    })),
+    ...starterPacks.map((pack) => ({
+      url: new URL(`/starter-packs/${encodeURIComponent(pack.id)}`, siteUrl).toString()
     })),
     ...goals.map((goal) => ({
       url: new URL(`/results/${encodeURIComponent(goal.id)}`, siteUrl).toString()
