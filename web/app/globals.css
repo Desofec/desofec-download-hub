@@ -831,8 +831,11 @@ h3 {
   .steps-grid,
   .goal-grid,
   .tool-grid,
+  .tool-directory,
   .path-grid,
+  .path-directory,
   .starter-grid,
+  .starter-directory,
   .results-grid,
   .about-layout {
     grid-template-columns: 1fr 1fr;
@@ -848,8 +851,11 @@ h3 {
   .steps-grid,
   .goal-grid,
   .tool-grid,
+  .tool-directory,
   .path-grid,
+  .path-directory,
   .starter-grid,
+  .starter-directory,
   .results-grid,
   .about-layout,
   .newsletter-row {
@@ -1171,8 +1177,8 @@ h3 {
     display: none;
     position: absolute;
     top: calc(100% + 1px);
-    right: -16px;
-    left: -16px;
+    right: 0;
+    left: 0;
     align-items: stretch;
     gap: 0;
     padding: 8px 16px 16px;
@@ -1281,6 +1287,7 @@ h3 {
 }
 
 .tutorial-step {
+  min-width: 0;
   padding: 1.1rem;
   border: 1px solid var(--line);
   border-radius: 1rem;
@@ -1332,6 +1339,12 @@ h3 {
 
 .tutorial-ai summary {
   cursor: pointer;
+}
+
+.newsletter-form input.sr-only {
+  width: 1px;
+  padding: 0;
+  border: 0;
 }
 
 .skip-link {
