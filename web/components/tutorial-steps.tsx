@@ -1,7 +1,8 @@
 'use client';
 
 import { useCallback, useMemo, useState, useSyncExternalStore } from 'react';
-import { useT } from '@/components/language';
+import { useLanguage, useT } from '@/components/language';
+import { getTutorialTranslation } from '@/lib/tutorial-translations';
 import { useProgressSync } from '@/components/progress-sync';
 import type { TutorialStep } from '@/lib/task-tracker-tutorial';
 
@@ -45,8 +46,18 @@ function CopyButton({ text, label }: { text: string; label: string }) {
   );
 }
 
-export function TutorialSteps({ steps, storageKey, syncId }: { steps: TutorialStep[]; storageKey: string; syncId: string }) {
+export function TutorialSteps({ steps: sourceSteps, storageKey, syncId }: { steps: TutorialStep[]; storageKey: string; syncId: string }) {
   const t = useT();
+  const language = useLanguage();
+  const translation = getTutorialTranslation(syncId, language);
+  const steps = useMemo(
+    () =>
+      sourceSteps.map((step) => {
+        const text = translation?.steps[step.id];
+        return text ? { ...step, ...text, code: text.code ?? step.code } : step;
+      }),
+    [sourceSteps, translation]
+  );
   const raw = useSyncExternalStore(subscribe, () => readSaved(storageKey), () => null);
   const ready = raw !== null;
 
@@ -90,7 +101,9 @@ export function TutorialSteps({ steps, storageKey, syncId }: { steps: TutorialSt
 
   return (
     <div>
-      <p className="tutorial-lang-note">{t('tutorial.englishNote')}</p>
+      {language !== 'en' && (
+        <p className="tutorial-lang-note">{translation ? t('tutorial.aiNote') : t('tutorial.englishNote')}</p>
+      )}
       <p className="path-progress" aria-live="polite">
         {ready ? t('tutorial.stepsDone', { done: done.length, total: steps.length }) : ' '}
       </p>

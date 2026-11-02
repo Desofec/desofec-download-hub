@@ -37,6 +37,9 @@ const en = {
   'tutorial.syncing': "Syncing your progress…",
   'tutorial.syncError': "Progress sync failed. Your device copy is still saved.",
   'tutorial.synced': "Progress synced to your account.",
+  'tutorial.eyebrow': "Step-by-step tutorial · about {minutes} minutes",
+  'tutorial.back': "Back to the path",
+  'tutorial.aiNote': "Translated with AI help. Corrections are welcome.",
   'tutorial.englishNote': 'Tutorial lessons are currently available in English.'
 };
 
@@ -70,6 +73,9 @@ const fr: Record<TranslationKey, string> = {
   'tutorial.syncing': "Synchronisation de votre progression…",
   'tutorial.syncError': "Échec de la synchronisation. Votre copie sur cet appareil est conservée.",
   'tutorial.synced': "Progression synchronisée avec votre compte.",
+  'tutorial.eyebrow': "Tutoriel pas à pas · environ {minutes} minutes",
+  'tutorial.back': "Retour au parcours",
+  'tutorial.aiNote': "Traduit avec l’aide de l’IA. Les corrections sont les bienvenues.",
   'tutorial.englishNote': 'Les leçons des tutoriels sont pour le moment disponibles en anglais.'
 };
 
@@ -101,6 +107,9 @@ const de: Record<TranslationKey, string> = {
   'tutorial.syncing': "Dein Fortschritt wird synchronisiert …",
   'tutorial.syncError': "Synchronisierung fehlgeschlagen. Deine Kopie auf diesem Gerät bleibt gespeichert.",
   'tutorial.synced': "Fortschritt mit deinem Konto synchronisiert.",
+  'tutorial.eyebrow': "Schritt-für-Schritt-Tutorial · etwa {minutes} Minuten",
+  'tutorial.back': "Zurück zum Lernpfad",
+  'tutorial.aiNote': "Mit KI-Hilfe übersetzt. Korrekturen sind willkommen.",
   'tutorial.englishNote': 'Die Tutorial-Lektionen sind derzeit auf Englisch verfügbar.'
 };
 
@@ -132,6 +141,9 @@ const es: Record<TranslationKey, string> = {
   'tutorial.syncing': "Sincronizando tu progreso…",
   'tutorial.syncError': "Falló la sincronización. Tu copia en este dispositivo sigue guardada.",
   'tutorial.synced': "Progreso sincronizado con tu cuenta.",
+  'tutorial.eyebrow': "Tutorial paso a paso · unos {minutes} minutos",
+  'tutorial.back': "Volver a la ruta",
+  'tutorial.aiNote': "Traducido con ayuda de IA. Las correcciones son bienvenidas.",
   'tutorial.englishNote': 'Las lecciones de los tutoriales están disponibles por ahora en inglés.'
 };
 
