@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { Analytics } from '@vercel/analytics/next';
 import { Suspense } from 'react';
 import { AuthProvider } from '@/components/auth-provider';
 import { BreakTimer } from '@/components/break-timer';
@@ -85,6 +86,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
           <SiteFooter />
           <BreakTimer />
         </AuthProvider>
+        <Analytics />
       </body>
     </html>
   );
