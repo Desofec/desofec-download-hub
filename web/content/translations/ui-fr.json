@@ -422,5 +422,9 @@
  "Say hello (optional, no emails or links)": "Dites bonjour (facultatif, sans e-mail ni lien)",
  "Send request": "Envoyer la demande",
  "All learning paths": "Tous les parcours d'apprentissage",
- "All tools": "Tous les outils"
+ "All tools": "Tous les outils",
+ "Continue with Google": "Continuer avec Google",
+ "or use an email link": "ou utilisez un lien par e-mail",
+ "Could not start Google sign-in. Please try again.": "Impossible de lancer la connexion Google. Veuillez réessayer.",
+ "Sign in with Google or a secure email link to sync learning-path and starter-pack progress across your devices. No password needed.": "Connectez-vous avec Google ou un lien e-mail sécurisé pour synchroniser votre progression sur tous vos appareils. Aucun mot de passe nécessaire."
 }

@@ -25,6 +25,7 @@ export default function PrivacyPage() {
         <h2>Services we use</h2>
         <ul>
           <li><strong>Supabase</strong> stores accounts, progress and subscriptions.</li>
+          <li><strong>Google</strong> if you choose &ldquo;Continue with Google&rdquo;. We receive only your email address and sign-in confirmation, never your Google password.</li>
           <li><strong>Resend</strong> sends confirmation and newsletter emails.</li>
           <li><strong>Vercel</strong> hosts the website, provides anonymous visit statistics and may process technical request data such as IP addresses.</li>
         </ul>
