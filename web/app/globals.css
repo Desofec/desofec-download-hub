@@ -2092,3 +2092,5 @@ html[data-rainbow="on"] .hero-aurora { animation: rainbow-shift 12s linear infin
 .study-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 8px; }
 .study-report { display: inline-flex; align-items: center; gap: 6px; }
 .workspace-list li:has(.study-actions) { display: block; }
+
+.google-button { display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%; max-width: 320px; }
