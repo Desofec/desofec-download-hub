@@ -58,5 +58,11 @@
     "name": "Create content",
     "description": "Make posts, images, voice-overs and short videos with AI helpers, then polish them in your own voice.",
     "badge": "Content"
+  },
+  {
+    "id": "analyze-data",
+    "name": "Analyze data",
+    "description": "Turn measurements into clear graphs, numbers and decisions with analysis software and AI help.",
+    "badge": "Data"
   }
 ]

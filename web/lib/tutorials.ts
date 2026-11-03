@@ -2,6 +2,7 @@ import { aiAssistedCodingSteps } from '@/lib/ai-assisted-coding-tutorial';
 import { aiBeginnerSteps, aiProductivitySteps } from '@/lib/ai-everyday-tutorials';
 import { designBasicsSteps, mlFoundationsSteps } from '@/lib/ml-design-tutorials';
 import { noCodeAutomationSteps, noCodeBuilderSteps, webStarterSteps } from '@/lib/web-nocode-tutorials';
+import { originAnalysisSteps } from '@/lib/origin-analysis-tutorial';
 import { codingFoundationsSteps } from '@/lib/coding-foundations-tutorial';
 import { taskTrackerSteps, type TutorialStep } from '@/lib/task-tracker-tutorial';
 
@@ -57,6 +58,15 @@ export const tutorials: TutorialInfo[] = [
       'Find the tasks AI can help with, build a small set of reusable prompts, turn them into weekly routines and measure what really works.',
     time: '45 minutes',
     steps: aiProductivitySteps
+  },
+  {
+    pathId: 'origin-data-analysis',
+    href: '/tutorials/origin-data-analysis',
+    title: 'Analyse measurement data with Origin and AI',
+    intro:
+      'Import sensor and scanner data, make clear graphs, measure how steady a pump runs, integrate with weights and map a scan, using safe practice data and AI prompts.',
+    time: '90 minutes',
+    steps: originAnalysisSteps
   },
   {
     pathId: 'web-starter',

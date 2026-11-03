@@ -68,5 +68,12 @@
     "description": "Prompts, a simple creator loop and a responsible-creating checklist for posts, images and short videos.",
     "level": "Beginner",
     "file": "downloads/content-creator-kit.md"
+  },
+  {
+    "id": "origin-analysis-kit",
+    "title": "Origin Data Analysis Kit",
+    "description": "A menu cheat sheet, key formulas and AI prompt templates for analysing measurement data in Origin.",
+    "level": "Intermediate",
+    "file": "downloads/origin-analysis-kit.md"
   }
 ]

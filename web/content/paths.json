@@ -161,5 +161,19 @@
       "Polish, check facts and share"
     ],
     "goal": "create-content"
+  },
+  {
+    "id": "origin-data-analysis",
+    "title": "Data Analysis with Origin",
+    "level": "Intermediate",
+    "description": "Import and plot measurement data, check stability, integrate with weights, map scans and repeat the analysis with templates and AI prompts.",
+    "badge": "Data",
+    "steps": [
+      "Plan your analysis question",
+      "Import, label and plot data",
+      "Measure stability and integrate",
+      "Map scans, then repeat and report"
+    ],
+    "goal": "analyze-data"
   }
 ]

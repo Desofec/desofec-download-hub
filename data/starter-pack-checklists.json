@@ -85,5 +85,13 @@
     "Add one visual, voice-over or short video, using only content you are allowed to use.",
     "Check facts, names and licences, and keep private information out.",
     "Publish or save it, then note what worked for next time."
+  ],
+  "origin-analysis-kit": [
+    "Write your analysis question in one sentence.",
+    "Create or anonymise practice data before using any AI assistant.",
+    "Import the data and fill in column names and units.",
+    "Plot the data and add a reference line at your target.",
+    "Calculate the mean, standard deviation and CV %.",
+    "Check your result by hand or with a second method before reporting it."
   ]
 }
