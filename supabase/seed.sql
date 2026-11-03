@@ -51,7 +51,12 @@ insert into public.tools (id, name, category, skill, description, badge, url, po
   ('microsoft-copilot', 'Microsoft Copilot', 'AI', 'Beginner', 'A free AI assistant for questions, writing help and image ideas, handy if you already use Microsoft tools.', 'Assistant', 'https://copilot.microsoft.com', 30),
   ('originpro', 'Origin / OriginPro', 'Data', 'Intermediate', 'Commercial graphing and data-analysis software for importing data, plotting, statistics, curve fitting and integration.', 'Analysis', 'https://www.originlab.com', 31),
   ('julius-ai', 'Julius AI', 'Data', 'Beginner', 'Chat with an AI assistant to analyse an uploaded spreadsheet or CSV file and draw charts without writing code.', 'Data assistant', 'https://julius.ai', 32),
-  ('vercel', 'Vercel', 'Coding', 'Beginner', 'Publish a website from a GitHub repository with a free hobby plan and get a live web address in minutes.', 'Hosting', 'https://vercel.com', 33)
+  ('vercel', 'Vercel', 'Coding', 'Beginner', 'Publish a website from a GitHub repository with a free hobby plan and get a live web address in minutes.', 'Hosting', 'https://vercel.com', 33),
+  ('hugging-face', 'Hugging Face', 'ML', 'Intermediate', 'Browse and try thousands of open AI models and datasets, and learn how models are shared and used.', 'Model hub', 'https://huggingface.co', 34),
+  ('google-ai-studio', 'Google AI Studio', 'AI', 'Beginner', 'Experiment with Google''s Gemini models in the browser and test prompts before you build anything.', 'Prompt playground', 'https://aistudio.google.com', 35),
+  ('bolt-new', 'Bolt', 'Coding', 'Beginner', 'Describe an app or website in plain words and get a working project with a live preview in your browser.', 'App builder', 'https://bolt.new', 36),
+  ('streamlit', 'Streamlit', 'Data', 'Intermediate', 'Turn a short Python script into a shareable web app with charts, inputs and tables.', 'Data apps', 'https://streamlit.io', 37),
+  ('obsidian', 'Obsidian', 'AI', 'Beginner', 'Keep linked notes as plain files on your own device to build a personal knowledge base for study and research.', 'Notes', 'https://obsidian.md', 38)
 on conflict (id) do update set name = excluded.name, category = excluded.category, skill = excluded.skill, description = excluded.description, badge = excluded.badge, url = excluded.url, position = excluded.position;
 
 insert into public.starter_packs (id, title, description, level, file_path, position) values
@@ -116,12 +121,14 @@ insert into public.recommendation_tools (goal_id, tool_id, position) values
   ('learn-ai', 'notion-ai', 2),
   ('learn-ai', 'gemini', 3),
   ('learn-ai', 'notebooklm', 4),
+  ('learn-ai', 'google-ai-studio', 5),
   ('build-website', 'figma', 0),
   ('build-website', 'vscode', 1),
   ('build-website', 'git', 2),
   ('build-website', 'framer', 3),
   ('build-website', 'lovable', 4),
   ('build-website', 'vercel', 5),
+  ('build-website', 'bolt-new', 6),
   ('automate-work', 'zapier', 0),
   ('automate-work', 'make', 1),
   ('automate-work', 'notion-ai', 2),
@@ -135,6 +142,7 @@ insert into public.recommendation_tools (goal_id, tool_id, position) values
   ('learn-ml', 'python', 0),
   ('learn-ml', 'colab', 1),
   ('learn-ml', 'kaggle', 2),
+  ('learn-ml', 'hugging-face', 3),
   ('design-cad', 'figma', 0),
   ('design-cad', 'fusion-360', 1),
   ('design-cad', 'canva', 2),
@@ -147,6 +155,8 @@ insert into public.recommendation_tools (goal_id, tool_id, position) values
   ('build-app', 'openai-codex', 4),
   ('build-app', 'cursor', 5),
   ('build-app', 'lovable', 6),
+  ('build-app', 'bolt-new', 7),
+  ('build-app', 'streamlit', 8),
   ('no-code', 'notion-ai', 0),
   ('no-code', 'zapier', 1),
   ('no-code', 'make', 2),
@@ -157,6 +167,7 @@ insert into public.recommendation_tools (goal_id, tool_id, position) values
   ('ai-productivity', 'gemini', 3),
   ('ai-productivity', 'notebooklm', 4),
   ('ai-productivity', 'gamma', 5),
+  ('ai-productivity', 'obsidian', 6),
   ('create-content', 'chatgpt', 0),
   ('create-content', 'canva', 1),
   ('create-content', 'adobe-firefly', 2),
@@ -170,17 +181,22 @@ insert into public.recommendation_tools (goal_id, tool_id, position) values
   ('analyze-data', 'claude', 3),
   ('analyze-data', 'python', 4),
   ('analyze-data', 'colab', 5),
+  ('analyze-data', 'streamlit', 6),
   ('visualize-data', 'python', 0),
   ('visualize-data', 'colab', 1),
   ('visualize-data', 'originpro', 2),
   ('visualize-data', 'canva', 3),
+  ('visualize-data', 'streamlit', 4),
   ('research-ai', 'perplexity', 0),
   ('research-ai', 'notebooklm', 1),
   ('research-ai', 'chatgpt', 2),
+  ('research-ai', 'google-ai-studio', 3),
+  ('research-ai', 'obsidian', 4),
   ('ai-education', 'chatgpt', 0),
   ('ai-education', 'notebooklm', 1),
   ('ai-education', 'canva', 2),
-  ('ai-education', 'microsoft-copilot', 3)
+  ('ai-education', 'microsoft-copilot', 3),
+  ('ai-education', 'obsidian', 4)
 on conflict (goal_id, tool_id) do update set position = excluded.position;
 
 delete from public.recommendation_starters;

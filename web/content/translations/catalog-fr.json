@@ -380,5 +380,20 @@
  "A website brief template, prompts for drafting and reviewing a page, and a pre-publish checklist.": "Un modèle de brief, des prompts pour rédiger et relire une page, et une liste de vérification avant publication.",
  "Vercel": "Vercel",
  "Hosting": "Hébergement",
- "Publish a website from a GitHub repository with a free hobby plan and get a live web address in minutes.": "Publiez un site web depuis un dépôt GitHub avec une offre gratuite et obtenez une adresse en ligne en quelques minutes."
+ "Publish a website from a GitHub repository with a free hobby plan and get a live web address in minutes.": "Publiez un site web depuis un dépôt GitHub avec une offre gratuite et obtenez une adresse en ligne en quelques minutes.",
+ "Hugging Face": "Hugging Face",
+ "Model hub": "Hub de modèles",
+ "Browse and try thousands of open AI models and datasets, and learn how models are shared and used.": "Parcourez et essayez des milliers de modèles d’IA ouverts et de jeux de données, et découvrez comment les modèles sont partagés et utilisés.",
+ "Google AI Studio": "Google AI Studio",
+ "Prompt playground": "Terrain d’essai de prompts",
+ "Experiment with Google's Gemini models in the browser and test prompts before you build anything.": "Expérimentez les modèles Gemini de Google dans le navigateur et testez vos prompts avant de créer quoi que ce soit.",
+ "Bolt": "Bolt",
+ "App builder": "Créateur d’apps",
+ "Describe an app or website in plain words and get a working project with a live preview in your browser.": "Décrivez une app ou un site en mots simples et obtenez un projet fonctionnel avec aperçu en direct dans votre navigateur.",
+ "Streamlit": "Streamlit",
+ "Data apps": "Apps de données",
+ "Turn a short Python script into a shareable web app with charts, inputs and tables.": "Transformez un court script Python en app web partageable avec graphiques, champs de saisie et tableaux.",
+ "Obsidian": "Obsidian",
+ "Notes": "Notes",
+ "Keep linked notes as plain files on your own device to build a personal knowledge base for study and research.": "Gardez des notes liées sous forme de fichiers simples sur votre appareil pour bâtir une base de connaissances personnelle pour l’étude et la recherche."
 }

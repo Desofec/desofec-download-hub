@@ -304,5 +304,50 @@
     "skill": "Beginner",
     "description": "Publish a website from a GitHub repository with a free hobby plan and get a live web address in minutes.",
     "badge": "Hosting"
+  },
+  {
+    "id": "hugging-face",
+    "url": "https://huggingface.co",
+    "name": "Hugging Face",
+    "category": "ML",
+    "skill": "Intermediate",
+    "description": "Browse and try thousands of open AI models and datasets, and learn how models are shared and used.",
+    "badge": "Model hub"
+  },
+  {
+    "id": "google-ai-studio",
+    "url": "https://aistudio.google.com",
+    "name": "Google AI Studio",
+    "category": "AI",
+    "skill": "Beginner",
+    "description": "Experiment with Google's Gemini models in the browser and test prompts before you build anything.",
+    "badge": "Prompt playground"
+  },
+  {
+    "id": "bolt-new",
+    "url": "https://bolt.new",
+    "name": "Bolt",
+    "category": "Coding",
+    "skill": "Beginner",
+    "description": "Describe an app or website in plain words and get a working project with a live preview in your browser.",
+    "badge": "App builder"
+  },
+  {
+    "id": "streamlit",
+    "url": "https://streamlit.io",
+    "name": "Streamlit",
+    "category": "Data",
+    "skill": "Intermediate",
+    "description": "Turn a short Python script into a shareable web app with charts, inputs and tables.",
+    "badge": "Data apps"
+  },
+  {
+    "id": "obsidian",
+    "url": "https://obsidian.md",
+    "name": "Obsidian",
+    "category": "AI",
+    "skill": "Beginner",
+    "description": "Keep linked notes as plain files on your own device to build a personal knowledge base for study and research.",
+    "badge": "Notes"
   }
 ]
