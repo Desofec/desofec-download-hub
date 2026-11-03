@@ -50,7 +50,8 @@ insert into public.tools (id, name, category, skill, description, badge, url, po
   ('descript', 'Descript', 'Design', 'Beginner', 'Edit audio and video by editing the written transcript, and remove filler words quickly.', 'Audio & video', 'https://www.descript.com', 29),
   ('microsoft-copilot', 'Microsoft Copilot', 'AI', 'Beginner', 'A free AI assistant for questions, writing help and image ideas, handy if you already use Microsoft tools.', 'Assistant', 'https://copilot.microsoft.com', 30),
   ('originpro', 'Origin / OriginPro', 'Data', 'Intermediate', 'Commercial graphing and data-analysis software for importing data, plotting, statistics, curve fitting and integration.', 'Analysis', 'https://www.originlab.com', 31),
-  ('julius-ai', 'Julius AI', 'Data', 'Beginner', 'Chat with an AI assistant to analyse an uploaded spreadsheet or CSV file and draw charts without writing code.', 'Data assistant', 'https://julius.ai', 32)
+  ('julius-ai', 'Julius AI', 'Data', 'Beginner', 'Chat with an AI assistant to analyse an uploaded spreadsheet or CSV file and draw charts without writing code.', 'Data assistant', 'https://julius.ai', 32),
+  ('vercel', 'Vercel', 'Coding', 'Beginner', 'Publish a website from a GitHub repository with a free hobby plan and get a live web address in minutes.', 'Hosting', 'https://vercel.com', 33)
 on conflict (id) do update set name = excluded.name, category = excluded.category, skill = excluded.skill, description = excluded.description, badge = excluded.badge, url = excluded.url, position = excluded.position;
 
 insert into public.starter_packs (id, title, description, level, file_path, position) values
@@ -67,7 +68,8 @@ insert into public.starter_packs (id, title, description, level, file_path, posi
   ('origin-analysis-kit', 'Origin Data Analysis Kit', 'A menu cheat sheet, key formulas and AI prompt templates for analysing measurement data in Origin.', 'Intermediate', 'downloads/origin-analysis-kit.md', 10),
   ('data-visualization-kit', 'Data Visualization Starter Kit', 'A chart-selection workflow, Colab prompt and review checklist for clear, honest data visuals.', 'Beginner', 'downloads/data-visualization-kit.md', 11),
   ('research-prompt-kit', 'AI Research Prompt Kit', 'Prompts and an evidence workflow for finding, checking and synthesizing real research sources.', 'Beginner', 'downloads/research-prompt-kit.md', 12),
-  ('ai-for-education-kit', 'AI for Teachers and Students Kit', 'Practical teacher and student prompts with privacy, verification and academic-integrity checklists.', 'Beginner', 'downloads/ai-for-education-kit.md', 13)
+  ('ai-for-education-kit', 'AI for Teachers and Students Kit', 'Practical teacher and student prompts with privacy, verification and academic-integrity checklists.', 'Beginner', 'downloads/ai-for-education-kit.md', 13),
+  ('ai-website-kit', 'AI Website Builder Kit', 'A website brief template, prompts for drafting and reviewing a page, and a pre-publish checklist.', 'Beginner', 'downloads/ai-website-kit.md', 14)
 on conflict (id) do update set title = excluded.title, description = excluded.description, level = excluded.level, file_path = excluded.file_path, position = excluded.position;
 
 insert into public.paths (id, title, level, description, badge, goal_id, steps, position) values
@@ -86,7 +88,8 @@ insert into public.paths (id, title, level, description, badge, goal_id, steps, 
   ('auto-data-analysis', 'Automated Data Analysis', 'Beginner', 'Skip the software settings: use short Python scripts in Colab and AI assistants to analyse measurement files, process many runs at once and validate the results.', 'Data', 'analyze-data', array['Choose an automation route', 'Run scripts on practice data', 'Process many files at once', 'Adapt with AI and validate']::text[], 12),
   ('data-visualization', 'Data Visualization Basics', 'Beginner', 'Choose a chart for your question, prepare a clean table, build a chart in Python and explain the result honestly.', 'Data', 'visualize-data', array['Choose a question and chart', 'Prepare a clean table', 'Create charts in Colab', 'Explain results clearly']::text[], 13),
   ('research-with-ai', 'Prompt Engineering for Research', 'Beginner', 'Turn a broad topic into a focused research question, find real sources, compare evidence and verify every citation.', 'Research', 'research-ai', array['Focus your research question', 'Find and check real sources', 'Build an evidence table', 'Synthesize and verify']::text[], 14),
-  ('ai-for-education', 'AI for Teachers and Students', 'Beginner', 'Use practical AI workflows for lesson planning, tutoring and practice while keeping privacy, learning and academic integrity central.', 'Education', 'ai-education', array['Set safe use rules', 'Plan lessons or learn with a tutor', 'Create and review practice', 'Reflect and disclose AI help']::text[], 15)
+  ('ai-for-education', 'AI for Teachers and Students', 'Beginner', 'Use practical AI workflows for lesson planning, tutoring and practice while keeping privacy, learning and academic integrity central.', 'Education', 'ai-education', array['Set safe use rules', 'Plan lessons or learn with a tutor', 'Create and review practice', 'Reflect and disclose AI help']::text[], 15),
+  ('ai-website-builder', 'Build a Website with AI', 'Beginner', 'Plan a small website, let AI draft it, review and personalise it, then publish it for free with a live address.', 'Web', 'build-website', array['Plan the site and write a brief', 'Generate a first draft with AI', 'Review, fix and make it yours', 'Publish and share']::text[], 16)
 on conflict (id) do update set title = excluded.title, level = excluded.level, description = excluded.description, badge = excluded.badge, goal_id = excluded.goal_id, steps = excluded.steps, position = excluded.position;
 
 insert into public.recommendations (goal_id, title, summary, steps) values
@@ -118,6 +121,7 @@ insert into public.recommendation_tools (goal_id, tool_id, position) values
   ('build-website', 'git', 2),
   ('build-website', 'framer', 3),
   ('build-website', 'lovable', 4),
+  ('build-website', 'vercel', 5),
   ('automate-work', 'zapier', 0),
   ('automate-work', 'make', 1),
   ('automate-work', 'notion-ai', 2),
@@ -184,6 +188,7 @@ insert into public.recommendation_starters (goal_id, pack_id, position) values
   ('learn-ai', 'ai-prompt-pack', 0),
   ('learn-ai', 'productivity-boost', 1),
   ('build-website', 'website-bundle', 0),
+  ('build-website', 'ai-website-kit', 1),
   ('automate-work', 'automation-kit', 0),
   ('learn-coding', 'coding-basics-kit', 0),
   ('learn-coding', 'ai-coding-prompts', 1),

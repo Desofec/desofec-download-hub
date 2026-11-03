@@ -28,10 +28,12 @@
       "vscode",
       "git",
       "framer",
-      "lovable"
+      "lovable",
+      "vercel"
     ],
     "starters": [
-      "website-bundle"
+      "website-bundle",
+      "ai-website-kit"
     ],
     "steps": [
       "Learn structure and design",

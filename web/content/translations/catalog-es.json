@@ -369,5 +369,16 @@
  "AI for Teachers and Students Path": "Ruta de IA para docentes y estudiantes",
  "Use AI for lesson planning, tutoring and practice without sharing personal student data or handing over human judgement and learning.": "Usa la IA para planificar clases, tutoría y práctica sin compartir datos personales de estudiantes ni delegar el criterio humano y el aprendizaje.",
  "Plan a lesson or study with a tutor": "Planificar una clase o estudiar con un tutor",
- "Reflect on and disclose AI use": "Reflexionar sobre el uso de IA y declararlo"
+ "Reflect on and disclose AI use": "Reflexionar sobre el uso de IA y declararlo",
+ "Build a Website with AI": "Crea un sitio web con IA",
+ "Plan a small website, let AI draft it, review and personalise it, then publish it for free with a live address.": "Planifica un sitio pequeño, deja que la IA haga un borrador, revísalo y personalízalo, y publícalo gratis con una dirección en línea.",
+ "Web": "Web",
+ "Plan the site and write a brief": "Planificar el sitio y escribir un brief",
+ "Generate a first draft with AI": "Generar un primer borrador con IA",
+ "Review, fix and make it yours": "Revisar, corregir y hacerlo tuyo",
+ "AI Website Builder Kit": "Kit de sitio web con IA",
+ "A website brief template, prompts for drafting and reviewing a page, and a pre-publish checklist.": "Una plantilla de brief, prompts para redactar y revisar una página y una lista de comprobación antes de publicar.",
+ "Vercel": "Vercel",
+ "Hosting": "Alojamiento",
+ "Publish a website from a GitHub repository with a free hobby plan and get a live web address in minutes.": "Publica un sitio desde un repositorio de GitHub con un plan gratuito y obtén una dirección web en minutos."
 }
