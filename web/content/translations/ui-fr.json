@@ -366,5 +366,13 @@
  "Clear": "Effacer",
  "If a music tab is still open, close it to come back here.": "Si un onglet de musique est encore ouvert, fermez-le pour revenir ici.",
  "We try to close that tab when your 5-minute break ends. Some sites or browsers may not allow it.": "Nous essayons de fermer cet onglet à la fin de votre pause de 5 minutes. Certains sites ou navigateurs peuvent l’empêcher.",
- "Close music and return": "Fermer la musique et revenir"
+ "Close music and return": "Fermer la musique et revenir",
+ "AI basics quiz": "Quiz sur les bases de l'IA",
+ "You got {score} of {total}. Nice work!": "Vous avez {score} sur {total}. Bravo !",
+ "Play again": "Rejouer",
+ "Question {number} of {total}": "Question {number} sur {total}",
+ "Correct!": "Correct !",
+ "Not quite.": "Pas tout à fait.",
+ "See my score": "Voir mon score",
+ "Next question": "Question suivante"
 }
