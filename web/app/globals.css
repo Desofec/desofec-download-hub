@@ -2016,3 +2016,50 @@ html[data-rainbow="on"] .hero-aurora { animation: rainbow-shift 12s linear infin
 @media (prefers-reduced-motion: reduce) {
   .breath-circle { transition: none; }
 }
+
+/* Break room games */
+.break-wide { grid-column: 1 / -1; }
+.break-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.break-row span { color: var(--muted); font-size: .9rem; }
+
+.mind-root, .mind-children { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.mind-children { margin-top: 8px; margin-left: 14px; padding-left: 14px; border-left: 2px solid var(--primary); }
+.mind-node { display: flex; gap: 6px; align-items: center; }
+.mind-node input {
+  flex: 1;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--field-bg);
+  color: inherit;
+}
+.mind-node .btn { padding: .45rem .8rem; justify-self: auto; }
+
+.bubble-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+.bubble {
+  aspect-ratio: 1;
+  border: 1px solid var(--primary);
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, .7), var(--accent-panel) 60%);
+  transition: transform .15s ease, opacity .25s ease;
+}
+.bubble:hover:not(:disabled) { transform: scale(1.08); }
+.bubble.is-popped { transform: scale(.6); opacity: .25; cursor: default; }
+
+.doodle-canvas {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 600 / 340;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--field-bg);
+  touch-action: none;
+  cursor: crosshair;
+}
+.doodle-color { width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--line); padding: 0; }
+.doodle-color.is-selected { border-color: var(--text); box-shadow: 0 0 0 2px var(--primary); }
+
+@media (prefers-reduced-motion: reduce) {
+  .bubble { transition: none; }
+}
