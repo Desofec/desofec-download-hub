@@ -7,6 +7,7 @@ import { DoodlePad } from '@/components/doodle-pad';
 import { MemoryGame } from '@/components/memory-game';
 import { MindMap } from '@/components/mind-map';
 import { useTr } from '@/components/tr';
+import { closeMusic, MUSIC_OPENED_EVENT, openMusic } from '@/lib/break-window';
 import { createBreathSound, type BreathSound } from '@/lib/breath-sound';
 import { breakMinuteOptions, saveBreakSettings, useBreakSettings, type BreakMinutes } from '@/lib/break-settings';
 
@@ -69,6 +70,17 @@ function BreakCountdown() {
     return () => window.clearInterval(timer);
   }, [running]);
 
+  useEffect(() => {
+    if (left === 0) closeMusic();
+  }, [left]);
+
+  // Opening music starts the break clock if it is not already running.
+  useEffect(() => {
+    const start = () => setLeft((value) => (value === null || value === 0 ? BREAK_SECONDS : value));
+    window.addEventListener(MUSIC_OPENED_EVENT, start);
+    return () => window.removeEventListener(MUSIC_OPENED_EVENT, start);
+  }, []);
+
   const minutes = Math.floor((left ?? BREAK_SECONDS) / 60);
   const seconds = String((left ?? BREAK_SECONDS) % 60).padStart(2, '0');
 
@@ -79,6 +91,7 @@ function BreakCountdown() {
       {left === 0 && (
         <p role="status">
           {tr('Break over. Ready to go back to your project?')}{' '}
+          {tr('If a music tab is still open, close it to come back here.')}{' '}
           <Link href="/my-progress">{tr('Back to my progress')}</Link>
         </p>
       )}
@@ -191,15 +204,27 @@ function Music() {
     <div className="break-card">
       <h2>{tr('Music for your break')}</h2>
       <p>{tr('These links open another website in a new tab. Desofec does not control their content.')}</p>
+      <p>{tr('We try to close that tab when your 5-minute break ends. Some sites or browsers may not allow it.')}</p>
       <ul className="break-checklist">
         {PLAYLISTS.map((playlist) => (
           <li key={playlist.href}>
-            <a href={playlist.href} target="_blank" rel="noopener noreferrer">
+            <a
+              href={playlist.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(event) => {
+                event.preventDefault();
+                openMusic(playlist.href);
+              }}
+            >
               {tr(playlist.label)} ↗
             </a>
           </li>
         ))}
       </ul>
+      <button className="btn btn-secondary" type="button" onClick={closeMusic}>
+        {tr('Close music and return')}
+      </button>
     </div>
   );
 }
