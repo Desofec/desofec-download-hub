@@ -23,7 +23,7 @@ and starter pack downloads; the offline page appears when a page has not been ca
 ## Connect Supabase
 
 1. Create a Supabase project.
-2. In the SQL editor, run the migrations in order, including `0004_user_progress.sql`, `0005_user_favorites.sql`, `0006_newsletter_confirmation.sql`, and `0007_tutorial_progress.sql`, then `supabase/seed.sql`.
+2. In the SQL editor, run the migrations in order, including `0004_user_progress.sql`, `0005_user_favorites.sql`, `0006_newsletter_confirmation.sql`, `0007_tutorial_progress.sql`, and `0008_learning_workspaces.sql`, then `supabase/seed.sql`.
    Both are safe to re-run; the seed upserts.
 3. Copy `.env.example` to `.env.local` and fill in the project URL and anon key
    (Project settings → API):
@@ -71,6 +71,7 @@ Sync runs the same checks before copying the files into `content/` and `public/d
 - `components/auth-provider.tsx` and `/account` — optional email magic-link sign-in
 - `components/progress-sync.tsx` — syncs path and starter-pack progress for signed-in users
 - Tool favorites are stored in browser local storage and listed on `/my-progress`; when signed in they also sync to Supabase (`user_favorites`) across devices.
+- Migration `0008_learning_workspaces.sql` establishes private workspace, membership, invitation, and explicitly shared catalog-item tables. Row Level Security restricts access to members; invitation acceptance requires a signed-in account whose email matches the invitation. Individual learning progress is not shared.
 
 ## Known limitations
 
