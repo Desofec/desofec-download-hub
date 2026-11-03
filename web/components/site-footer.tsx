@@ -12,6 +12,7 @@ export function SiteFooter() {
         <div className="container footer-row">
           <div>{t('footer.copy')}</div>
           <nav className="footer-links" aria-label="Legal">
+            <Link href="/break-room"><Tr>Break room</Tr></Link>
             <Link href="/workspaces"><Tr>Workspaces</Tr></Link>
             <Link href="/privacy"><Tr>Privacy</Tr></Link>
             <Link href="/terms"><Tr>Terms</Tr></Link>
