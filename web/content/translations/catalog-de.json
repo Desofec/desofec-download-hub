@@ -378,5 +378,20 @@
  "A website brief template, prompts for drafting and reviewing a page, and a pre-publish checklist.": "Eine Briefing-Vorlage, Prompts zum Entwerfen und Prüfen einer Seite und eine Checkliste vor der Veröffentlichung.",
  "Vercel": "Vercel",
  "Hosting": "Hosting",
- "Publish a website from a GitHub repository with a free hobby plan and get a live web address in minutes.": "Veröffentliche eine Website aus einem GitHub-Repository mit einem kostenlosen Tarif und erhalte in Minuten eine Live-Adresse."
+ "Publish a website from a GitHub repository with a free hobby plan and get a live web address in minutes.": "Veröffentliche eine Website aus einem GitHub-Repository mit einem kostenlosen Tarif und erhalte in Minuten eine Live-Adresse.",
+ "Hugging Face": "Hugging Face",
+ "Model hub": "Modell-Hub",
+ "Browse and try thousands of open AI models and datasets, and learn how models are shared and used.": "Durchstöbere und probiere Tausende offene KI-Modelle und Datensätze aus und lerne, wie Modelle geteilt und genutzt werden.",
+ "Google AI Studio": "Google AI Studio",
+ "Prompt playground": "Prompt-Spielwiese",
+ "Experiment with Google's Gemini models in the browser and test prompts before you build anything.": "Experimentiere im Browser mit Googles Gemini-Modellen und teste Prompts, bevor du etwas baust.",
+ "Bolt": "Bolt",
+ "App builder": "App-Builder",
+ "Describe an app or website in plain words and get a working project with a live preview in your browser.": "Beschreibe eine App oder Website in einfachen Worten und erhalte ein funktionierendes Projekt mit Live-Vorschau im Browser.",
+ "Streamlit": "Streamlit",
+ "Data apps": "Daten-Apps",
+ "Turn a short Python script into a shareable web app with charts, inputs and tables.": "Mach aus einem kurzen Python-Skript eine teilbare Web-App mit Diagrammen, Eingaben und Tabellen.",
+ "Obsidian": "Obsidian",
+ "Notes": "Notizen",
+ "Keep linked notes as plain files on your own device to build a personal knowledge base for study and research.": "Führe verknüpfte Notizen als einfache Dateien auf deinem Gerät und baue eine persönliche Wissensbasis für Studium und Recherche auf."
 }

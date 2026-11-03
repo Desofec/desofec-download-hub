@@ -7,7 +7,8 @@
       "perplexity",
       "notion-ai",
       "gemini",
-      "notebooklm"
+      "notebooklm",
+      "google-ai-studio"
     ],
     "starters": [
       "ai-prompt-pack",
@@ -29,7 +30,8 @@
       "git",
       "framer",
       "lovable",
-      "vercel"
+      "vercel",
+      "bolt-new"
     ],
     "starters": [
       "website-bundle",
@@ -90,7 +92,8 @@
     "tools": [
       "python",
       "colab",
-      "kaggle"
+      "kaggle",
+      "hugging-face"
     ],
     "starters": [
       "ml-workbook"
@@ -133,7 +136,9 @@
       "github-copilot",
       "openai-codex",
       "cursor",
-      "lovable"
+      "lovable",
+      "bolt-new",
+      "streamlit"
     ],
     "starters": [
       "app-launch-kit",
@@ -176,7 +181,8 @@
       "notion-ai",
       "gemini",
       "notebooklm",
-      "gamma"
+      "gamma",
+      "obsidian"
     ],
     "starters": [
       "productivity-boost",
@@ -221,7 +227,8 @@
       "chatgpt",
       "claude",
       "python",
-      "colab"
+      "colab",
+      "streamlit"
     ],
     "starters": [
       "origin-analysis-kit"
@@ -240,7 +247,8 @@
       "python",
       "colab",
       "originpro",
-      "canva"
+      "canva",
+      "streamlit"
     ],
     "starters": [
       "data-visualization-kit"
@@ -258,7 +266,9 @@
     "tools": [
       "perplexity",
       "notebooklm",
-      "chatgpt"
+      "chatgpt",
+      "google-ai-studio",
+      "obsidian"
     ],
     "starters": [
       "research-prompt-kit",
@@ -278,7 +288,8 @@
       "chatgpt",
       "notebooklm",
       "canva",
-      "microsoft-copilot"
+      "microsoft-copilot",
+      "obsidian"
     ],
     "starters": [
       "ai-for-education-kit",

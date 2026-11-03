@@ -380,5 +380,20 @@
  "A website brief template, prompts for drafting and reviewing a page, and a pre-publish checklist.": "Una plantilla de brief, prompts para redactar y revisar una página y una lista de comprobación antes de publicar.",
  "Vercel": "Vercel",
  "Hosting": "Alojamiento",
- "Publish a website from a GitHub repository with a free hobby plan and get a live web address in minutes.": "Publica un sitio desde un repositorio de GitHub con un plan gratuito y obtén una dirección web en minutos."
+ "Publish a website from a GitHub repository with a free hobby plan and get a live web address in minutes.": "Publica un sitio desde un repositorio de GitHub con un plan gratuito y obtén una dirección web en minutos.",
+ "Hugging Face": "Hugging Face",
+ "Model hub": "Centro de modelos",
+ "Browse and try thousands of open AI models and datasets, and learn how models are shared and used.": "Explora y prueba miles de modelos de IA abiertos y conjuntos de datos, y aprende cómo se comparten y usan los modelos.",
+ "Google AI Studio": "Google AI Studio",
+ "Prompt playground": "Zona de pruebas de prompts",
+ "Experiment with Google's Gemini models in the browser and test prompts before you build anything.": "Experimenta con los modelos Gemini de Google en el navegador y prueba prompts antes de construir nada.",
+ "Bolt": "Bolt",
+ "App builder": "Creador de apps",
+ "Describe an app or website in plain words and get a working project with a live preview in your browser.": "Describe una app o sitio con palabras sencillas y obtén un proyecto funcional con vista previa en vivo en tu navegador.",
+ "Streamlit": "Streamlit",
+ "Data apps": "Apps de datos",
+ "Turn a short Python script into a shareable web app with charts, inputs and tables.": "Convierte un script corto de Python en una app web compartible con gráficos, entradas y tablas.",
+ "Obsidian": "Obsidian",
+ "Notes": "Notas",
+ "Keep linked notes as plain files on your own device to build a personal knowledge base for study and research.": "Guarda notas enlazadas como archivos simples en tu dispositivo para crear una base de conocimiento personal para estudio e investigación."
 }
