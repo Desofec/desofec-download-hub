@@ -2,8 +2,12 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import { BubblePop } from '@/components/bubble-pop';
+import { DoodlePad } from '@/components/doodle-pad';
 import { MemoryGame } from '@/components/memory-game';
+import { MindMap } from '@/components/mind-map';
 import { useTr } from '@/components/tr';
+import { createBreathSound, type BreathSound } from '@/lib/breath-sound';
 import { breakMinuteOptions, saveBreakSettings, useBreakSettings, type BreakMinutes } from '@/lib/break-settings';
 
 const PHASES = ['Breathe in', 'Hold', 'Breathe out', 'Hold'] as const;
@@ -88,18 +92,46 @@ function BreakCountdown() {
 function Breathing() {
   const tr = useTr();
   const [phase, setPhase] = useState<number | null>(null);
+  const [sound, setSound] = useState(true);
   const timer = useRef<number | undefined>(undefined);
+  const audio = useRef<BreathSound | null>(null);
 
-  useEffect(() => () => window.clearInterval(timer.current), []);
+  function stopAudio() {
+    audio.current?.close();
+    audio.current = null;
+  }
+
+  useEffect(
+    () => () => {
+      window.clearInterval(timer.current);
+      audio.current?.close();
+    },
+    []
+  );
 
   function toggle() {
     window.clearInterval(timer.current);
     if (phase !== null) {
+      stopAudio();
       setPhase(null);
       return;
     }
+    if (sound) {
+      audio.current = createBreathSound();
+      audio.current?.play(0);
+    }
     setPhase(0);
-    timer.current = window.setInterval(() => setPhase((value) => ((value ?? 0) + 1) % PHASES.length), 4000);
+    let current = 0;
+    timer.current = window.setInterval(() => {
+      current = (current + 1) % PHASES.length;
+      audio.current?.play(current);
+      setPhase(current);
+    }, 4000);
+  }
+
+  function changeSound(on: boolean) {
+    setSound(on);
+    if (!on) stopAudio();
   }
 
   return (
@@ -113,6 +145,11 @@ function Breathing() {
       >
         {phase === null ? tr('Ready') : tr(PHASES[phase])}
       </div>
+      <label className="break-check">
+        <input type="checkbox" checked={sound} onChange={(event) => changeSound(event.target.checked)} />
+        {tr('Play soft Mozart-style music')}
+      </label>
+      <p className="account-note">{tr('Made in your browser, rising notes as you breathe in and falling notes as you breathe out.')}</p>
       <button className="btn btn-secondary" type="button" onClick={toggle}>
         {phase === null ? tr('Start breathing') : tr('Stop')}
       </button>
@@ -173,6 +210,9 @@ export function BreakRoom() {
       <BreakCountdown />
       <Breathing />
       <MemoryGame />
+      <BubblePop />
+      <DoodlePad />
+      <MindMap />
       <Stretches />
       <Music />
       <Settings />
