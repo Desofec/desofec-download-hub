@@ -147,5 +147,19 @@
       "Commit with Git and note what you learned"
     ],
     "goal": "learn-coding"
+  },
+  {
+    "id": "content-creation",
+    "title": "AI Content Creation Path",
+    "level": "Beginner",
+    "description": "Plan, draft and polish posts, images and short videos with AI helpers while staying original and honest.",
+    "badge": "Content",
+    "steps": [
+      "Choose an audience and a message",
+      "Draft with an AI assistant",
+      "Add visuals, voice or video",
+      "Polish, check facts and share"
+    ],
+    "goal": "create-content"
   }
 ]

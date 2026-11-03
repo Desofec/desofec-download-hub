@@ -186,5 +186,28 @@
       "Apply AI to real work",
       "Review and improve results"
     ]
+  },
+  "create-content": {
+    "title": "Content Creation Path",
+    "summary": "Plan an idea, draft it with AI, add visuals or voice, then polish it in your own voice before you share.",
+    "tools": [
+      "chatgpt",
+      "canva",
+      "adobe-firefly",
+      "capcut",
+      "elevenlabs",
+      "descript",
+      "gamma"
+    ],
+    "starters": [
+      "content-creator-kit",
+      "ai-prompt-pack"
+    ],
+    "steps": [
+      "Pick one audience and message",
+      "Draft with an AI assistant",
+      "Add images, voice or video",
+      "Edit, check facts and publish"
+    ]
   }
 }

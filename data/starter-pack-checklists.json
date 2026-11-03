@@ -77,5 +77,13 @@
     "Ask for a code review and apply one change yourself.",
     "Rewrite one generated function in your own words.",
     "Save a commit describing what you built and learned."
+  ],
+  "content-creator-kit": [
+    "Choose one topic you know well and one audience.",
+    "Ask an AI assistant for 10 ideas and pick the easiest one.",
+    "Draft the text or script, then rewrite it in your own voice.",
+    "Add one visual, voice-over or short video, using only content you are allowed to use.",
+    "Check facts, names and licences, and keep private information out.",
+    "Publish or save it, then note what worked for next time."
   ]
 }
