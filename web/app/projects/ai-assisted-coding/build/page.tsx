@@ -24,7 +24,12 @@ export default function AiAssistedCodingTutorialPage() {
             <Link href="/projects/coding-foundations/build">Python tutorial</Link> first.</>
           }
         />
-        <TutorialSteps steps={aiAssistedCodingSteps} storageKey="desofec:tutorial:ai-assisted-coding" syncId="ai-assisted-coding" />
+        <TutorialSteps
+          steps={aiAssistedCodingSteps}
+          storageKey="desofec:tutorial:ai-assisted-coding"
+          syncId="ai-assisted-coding"
+          title="Code with an AI assistant"
+        />
         <div className="cta-row">
           <Link className="btn btn-secondary" href="/paths/ai-assisted-coding"><TutorialLabel k="tutorial.back" /></Link>
         </div>
