@@ -1870,3 +1870,59 @@ html[data-theme="mint"] {
   --accent-panel: linear-gradient(120deg, rgba(167, 243, 208, 0.85), rgba(207, 250, 254, 0.85));
   --headline-start: #0b2a22;
 }
+
+/* Rainbow mode: a slow, gentle colour cycle (about 8 s, no fast flashing). */
+@keyframes rainbow-shift {
+  from { filter: hue-rotate(0deg); }
+  to { filter: hue-rotate(360deg); }
+}
+
+@keyframes rainbow-glow {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
+}
+
+html[data-rainbow="on"] .hero-copy h1 {
+  background-image: linear-gradient(90deg, #ff4d6d, #ffb703, #80ed99, #38bdf8, #a78bfa, #ff4d6d);
+  background-size: 200% auto;
+  animation: rainbow-shift 8s linear infinite;
+}
+
+html[data-rainbow="on"] .btn-primary,
+html[data-rainbow="on"] .brand-mark {
+  background-image: linear-gradient(135deg, #ff4d6d, #ffb703, #80ed99, #38bdf8, #a78bfa);
+  color: #061020;
+  animation: rainbow-shift 8s linear infinite;
+}
+
+html[data-rainbow="on"] .site-header {
+  border-bottom: 2px solid transparent;
+  border-image: linear-gradient(90deg, #ff4d6d, #ffb703, #80ed99, #38bdf8, #a78bfa, #ff4d6d) 1;
+}
+
+html[data-rainbow="on"] .hero-aurora { animation: rainbow-shift 12s linear infinite, rainbow-glow 6s ease-in-out infinite; }
+
+.rainbow-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: .5rem;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  flex: none;
+}
+
+.rainbow-switch[aria-pressed="true"] { border-color: var(--primary); box-shadow: 0 0 0 2px var(--primary); }
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-rainbow="on"] .hero-copy h1,
+  html[data-rainbow="on"] .btn-primary,
+  html[data-rainbow="on"] .brand-mark,
+  html[data-rainbow="on"] .hero-aurora { animation: none; }
+}

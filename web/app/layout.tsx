@@ -61,7 +61,7 @@ const jsonLd = {
   ]
 };
 
-const themeScript = `try{var t=localStorage.getItem('desofec:theme');if(['light','sky','sunrise','mint'].indexOf(t)>-1)document.documentElement.dataset.theme=t}catch(e){}`;
+const themeScript = `try{var t=localStorage.getItem('desofec:theme');if(['light','sky','sunrise','mint'].indexOf(t)>-1)document.documentElement.dataset.theme=t;if(localStorage.getItem('desofec:rainbow')==='on')document.documentElement.dataset.rainbow='on'}catch(e){}`;
 
 export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
