@@ -241,5 +241,41 @@
     "skill": "Beginner",
     "description": "Turn an outline into a presentation, document, or simple webpage, then edit the result.",
     "badge": "Presentations"
+  },
+  {
+    "id": "capcut",
+    "url": "https://www.capcut.com",
+    "name": "CapCut",
+    "category": "Design",
+    "skill": "Beginner",
+    "description": "Edit short videos with templates, captions and simple effects in your browser or on your phone.",
+    "badge": "Video"
+  },
+  {
+    "id": "elevenlabs",
+    "url": "https://elevenlabs.io",
+    "name": "ElevenLabs",
+    "category": "AI",
+    "skill": "Beginner",
+    "description": "Turn text into natural-sounding speech for voice-overs, using voices you are allowed to use.",
+    "badge": "Voice"
+  },
+  {
+    "id": "descript",
+    "url": "https://www.descript.com",
+    "name": "Descript",
+    "category": "Design",
+    "skill": "Beginner",
+    "description": "Edit audio and video by editing the written transcript, and remove filler words quickly.",
+    "badge": "Audio & video"
+  },
+  {
+    "id": "microsoft-copilot",
+    "url": "https://copilot.microsoft.com",
+    "name": "Microsoft Copilot",
+    "category": "AI",
+    "skill": "Beginner",
+    "description": "A free AI assistant for questions, writing help and image ideas, handy if you already use Microsoft tools.",
+    "badge": "Assistant"
   }
 ]

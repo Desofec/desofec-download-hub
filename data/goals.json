@@ -52,5 +52,11 @@
     "name": "Improve AI productivity",
     "description": "Learn how AI can help with research, writing, planning, and smarter daily tasks.",
     "badge": "Productivity"
+  },
+  {
+    "id": "create-content",
+    "name": "Create content",
+    "description": "Make posts, images, voice-overs and short videos with AI helpers, then polish them in your own voice.",
+    "badge": "Content"
   }
 ]

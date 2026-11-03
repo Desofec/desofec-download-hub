@@ -61,5 +61,12 @@
     "description": "Copy-ready prompts and habits for learning and building with coding assistants.",
     "level": "Intermediate",
     "file": "downloads/ai-coding-prompts.md"
+  },
+  {
+    "id": "content-creator-kit",
+    "title": "AI Content Creator Kit",
+    "description": "Prompts, a simple creator loop and a responsible-creating checklist for posts, images and short videos.",
+    "level": "Beginner",
+    "file": "downloads/content-creator-kit.md"
   }
 ]
