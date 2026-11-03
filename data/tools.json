@@ -295,5 +295,14 @@
     "skill": "Beginner",
     "description": "Chat with an AI assistant to analyse an uploaded spreadsheet or CSV file and draw charts without writing code.",
     "badge": "Data assistant"
+  },
+  {
+    "id": "vercel",
+    "url": "https://vercel.com",
+    "name": "Vercel",
+    "category": "Coding",
+    "skill": "Beginner",
+    "description": "Publish a website from a GitHub repository with a free hobby plan and get a live web address in minutes.",
+    "badge": "Hosting"
   }
 ]

@@ -231,5 +231,19 @@
       "Reflect and disclose AI help"
     ],
     "goal": "ai-education"
+  },
+  {
+    "id": "ai-website-builder",
+    "title": "Build a Website with AI",
+    "level": "Beginner",
+    "description": "Plan a small website, let AI draft it, review and personalise it, then publish it for free with a live address.",
+    "badge": "Web",
+    "steps": [
+      "Plan the site and write a brief",
+      "Generate a first draft with AI",
+      "Review, fix and make it yours",
+      "Publish and share"
+    ],
+    "goal": "build-website"
   }
 ]

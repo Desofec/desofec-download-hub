@@ -114,5 +114,12 @@
     "Use AI for a lesson draft, practice or tutoring hints, not final judgement.",
     "Verify facts, answers, accessibility and suitability before sharing.",
     "Follow academic-integrity and AI-disclosure rules."
+  ],
+  "ai-website-kit": [
+    "Write a one-paragraph brief: who the site is for and what one action visitors should take.",
+    "Never paste passwords, API keys or private customer data into an AI builder or chat.",
+    "Open the draft on your phone and on a computer and fix anything that overflows or is hard to read.",
+    "Check headings, link text, image descriptions and colour contrast before publishing.",
+    "Confirm every claim, price and contact detail is true, and that you have the right to use each image."
   ]
 }

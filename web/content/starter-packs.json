@@ -96,5 +96,12 @@
     "description": "Practical teacher and student prompts with privacy, verification and academic-integrity checklists.",
     "level": "Beginner",
     "file": "downloads/ai-for-education-kit.md"
+  },
+  {
+    "id": "ai-website-kit",
+    "title": "AI Website Builder Kit",
+    "description": "A website brief template, prompts for drafting and reviewing a page, and a pre-publish checklist.",
+    "level": "Beginner",
+    "file": "downloads/ai-website-kit.md"
   }
 ]

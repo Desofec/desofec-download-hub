@@ -9,6 +9,7 @@ import {
   dataVisualizationSteps,
   researchPromptingSteps
 } from '@/lib/next-paths-tutorials';
+import { aiWebsiteSteps } from '@/lib/ai-website-tutorial';
 import { codingFoundationsSteps } from '@/lib/coding-foundations-tutorial';
 import { taskTrackerSteps, type TutorialStep } from '@/lib/task-tracker-tutorial';
 
@@ -109,6 +110,15 @@ export const tutorials: TutorialInfo[] = [
       'Practical teacher and student workflows for lesson planning, tutoring and practice, with privacy and academic integrity at the centre.',
     time: '45 minutes',
     steps: aiEducationSteps
+  },
+  {
+    pathId: 'ai-website-builder',
+    href: '/tutorials/ai-website-builder',
+    title: 'Build and publish a website with AI',
+    intro:
+      'Write a short brief, let AI draft a one-page site, review and personalise it, then publish it for free with a live address.',
+    time: '60 minutes',
+    steps: aiWebsiteSteps
   },
   {
     pathId: 'web-starter',
