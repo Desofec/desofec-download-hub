@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { BubblePop } from '@/components/bubble-pop';
 import { DoodlePad } from '@/components/doodle-pad';
+import { LearningQuiz } from '@/components/learning-quiz';
 import { MemoryGame } from '@/components/memory-game';
 import { MindMap } from '@/components/mind-map';
 import { useTr } from '@/components/tr';
@@ -236,6 +237,7 @@ export function BreakRoom() {
       <Breathing />
       <MemoryGame />
       <BubblePop />
+      <LearningQuiz />
       <DoodlePad />
       <MindMap />
       <Stretches />
