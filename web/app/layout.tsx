@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import { AuthProvider } from '@/components/auth-provider';
+import { BreakTimer } from '@/components/break-timer';
 import { FavoritesSync } from '@/components/favorites-sync';
 import { PwaControls } from '@/components/pwa-controls';
 import { SiteFooter } from '@/components/site-footer';
@@ -82,6 +83,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
           <PwaControls />
           <main id="main-content">{children}</main>
           <SiteFooter />
+          <BreakTimer />
         </AuthProvider>
       </body>
     </html>

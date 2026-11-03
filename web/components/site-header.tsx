@@ -8,6 +8,7 @@ import { LanguageSwitcher } from '@/components/language-switcher';
 import { RainbowSwitch } from '@/components/rainbow-switch';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { useT } from '@/components/language';
+import { useTr } from '@/components/tr';
 import type { TranslationKey } from '@/lib/i18n';
 
 const links: { href: string; label: TranslationKey; match?: string[] }[] = [
@@ -30,6 +31,7 @@ export function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
   const { session } = useAuth();
   const t = useT();
+  const tr = useTr();
 
   return (
     <header className="site-header">
@@ -74,6 +76,15 @@ export function SiteHeader() {
           <LanguageSwitcher />
           <ThemeToggle />
           <RainbowSwitch />
+          <Link
+            className="break-link"
+            href="/break-room"
+            aria-label={tr('Break room')}
+            title={tr('Break room')}
+            onClick={() => setMenuOpen(false)}
+          >
+            <span aria-hidden="true">☕</span>
+          </Link>
           <Link className="btn btn-primary mobile-nav-cta" href="/onboarding" onClick={() => setMenuOpen(false)}>
             {t('nav.cta')}
           </Link>
