@@ -291,6 +291,10 @@
  "Sign in with the email address that received the invitation, then open the invitation link again.": "Inicia sesión con el correo que recibió la invitación y vuelve a abrir el enlace.",
  "Join workspace": "Unirse al espacio",
  "Join a workspace": "Unirse a un espacio",
- "Switch to light theme": "Cambiar al tema claro",
- "Switch to dark theme": "Cambiar al tema oscuro"
+ "Theme": "Tema",
+ "Dark": "Oscuro",
+ "Light": "Claro",
+ "Sky": "Cielo",
+ "Sunrise": "Amanecer",
+ "Mint": "Menta"
 }

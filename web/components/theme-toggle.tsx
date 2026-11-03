@@ -6,7 +6,19 @@ import { useTr } from '@/components/tr';
 const STORAGE_KEY = 'desofec:theme';
 const EVENT_NAME = 'desofec-theme-change';
 
-type Theme = 'dark' | 'light';
+const themes = [
+  { id: 'dark', label: 'Dark' },
+  { id: 'light', label: 'Light' },
+  { id: 'sky', label: 'Sky' },
+  { id: 'sunrise', label: 'Sunrise' },
+  { id: 'mint', label: 'Mint' }
+] as const;
+
+type Theme = (typeof themes)[number]['id'];
+
+function isTheme(value: string | undefined): value is Theme {
+  return themes.some((theme) => theme.id === value);
+}
 
 function subscribe(callback: () => void) {
   window.addEventListener('storage', callback);
@@ -18,31 +30,36 @@ function subscribe(callback: () => void) {
 }
 
 function readTheme(): Theme {
-  return document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
+  const current = document.documentElement.dataset.theme;
+  return isTheme(current) ? current : 'dark';
 }
 
 export function ThemeToggle() {
   const tr = useTr();
   const theme = useSyncExternalStore(subscribe, readTheme, () => 'dark' as Theme);
-  const next: Theme = theme === 'dark' ? 'light' : 'dark';
 
-  function toggle() {
-    document.documentElement.dataset.theme = next;
+  function choose(value: string) {
+    if (!isTheme(value)) return;
+    if (value === 'dark') delete document.documentElement.dataset.theme;
+    else document.documentElement.dataset.theme = value;
     try {
-      localStorage.setItem(STORAGE_KEY, next);
+      localStorage.setItem(STORAGE_KEY, value);
     } catch {}
     window.dispatchEvent(new Event(EVENT_NAME));
   }
 
   return (
-    <button
-      className="theme-toggle"
-      type="button"
-      onClick={toggle}
-      aria-label={tr(next === 'light' ? 'Switch to light theme' : 'Switch to dark theme')}
-      title={tr(next === 'light' ? 'Switch to light theme' : 'Switch to dark theme')}
+    <select
+      className="theme-select"
+      aria-label={tr('Theme')}
+      value={theme}
+      onChange={(event) => choose(event.target.value)}
     >
-      <span aria-hidden="true">{theme === 'dark' ? '☀' : '☾'}</span>
-    </button>
+      {themes.map((entry) => (
+        <option key={entry.id} value={entry.id}>
+          {tr(entry.label)}
+        </option>
+      ))}
+    </select>
   );
 }
