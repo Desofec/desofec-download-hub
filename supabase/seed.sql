@@ -10,7 +10,8 @@ insert into public.goals (id, name, description, badge, position) values
   ('build-app', 'Build an app', 'Turn a product idea into a real first step with a simple app-building roadmap.', 'App', 6),
   ('no-code', 'Use no-code tools', 'Build faster with tools that help you automate, organize, and launch without code.', 'No-code', 7),
   ('ai-productivity', 'Improve AI productivity', 'Learn how AI can help with research, writing, planning, and smarter daily tasks.', 'Productivity', 8),
-  ('create-content', 'Create content', 'Make posts, images, voice-overs and short videos with AI helpers, then polish them in your own voice.', 'Content', 9)
+  ('create-content', 'Create content', 'Make posts, images, voice-overs and short videos with AI helpers, then polish them in your own voice.', 'Content', 9),
+  ('analyze-data', 'Analyze data', 'Turn measurements into clear graphs, numbers and decisions with analysis software and AI help.', 'Data', 10)
 on conflict (id) do update set name = excluded.name, description = excluded.description, badge = excluded.badge, position = excluded.position;
 
 insert into public.tools (id, name, category, skill, description, badge, url, position) values
@@ -44,7 +45,8 @@ insert into public.tools (id, name, category, skill, description, badge, url, po
   ('capcut', 'CapCut', 'Design', 'Beginner', 'Edit short videos with templates, captions and simple effects in your browser or on your phone.', 'Video', 'https://www.capcut.com', 27),
   ('elevenlabs', 'ElevenLabs', 'AI', 'Beginner', 'Turn text into natural-sounding speech for voice-overs, using voices you are allowed to use.', 'Voice', 'https://elevenlabs.io', 28),
   ('descript', 'Descript', 'Design', 'Beginner', 'Edit audio and video by editing the written transcript, and remove filler words quickly.', 'Audio & video', 'https://www.descript.com', 29),
-  ('microsoft-copilot', 'Microsoft Copilot', 'AI', 'Beginner', 'A free AI assistant for questions, writing help and image ideas, handy if you already use Microsoft tools.', 'Assistant', 'https://copilot.microsoft.com', 30)
+  ('microsoft-copilot', 'Microsoft Copilot', 'AI', 'Beginner', 'A free AI assistant for questions, writing help and image ideas, handy if you already use Microsoft tools.', 'Assistant', 'https://copilot.microsoft.com', 30),
+  ('originpro', 'Origin / OriginPro', 'Data', 'Intermediate', 'Commercial graphing and data-analysis software for importing data, plotting, statistics, curve fitting and integration.', 'Analysis', 'https://www.originlab.com', 31)
 on conflict (id) do update set name = excluded.name, category = excluded.category, skill = excluded.skill, description = excluded.description, badge = excluded.badge, url = excluded.url, position = excluded.position;
 
 insert into public.starter_packs (id, title, description, level, file_path, position) values
@@ -57,7 +59,8 @@ insert into public.starter_packs (id, title, description, level, file_path, posi
   ('design-starter-kit', 'Design Starter Kit', 'Design principles, a prototyping routine and a feedback checklist for beginners.', 'Beginner', 'downloads/design-starter-kit.md', 6),
   ('app-launch-kit', 'First App Launch Kit', 'A scoped plan for taking a small app idea to a published first version.', 'Intermediate', 'downloads/app-launch-kit.md', 7),
   ('ai-coding-prompts', 'AI Coding Prompt Pack', 'Copy-ready prompts and habits for learning and building with coding assistants.', 'Intermediate', 'downloads/ai-coding-prompts.md', 8),
-  ('content-creator-kit', 'AI Content Creator Kit', 'Prompts, a simple creator loop and a responsible-creating checklist for posts, images and short videos.', 'Beginner', 'downloads/content-creator-kit.md', 9)
+  ('content-creator-kit', 'AI Content Creator Kit', 'Prompts, a simple creator loop and a responsible-creating checklist for posts, images and short videos.', 'Beginner', 'downloads/content-creator-kit.md', 9),
+  ('origin-analysis-kit', 'Origin Data Analysis Kit', 'A menu cheat sheet, key formulas and AI prompt templates for analysing measurement data in Origin.', 'Intermediate', 'downloads/origin-analysis-kit.md', 10)
 on conflict (id) do update set title = excluded.title, description = excluded.description, level = excluded.level, file_path = excluded.file_path, position = excluded.position;
 
 insert into public.paths (id, title, level, description, badge, goal_id, steps, position) values
@@ -71,7 +74,8 @@ insert into public.paths (id, title, level, description, badge, goal_id, steps, 
   ('first-app', 'Build Your First App', 'Intermediate', 'Go from an app idea to a small working first version you can share.', 'Code', 'build-app', array['Write the problem and a tiny scope', 'Sketch the main screens', 'Set up your project with Git and GitHub', 'Build the core feature with an AI coding assistant', 'Test with unusual input and fix bugs', 'Deploy it to a free host', 'Get feedback from a friend and plan version 2']::text[], 7),
   ('no-code-builder', 'No-Code Builder', 'Beginner', 'Build a useful small system with a database and automations, without writing code.', 'Automation', 'no-code', array['Pick a simple problem to solve', 'Organize your data in a table', 'Connect an automation to it', 'Share it and improve it']::text[], 8),
   ('ai-assisted-coding', 'Code With an AI Assistant', 'Intermediate', 'Learn to pair with Copilot or Codex: write clear prompts, review output, and stay in control of your code.', 'Code', 'learn-coding', array['Pick an assistant and set it up in VS Code', 'Describe one small task with a clear prompt', 'Read and understand the generated code', 'Run it and write a simple test', 'Ask the assistant to find bugs and explain fixes', 'Refactor for clear names and small functions', 'Commit with Git and note what you learned']::text[], 9),
-  ('content-creation', 'AI Content Creation Path', 'Beginner', 'Plan, draft and polish posts, images and short videos with AI helpers while staying original and honest.', 'Content', 'create-content', array['Choose an audience and a message', 'Draft with an AI assistant', 'Add visuals, voice or video', 'Polish, check facts and share']::text[], 10)
+  ('content-creation', 'AI Content Creation Path', 'Beginner', 'Plan, draft and polish posts, images and short videos with AI helpers while staying original and honest.', 'Content', 'create-content', array['Choose an audience and a message', 'Draft with an AI assistant', 'Add visuals, voice or video', 'Polish, check facts and share']::text[], 10),
+  ('origin-data-analysis', 'Data Analysis with Origin', 'Intermediate', 'Import and plot measurement data, check stability, integrate with weights, map scans and repeat the analysis with templates and AI prompts.', 'Data', 'analyze-data', array['Plan your analysis question', 'Import, label and plot data', 'Measure stability and integrate', 'Map scans, then repeat and report']::text[], 11)
 on conflict (id) do update set title = excluded.title, level = excluded.level, description = excluded.description, badge = excluded.badge, goal_id = excluded.goal_id, steps = excluded.steps, position = excluded.position;
 
 insert into public.recommendations (goal_id, title, summary, steps) values
@@ -84,7 +88,8 @@ insert into public.recommendations (goal_id, title, summary, steps) values
   ('build-app', 'App Building Path', 'Start with simple app ideas, product thinking, and the tools that help you build a first version.', array['Define the idea and tiny scope', 'Sketch the user flow', 'Build a prototype with an AI coding assistant', 'Test with real people', 'Publish and improve']::text[]),
   ('no-code', 'No-Code Starter', 'Use easy tools to build workflows and small systems without needing to write code.', array['Choose a simple problem', 'Map the flow', 'Build the workflow', 'Review and improve']::text[]),
   ('ai-productivity', 'AI Productivity Path', 'Learn how AI can support writing, planning, research, and daily work in a practical way.', array['Identify daily repetitive tasks', 'Create reusable prompts', 'Apply AI to real work', 'Review and improve results']::text[]),
-  ('create-content', 'Content Creation Path', 'Plan an idea, draft it with AI, add visuals or voice, then polish it in your own voice before you share.', array['Pick one audience and message', 'Draft with an AI assistant', 'Add images, voice or video', 'Edit, check facts and publish']::text[])
+  ('create-content', 'Content Creation Path', 'Plan an idea, draft it with AI, add visuals or voice, then polish it in your own voice before you share.', array['Pick one audience and message', 'Draft with an AI assistant', 'Add images, voice or video', 'Edit, check facts and publish']::text[]),
+  ('analyze-data', 'Data Analysis Path', 'Learn to import, plot, measure and report on measurement data such as pump logs and scanner maps, using Origin with AI assistants to plan and check your work.', array['Write your analysis question', 'Import, label and plot data', 'Measure stability, integrate and fit', 'Map scans, then template and report']::text[])
 on conflict (goal_id) do update set title = excluded.title, summary = excluded.summary, steps = excluded.steps;
 
 delete from public.recommendation_tools;
@@ -140,7 +145,12 @@ insert into public.recommendation_tools (goal_id, tool_id, position) values
   ('create-content', 'capcut', 3),
   ('create-content', 'elevenlabs', 4),
   ('create-content', 'descript', 5),
-  ('create-content', 'gamma', 6)
+  ('create-content', 'gamma', 6),
+  ('analyze-data', 'originpro', 0),
+  ('analyze-data', 'chatgpt', 1),
+  ('analyze-data', 'claude', 2),
+  ('analyze-data', 'python', 3),
+  ('analyze-data', 'colab', 4)
 on conflict (goal_id, tool_id) do update set position = excluded.position;
 
 delete from public.recommendation_starters;
@@ -161,7 +171,8 @@ insert into public.recommendation_starters (goal_id, pack_id, position) values
   ('ai-productivity', 'productivity-boost', 0),
   ('ai-productivity', 'ai-prompt-pack', 1),
   ('create-content', 'content-creator-kit', 0),
-  ('create-content', 'ai-prompt-pack', 1)
+  ('create-content', 'ai-prompt-pack', 1),
+  ('analyze-data', 'origin-analysis-kit', 0)
 on conflict (goal_id, pack_id) do update set position = excluded.position;
 
 commit;

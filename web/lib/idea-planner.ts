@@ -11,6 +11,7 @@ const keywords: Record<string, string[]> = {
   'build-app': ['app', 'application', 'mobile', 'software', 'tool', 'startup', 'saas', 'game', 'aplicación', 'anwendung', 'jeu', 'spiel', 'juego'],
   'no-code': ['no code', 'no-code', 'nocode', 'without coding', 'without code', 'database', 'airtable', 'form', 'sans code', 'ohne code', 'sin código', 'sin programar'],
   'create-content': ['content', 'video', 'youtube', 'podcast', 'social media', 'newsletter', 'voice-over', 'voiceover', 'contenu', 'vidéo', 'inhalt', 'contenido', 'vídeo'],
+  'analyze-data': ['analysis', 'analyze', 'analyse', 'origin', 'originpro', 'graph', 'plot', 'measurement', 'sensor', 'statistics', 'curve fit', 'laboratory', 'analyser', 'analysieren', 'daten', 'datos', 'análisis', 'mesure'],
   'ai-productivity': ['productivity', 'productive', 'email', 'summarize', 'plan my', 'research', 'notes', 'productivité', 'produktivität', 'productividad', 'organize']
 };
 

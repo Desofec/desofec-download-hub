@@ -277,5 +277,14 @@
     "skill": "Beginner",
     "description": "A free AI assistant for questions, writing help and image ideas, handy if you already use Microsoft tools.",
     "badge": "Assistant"
+  },
+  {
+    "id": "originpro",
+    "url": "https://www.originlab.com",
+    "name": "Origin / OriginPro",
+    "category": "Data",
+    "skill": "Intermediate",
+    "description": "Commercial graphing and data-analysis software for importing data, plotting, statistics, curve fitting and integration.",
+    "badge": "Analysis"
   }
 ]

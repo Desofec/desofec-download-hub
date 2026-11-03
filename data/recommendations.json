@@ -209,5 +209,25 @@
       "Add images, voice or video",
       "Edit, check facts and publish"
     ]
+  },
+  "analyze-data": {
+    "title": "Data Analysis Path",
+    "summary": "Learn to import, plot, measure and report on measurement data such as pump logs and scanner maps, using Origin with AI assistants to plan and check your work.",
+    "tools": [
+      "originpro",
+      "chatgpt",
+      "claude",
+      "python",
+      "colab"
+    ],
+    "starters": [
+      "origin-analysis-kit"
+    ],
+    "steps": [
+      "Write your analysis question",
+      "Import, label and plot data",
+      "Measure stability, integrate and fit",
+      "Map scans, then template and report"
+    ]
   }
 }
