@@ -312,5 +312,15 @@
  "Import the data and fill in column names and units.": "Importiere die Daten und trage Spaltennamen und Einheiten ein.",
  "Plot the data and add a reference line at your target.": "Stelle die Daten dar und füge eine Referenzlinie bei deinem Zielwert hinzu.",
  "Calculate the mean, standard deviation and CV %.": "Berechne Mittelwert, Standardabweichung und VK %.",
- "Check your result by hand or with a second method before reporting it.": "Prüfe dein Ergebnis von Hand oder mit einer zweiten Methode, bevor du berichtest."
+ "Check your result by hand or with a second method before reporting it.": "Prüfe dein Ergebnis von Hand oder mit einer zweiten Methode, bevor du berichtest.",
+ "Julius AI": "Julius AI",
+ "Chat with an AI assistant to analyse an uploaded spreadsheet or CSV file and draw charts without writing code.": "Chatte mit einem KI-Assistenten, um eine hochgeladene Tabelle oder CSV-Datei zu analysieren und Diagramme ohne Code zu erstellen.",
+ "Data assistant": "Datenassistent",
+ "Automated Data Analysis": "Automatisierte Datenanalyse",
+ "Skip the software settings: use short Python scripts in Colab and AI assistants to analyse measurement files, process many runs at once and validate the results.": "Spare dir die Software-Einstellungen: Nutze kurze Python-Skripte in Colab und KI-Assistenten, um Messdateien zu analysieren, viele Läufe auf einmal zu verarbeiten und Ergebnisse zu prüfen.",
+ "Choose an automation route": "Automatisierungsweg wählen",
+ "Run scripts on practice data": "Skripte mit Übungsdaten ausführen",
+ "Process many files at once": "Viele Dateien auf einmal verarbeiten",
+ "Adapt with AI and validate": "Mit KI anpassen und prüfen",
+ "Learn to import, plot, measure and report on measurement data such as pump logs and scanner maps. Use Origin for graphs, or automate the analysis with Python scripts and AI assistants.": "Lerne, Messdaten wie Pumpenprotokolle und Scannerkarten zu importieren, darzustellen, zu messen und zu berichten. Nutze Origin für Grafiken oder automatisiere die Analyse mit Python-Skripten und KI-Assistenten."
 }

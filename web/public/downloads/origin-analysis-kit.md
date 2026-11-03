@@ -38,3 +38,11 @@ By Desofec AI Studio. A practical helper for analysing measurement data in Origi
 - AI can invent menu names and formulas. Check every answer in your own software and against a hand calculation.
 - Keep the raw data untouched. Smooth only for display, not for reported numbers.
 - You are responsible for the conclusion.
+
+## Automate it instead of clicking through settings
+- **Python in Google Colab** (free): a short script does the same steps every time. Use pandas for tables and matplotlib for graphs.
+- **AI data assistant**: upload a practice or anonymised file and ask for statistics and charts. Ask it to show its steps, then verify them.
+- **Origin templates and batch processing**: save your graph and analysis once, then apply them to many files.
+- Typical script results: mean, standard deviation, CV %, points outside a tolerance band, total volume, a thickness map and a summary table with one row per run.
+- Prompt: "Write a Python script that reads [FILE] with columns [NAMES], calculates [STATISTICS], saves a graph and prints a summary. Explain each line and tell me how to check it."
+- Always validate one result by hand or with a second tool before relying on it.

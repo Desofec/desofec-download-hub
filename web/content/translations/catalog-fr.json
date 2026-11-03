@@ -314,5 +314,15 @@
  "Import the data and fill in column names and units.": "Importez les données et renseignez les noms et unités des colonnes.",
  "Plot the data and add a reference line at your target.": "Tracez les données et ajoutez une ligne de référence à votre valeur cible.",
  "Calculate the mean, standard deviation and CV %.": "Calculez la moyenne, l’écart type et le CV %.",
- "Check your result by hand or with a second method before reporting it.": "Vérifiez votre résultat à la main ou avec une seconde méthode avant de le présenter."
+ "Check your result by hand or with a second method before reporting it.": "Vérifiez votre résultat à la main ou avec une seconde méthode avant de le présenter.",
+ "Julius AI": "Julius AI",
+ "Chat with an AI assistant to analyse an uploaded spreadsheet or CSV file and draw charts without writing code.": "Discutez avec un assistant IA pour analyser un tableur ou un fichier CSV importé et tracer des graphiques sans écrire de code.",
+ "Data assistant": "Assistant de données",
+ "Automated Data Analysis": "Analyse de données automatisée",
+ "Skip the software settings: use short Python scripts in Colab and AI assistants to analyse measurement files, process many runs at once and validate the results.": "Évitez les réglages du logiciel : utilisez de courts scripts Python dans Colab et des assistants IA pour analyser des fichiers de mesure, traiter plusieurs séries à la fois et valider les résultats.",
+ "Choose an automation route": "Choisir une voie d’automatisation",
+ "Run scripts on practice data": "Exécuter des scripts sur des données d’entraînement",
+ "Process many files at once": "Traiter plusieurs fichiers à la fois",
+ "Adapt with AI and validate": "Adapter avec l’IA et valider",
+ "Learn to import, plot, measure and report on measurement data such as pump logs and scanner maps. Use Origin for graphs, or automate the analysis with Python scripts and AI assistants.": "Apprenez à importer, tracer, mesurer et présenter des données de mesure comme des journaux de pompe et des cartes de scanner. Utilisez Origin pour les graphiques, ou automatisez l’analyse avec des scripts Python et des assistants IA."
 }
