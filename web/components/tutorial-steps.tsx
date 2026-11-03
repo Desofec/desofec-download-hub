@@ -2,6 +2,7 @@
 
 import { useCallback, useMemo, useState, useSyncExternalStore } from 'react';
 import { useLanguage, useT } from '@/components/language';
+import { Tr } from '@/components/tr';
 import { getTutorialTranslation } from '@/lib/tutorial-translations';
 import { useProgressSync } from '@/components/progress-sync';
 import type { TutorialStep } from '@/lib/task-tracker-tutorial';
@@ -46,7 +47,17 @@ function CopyButton({ text, label }: { text: string; label: string }) {
   );
 }
 
-export function TutorialSteps({ steps: sourceSteps, storageKey, syncId }: { steps: TutorialStep[]; storageKey: string; syncId: string }) {
+export function TutorialSteps({
+  steps: sourceSteps,
+  storageKey,
+  syncId,
+  title
+}: {
+  steps: TutorialStep[];
+  storageKey: string;
+  syncId: string;
+  title: string;
+}) {
   const t = useT();
   const language = useLanguage();
   const translation = getTutorialTranslation(syncId, language);
@@ -98,6 +109,7 @@ export function TutorialSteps({ steps: sourceSteps, storageKey, syncId }: { step
   });
 
   const toggle = (id: string) => persist(done.includes(id) ? done.filter((entry) => entry !== id) : [...done, id]);
+  const completedTutorial = ready && steps.length > 0 && steps.every((step) => done.includes(step.id));
 
   return (
     <div>
@@ -156,6 +168,19 @@ export function TutorialSteps({ steps: sourceSteps, storageKey, syncId }: { step
         <button type="button" className="btn btn-secondary" onClick={() => persist([])}>
           {t('tutorial.reset')}
         </button>
+      )}
+      {completedTutorial && (
+        <section className="completion-certificate" aria-labelledby="completion-title">
+          <div className="certificate-content">
+            <span className="eyebrow"><Tr>Learning achievement</Tr></span>
+            <h2 id="completion-title"><Tr>Tutorial completed</Tr></h2>
+            <p className="certificate-tutorial-title">{translation?.title ?? title}</p>
+            <p><Tr>You finished every step. Be proud of what you built.</Tr></p>
+            <button type="button" className="btn btn-primary no-print" onClick={() => window.print()}>
+              <Tr>Print or save certificate</Tr>
+            </button>
+          </div>
+        </section>
       )}
     </div>
   );

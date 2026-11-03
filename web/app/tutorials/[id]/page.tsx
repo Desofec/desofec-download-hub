@@ -32,7 +32,12 @@ export default async function TutorialPage({ params }: { params: Promise<{ id: s
           intro={tutorial.intro}
           minutes={Number.parseInt(tutorial.time, 10)}
         />
-        <TutorialSteps steps={tutorial.steps} storageKey={tutorialStorageKey(tutorial.pathId)} syncId={tutorial.pathId} />
+        <TutorialSteps
+          steps={tutorial.steps}
+          storageKey={tutorialStorageKey(tutorial.pathId)}
+          syncId={tutorial.pathId}
+          title={tutorial.title}
+        />
         <div className="cta-row">
           <Link className="btn btn-secondary" href={`/paths/${tutorial.pathId}`}>
             <TutorialLabel k="tutorial.back" />
