@@ -85,6 +85,15 @@ export function SiteHeader() {
           >
             <span aria-hidden="true">☕</span>
           </Link>
+          <Link
+            className="break-link"
+            href="/study-groups"
+            aria-label={tr('Study groups')}
+            title={tr('Study groups')}
+            onClick={() => setMenuOpen(false)}
+          >
+            <span aria-hidden="true">🤝</span>
+          </Link>
           <Link className="btn btn-primary mobile-nav-cta" href="/onboarding" onClick={() => setMenuOpen(false)}>
             {t('nav.cta')}
           </Link>

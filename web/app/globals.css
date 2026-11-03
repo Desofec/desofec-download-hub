@@ -143,7 +143,7 @@ button {
 .main-nav {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 6px;
   color: var(--muted);
   flex-wrap: wrap;
   font-size: .9rem;
@@ -2078,3 +2078,16 @@ html[data-rainbow="on"] .hero-aurora { animation: rainbow-shift 12s linear infin
 .quiz-option:disabled { cursor: default; }
 .quiz-option.is-right { border-color: var(--ok); background: var(--accent-panel); }
 .quiz-option.is-wrong { border-color: var(--danger); }
+
+.link-button {
+  background: none;
+  border: 0;
+  padding: 0;
+  color: var(--primary);
+  text-decoration: underline;
+  cursor: pointer;
+  font: inherit;
+}
+.study-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 8px; }
+.study-report { display: inline-flex; align-items: center; gap: 6px; }
+.workspace-list li:has(.study-actions) { display: block; }
