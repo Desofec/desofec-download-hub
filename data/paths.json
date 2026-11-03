@@ -189,5 +189,47 @@
       "Adapt with AI and validate"
     ],
     "goal": "analyze-data"
+  },
+  {
+    "id": "data-visualization",
+    "title": "Data Visualization Basics",
+    "level": "Beginner",
+    "description": "Choose a chart for your question, prepare a clean table, build a chart in Python and explain the result honestly.",
+    "badge": "Data",
+    "steps": [
+      "Choose a question and chart",
+      "Prepare a clean table",
+      "Create charts in Colab",
+      "Explain results clearly"
+    ],
+    "goal": "visualize-data"
+  },
+  {
+    "id": "research-with-ai",
+    "title": "Prompt Engineering for Research",
+    "level": "Beginner",
+    "description": "Turn a broad topic into a focused research question, find real sources, compare evidence and verify every citation.",
+    "badge": "Research",
+    "steps": [
+      "Focus your research question",
+      "Find and check real sources",
+      "Build an evidence table",
+      "Synthesize and verify"
+    ],
+    "goal": "research-ai"
+  },
+  {
+    "id": "ai-for-education",
+    "title": "AI for Teachers and Students",
+    "level": "Beginner",
+    "description": "Use practical AI workflows for lesson planning, tutoring and practice while keeping privacy, learning and academic integrity central.",
+    "badge": "Education",
+    "steps": [
+      "Set safe use rules",
+      "Plan lessons or learn with a tutor",
+      "Create and review practice",
+      "Reflect and disclose AI help"
+    ],
+    "goal": "ai-education"
   }
 ]

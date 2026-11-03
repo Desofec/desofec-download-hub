@@ -64,5 +64,23 @@
     "name": "Analyze data",
     "description": "Turn measurements into clear graphs, numbers and decisions with analysis software and AI help.",
     "badge": "Data"
+  },
+  {
+    "id": "visualize-data",
+    "name": "Visualize data",
+    "description": "Choose clear charts and explain what data shows with honest, accessible visualizations.",
+    "badge": "Data"
+  },
+  {
+    "id": "research-ai",
+    "name": "Research with AI",
+    "description": "Use AI to organise research while finding, checking and citing real sources.",
+    "badge": "Research"
+  },
+  {
+    "id": "ai-education",
+    "name": "AI for teachers and students",
+    "description": "Use AI to support lesson planning, tutoring and practice while protecting privacy and academic integrity.",
+    "badge": "Education"
   }
 ]

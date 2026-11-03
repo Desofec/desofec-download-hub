@@ -12,6 +12,9 @@ const keywords: Record<string, string[]> = {
   'no-code': ['no code', 'no-code', 'nocode', 'without coding', 'without code', 'database', 'airtable', 'form', 'sans code', 'ohne code', 'sin código', 'sin programar'],
   'create-content': ['content', 'video', 'youtube', 'podcast', 'social media', 'newsletter', 'voice-over', 'voiceover', 'contenu', 'vidéo', 'inhalt', 'contenido', 'vídeo'],
   'analyze-data': ['analysis', 'analyze', 'analyse', 'origin', 'originpro', 'graph', 'plot', 'measurement', 'sensor', 'statistics', 'curve fit', 'laboratory', 'analyser', 'analysieren', 'daten', 'datos', 'análisis', 'mesure'],
+  'visualize-data': ['data visualization', 'visualize', 'visualise', 'chart', 'charts', 'graph', 'graphs', 'dashboard', 'visualization', 'visualisation', 'gráficos', 'visualización', 'dataviz', 'diagram'],
+  'research-ai': ['research', 'literature review', 'sources', 'citations', 'academic', 'scholar', 'evidence', 'investigate', 'recherche', 'forschung', 'investigación'],
+  'ai-education': ['teacher', 'teaching', 'student', 'school', 'classroom', 'lesson plan', 'tutor', 'homework', 'education', 'enseignant', 'étudiant', 'lehrer', 'schüler', 'docente', 'estudiante', 'educación'],
   'ai-productivity': ['productivity', 'productive', 'email', 'summarize', 'plan my', 'research', 'notes', 'productivité', 'produktivität', 'productividad', 'organize']
 };
 

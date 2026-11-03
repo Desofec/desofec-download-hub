@@ -230,5 +230,63 @@
       "Measure stability, integrate and fit",
       "Map scans, then template and report"
     ]
+  },
+  "visualize-data": {
+    "title": "Data Visualization Path",
+    "summary": "Use clear charts to answer questions about data. Start with clean tables, choose a chart, create it in Python or Colab and explain its limits.",
+    "tools": [
+      "python",
+      "colab",
+      "originpro",
+      "canva"
+    ],
+    "starters": [
+      "data-visualization-kit"
+    ],
+    "steps": [
+      "Choose a question and chart",
+      "Prepare and label data",
+      "Create and review visualizations",
+      "Explain the evidence and limitations"
+    ]
+  },
+  "research-ai": {
+    "title": "Research Prompting Path",
+    "summary": "Use AI to narrow research questions, organize evidence and draft synthesis, while verifying original sources and every citation yourself.",
+    "tools": [
+      "perplexity",
+      "notebooklm",
+      "chatgpt"
+    ],
+    "starters": [
+      "research-prompt-kit",
+      "ai-prompt-pack"
+    ],
+    "steps": [
+      "Focus a research question",
+      "Find real sources",
+      "Compare evidence and limitations",
+      "Verify and cite the final brief"
+    ]
+  },
+  "ai-education": {
+    "title": "AI for Teachers and Students Path",
+    "summary": "Use AI for lesson planning, tutoring and practice without sharing personal student data or handing over human judgement and learning.",
+    "tools": [
+      "chatgpt",
+      "notebooklm",
+      "canva",
+      "microsoft-copilot"
+    ],
+    "starters": [
+      "ai-for-education-kit",
+      "ai-prompt-pack"
+    ],
+    "steps": [
+      "Set privacy and course rules",
+      "Plan a lesson or study with a tutor",
+      "Create and review practice",
+      "Reflect on and disclose AI use"
+    ]
   }
 }

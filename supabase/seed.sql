@@ -11,7 +11,10 @@ insert into public.goals (id, name, description, badge, position) values
   ('no-code', 'Use no-code tools', 'Build faster with tools that help you automate, organize, and launch without code.', 'No-code', 7),
   ('ai-productivity', 'Improve AI productivity', 'Learn how AI can help with research, writing, planning, and smarter daily tasks.', 'Productivity', 8),
   ('create-content', 'Create content', 'Make posts, images, voice-overs and short videos with AI helpers, then polish them in your own voice.', 'Content', 9),
-  ('analyze-data', 'Analyze data', 'Turn measurements into clear graphs, numbers and decisions with analysis software and AI help.', 'Data', 10)
+  ('analyze-data', 'Analyze data', 'Turn measurements into clear graphs, numbers and decisions with analysis software and AI help.', 'Data', 10),
+  ('visualize-data', 'Visualize data', 'Choose clear charts and explain what data shows with honest, accessible visualizations.', 'Data', 11),
+  ('research-ai', 'Research with AI', 'Use AI to organise research while finding, checking and citing real sources.', 'Research', 12),
+  ('ai-education', 'AI for teachers and students', 'Use AI to support lesson planning, tutoring and practice while protecting privacy and academic integrity.', 'Education', 13)
 on conflict (id) do update set name = excluded.name, description = excluded.description, badge = excluded.badge, position = excluded.position;
 
 insert into public.tools (id, name, category, skill, description, badge, url, position) values
@@ -61,7 +64,10 @@ insert into public.starter_packs (id, title, description, level, file_path, posi
   ('app-launch-kit', 'First App Launch Kit', 'A scoped plan for taking a small app idea to a published first version.', 'Intermediate', 'downloads/app-launch-kit.md', 7),
   ('ai-coding-prompts', 'AI Coding Prompt Pack', 'Copy-ready prompts and habits for learning and building with coding assistants.', 'Intermediate', 'downloads/ai-coding-prompts.md', 8),
   ('content-creator-kit', 'AI Content Creator Kit', 'Prompts, a simple creator loop and a responsible-creating checklist for posts, images and short videos.', 'Beginner', 'downloads/content-creator-kit.md', 9),
-  ('origin-analysis-kit', 'Origin Data Analysis Kit', 'A menu cheat sheet, key formulas and AI prompt templates for analysing measurement data in Origin.', 'Intermediate', 'downloads/origin-analysis-kit.md', 10)
+  ('origin-analysis-kit', 'Origin Data Analysis Kit', 'A menu cheat sheet, key formulas and AI prompt templates for analysing measurement data in Origin.', 'Intermediate', 'downloads/origin-analysis-kit.md', 10),
+  ('data-visualization-kit', 'Data Visualization Starter Kit', 'A chart-selection workflow, Colab prompt and review checklist for clear, honest data visuals.', 'Beginner', 'downloads/data-visualization-kit.md', 11),
+  ('research-prompt-kit', 'AI Research Prompt Kit', 'Prompts and an evidence workflow for finding, checking and synthesizing real research sources.', 'Beginner', 'downloads/research-prompt-kit.md', 12),
+  ('ai-for-education-kit', 'AI for Teachers and Students Kit', 'Practical teacher and student prompts with privacy, verification and academic-integrity checklists.', 'Beginner', 'downloads/ai-for-education-kit.md', 13)
 on conflict (id) do update set title = excluded.title, description = excluded.description, level = excluded.level, file_path = excluded.file_path, position = excluded.position;
 
 insert into public.paths (id, title, level, description, badge, goal_id, steps, position) values
@@ -77,7 +83,10 @@ insert into public.paths (id, title, level, description, badge, goal_id, steps, 
   ('ai-assisted-coding', 'Code With an AI Assistant', 'Intermediate', 'Learn to pair with Copilot or Codex: write clear prompts, review output, and stay in control of your code.', 'Code', 'learn-coding', array['Pick an assistant and set it up in VS Code', 'Describe one small task with a clear prompt', 'Read and understand the generated code', 'Run it and write a simple test', 'Ask the assistant to find bugs and explain fixes', 'Refactor for clear names and small functions', 'Commit with Git and note what you learned']::text[], 9),
   ('content-creation', 'AI Content Creation Path', 'Beginner', 'Plan, draft and polish posts, images and short videos with AI helpers while staying original and honest.', 'Content', 'create-content', array['Choose an audience and a message', 'Draft with an AI assistant', 'Add visuals, voice or video', 'Polish, check facts and share']::text[], 10),
   ('origin-data-analysis', 'Data Analysis with Origin', 'Intermediate', 'Import and plot measurement data, check stability, integrate with weights, map scans and repeat the analysis with templates and AI prompts.', 'Data', 'analyze-data', array['Plan your analysis question', 'Import, label and plot data', 'Measure stability and integrate', 'Map scans, then repeat and report']::text[], 11),
-  ('auto-data-analysis', 'Automated Data Analysis', 'Beginner', 'Skip the software settings: use short Python scripts in Colab and AI assistants to analyse measurement files, process many runs at once and validate the results.', 'Data', 'analyze-data', array['Choose an automation route', 'Run scripts on practice data', 'Process many files at once', 'Adapt with AI and validate']::text[], 12)
+  ('auto-data-analysis', 'Automated Data Analysis', 'Beginner', 'Skip the software settings: use short Python scripts in Colab and AI assistants to analyse measurement files, process many runs at once and validate the results.', 'Data', 'analyze-data', array['Choose an automation route', 'Run scripts on practice data', 'Process many files at once', 'Adapt with AI and validate']::text[], 12),
+  ('data-visualization', 'Data Visualization Basics', 'Beginner', 'Choose a chart for your question, prepare a clean table, build a chart in Python and explain the result honestly.', 'Data', 'visualize-data', array['Choose a question and chart', 'Prepare a clean table', 'Create charts in Colab', 'Explain results clearly']::text[], 13),
+  ('research-with-ai', 'Prompt Engineering for Research', 'Beginner', 'Turn a broad topic into a focused research question, find real sources, compare evidence and verify every citation.', 'Research', 'research-ai', array['Focus your research question', 'Find and check real sources', 'Build an evidence table', 'Synthesize and verify']::text[], 14),
+  ('ai-for-education', 'AI for Teachers and Students', 'Beginner', 'Use practical AI workflows for lesson planning, tutoring and practice while keeping privacy, learning and academic integrity central.', 'Education', 'ai-education', array['Set safe use rules', 'Plan lessons or learn with a tutor', 'Create and review practice', 'Reflect and disclose AI help']::text[], 15)
 on conflict (id) do update set title = excluded.title, level = excluded.level, description = excluded.description, badge = excluded.badge, goal_id = excluded.goal_id, steps = excluded.steps, position = excluded.position;
 
 insert into public.recommendations (goal_id, title, summary, steps) values
@@ -91,7 +100,10 @@ insert into public.recommendations (goal_id, title, summary, steps) values
   ('no-code', 'No-Code Starter', 'Use easy tools to build workflows and small systems without needing to write code.', array['Choose a simple problem', 'Map the flow', 'Build the workflow', 'Review and improve']::text[]),
   ('ai-productivity', 'AI Productivity Path', 'Learn how AI can support writing, planning, research, and daily work in a practical way.', array['Identify daily repetitive tasks', 'Create reusable prompts', 'Apply AI to real work', 'Review and improve results']::text[]),
   ('create-content', 'Content Creation Path', 'Plan an idea, draft it with AI, add visuals or voice, then polish it in your own voice before you share.', array['Pick one audience and message', 'Draft with an AI assistant', 'Add images, voice or video', 'Edit, check facts and publish']::text[]),
-  ('analyze-data', 'Data Analysis Path', 'Learn to import, plot, measure and report on measurement data such as pump logs and scanner maps. Use Origin for graphs, or automate the analysis with Python scripts and AI assistants.', array['Write your analysis question', 'Import, label and plot data', 'Measure stability, integrate and fit', 'Map scans, then template and report']::text[])
+  ('analyze-data', 'Data Analysis Path', 'Learn to import, plot, measure and report on measurement data such as pump logs and scanner maps. Use Origin for graphs, or automate the analysis with Python scripts and AI assistants.', array['Write your analysis question', 'Import, label and plot data', 'Measure stability, integrate and fit', 'Map scans, then template and report']::text[]),
+  ('visualize-data', 'Data Visualization Path', 'Use clear charts to answer questions about data. Start with clean tables, choose a chart, create it in Python or Colab and explain its limits.', array['Choose a question and chart', 'Prepare and label data', 'Create and review visualizations', 'Explain the evidence and limitations']::text[]),
+  ('research-ai', 'Research Prompting Path', 'Use AI to narrow research questions, organize evidence and draft synthesis, while verifying original sources and every citation yourself.', array['Focus a research question', 'Find real sources', 'Compare evidence and limitations', 'Verify and cite the final brief']::text[]),
+  ('ai-education', 'AI for Teachers and Students Path', 'Use AI for lesson planning, tutoring and practice without sharing personal student data or handing over human judgement and learning.', array['Set privacy and course rules', 'Plan a lesson or study with a tutor', 'Create and review practice', 'Reflect on and disclose AI use']::text[])
 on conflict (goal_id) do update set title = excluded.title, summary = excluded.summary, steps = excluded.steps;
 
 delete from public.recommendation_tools;
@@ -153,7 +165,18 @@ insert into public.recommendation_tools (goal_id, tool_id, position) values
   ('analyze-data', 'chatgpt', 2),
   ('analyze-data', 'claude', 3),
   ('analyze-data', 'python', 4),
-  ('analyze-data', 'colab', 5)
+  ('analyze-data', 'colab', 5),
+  ('visualize-data', 'python', 0),
+  ('visualize-data', 'colab', 1),
+  ('visualize-data', 'originpro', 2),
+  ('visualize-data', 'canva', 3),
+  ('research-ai', 'perplexity', 0),
+  ('research-ai', 'notebooklm', 1),
+  ('research-ai', 'chatgpt', 2),
+  ('ai-education', 'chatgpt', 0),
+  ('ai-education', 'notebooklm', 1),
+  ('ai-education', 'canva', 2),
+  ('ai-education', 'microsoft-copilot', 3)
 on conflict (goal_id, tool_id) do update set position = excluded.position;
 
 delete from public.recommendation_starters;
@@ -175,7 +198,12 @@ insert into public.recommendation_starters (goal_id, pack_id, position) values
   ('ai-productivity', 'ai-prompt-pack', 1),
   ('create-content', 'content-creator-kit', 0),
   ('create-content', 'ai-prompt-pack', 1),
-  ('analyze-data', 'origin-analysis-kit', 0)
+  ('analyze-data', 'origin-analysis-kit', 0),
+  ('visualize-data', 'data-visualization-kit', 0),
+  ('research-ai', 'research-prompt-kit', 0),
+  ('research-ai', 'ai-prompt-pack', 1),
+  ('ai-education', 'ai-for-education-kit', 0),
+  ('ai-education', 'ai-prompt-pack', 1)
 on conflict (goal_id, pack_id) do update set position = excluded.position;
 
 commit;

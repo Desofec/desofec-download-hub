@@ -4,6 +4,11 @@ import { designBasicsSteps, mlFoundationsSteps } from '@/lib/ml-design-tutorials
 import { noCodeAutomationSteps, noCodeBuilderSteps, webStarterSteps } from '@/lib/web-nocode-tutorials';
 import { autoAnalysisSteps } from '@/lib/auto-analysis-tutorial';
 import { originAnalysisSteps } from '@/lib/origin-analysis-tutorial';
+import {
+  aiEducationSteps,
+  dataVisualizationSteps,
+  researchPromptingSteps
+} from '@/lib/next-paths-tutorials';
 import { codingFoundationsSteps } from '@/lib/coding-foundations-tutorial';
 import { taskTrackerSteps, type TutorialStep } from '@/lib/task-tracker-tutorial';
 
@@ -77,6 +82,33 @@ export const tutorials: TutorialInfo[] = [
       'Skip the menu settings: run short scripts in a free Colab notebook to analyse pump logs and scanner maps, process many files at once and check the results with AI.',
     time: '60 minutes',
     steps: autoAnalysisSteps
+  },
+  {
+    pathId: 'data-visualization',
+    href: '/tutorials/data-visualization',
+    title: 'Make clear, honest data visualizations',
+    intro:
+      'Choose the right chart, prepare measurement data, build a visual in Python and explain the result without overstating it.',
+    time: '45 minutes',
+    steps: dataVisualizationSteps
+  },
+  {
+    pathId: 'research-with-ai',
+    href: '/tutorials/research-with-ai',
+    title: 'Research with AI and verify your sources',
+    intro:
+      'Turn a broad topic into a focused question, collect real evidence, compare sources and write a brief you can defend.',
+    time: '45 minutes',
+    steps: researchPromptingSteps
+  },
+  {
+    pathId: 'ai-for-education',
+    href: '/tutorials/ai-for-education',
+    title: 'Use AI safely for teaching and learning',
+    intro:
+      'Practical teacher and student workflows for lesson planning, tutoring and practice, with privacy and academic integrity at the centre.',
+    time: '45 minutes',
+    steps: aiEducationSteps
   },
   {
     pathId: 'web-starter',
