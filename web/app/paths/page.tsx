@@ -20,6 +20,7 @@ export default async function PathsPage() {
             <h1><Tr>Beginner-first journeys</Tr></h1>
           </div>
         </div>
+        <h2 className="sr-only"><Tr>All learning paths</Tr></h2>
         <div className="path-directory">
           {paths.map((path) => (
             <PathCard key={path.id} path={path} showSteps />

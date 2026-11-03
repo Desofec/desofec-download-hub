@@ -144,7 +144,7 @@ export function TutorialSteps({
                   </span>
                   <CopyButton text={step.code} label={t('tutorial.copyCode')} />
                 </div>
-                <pre>
+                <pre tabIndex={0}>
                   <code>{step.code}</code>
                 </pre>
               </div>

@@ -187,6 +187,7 @@ export function ToolsExplorer({ tools }: { tools: Tool[] }) {
       )}
       {visible.length ? (
         <div className="tool-directory">
+          <h2 className="sr-only">{tr('All tools')}</h2>
           {visible.map((tool) => (
             <ToolCard
               key={tool.id}

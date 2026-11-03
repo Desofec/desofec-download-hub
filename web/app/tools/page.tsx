@@ -21,7 +21,7 @@ export default async function ToolsPage() {
             <h1><Tr>Beginner-friendly tools</Tr></h1>
           </div>
         </div>
-        <Suspense fallback={null}>
+        <Suspense fallback={<div style={{ minHeight: '100vh' }} aria-hidden="true" />}>
           <ToolsExplorer tools={tools} />
         </Suspense>
       </div>

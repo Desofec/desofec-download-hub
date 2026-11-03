@@ -11,7 +11,7 @@ export const defaultLanguage: LanguageCode = 'en';
 
 const en = {
   'nav.home': 'Home',
-  'nav.start': 'Start',
+  'nav.start': 'Start here',
   'nav.tools': 'Tools',
   'nav.paths': 'Paths',
   'nav.tutorials': 'Tutorials',
@@ -48,7 +48,7 @@ export type TranslationKey = keyof typeof en;
 
 const fr: Record<TranslationKey, string> = {
   'nav.home': 'Accueil',
-  'nav.start': 'Commencer',
+  'nav.start': 'Commencer ici',
   'nav.tools': 'Outils',
   'nav.paths': 'Parcours',
   'nav.tutorials': 'Tutoriels',
@@ -83,7 +83,7 @@ const fr: Record<TranslationKey, string> = {
 
 const de: Record<TranslationKey, string> = {
   'nav.home': 'Startseite',
-  'nav.start': 'Starten',
+  'nav.start': 'Hier starten',
   'nav.tools': 'Tools',
   'nav.paths': 'Lernpfade',
   'nav.tutorials': 'Tutorials',
@@ -118,7 +118,7 @@ const de: Record<TranslationKey, string> = {
 
 const es: Record<TranslationKey, string> = {
   'nav.home': 'Inicio',
-  'nav.start': 'Empezar',
+  'nav.start': 'Empezar aquí',
   'nav.tools': 'Herramientas',
   'nav.paths': 'Rutas',
   'nav.tutorials': 'Tutoriales',
