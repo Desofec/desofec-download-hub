@@ -19,7 +19,15 @@ export function GoalCard({ goal }: { goal: Goal }) {
   );
 }
 
-export function ToolCard({ tool, cta = 'find' }: { tool: Tool; cta?: 'find' | 'none' }) {
+export function ToolCard({
+  tool,
+  cta = 'find',
+  comparison
+}: {
+  tool: Tool;
+  cta?: 'find' | 'none';
+  comparison?: { selected: boolean; disabled: boolean; onToggle: () => void };
+}) {
   return (
     <article className="tool-card">
       <div className="tool-meta">
@@ -42,6 +50,17 @@ export function ToolCard({ tool, cta = 'find' }: { tool: Tool; cta?: 'find' | 'n
         <Link className="btn btn-secondary" href={`/tools/${encodeURIComponent(tool.id)}`}>
           <Tr>Details</Tr>
         </Link>
+        {comparison && (
+          <button
+            type="button"
+            className="btn btn-secondary"
+            aria-pressed={comparison.selected}
+            disabled={comparison.disabled}
+            onClick={comparison.onToggle}
+          >
+            <Tr>{comparison.selected ? 'Remove from comparison' : 'Add to comparison'}</Tr>
+          </button>
+        )}
         {cta === 'find' && (
           <Link className="btn btn-secondary" href="/onboarding">
             <Tr>Find my path</Tr>

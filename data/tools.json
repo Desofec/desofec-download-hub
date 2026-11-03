@@ -196,5 +196,50 @@
     "skill": "Intermediate",
     "description": "An AI coding agent that can help explore a codebase, implement changes, and work through software tasks.",
     "badge": "Code"
+  },
+  {
+    "id": "notebooklm",
+    "url": "https://notebooklm.google.com",
+    "name": "NotebookLM",
+    "category": "AI",
+    "skill": "Beginner",
+    "description": "Study from your own sources with summaries, study guides, and answers grounded in the materials you add.",
+    "badge": "Research"
+  },
+  {
+    "id": "cursor",
+    "url": "https://cursor.com",
+    "name": "Cursor",
+    "category": "Coding",
+    "skill": "Intermediate",
+    "description": "An AI-powered code editor that helps you write, understand, and improve software alongside your code.",
+    "badge": "Code"
+  },
+  {
+    "id": "lovable",
+    "url": "https://lovable.dev",
+    "name": "Lovable",
+    "category": "Coding",
+    "skill": "Beginner",
+    "description": "Turn a written app idea into a web prototype, then refine it by describing changes to an AI builder.",
+    "badge": "App"
+  },
+  {
+    "id": "adobe-firefly",
+    "url": "https://firefly.adobe.com",
+    "name": "Adobe Firefly",
+    "category": "Design",
+    "skill": "Beginner",
+    "description": "Explore AI-assisted image and design creation with Adobe's generative tools.",
+    "badge": "Image generation"
+  },
+  {
+    "id": "gamma",
+    "url": "https://gamma.app",
+    "name": "Gamma",
+    "category": "Design",
+    "skill": "Beginner",
+    "description": "Turn an outline into a presentation, document, or simple webpage, then edit the result.",
+    "badge": "Presentations"
   }
 ]

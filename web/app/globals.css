@@ -1564,6 +1564,92 @@ h3 {
   }
 }
 
+.tool-comparison {
+  margin: 1.5rem 0 2rem;
+  padding: clamp(1rem, 3vw, 1.5rem);
+  border: 1px solid var(--line);
+  border-radius: 1.25rem;
+  background: var(--surface);
+}
+
+.comparison-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.comparison-heading h2 {
+  font-size: clamp(1.3rem, 3vw, 1.8rem);
+}
+
+.comparison-scroll {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+}
+
+.comparison-scroll table {
+  width: 100%;
+  min-width: 560px;
+  border-collapse: collapse;
+}
+
+.comparison-scroll th,
+.comparison-scroll td {
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+}
+
+.comparison-scroll thead th {
+  color: var(--text);
+  background: rgba(125, 211, 252, 0.08);
+}
+
+.comparison-scroll tbody th {
+  width: 130px;
+  color: var(--muted);
+}
+
+.comparison-scroll tbody tr:last-child th,
+.comparison-scroll tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.comparison-scroll a {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.comparison-remove {
+  margin-left: 0.5rem;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 1.1rem;
+}
+
+.comparison-note {
+  margin: 0.75rem 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.tool-card .card-cta button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+@media (max-width: 640px) {
+  .comparison-heading {
+    flex-direction: column;
+  }
+}
+
 /* Aurora hero */
 .hero-aurora {
   position: relative;

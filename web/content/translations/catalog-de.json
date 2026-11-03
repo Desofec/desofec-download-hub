@@ -245,5 +245,13 @@
  "Ask for edge cases and test at least two of them.": "Bitte um mögliche Sonderfälle und teste mindestens zwei davon.",
  "Ask for a code review and apply one change yourself.": "Bitte um eine Code-Überprüfung und setze selbst eine Änderung um.",
  "Rewrite one generated function in your own words.": "Schreibe eine generierte Funktion mit deinen eigenen Worten neu.",
- "Save a commit describing what you built and learned.": "Erstelle einen Commit, der beschreibt, was du gebaut und gelernt hast."
+ "Save a commit describing what you built and learned.": "Erstelle einen Commit, der beschreibt, was du gebaut und gelernt hast.",
+ "Research": "Recherche",
+ "Image generation": "Bildgenerierung",
+ "Presentations": "Präsentationen",
+ "Study from your own sources with summaries, study guides, and answers grounded in the materials you add.": "Lerne mit deinen eigenen Quellen: Erhalte Zusammenfassungen, Lernhilfen und Antworten, die sich auf deine hinzugefügten Materialien stützen.",
+ "An AI-powered code editor that helps you write, understand, and improve software alongside your code.": "Ein KI-gestützter Code-Editor, der dir hilft, Software direkt im Code zu schreiben, zu verstehen und zu verbessern.",
+ "Turn a written app idea into a web prototype, then refine it by describing changes to an AI builder.": "Verwandle eine beschriebene App-Idee in einen Web-Prototyp und verbessere ihn, indem du einem KI-Builder Änderungen beschreibst.",
+ "Explore AI-assisted image and design creation with Adobe's generative tools.": "Entdecke KI-gestützte Bild- und Designkreation mit den generativen Tools von Adobe.",
+ "Turn an outline into a presentation, document, or simple webpage, then edit the result.": "Verwandle eine Gliederung in eine Präsentation, ein Dokument oder eine einfache Webseite und bearbeite anschließend das Ergebnis."
 }
