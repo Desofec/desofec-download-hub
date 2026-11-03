@@ -314,5 +314,15 @@
  "Import the data and fill in column names and units.": "Importa los datos y completa los nombres y unidades de las columnas.",
  "Plot the data and add a reference line at your target.": "Grafica los datos y añade una línea de referencia en tu valor objetivo.",
  "Calculate the mean, standard deviation and CV %.": "Calcula la media, la desviación estándar y el CV %.",
- "Check your result by hand or with a second method before reporting it.": "Comprueba tu resultado a mano o con un segundo método antes de informar."
+ "Check your result by hand or with a second method before reporting it.": "Comprueba tu resultado a mano o con un segundo método antes de informar.",
+ "Julius AI": "Julius AI",
+ "Chat with an AI assistant to analyse an uploaded spreadsheet or CSV file and draw charts without writing code.": "Chatea con un asistente de IA para analizar una hoja de cálculo o un archivo CSV subido y crear gráficos sin escribir código.",
+ "Data assistant": "Asistente de datos",
+ "Automated Data Analysis": "Análisis de datos automatizado",
+ "Skip the software settings: use short Python scripts in Colab and AI assistants to analyse measurement files, process many runs at once and validate the results.": "Evita los ajustes del software: usa scripts cortos de Python en Colab y asistentes de IA para analizar archivos de medición, procesar muchas series a la vez y validar los resultados.",
+ "Choose an automation route": "Elegir una vía de automatización",
+ "Run scripts on practice data": "Ejecutar scripts con datos de práctica",
+ "Process many files at once": "Procesar muchos archivos a la vez",
+ "Adapt with AI and validate": "Adaptar con IA y validar",
+ "Learn to import, plot, measure and report on measurement data such as pump logs and scanner maps. Use Origin for graphs, or automate the analysis with Python scripts and AI assistants.": "Aprende a importar, graficar, medir e informar datos de medición como registros de bombas y mapas de escáner. Usa Origin para los gráficos o automatiza el análisis con scripts de Python y asistentes de IA."
 }

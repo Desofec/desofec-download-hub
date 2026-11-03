@@ -46,7 +46,8 @@ insert into public.tools (id, name, category, skill, description, badge, url, po
   ('elevenlabs', 'ElevenLabs', 'AI', 'Beginner', 'Turn text into natural-sounding speech for voice-overs, using voices you are allowed to use.', 'Voice', 'https://elevenlabs.io', 28),
   ('descript', 'Descript', 'Design', 'Beginner', 'Edit audio and video by editing the written transcript, and remove filler words quickly.', 'Audio & video', 'https://www.descript.com', 29),
   ('microsoft-copilot', 'Microsoft Copilot', 'AI', 'Beginner', 'A free AI assistant for questions, writing help and image ideas, handy if you already use Microsoft tools.', 'Assistant', 'https://copilot.microsoft.com', 30),
-  ('originpro', 'Origin / OriginPro', 'Data', 'Intermediate', 'Commercial graphing and data-analysis software for importing data, plotting, statistics, curve fitting and integration.', 'Analysis', 'https://www.originlab.com', 31)
+  ('originpro', 'Origin / OriginPro', 'Data', 'Intermediate', 'Commercial graphing and data-analysis software for importing data, plotting, statistics, curve fitting and integration.', 'Analysis', 'https://www.originlab.com', 31),
+  ('julius-ai', 'Julius AI', 'Data', 'Beginner', 'Chat with an AI assistant to analyse an uploaded spreadsheet or CSV file and draw charts without writing code.', 'Data assistant', 'https://julius.ai', 32)
 on conflict (id) do update set name = excluded.name, category = excluded.category, skill = excluded.skill, description = excluded.description, badge = excluded.badge, url = excluded.url, position = excluded.position;
 
 insert into public.starter_packs (id, title, description, level, file_path, position) values
@@ -75,7 +76,8 @@ insert into public.paths (id, title, level, description, badge, goal_id, steps, 
   ('no-code-builder', 'No-Code Builder', 'Beginner', 'Build a useful small system with a database and automations, without writing code.', 'Automation', 'no-code', array['Pick a simple problem to solve', 'Organize your data in a table', 'Connect an automation to it', 'Share it and improve it']::text[], 8),
   ('ai-assisted-coding', 'Code With an AI Assistant', 'Intermediate', 'Learn to pair with Copilot or Codex: write clear prompts, review output, and stay in control of your code.', 'Code', 'learn-coding', array['Pick an assistant and set it up in VS Code', 'Describe one small task with a clear prompt', 'Read and understand the generated code', 'Run it and write a simple test', 'Ask the assistant to find bugs and explain fixes', 'Refactor for clear names and small functions', 'Commit with Git and note what you learned']::text[], 9),
   ('content-creation', 'AI Content Creation Path', 'Beginner', 'Plan, draft and polish posts, images and short videos with AI helpers while staying original and honest.', 'Content', 'create-content', array['Choose an audience and a message', 'Draft with an AI assistant', 'Add visuals, voice or video', 'Polish, check facts and share']::text[], 10),
-  ('origin-data-analysis', 'Data Analysis with Origin', 'Intermediate', 'Import and plot measurement data, check stability, integrate with weights, map scans and repeat the analysis with templates and AI prompts.', 'Data', 'analyze-data', array['Plan your analysis question', 'Import, label and plot data', 'Measure stability and integrate', 'Map scans, then repeat and report']::text[], 11)
+  ('origin-data-analysis', 'Data Analysis with Origin', 'Intermediate', 'Import and plot measurement data, check stability, integrate with weights, map scans and repeat the analysis with templates and AI prompts.', 'Data', 'analyze-data', array['Plan your analysis question', 'Import, label and plot data', 'Measure stability and integrate', 'Map scans, then repeat and report']::text[], 11),
+  ('auto-data-analysis', 'Automated Data Analysis', 'Beginner', 'Skip the software settings: use short Python scripts in Colab and AI assistants to analyse measurement files, process many runs at once and validate the results.', 'Data', 'analyze-data', array['Choose an automation route', 'Run scripts on practice data', 'Process many files at once', 'Adapt with AI and validate']::text[], 12)
 on conflict (id) do update set title = excluded.title, level = excluded.level, description = excluded.description, badge = excluded.badge, goal_id = excluded.goal_id, steps = excluded.steps, position = excluded.position;
 
 insert into public.recommendations (goal_id, title, summary, steps) values
@@ -89,7 +91,7 @@ insert into public.recommendations (goal_id, title, summary, steps) values
   ('no-code', 'No-Code Starter', 'Use easy tools to build workflows and small systems without needing to write code.', array['Choose a simple problem', 'Map the flow', 'Build the workflow', 'Review and improve']::text[]),
   ('ai-productivity', 'AI Productivity Path', 'Learn how AI can support writing, planning, research, and daily work in a practical way.', array['Identify daily repetitive tasks', 'Create reusable prompts', 'Apply AI to real work', 'Review and improve results']::text[]),
   ('create-content', 'Content Creation Path', 'Plan an idea, draft it with AI, add visuals or voice, then polish it in your own voice before you share.', array['Pick one audience and message', 'Draft with an AI assistant', 'Add images, voice or video', 'Edit, check facts and publish']::text[]),
-  ('analyze-data', 'Data Analysis Path', 'Learn to import, plot, measure and report on measurement data such as pump logs and scanner maps, using Origin with AI assistants to plan and check your work.', array['Write your analysis question', 'Import, label and plot data', 'Measure stability, integrate and fit', 'Map scans, then template and report']::text[])
+  ('analyze-data', 'Data Analysis Path', 'Learn to import, plot, measure and report on measurement data such as pump logs and scanner maps. Use Origin for graphs, or automate the analysis with Python scripts and AI assistants.', array['Write your analysis question', 'Import, label and plot data', 'Measure stability, integrate and fit', 'Map scans, then template and report']::text[])
 on conflict (goal_id) do update set title = excluded.title, summary = excluded.summary, steps = excluded.steps;
 
 delete from public.recommendation_tools;
@@ -147,10 +149,11 @@ insert into public.recommendation_tools (goal_id, tool_id, position) values
   ('create-content', 'descript', 5),
   ('create-content', 'gamma', 6),
   ('analyze-data', 'originpro', 0),
-  ('analyze-data', 'chatgpt', 1),
-  ('analyze-data', 'claude', 2),
-  ('analyze-data', 'python', 3),
-  ('analyze-data', 'colab', 4)
+  ('analyze-data', 'julius-ai', 1),
+  ('analyze-data', 'chatgpt', 2),
+  ('analyze-data', 'claude', 3),
+  ('analyze-data', 'python', 4),
+  ('analyze-data', 'colab', 5)
 on conflict (goal_id, tool_id) do update set position = excluded.position;
 
 delete from public.recommendation_starters;

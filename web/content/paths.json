@@ -175,5 +175,19 @@
       "Map scans, then repeat and report"
     ],
     "goal": "analyze-data"
+  },
+  {
+    "id": "auto-data-analysis",
+    "title": "Automated Data Analysis",
+    "level": "Beginner",
+    "description": "Skip the software settings: use short Python scripts in Colab and AI assistants to analyse measurement files, process many runs at once and validate the results.",
+    "badge": "Data",
+    "steps": [
+      "Choose an automation route",
+      "Run scripts on practice data",
+      "Process many files at once",
+      "Adapt with AI and validate"
+    ],
+    "goal": "analyze-data"
   }
 ]

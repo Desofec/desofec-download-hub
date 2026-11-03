@@ -2,6 +2,7 @@ import { aiAssistedCodingSteps } from '@/lib/ai-assisted-coding-tutorial';
 import { aiBeginnerSteps, aiProductivitySteps } from '@/lib/ai-everyday-tutorials';
 import { designBasicsSteps, mlFoundationsSteps } from '@/lib/ml-design-tutorials';
 import { noCodeAutomationSteps, noCodeBuilderSteps, webStarterSteps } from '@/lib/web-nocode-tutorials';
+import { autoAnalysisSteps } from '@/lib/auto-analysis-tutorial';
 import { originAnalysisSteps } from '@/lib/origin-analysis-tutorial';
 import { codingFoundationsSteps } from '@/lib/coding-foundations-tutorial';
 import { taskTrackerSteps, type TutorialStep } from '@/lib/task-tracker-tutorial';
@@ -67,6 +68,15 @@ export const tutorials: TutorialInfo[] = [
       'Import sensor and scanner data, make clear graphs, measure how steady a pump runs, integrate with weights and map a scan, using safe practice data and AI prompts.',
     time: '90 minutes',
     steps: originAnalysisSteps
+  },
+  {
+    pathId: 'auto-data-analysis',
+    href: '/tutorials/auto-data-analysis',
+    title: 'Automate your data analysis with Python and AI',
+    intro:
+      'Skip the menu settings: run short scripts in a free Colab notebook to analyse pump logs and scanner maps, process many files at once and check the results with AI.',
+    time: '60 minutes',
+    steps: autoAnalysisSteps
   },
   {
     pathId: 'web-starter',

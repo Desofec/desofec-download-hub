@@ -286,5 +286,14 @@
     "skill": "Intermediate",
     "description": "Commercial graphing and data-analysis software for importing data, plotting, statistics, curve fitting and integration.",
     "badge": "Analysis"
+  },
+  {
+    "id": "julius-ai",
+    "url": "https://julius.ai",
+    "name": "Julius AI",
+    "category": "Data",
+    "skill": "Beginner",
+    "description": "Chat with an AI assistant to analyse an uploaded spreadsheet or CSV file and draw charts without writing code.",
+    "badge": "Data assistant"
   }
 ]
