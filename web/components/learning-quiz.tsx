@@ -11,10 +11,14 @@ export function LearningQuiz() {
   const [index, setIndex] = useState(0);
   const [picked, setPicked] = useState<number | null>(null);
   const [score, setScore] = useState(0);
+  const [round, setRound] = useState(0);
 
   const total = quizQuestions.length;
   const finished = index >= total;
   const current = quizQuestions[index];
+  // Rotate the options so the right answer isn't always first; deterministic, so no hydration mismatch.
+  const shift = current ? (index * 2 + round) % current.options.length : 0;
+  const order = current ? current.options.map((_, i) => (i + shift) % current.options.length) : [];
 
   function choose(option: number) {
     if (picked !== null) return;
@@ -26,6 +30,7 @@ export function LearningQuiz() {
     setIndex(0);
     setPicked(null);
     setScore(0);
+    setRound((value) => value + 1);
   }
 
   return (
@@ -43,7 +48,8 @@ export function LearningQuiz() {
           <p>{tr('Question {number} of {total}', { number: index + 1, total })}</p>
           <p className="quiz-question">{current.question[language]}</p>
           <div className="quiz-options">
-            {current.options.map((option, i) => {
+            {order.map((i) => {
+              const option = current.options[i];
               const state = picked === null ? '' : i === current.answer ? ' is-right' : i === picked ? ' is-wrong' : '';
               return (
                 <button key={i} type="button" className={`quiz-option${state}`} disabled={picked !== null} onClick={() => choose(i)}>
