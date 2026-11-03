@@ -363,5 +363,8 @@
  "Doodle pad": "Bloc de garabatos",
  "Draw anything with your finger or mouse. Nothing is saved or uploaded.": "Dibuja lo que quieras con el dedo o el ratón. Nada se guarda ni se sube.",
  "Drawing area": "Área de dibujo",
- "Clear": "Borrar"
+ "Clear": "Borrar",
+ "If a music tab is still open, close it to come back here.": "Si aún hay una pestaña de música abierta, ciérrala para volver aquí.",
+ "We try to close that tab when your 5-minute break ends. Some sites or browsers may not allow it.": "Intentamos cerrar esa pestaña cuando termine tu descanso de 5 minutos. Algunos sitios o navegadores pueden no permitirlo.",
+ "Close music and return": "Cerrar la música y volver"
 }
