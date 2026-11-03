@@ -290,5 +290,7 @@
  "This invitation is invalid, expired, already used, or for a different email address.": "Diese Einladung ist ungültig, abgelaufen, bereits verwendet oder für eine andere E-Mail-Adresse.",
  "Sign in with the email address that received the invitation, then open the invitation link again.": "Melde dich mit der E-Mail-Adresse an, die die Einladung erhalten hat, und öffne den Einladungslink erneut.",
  "Join workspace": "Arbeitsbereich beitreten",
- "Join a workspace": "Einem Arbeitsbereich beitreten"
+ "Join a workspace": "Einem Arbeitsbereich beitreten",
+ "Switch to light theme": "Zum hellen Design wechseln",
+ "Switch to dark theme": "Zum dunklen Design wechseln"
 }

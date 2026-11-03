@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { useAuth } from '@/components/auth-provider';
 import { LanguageSwitcher } from '@/components/language-switcher';
+import { ThemeToggle } from '@/components/theme-toggle';
 import { useT } from '@/components/language';
 import type { TranslationKey } from '@/lib/i18n';
 
@@ -70,6 +71,7 @@ export function SiteHeader() {
             {session?.user.email ? t('nav.account') : t('nav.signin')}
           </Link>
           <LanguageSwitcher />
+          <ThemeToggle />
           <Link className="btn btn-primary mobile-nav-cta" href="/onboarding" onClick={() => setMenuOpen(false)}>
             {t('nav.cta')}
           </Link>

@@ -61,9 +61,14 @@ const jsonLd = {
   ]
 };
 
+const themeScript = `try{if(localStorage.getItem('desofec:theme')==='light')document.documentElement.dataset.theme='light'}catch(e){}`;
+
 export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         <a className="skip-link" href="#main-content">
