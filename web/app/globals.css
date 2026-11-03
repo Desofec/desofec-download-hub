@@ -31,7 +31,10 @@
   color-scheme: dark;
 }
 
-html[data-theme="light"] {
+html[data-theme="light"],
+html[data-theme="sky"],
+html[data-theme="sunrise"],
+html[data-theme="mint"] {
   --bg: #f4f8fc;
   --bg-soft: #e8f0f8;
   --surface: rgba(255, 255, 255, 0.9);
@@ -1812,19 +1815,58 @@ h3 {
   font: inherit; background: inherit; color: inherit;
 }
 
-.theme-toggle {
-  width: 38px;
-  height: 38px;
-  display: inline-grid;
-  place-items: center;
+.theme-select {
+  padding: .35rem .5rem;
   border: 1px solid var(--line);
-  border-radius: 10px;
+  border-radius: .5rem;
   background: transparent;
   color: inherit;
-  font-size: 1.05rem;
-  line-height: 1;
+  font: inherit;
 }
 
-.theme-toggle:hover { border-color: var(--primary); }
+.theme-select option { color: #061020; background: #fff; }
 
-html[data-theme="light"] .hero-aurora { opacity: 0.45; }
+html[data-theme="light"] .hero-aurora,
+html[data-theme="sky"] .hero-aurora,
+html[data-theme="sunrise"] .hero-aurora,
+html[data-theme="mint"] .hero-aurora { opacity: 0.45; }
+
+html[data-theme="sky"] {
+  --primary: #0e7490;
+  --primary-strong: #155e75;
+  --bg-soft: #dff1fb;
+  --body-grad: linear-gradient(180deg, #eaf7ff 0%, #cfe8f8 100%);
+  --accent-panel: linear-gradient(120deg, rgba(186, 230, 253, 0.9), rgba(199, 210, 254, 0.8));
+}
+
+html[data-theme="sunrise"] {
+  --text: #3b1d0b;
+  --muted: #6b4a35;
+  --primary: #c2410c;
+  --primary-strong: #9a3412;
+  --line: rgba(120, 53, 15, 0.18);
+  --panel-grad: linear-gradient(180deg, rgba(255, 252, 247, 0.96), rgba(255, 243, 230, 0.98));
+  --glass: rgba(255, 250, 243, 0.92);
+  --field-bg: rgba(255, 252, 247, 0.95);
+  --header-bg: rgba(255, 248, 240, 0.85);
+  --header-bg-solid: rgba(255, 248, 240, 0.99);
+  --body-grad: linear-gradient(180deg, #fff6ea 0%, #fde2c8 100%);
+  --accent-panel: linear-gradient(120deg, rgba(254, 215, 170, 0.9), rgba(252, 231, 243, 0.85));
+  --headline-start: #3b1d0b;
+}
+
+html[data-theme="mint"] {
+  --text: #0b2a22;
+  --muted: #3f5f55;
+  --primary: #047857;
+  --primary-strong: #065f46;
+  --line: rgba(6, 78, 59, 0.18);
+  --panel-grad: linear-gradient(180deg, rgba(252, 255, 253, 0.96), rgba(236, 253, 245, 0.98));
+  --glass: rgba(250, 255, 252, 0.92);
+  --field-bg: rgba(252, 255, 253, 0.95);
+  --header-bg: rgba(244, 253, 249, 0.85);
+  --header-bg-solid: rgba(244, 253, 249, 0.99);
+  --body-grad: linear-gradient(180deg, #effcf6 0%, #cdeedd 100%);
+  --accent-panel: linear-gradient(120deg, rgba(167, 243, 208, 0.85), rgba(207, 250, 254, 0.85));
+  --headline-start: #0b2a22;
+}
