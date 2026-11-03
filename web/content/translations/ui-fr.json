@@ -235,5 +235,17 @@
  "{minutes} minutes": "{minutes} minutes",
  "{shown} of {total} tutorials": "{shown} tutoriels sur {total}",
  "{title} path": "Parcours {title}",
- "{title} progress": "Progression de {title}"
+ "{title} progress": "Progression de {title}",
+ "Add to comparison": "Ajouter à la comparaison",
+ "Best for": "Idéal pour",
+ "Choose with confidence": "Choisissez en toute confiance",
+ "Clear comparison": "Effacer la comparaison",
+ "Compare selected tools": "Comparer les outils sélectionnés",
+ "Comparison": "Comparaison",
+ "Highlights": "Points forts",
+ "Remove from comparison": "Retirer de la comparaison",
+ "Remove {name} from comparison": "Retirer {name} de la comparaison",
+ "The comparison is saved in this page URL, so you can share it.": "La comparaison est enregistrée dans l’URL de cette page, vous pouvez donc la partager.",
+ "Tool comparison table": "Tableau comparatif des outils",
+ "Visit": "Visiter"
 }

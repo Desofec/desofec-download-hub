@@ -34,7 +34,12 @@ insert into public.tools (id, name, category, skill, description, badge, url, po
   ('framer', 'Framer', 'Design', 'Beginner', 'Design and publish a polished website visually, without writing code.', 'Design', 'https://www.framer.com', 18),
   ('airtable', 'Airtable', 'Automation', 'Beginner', 'A friendly spreadsheet-database for organizing data and building simple no-code apps.', 'Automation', 'https://airtable.com', 19),
   ('github', 'GitHub', 'Coding', 'Beginner', 'Store your projects, track changes and collaborate or publish work for free.', 'Code', 'https://github.com', 20),
-  ('openai-codex', 'OpenAI Codex', 'Coding', 'Intermediate', 'An AI coding agent that can help explore a codebase, implement changes, and work through software tasks.', 'Code', 'https://chatgpt.com/codex/', 21)
+  ('openai-codex', 'OpenAI Codex', 'Coding', 'Intermediate', 'An AI coding agent that can help explore a codebase, implement changes, and work through software tasks.', 'Code', 'https://chatgpt.com/codex/', 21),
+  ('notebooklm', 'NotebookLM', 'AI', 'Beginner', 'Study from your own sources with summaries, study guides, and answers grounded in the materials you add.', 'Research', 'https://notebooklm.google.com', 22),
+  ('cursor', 'Cursor', 'Coding', 'Intermediate', 'An AI-powered code editor that helps you write, understand, and improve software alongside your code.', 'Code', 'https://cursor.com', 23),
+  ('lovable', 'Lovable', 'Coding', 'Beginner', 'Turn a written app idea into a web prototype, then refine it by describing changes to an AI builder.', 'App', 'https://lovable.dev', 24),
+  ('adobe-firefly', 'Adobe Firefly', 'Design', 'Beginner', 'Explore AI-assisted image and design creation with Adobe''s generative tools.', 'Image generation', 'https://firefly.adobe.com', 25),
+  ('gamma', 'Gamma', 'Design', 'Beginner', 'Turn an outline into a presentation, document, or simple webpage, then edit the result.', 'Presentations', 'https://gamma.app', 26)
 on conflict (id) do update set name = excluded.name, category = excluded.category, skill = excluded.skill, description = excluded.description, badge = excluded.badge, url = excluded.url, position = excluded.position;
 
 insert into public.starter_packs (id, title, description, level, file_path, position) values
@@ -80,10 +85,12 @@ insert into public.recommendation_tools (goal_id, tool_id, position) values
   ('learn-ai', 'perplexity', 1),
   ('learn-ai', 'notion-ai', 2),
   ('learn-ai', 'gemini', 3),
+  ('learn-ai', 'notebooklm', 4),
   ('build-website', 'figma', 0),
   ('build-website', 'vscode', 1),
   ('build-website', 'git', 2),
   ('build-website', 'framer', 3),
+  ('build-website', 'lovable', 4),
   ('automate-work', 'zapier', 0),
   ('automate-work', 'make', 1),
   ('automate-work', 'notion-ai', 2),
@@ -93,17 +100,22 @@ insert into public.recommendation_tools (goal_id, tool_id, position) values
   ('learn-coding', 'git', 2),
   ('learn-coding', 'replit', 3),
   ('learn-coding', 'openai-codex', 4),
+  ('learn-coding', 'cursor', 5),
   ('learn-ml', 'python', 0),
   ('learn-ml', 'colab', 1),
   ('learn-ml', 'kaggle', 2),
   ('design-cad', 'figma', 0),
   ('design-cad', 'fusion-360', 1),
   ('design-cad', 'canva', 2),
+  ('design-cad', 'adobe-firefly', 3),
+  ('design-cad', 'gamma', 4),
   ('build-app', 'vscode', 0),
   ('build-app', 'figma', 1),
   ('build-app', 'python', 2),
   ('build-app', 'github-copilot', 3),
   ('build-app', 'openai-codex', 4),
+  ('build-app', 'cursor', 5),
+  ('build-app', 'lovable', 6),
   ('no-code', 'notion-ai', 0),
   ('no-code', 'zapier', 1),
   ('no-code', 'make', 2),
@@ -111,7 +123,9 @@ insert into public.recommendation_tools (goal_id, tool_id, position) values
   ('ai-productivity', 'chatgpt', 0),
   ('ai-productivity', 'perplexity', 1),
   ('ai-productivity', 'notion-ai', 2),
-  ('ai-productivity', 'gemini', 3)
+  ('ai-productivity', 'gemini', 3),
+  ('ai-productivity', 'notebooklm', 4),
+  ('ai-productivity', 'gamma', 5)
 on conflict (goal_id, tool_id) do update set position = excluded.position;
 
 delete from public.recommendation_starters;

@@ -6,7 +6,8 @@
       "chatgpt",
       "perplexity",
       "notion-ai",
-      "gemini"
+      "gemini",
+      "notebooklm"
     ],
     "starters": [
       "ai-prompt-pack",
@@ -26,7 +27,8 @@
       "figma",
       "vscode",
       "git",
-      "framer"
+      "framer",
+      "lovable"
     ],
     "starters": [
       "website-bundle"
@@ -65,7 +67,8 @@
       "vscode",
       "git",
       "replit",
-      "openai-codex"
+      "openai-codex",
+      "cursor"
     ],
     "starters": [
       "coding-basics-kit",
@@ -103,7 +106,9 @@
     "tools": [
       "figma",
       "fusion-360",
-      "canva"
+      "canva",
+      "adobe-firefly",
+      "gamma"
     ],
     "starters": [
       "design-starter-kit",
@@ -124,7 +129,9 @@
       "figma",
       "python",
       "github-copilot",
-      "openai-codex"
+      "openai-codex",
+      "cursor",
+      "lovable"
     ],
     "starters": [
       "app-launch-kit",
@@ -165,7 +172,9 @@
       "chatgpt",
       "perplexity",
       "notion-ai",
-      "gemini"
+      "gemini",
+      "notebooklm",
+      "gamma"
     ],
     "starters": [
       "productivity-boost",
