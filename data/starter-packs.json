@@ -75,5 +75,26 @@
     "description": "A menu cheat sheet, key formulas and AI prompt templates for analysing measurement data in Origin.",
     "level": "Intermediate",
     "file": "downloads/origin-analysis-kit.md"
+  },
+  {
+    "id": "data-visualization-kit",
+    "title": "Data Visualization Starter Kit",
+    "description": "A chart-selection workflow, Colab prompt and review checklist for clear, honest data visuals.",
+    "level": "Beginner",
+    "file": "downloads/data-visualization-kit.md"
+  },
+  {
+    "id": "research-prompt-kit",
+    "title": "AI Research Prompt Kit",
+    "description": "Prompts and an evidence workflow for finding, checking and synthesizing real research sources.",
+    "level": "Beginner",
+    "file": "downloads/research-prompt-kit.md"
+  },
+  {
+    "id": "ai-for-education-kit",
+    "title": "AI for Teachers and Students Kit",
+    "description": "Practical teacher and student prompts with privacy, verification and academic-integrity checklists.",
+    "level": "Beginner",
+    "file": "downloads/ai-for-education-kit.md"
   }
 ]
