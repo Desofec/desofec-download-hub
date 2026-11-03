@@ -83,7 +83,7 @@ export default async function HomePage() {
             <div className="feature-list">
               {highlights.map(([title, text]) => (
                 <article className="feature-card" key={title}>
-                  <h3><Tr>{title}</Tr></h3>
+                  <h2><Tr>{title}</Tr></h2>
                   <p><Tr>{text}</Tr></p>
                 </article>
               ))}

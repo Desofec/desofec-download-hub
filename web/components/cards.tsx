@@ -43,9 +43,9 @@ export function ToolCard({
           href={tool.url}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label={`Open ${tool.name} (opens in a new tab)`}
         >
           <Tr>Open tool</Tr>
+          <span className="sr-only">{` – ${tool.name}`}</span>
         </a>
         <Link className="btn btn-secondary" href={`/tools/${encodeURIComponent(tool.id)}`}>
           <Tr>Details</Tr>

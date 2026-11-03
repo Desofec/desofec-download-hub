@@ -20,6 +20,7 @@ export default async function StarterPacksPage() {
             <h1><Tr>Practical resources to start with</Tr></h1>
           </div>
         </div>
+        <h2 className="sr-only"><Tr>All starter packs</Tr></h2>
         <div className="starter-directory">
           {starterPacks.map((pack) => (
             <PackCard key={pack.id} pack={pack} />
