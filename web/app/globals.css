@@ -1756,3 +1756,17 @@ h3 {
 .footer-links a:hover {
   color: var(--primary);
 }
+
+.workspace-stack { display: grid; gap: 16px; }
+.workspace-stack h1, .workspace-stack h2 { margin: 0; }
+.workspace-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.workspace-list li {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
+  padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px;
+}
+.workspace-list li > a { flex: 1; min-width: 0; overflow-wrap: anywhere; font-weight: 600; }
+.workspace-kind { font-size: 0.8rem; color: var(--muted); }
+.workspace-stack select, .account-panel input[readonly] {
+  width: 100%; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--line);
+  font: inherit; background: inherit; color: inherit;
+}
