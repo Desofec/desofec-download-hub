@@ -261,5 +261,19 @@
       "Make the analysis reproducible and report it"
     ],
     "goal": "analyze-data"
+  },
+  {
+    "id": "ai-workflows-agents",
+    "title": "AI Workflows and Agents",
+    "level": "Intermediate",
+    "description": "Design, build and safely test AI-powered workflows and simple agents, with approvals, limits and guardrails.",
+    "badge": "Advanced",
+    "steps": [
+      "Choose a workflow or an agent",
+      "Design it on paper with stop rules",
+      "Build and test it in a no-code tool",
+      "Add guardrails, measure and improve"
+    ],
+    "goal": "ai-productivity"
   }
 ]

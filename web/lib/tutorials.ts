@@ -10,6 +10,7 @@ import {
   researchPromptingSteps
 } from '@/lib/next-paths-tutorials';
 import { aiWebsiteSteps } from '@/lib/ai-website-tutorial';
+import { aiWorkflowsSteps } from '@/lib/ai-workflows-tutorial';
 import { advancedDataAnalysisSteps } from '@/lib/advanced-data-analysis-tutorial';
 import { codingFoundationsSteps } from '@/lib/coding-foundations-tutorial';
 import { taskTrackerSteps, type TutorialStep } from '@/lib/task-tracker-tutorial';
@@ -120,6 +121,15 @@ export const tutorials: TutorialInfo[] = [
       'Practical teacher and student workflows for lesson planning, tutoring and practice, with privacy and academic integrity at the centre.',
     time: '45 minutes',
     steps: aiEducationSteps
+  },
+  {
+    pathId: 'ai-workflows-agents',
+    href: '/tutorials/ai-workflows-agents',
+    title: 'Build AI workflows and simple agents safely',
+    intro:
+      'Decide between a workflow and an agent, design it with stop rules, build and test it in a no-code tool, and add approvals, limits and guardrails.',
+    time: '75 minutes',
+    steps: aiWorkflowsSteps
   },
   {
     pathId: 'ai-website-builder',
