@@ -406,5 +406,13 @@
  "Compare independent runs, not just readings": "Comparar ejecuciones independientes, no solo mediciones",
  "Make the analysis reproducible and report it": "Hacer reproducible el análisis y documentarlo",
  "Advanced Measurement Analysis Kit": "Kit de análisis avanzado de mediciones",
- "A repeatable checklist and report template for pump logs, scanner maps, mass-loading data and independent run comparisons.": "Una lista de verificación repetible y una plantilla de informe para registros de bomba, mapas del escáner, datos de carga másica y comparación de ejecuciones independientes."
+ "A repeatable checklist and report template for pump logs, scanner maps, mass-loading data and independent run comparisons.": "Una lista de verificación repetible y una plantilla de informe para registros de bomba, mapas del escáner, datos de carga másica y comparación de ejecuciones independientes.",
+ "AI Workflows and Agents": "Flujos de trabajo y agentes de IA",
+ "Design, build and safely test AI-powered workflows and simple agents, with approvals, limits and guardrails.": "Diseña, crea y prueba con seguridad flujos de trabajo y agentes de IA sencillos, con aprobaciones, límites y salvaguardas.",
+ "Choose a workflow or an agent": "Elegir un flujo de trabajo o un agente",
+ "Design it on paper with stop rules": "Diseñarlo en papel con reglas de parada",
+ "Build and test it in a no-code tool": "Crearlo y probarlo en una herramienta no-code",
+ "Add guardrails, measure and improve": "Añadir salvaguardas, medir y mejorar",
+ "AI Workflows and Agents Kit": "Kit de flujos de trabajo y agentes de IA",
+ "A workflow design template, build prompt, guardrail checklist and weekly review for AI automations and simple agents.": "Una plantilla de diseño, un prompt de creación, una lista de salvaguardas y una revisión semanal para automatizaciones de IA y agentes sencillos."
 }

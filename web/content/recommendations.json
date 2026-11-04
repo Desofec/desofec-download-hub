@@ -182,11 +182,15 @@
       "gemini",
       "notebooklm",
       "gamma",
-      "obsidian"
+      "obsidian",
+      "n8n",
+      "make",
+      "claude"
     ],
     "starters": [
       "productivity-boost",
-      "ai-prompt-pack"
+      "ai-prompt-pack",
+      "ai-workflows-kit"
     ],
     "steps": [
       "Identify daily repetitive tasks",

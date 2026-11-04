@@ -110,5 +110,12 @@
     "description": "A repeatable checklist and report template for pump logs, scanner maps, mass-loading data and independent run comparisons.",
     "level": "Intermediate",
     "file": "downloads/advanced-measurement-analysis-kit.md"
+  },
+  {
+    "id": "ai-workflows-kit",
+    "title": "AI Workflows and Agents Kit",
+    "description": "A workflow design template, build prompt, guardrail checklist and weekly review for AI automations and simple agents.",
+    "level": "Intermediate",
+    "file": "downloads/ai-workflows-kit.md"
   }
 ]
