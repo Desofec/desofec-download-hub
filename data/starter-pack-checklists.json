@@ -146,5 +146,13 @@
     "Write tests first and never let the AI weaken them.",
     "Read the diff for secrets, new dependencies and unchecked input before committing.",
     "Deploy from main with secrets in environment variables and check the live site."
+  ],
+  "advanced-no-code-kit": [
+    "Map the trigger, data, decisions, actions and owner before building.",
+    "Check required fields and formats in the first step and stop with a clear message.",
+    "Give every possible input a path, including a default one for review.",
+    "Use an event ID or lookup step so repeats do not create duplicates.",
+    "Set retries, an error route and an alert that reaches a real person.",
+    "Write a runbook and review run history every week."
   ]
 }

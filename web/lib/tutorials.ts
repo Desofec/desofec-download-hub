@@ -11,6 +11,7 @@ import {
 } from '@/lib/next-paths-tutorials';
 import { aiWebsiteSteps } from '@/lib/ai-website-tutorial';
 import { aiWorkflowsSteps } from '@/lib/ai-workflows-tutorial';
+import { advancedNoCodeSteps } from '@/lib/advanced-no-code-tutorial';
 import { advancedWebDevSteps } from '@/lib/advanced-web-dev-tutorial';
 import { advancedDataAnalysisSteps } from '@/lib/advanced-data-analysis-tutorial';
 import { codingFoundationsSteps } from '@/lib/coding-foundations-tutorial';
@@ -131,6 +132,15 @@ export const tutorials: TutorialInfo[] = [
       'Write a spec, work in Git, prompt in small steps, write tests first, review the AI\u2019s code and ship safely.',
     time: '90 minutes',
     steps: advancedWebDevSteps
+  },
+  {
+    pathId: 'advanced-no-code-automation',
+    href: '/tutorials/advanced-no-code-automation',
+    title: 'Build reliable no-code automations',
+    intro:
+      'Map the process, clean the data, add branches and approvals, prevent duplicates, handle errors and document it with a runbook.',
+    time: '75 minutes',
+    steps: advancedNoCodeSteps
   },
   {
     pathId: 'ai-workflows-agents',

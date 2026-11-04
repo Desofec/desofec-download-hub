@@ -124,5 +124,12 @@
     "description": "A spec template, small-change prompt, code review checklist and pre-deploy checklist for building apps with an AI assistant.",
     "level": "Intermediate",
     "file": "downloads/advanced-web-dev-kit.md"
+  },
+  {
+    "id": "advanced-no-code-kit",
+    "title": "Advanced No-Code Automation Kit",
+    "description": "A process map, data checks, decision table, error plan and runbook outline for reliable no-code automations.",
+    "level": "Intermediate",
+    "file": "downloads/advanced-no-code-kit.md"
   }
 ]

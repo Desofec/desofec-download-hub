@@ -422,5 +422,13 @@
  "Test first, then review the AI's code": "Tester d’abord, puis relire le code de l’IA",
  "Ship and maintain": "Publier et maintenir",
  "Advanced Web Development with AI Kit": "Kit développement web avancé avec l’IA",
- "A spec template, small-change prompt, code review checklist and pre-deploy checklist for building apps with an AI assistant.": "Un modèle de spécification, un prompt de petit changement, une liste de revue de code et une liste avant déploiement pour créer des applications avec un assistant IA."
+ "A spec template, small-change prompt, code review checklist and pre-deploy checklist for building apps with an AI assistant.": "Un modèle de spécification, un prompt de petit changement, une liste de revue de code et une liste avant déploiement pour créer des applications avec un assistant IA.",
+ "Advanced No-Code Automation": "Automatisation no-code avancée",
+ "Build reliable multi-step automations with clean data, branches, duplicate protection, retries, alerts and a runbook.": "Créez des automatisations fiables en plusieurs étapes : données propres, branches, protection contre les doublons, nouvelles tentatives, alertes et guide d’exploitation.",
+ "Map the process": "Cartographier le processus",
+ "Clean and map the data": "Nettoyer et mapper les données",
+ "Add branches, approvals and duplicate protection": "Ajouter branches, validations et protection contre les doublons",
+ "Handle errors, monitor and document": "Gérer les erreurs, surveiller et documenter",
+ "Advanced No-Code Automation Kit": "Kit automatisation no-code avancée",
+ "A process map, data checks, decision table, error plan and runbook outline for reliable no-code automations.": "Une carte de processus, des contrôles de données, une table de décision, un plan d’erreurs et un plan de guide d’exploitation pour des automatisations no-code fiables."
 }
