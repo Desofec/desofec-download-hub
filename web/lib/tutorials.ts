@@ -11,6 +11,7 @@ import {
 } from '@/lib/next-paths-tutorials';
 import { aiWebsiteSteps } from '@/lib/ai-website-tutorial';
 import { aiWorkflowsSteps } from '@/lib/ai-workflows-tutorial';
+import { advancedWebDevSteps } from '@/lib/advanced-web-dev-tutorial';
 import { advancedDataAnalysisSteps } from '@/lib/advanced-data-analysis-tutorial';
 import { codingFoundationsSteps } from '@/lib/coding-foundations-tutorial';
 import { taskTrackerSteps, type TutorialStep } from '@/lib/task-tracker-tutorial';
@@ -121,6 +122,15 @@ export const tutorials: TutorialInfo[] = [
       'Practical teacher and student workflows for lesson planning, tutoring and practice, with privacy and academic integrity at the centre.',
     time: '45 minutes',
     steps: aiEducationSteps
+  },
+  {
+    pathId: 'advanced-web-dev-ai',
+    href: '/tutorials/advanced-web-dev-ai',
+    title: 'Build and ship a web app with an AI coding assistant',
+    intro:
+      'Write a spec, work in Git, prompt in small steps, write tests first, review the AI\u2019s code and ship safely.',
+    time: '90 minutes',
+    steps: advancedWebDevSteps
   },
   {
     pathId: 'ai-workflows-agents',

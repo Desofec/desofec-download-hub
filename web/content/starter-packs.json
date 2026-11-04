@@ -117,5 +117,12 @@
     "description": "A workflow design template, build prompt, guardrail checklist and weekly review for AI automations and simple agents.",
     "level": "Intermediate",
     "file": "downloads/ai-workflows-kit.md"
+  },
+  {
+    "id": "advanced-web-dev-kit",
+    "title": "Advanced Web Development with AI Kit",
+    "description": "A spec template, small-change prompt, code review checklist and pre-deploy checklist for building apps with an AI assistant.",
+    "level": "Intermediate",
+    "file": "downloads/advanced-web-dev-kit.md"
   }
 ]

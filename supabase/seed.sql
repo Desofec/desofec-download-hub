@@ -76,7 +76,8 @@ insert into public.starter_packs (id, title, description, level, file_path, posi
   ('ai-for-education-kit', 'AI for Teachers and Students Kit', 'Practical teacher and student prompts with privacy, verification and academic-integrity checklists.', 'Beginner', 'downloads/ai-for-education-kit.md', 13),
   ('ai-website-kit', 'AI Website Builder Kit', 'A website brief template, prompts for drafting and reviewing a page, and a pre-publish checklist.', 'Beginner', 'downloads/ai-website-kit.md', 14),
   ('advanced-measurement-analysis-kit', 'Advanced Measurement Analysis Kit', 'A repeatable checklist and report template for pump logs, scanner maps, mass-loading data and independent run comparisons.', 'Intermediate', 'downloads/advanced-measurement-analysis-kit.md', 15),
-  ('ai-workflows-kit', 'AI Workflows and Agents Kit', 'A workflow design template, build prompt, guardrail checklist and weekly review for AI automations and simple agents.', 'Intermediate', 'downloads/ai-workflows-kit.md', 16)
+  ('ai-workflows-kit', 'AI Workflows and Agents Kit', 'A workflow design template, build prompt, guardrail checklist and weekly review for AI automations and simple agents.', 'Intermediate', 'downloads/ai-workflows-kit.md', 16),
+  ('advanced-web-dev-kit', 'Advanced Web Development with AI Kit', 'A spec template, small-change prompt, code review checklist and pre-deploy checklist for building apps with an AI assistant.', 'Intermediate', 'downloads/advanced-web-dev-kit.md', 17)
 on conflict (id) do update set title = excluded.title, description = excluded.description, level = excluded.level, file_path = excluded.file_path, position = excluded.position;
 
 insert into public.paths (id, title, level, description, badge, goal_id, steps, position) values
@@ -98,7 +99,8 @@ insert into public.paths (id, title, level, description, badge, goal_id, steps, 
   ('ai-for-education', 'AI for Teachers and Students', 'Beginner', 'Use practical AI workflows for lesson planning, tutoring and practice while keeping privacy, learning and academic integrity central.', 'Education', 'ai-education', array['Set safe use rules', 'Plan lessons or learn with a tutor', 'Create and review practice', 'Reflect and disclose AI help']::text[], 15),
   ('ai-website-builder', 'Build a Website with AI', 'Beginner', 'Plan a small website, let AI draft it, review and personalise it, then publish it for free with a live address.', 'Web', 'build-website', array['Plan the site and write a brief', 'Generate a first draft with AI', 'Review, fix and make it yours', 'Publish and share']::text[], 16),
   ('advanced-measurement-analysis', 'Advanced Measurement Data Analysis', 'Intermediate', 'Build a defensible, repeatable analysis of pump logs and coating scanner data by auditing raw data, comparing independent runs and checking spatial mass-loading uniformity.', 'Advanced', 'analyze-data', array['Define a defensible analysis plan', 'Audit raw data before calculating', 'Measure pump stability by time window', 'Map coating uniformity and mass loading', 'Compare independent runs, not just readings', 'Make the analysis reproducible and report it']::text[], 17),
-  ('ai-workflows-agents', 'AI Workflows and Agents', 'Intermediate', 'Design, build and safely test AI-powered workflows and simple agents, with approvals, limits and guardrails.', 'Advanced', 'ai-productivity', array['Choose a workflow or an agent', 'Design it on paper with stop rules', 'Build and test it in a no-code tool', 'Add guardrails, measure and improve']::text[], 18)
+  ('ai-workflows-agents', 'AI Workflows and Agents', 'Intermediate', 'Design, build and safely test AI-powered workflows and simple agents, with approvals, limits and guardrails.', 'Advanced', 'ai-productivity', array['Choose a workflow or an agent', 'Design it on paper with stop rules', 'Build and test it in a no-code tool', 'Add guardrails, measure and improve']::text[], 18),
+  ('advanced-web-dev-ai', 'Advanced Web Development with AI', 'Intermediate', 'Build and ship a small web app with an AI coding assistant using specs, Git, tests and code review.', 'Advanced', 'build-app', array['Write a spec and set up Git', 'Prompt in small steps', 'Test first, then review the AI''s code', 'Ship and maintain']::text[], 19)
 on conflict (id) do update set title = excluded.title, level = excluded.level, description = excluded.description, badge = excluded.badge, goal_id = excluded.goal_id, steps = excluded.steps, position = excluded.position;
 
 insert into public.recommendations (goal_id, title, summary, steps) values
@@ -221,6 +223,7 @@ insert into public.recommendation_starters (goal_id, pack_id, position) values
   ('build-app', 'app-launch-kit', 0),
   ('build-app', 'coding-basics-kit', 1),
   ('build-app', 'ai-coding-prompts', 2),
+  ('build-app', 'advanced-web-dev-kit', 3),
   ('no-code', 'automation-kit', 0),
   ('ai-productivity', 'productivity-boost', 0),
   ('ai-productivity', 'ai-prompt-pack', 1),
