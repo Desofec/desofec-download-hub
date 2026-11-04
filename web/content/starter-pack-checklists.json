@@ -121,5 +121,14 @@
     "Open the draft on your phone and on a computer and fix anything that overflows or is hard to read.",
     "Check headings, link text, image descriptions and colour contrast before publishing.",
     "Confirm every claim, price and contact detail is true, and that you have the right to use each image."
+  ],
+  "advanced-measurement-analysis-kit": [
+    "Write the question, units, measurement window and approved limits before calculating.",
+    "Keep an untouched raw export and record instrument and calibration context.",
+    "Check missing values, duplicate timestamps, sampling intervals and flagged rows without silently deleting data.",
+    "Summarise pump stability by pre-defined time windows and compare the results with the raw trace.",
+    "Confirm whether scanner values are thickness or areal mass loading; use only a validated conversion.",
+    "Compare independent runs at the run level, not as though every reading were an independent run.",
+    "Save analysis code or project, document exclusions, and independently verify key results."
   ]
 }

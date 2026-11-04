@@ -103,5 +103,12 @@
     "description": "A website brief template, prompts for drafting and reviewing a page, and a pre-publish checklist.",
     "level": "Beginner",
     "file": "downloads/ai-website-kit.md"
+  },
+  {
+    "id": "advanced-measurement-analysis-kit",
+    "title": "Advanced Measurement Analysis Kit",
+    "description": "A repeatable checklist and report template for pump logs, scanner maps, mass-loading data and independent run comparisons.",
+    "level": "Intermediate",
+    "file": "downloads/advanced-measurement-analysis-kit.md"
   }
 ]

@@ -10,6 +10,7 @@ import {
   researchPromptingSteps
 } from '@/lib/next-paths-tutorials';
 import { aiWebsiteSteps } from '@/lib/ai-website-tutorial';
+import { advancedDataAnalysisSteps } from '@/lib/advanced-data-analysis-tutorial';
 import { codingFoundationsSteps } from '@/lib/coding-foundations-tutorial';
 import { taskTrackerSteps, type TutorialStep } from '@/lib/task-tracker-tutorial';
 
@@ -83,6 +84,15 @@ export const tutorials: TutorialInfo[] = [
       'Skip the menu settings: run short scripts in a free Colab notebook to analyse pump logs and scanner maps, process many files at once and check the results with AI.',
     time: '60 minutes',
     steps: autoAnalysisSteps
+  },
+  {
+    pathId: 'advanced-measurement-analysis',
+    href: '/tutorials/advanced-measurement-analysis',
+    title: 'Advanced measurement data analysis',
+    intro:
+      'Audit raw data, examine pump stability by time window, map scanner mass loading, compare independent runs and create a reproducible report.',
+    time: '90 minutes',
+    steps: advancedDataAnalysisSteps
   },
   {
     pathId: 'data-visualization',

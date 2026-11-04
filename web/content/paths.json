@@ -245,5 +245,21 @@
       "Publish and share"
     ],
     "goal": "build-website"
+  },
+  {
+    "id": "advanced-measurement-analysis",
+    "title": "Advanced Measurement Data Analysis",
+    "level": "Intermediate",
+    "description": "Build a defensible, repeatable analysis of pump logs and coating scanner data by auditing raw data, comparing independent runs and checking spatial mass-loading uniformity.",
+    "badge": "Advanced",
+    "steps": [
+      "Define a defensible analysis plan",
+      "Audit raw data before calculating",
+      "Measure pump stability by time window",
+      "Map coating uniformity and mass loading",
+      "Compare independent runs, not just readings",
+      "Make the analysis reproducible and report it"
+    ],
+    "goal": "analyze-data"
   }
 ]

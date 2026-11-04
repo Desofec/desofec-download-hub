@@ -395,5 +395,16 @@
  "Turn a short Python script into a shareable web app with charts, inputs and tables.": "Convierte un script corto de Python en una app web compartible con gráficos, entradas y tablas.",
  "Obsidian": "Obsidian",
  "Notes": "Notas",
- "Keep linked notes as plain files on your own device to build a personal knowledge base for study and research.": "Guarda notas enlazadas como archivos simples en tu dispositivo para crear una base de conocimiento personal para estudio e investigación."
+ "Keep linked notes as plain files on your own device to build a personal knowledge base for study and research.": "Guarda notas enlazadas como archivos simples en tu dispositivo para crear una base de conocimiento personal para estudio e investigación.",
+ "Advanced Measurement Data Analysis": "Análisis avanzado de datos de medición",
+ "Build a defensible, repeatable analysis of pump logs and coating scanner data by auditing raw data, comparing independent runs and checking spatial mass-loading uniformity.": "Crea un análisis defendible y repetible de registros de bomba y datos del escáner de recubrimiento: audita los datos brutos, compara ejecuciones independientes y comprueba la uniformidad espacial de la carga másica.",
+ "Advanced": "Avanzado",
+ "Define a defensible analysis plan": "Definir un plan de análisis defendible",
+ "Audit raw data before calculating": "Auditar los datos brutos antes de calcular",
+ "Measure pump stability by time window": "Medir la estabilidad de la bomba por intervalos de tiempo",
+ "Map coating uniformity and mass loading": "Mapear la uniformidad del recubrimiento y la carga másica",
+ "Compare independent runs, not just readings": "Comparar ejecuciones independientes, no solo mediciones",
+ "Make the analysis reproducible and report it": "Hacer reproducible el análisis y documentarlo",
+ "Advanced Measurement Analysis Kit": "Kit de análisis avanzado de mediciones",
+ "A repeatable checklist and report template for pump logs, scanner maps, mass-loading data and independent run comparisons.": "Una lista de verificación repetible y una plantilla de informe para registros de bomba, mapas del escáner, datos de carga másica y comparación de ejecuciones independientes."
 }

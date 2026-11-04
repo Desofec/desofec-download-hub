@@ -393,5 +393,16 @@
  "Turn a short Python script into a shareable web app with charts, inputs and tables.": "Mach aus einem kurzen Python-Skript eine teilbare Web-App mit Diagrammen, Eingaben und Tabellen.",
  "Obsidian": "Obsidian",
  "Notes": "Notizen",
- "Keep linked notes as plain files on your own device to build a personal knowledge base for study and research.": "Führe verknüpfte Notizen als einfache Dateien auf deinem Gerät und baue eine persönliche Wissensbasis für Studium und Recherche auf."
+ "Keep linked notes as plain files on your own device to build a personal knowledge base for study and research.": "Führe verknüpfte Notizen als einfache Dateien auf deinem Gerät und baue eine persönliche Wissensbasis für Studium und Recherche auf.",
+ "Advanced Measurement Data Analysis": "Fortgeschrittene Messdatenanalyse",
+ "Build a defensible, repeatable analysis of pump logs and coating scanner data by auditing raw data, comparing independent runs and checking spatial mass-loading uniformity.": "Erstelle eine belastbare, wiederholbare Analyse von Pumpenprotokollen und Beschichtungsscannerdaten: Prüfe Rohdaten, vergleiche unabhängige Läufe und untersuche die räumliche Flächenmassen-Verteilung.",
+ "Advanced": "Fortgeschritten",
+ "Define a defensible analysis plan": "Einen belastbaren Analyseplan festlegen",
+ "Audit raw data before calculating": "Rohdaten vor der Berechnung prüfen",
+ "Measure pump stability by time window": "Pumpenstabilität nach Zeitfenstern messen",
+ "Map coating uniformity and mass loading": "Beschichtungsgleichmäßigkeit und Flächenmasse kartieren",
+ "Compare independent runs, not just readings": "Unabhängige Läufe statt nur Messwerte vergleichen",
+ "Make the analysis reproducible and report it": "Die Analyse reproduzierbar machen und dokumentieren",
+ "Advanced Measurement Analysis Kit": "Kit für fortgeschrittene Messdatenanalyse",
+ "A repeatable checklist and report template for pump logs, scanner maps, mass-loading data and independent run comparisons.": "Eine wiederholbare Checkliste und Berichtsvorlage für Pumpenprotokolle, Scannerkarten, Flächenmassendaten und den Vergleich unabhängiger Läufe."
 }
