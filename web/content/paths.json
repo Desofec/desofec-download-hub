@@ -275,5 +275,19 @@
       "Add guardrails, measure and improve"
     ],
     "goal": "ai-productivity"
+  },
+  {
+    "id": "advanced-web-dev-ai",
+    "title": "Advanced Web Development with AI",
+    "level": "Intermediate",
+    "description": "Build and ship a small web app with an AI coding assistant using specs, Git, tests and code review.",
+    "badge": "Advanced",
+    "steps": [
+      "Write a spec and set up Git",
+      "Prompt in small steps",
+      "Test first, then review the AI's code",
+      "Ship and maintain"
+    ],
+    "goal": "build-app"
   }
 ]

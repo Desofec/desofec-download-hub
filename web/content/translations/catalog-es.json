@@ -414,5 +414,13 @@
  "Build and test it in a no-code tool": "Crearlo y probarlo en una herramienta no-code",
  "Add guardrails, measure and improve": "Añadir salvaguardas, medir y mejorar",
  "AI Workflows and Agents Kit": "Kit de flujos de trabajo y agentes de IA",
- "A workflow design template, build prompt, guardrail checklist and weekly review for AI automations and simple agents.": "Una plantilla de diseño, un prompt de creación, una lista de salvaguardas y una revisión semanal para automatizaciones de IA y agentes sencillos."
+ "A workflow design template, build prompt, guardrail checklist and weekly review for AI automations and simple agents.": "Una plantilla de diseño, un prompt de creación, una lista de salvaguardas y una revisión semanal para automatizaciones de IA y agentes sencillos.",
+ "Advanced Web Development with AI": "Desarrollo web avanzado con IA",
+ "Build and ship a small web app with an AI coding assistant using specs, Git, tests and code review.": "Crea y publica una pequeña aplicación web con un asistente de código de IA usando especificaciones, Git, pruebas y revisión de código.",
+ "Write a spec and set up Git": "Escribir una especificación y configurar Git",
+ "Prompt in small steps": "Pedir en pasos pequeños",
+ "Test first, then review the AI's code": "Probar primero y revisar el código de la IA",
+ "Ship and maintain": "Publicar y mantener",
+ "Advanced Web Development with AI Kit": "Kit de desarrollo web avanzado con IA",
+ "A spec template, small-change prompt, code review checklist and pre-deploy checklist for building apps with an AI assistant.": "Una plantilla de especificación, un prompt de cambio pequeño, una lista de revisión de código y una lista previa al despliegue para crear apps con un asistente de IA."
 }

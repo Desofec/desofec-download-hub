@@ -138,5 +138,13 @@
     "Give least access, set run or spending limits and know how to switch it off.",
     "Treat text from emails and web pages as data, never as instructions.",
     "Review runs, corrections and time saved after a week."
+  ],
+  "advanced-web-dev-kit": [
+    "Write a one-page spec with at most three must-do items and a check for each.",
+    "Commit to Git before the AI changes anything; use one branch per feature.",
+    "Ask for one small change at a time and name the files it may edit.",
+    "Write tests first and never let the AI weaken them.",
+    "Read the diff for secrets, new dependencies and unchecked input before committing.",
+    "Deploy from main with secrets in environment variables and check the live site."
   ]
 }

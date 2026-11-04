@@ -143,7 +143,8 @@
     "starters": [
       "app-launch-kit",
       "coding-basics-kit",
-      "ai-coding-prompts"
+      "ai-coding-prompts",
+      "advanced-web-dev-kit"
     ],
     "steps": [
       "Define the idea and tiny scope",
