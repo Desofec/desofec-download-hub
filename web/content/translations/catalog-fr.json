@@ -395,5 +395,16 @@
  "Turn a short Python script into a shareable web app with charts, inputs and tables.": "Transformez un court script Python en app web partageable avec graphiques, champs de saisie et tableaux.",
  "Obsidian": "Obsidian",
  "Notes": "Notes",
- "Keep linked notes as plain files on your own device to build a personal knowledge base for study and research.": "Gardez des notes liées sous forme de fichiers simples sur votre appareil pour bâtir une base de connaissances personnelle pour l’étude et la recherche."
+ "Keep linked notes as plain files on your own device to build a personal knowledge base for study and research.": "Gardez des notes liées sous forme de fichiers simples sur votre appareil pour bâtir une base de connaissances personnelle pour l’étude et la recherche.",
+ "Advanced Measurement Data Analysis": "Analyse avancée des données de mesure",
+ "Build a defensible, repeatable analysis of pump logs and coating scanner data by auditing raw data, comparing independent runs and checking spatial mass-loading uniformity.": "Élaborez une analyse défendable et reproductible des journaux de pompe et des données de scanner de revêtement en auditant les données brutes, en comparant des essais indépendants et en vérifiant l’uniformité spatiale de la masse surfacique.",
+ "Advanced": "Avancé",
+ "Define a defensible analysis plan": "Définir un plan d’analyse défendable",
+ "Audit raw data before calculating": "Auditer les données brutes avant les calculs",
+ "Measure pump stability by time window": "Mesurer la stabilité de la pompe par intervalle de temps",
+ "Map coating uniformity and mass loading": "Cartographier l’uniformité du revêtement et la masse surfacique",
+ "Compare independent runs, not just readings": "Comparer les essais indépendants, pas seulement les mesures",
+ "Make the analysis reproducible and report it": "Rendre l’analyse reproductible et la documenter",
+ "Advanced Measurement Analysis Kit": "Kit d’analyse avancée des mesures",
+ "A repeatable checklist and report template for pump logs, scanner maps, mass-loading data and independent run comparisons.": "Une liste de vérification reproductible et un modèle de rapport pour les journaux de pompe, les cartes de scanner, les données de masse surfacique et la comparaison d’essais indépendants."
 }

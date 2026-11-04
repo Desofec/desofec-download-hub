@@ -231,7 +231,8 @@
       "streamlit"
     ],
     "starters": [
-      "origin-analysis-kit"
+      "origin-analysis-kit",
+      "advanced-measurement-analysis-kit"
     ],
     "steps": [
       "Write your analysis question",

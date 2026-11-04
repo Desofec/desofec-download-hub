@@ -74,7 +74,8 @@ insert into public.starter_packs (id, title, description, level, file_path, posi
   ('data-visualization-kit', 'Data Visualization Starter Kit', 'A chart-selection workflow, Colab prompt and review checklist for clear, honest data visuals.', 'Beginner', 'downloads/data-visualization-kit.md', 11),
   ('research-prompt-kit', 'AI Research Prompt Kit', 'Prompts and an evidence workflow for finding, checking and synthesizing real research sources.', 'Beginner', 'downloads/research-prompt-kit.md', 12),
   ('ai-for-education-kit', 'AI for Teachers and Students Kit', 'Practical teacher and student prompts with privacy, verification and academic-integrity checklists.', 'Beginner', 'downloads/ai-for-education-kit.md', 13),
-  ('ai-website-kit', 'AI Website Builder Kit', 'A website brief template, prompts for drafting and reviewing a page, and a pre-publish checklist.', 'Beginner', 'downloads/ai-website-kit.md', 14)
+  ('ai-website-kit', 'AI Website Builder Kit', 'A website brief template, prompts for drafting and reviewing a page, and a pre-publish checklist.', 'Beginner', 'downloads/ai-website-kit.md', 14),
+  ('advanced-measurement-analysis-kit', 'Advanced Measurement Analysis Kit', 'A repeatable checklist and report template for pump logs, scanner maps, mass-loading data and independent run comparisons.', 'Intermediate', 'downloads/advanced-measurement-analysis-kit.md', 15)
 on conflict (id) do update set title = excluded.title, description = excluded.description, level = excluded.level, file_path = excluded.file_path, position = excluded.position;
 
 insert into public.paths (id, title, level, description, badge, goal_id, steps, position) values
@@ -94,7 +95,8 @@ insert into public.paths (id, title, level, description, badge, goal_id, steps, 
   ('data-visualization', 'Data Visualization Basics', 'Beginner', 'Choose a chart for your question, prepare a clean table, build a chart in Python and explain the result honestly.', 'Data', 'visualize-data', array['Choose a question and chart', 'Prepare a clean table', 'Create charts in Colab', 'Explain results clearly']::text[], 13),
   ('research-with-ai', 'Prompt Engineering for Research', 'Beginner', 'Turn a broad topic into a focused research question, find real sources, compare evidence and verify every citation.', 'Research', 'research-ai', array['Focus your research question', 'Find and check real sources', 'Build an evidence table', 'Synthesize and verify']::text[], 14),
   ('ai-for-education', 'AI for Teachers and Students', 'Beginner', 'Use practical AI workflows for lesson planning, tutoring and practice while keeping privacy, learning and academic integrity central.', 'Education', 'ai-education', array['Set safe use rules', 'Plan lessons or learn with a tutor', 'Create and review practice', 'Reflect and disclose AI help']::text[], 15),
-  ('ai-website-builder', 'Build a Website with AI', 'Beginner', 'Plan a small website, let AI draft it, review and personalise it, then publish it for free with a live address.', 'Web', 'build-website', array['Plan the site and write a brief', 'Generate a first draft with AI', 'Review, fix and make it yours', 'Publish and share']::text[], 16)
+  ('ai-website-builder', 'Build a Website with AI', 'Beginner', 'Plan a small website, let AI draft it, review and personalise it, then publish it for free with a live address.', 'Web', 'build-website', array['Plan the site and write a brief', 'Generate a first draft with AI', 'Review, fix and make it yours', 'Publish and share']::text[], 16),
+  ('advanced-measurement-analysis', 'Advanced Measurement Data Analysis', 'Intermediate', 'Build a defensible, repeatable analysis of pump logs and coating scanner data by auditing raw data, comparing independent runs and checking spatial mass-loading uniformity.', 'Advanced', 'analyze-data', array['Define a defensible analysis plan', 'Audit raw data before calculating', 'Measure pump stability by time window', 'Map coating uniformity and mass loading', 'Compare independent runs, not just readings', 'Make the analysis reproducible and report it']::text[], 17)
 on conflict (id) do update set title = excluded.title, level = excluded.level, description = excluded.description, badge = excluded.badge, goal_id = excluded.goal_id, steps = excluded.steps, position = excluded.position;
 
 insert into public.recommendations (goal_id, title, summary, steps) values
@@ -220,6 +222,7 @@ insert into public.recommendation_starters (goal_id, pack_id, position) values
   ('create-content', 'content-creator-kit', 0),
   ('create-content', 'ai-prompt-pack', 1),
   ('analyze-data', 'origin-analysis-kit', 0),
+  ('analyze-data', 'advanced-measurement-analysis-kit', 1),
   ('visualize-data', 'data-visualization-kit', 0),
   ('research-ai', 'research-prompt-kit', 0),
   ('research-ai', 'ai-prompt-pack', 1),
