@@ -51,10 +51,12 @@
       "zapier",
       "make",
       "notion-ai",
-      "airtable"
+      "airtable",
+      "n8n"
     ],
     "starters": [
-      "automation-kit"
+      "automation-kit",
+      "advanced-no-code-kit"
     ],
     "steps": [
       "Identify a repetitive task",

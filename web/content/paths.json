@@ -289,5 +289,19 @@
       "Ship and maintain"
     ],
     "goal": "build-app"
+  },
+  {
+    "id": "advanced-no-code-automation",
+    "title": "Advanced No-Code Automation",
+    "level": "Intermediate",
+    "description": "Build reliable multi-step automations with clean data, branches, duplicate protection, retries, alerts and a runbook.",
+    "badge": "Advanced",
+    "steps": [
+      "Map the process",
+      "Clean and map the data",
+      "Add branches, approvals and duplicate protection",
+      "Handle errors, monitor and document"
+    ],
+    "goal": "automate-work"
   }
 ]
