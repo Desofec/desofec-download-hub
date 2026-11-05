@@ -41,9 +41,14 @@ export default async function TutorialPage({ params }: { params: Promise<{ id: s
         />
         <div className="cta-row">
           {tutorial.pathId === 'ai-automation-services' && (
-            <Link className="btn btn-secondary" href="/business-launchpad">
-              <Tr>AI Business Launchpad</Tr>
-            </Link>
+            <>
+              <Link className="btn btn-primary" href="/business-launchpad/proposal-builder">
+                <Tr>Build a pilot proposal</Tr>
+              </Link>
+              <Link className="btn btn-secondary" href="/business-launchpad">
+                <Tr>AI Business Launchpad</Tr>
+              </Link>
+            </>
           )}
           <Link className="btn btn-secondary" href={`/paths/${tutorial.pathId}`}>
             <TutorialLabel k="tutorial.back" />

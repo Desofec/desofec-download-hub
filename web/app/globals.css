@@ -1438,6 +1438,106 @@ h3 {
   resize: vertical;
 }
 
+.proposal-builder fieldset {
+  min-width: 0;
+  margin: 1.5rem 0;
+  padding: clamp(1rem, 3vw, 1.5rem);
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+}
+
+.proposal-builder legend {
+  max-width: 100%;
+  font-weight: 700;
+}
+
+.proposal-builder .form-group {
+  min-width: 0;
+  margin-bottom: 1rem;
+}
+
+.proposal-builder textarea,
+.proposal-builder input {
+  width: 100%;
+  padding: .8rem;
+  border: 1px solid var(--line);
+  border-radius: .75rem;
+  background: var(--field-bg);
+  color: var(--text);
+  font: inherit;
+}
+
+.proposal-builder textarea {
+  resize: vertical;
+}
+
+.proposal-builder :is(textarea, input):focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+}
+
+.proposal-number-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: 1rem;
+}
+
+.proposal-number-grid .form-group > span {
+  font-size: .9rem;
+}
+
+.proposal-error {
+  color: var(--danger);
+}
+
+.proposal-editor,
+.proposal-totals {
+  margin-top: 1.5rem;
+}
+
+.proposal-print {
+  display: none;
+}
+
+@media print {
+  body:has(.proposal-page) {
+    background: white !important;
+    color: black !important;
+  }
+
+  body:has(.proposal-page) * {
+    visibility: visible !important;
+  }
+
+  body:has(.proposal-page) > :not(main),
+  .proposal-page > .container > :not(.proposal-builder),
+  .proposal-builder > :not(.proposal-print) {
+    display: none !important;
+  }
+
+  .proposal-page,
+  .proposal-page > .container {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    animation: none;
+  }
+
+  .proposal-print {
+    display: block;
+    color: black;
+    background: white;
+  }
+
+  .proposal-print pre {
+    margin: 0;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    font: 11pt/1.5 sans-serif;
+  }
+}
+
 .planner-label {
   display: block;
   margin-bottom: .5rem;
