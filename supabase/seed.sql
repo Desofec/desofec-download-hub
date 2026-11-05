@@ -17,7 +17,11 @@ insert into public.goals (id, name, description, badge, position) values
   ('ai-education', 'AI for teachers and students', 'Use AI to support lesson planning, tutoring and practice while protecting privacy and academic integrity.', 'Education', 13),
   ('ai-small-business', 'AI for small business', 'Research customer needs and draft useful business content with AI, then verify it before publishing.', 'Business', 14),
   ('ai-career', 'Build career skills with AI', 'Prepare truthful applications, practise interviews and organise your job search with AI support.', 'Career', 15),
-  ('start-ai-business', 'Start an AI service business', 'Validate one customer problem, test a safe automation demo and prepare an evidence-based pilot offer.', 'Business', 16)
+  ('start-ai-business', 'Start an AI service business', 'Validate one customer problem, test a safe automation demo and prepare an evidence-based pilot offer.', 'Business', 16),
+  ('offer-content-services', 'Offer AI content services', 'Prepare a checked content package, manage revisions and scope an honest client service.', 'Business', 17),
+  ('offer-cad-services', 'Offer AI + CAD concept services', 'Prepare non-functional concept views with checked dimensions, licensing boundaries and review evidence.', 'Design', 18),
+  ('validate-micro-saas', 'Validate a micro-SaaS idea', 'Investigate a recurring problem, test a local prototype and review demand before building subscriptions.', 'Business', 19),
+  ('offer-education-services', 'Offer AI education services', 'Design an original adult workshop with a checked answer key, accessible materials and a bounded offer.', 'Education', 20)
 on conflict (id) do update set name = excluded.name, description = excluded.description, badge = excluded.badge, position = excluded.position;
 
 insert into public.tools (id, name, category, skill, description, badge, url, position) values
@@ -92,7 +96,11 @@ insert into public.starter_packs (id, title, description, level, file_path, posi
   ('ai-video-creation-kit', 'AI Video Creation Kit', 'A short-video brief, storyboard, asset permission log and caption review checklist.', 'Beginner', 'downloads/ai-video-creation-kit.md', 20),
   ('ai-career-skills-kit', 'AI Career Skills Kit', 'Evidence-based resume prompts, interview practice and an application tracking template.', 'Beginner', 'downloads/ai-career-skills-kit.md', 21),
   ('ai-spreadsheets-kit', 'AI Spreadsheets Kit', 'A fictional order table, checked formulas and a missing-data checklist for Excel or Google Sheets.', 'Beginner', 'downloads/ai-spreadsheets-kit.md', 22),
-  ('ai-automation-services-kit', 'AI Automation Services Pilot Kit', 'Discovery, scope, six demo tests, cost and proposal worksheets for a small administrative automation pilot.', 'Beginner', 'downloads/ai-automation-services-kit.md', 23)
+  ('ai-automation-services-kit', 'AI Automation Services Pilot Kit', 'Discovery, scope, six demo tests, cost and proposal worksheets for a small administrative automation pilot.', 'Beginner', 'downloads/ai-automation-services-kit.md', 23),
+  ('ai-content-services-kit', 'AI Content Services Kit', 'A fictional bakery brief, claim ledger, revision log and content-service handover worksheet.', 'Beginner', 'downloads/ai-content-services-kit.md', 24),
+  ('ai-cad-services-kit', 'AI + CAD Concept Services Kit', 'Concept-only dimensions, revision checks, licensing boundaries and a traceable handover worksheet.', 'Beginner', 'downloads/ai-cad-services-kit.md', 25),
+  ('micro-saas-validation-kit', 'Micro-SaaS Validation Kit', 'Problem evidence, a local prototype specification, five boundary tests and a validation decision worksheet.', 'Beginner', 'downloads/micro-saas-validation-kit.md', 26),
+  ('ai-education-services-kit', 'AI Education Services Kit', 'An adult workshop brief, original lesson plan, checked rubric and accessible delivery checklist.', 'Beginner', 'downloads/ai-education-services-kit.md', 27)
 on conflict (id) do update set title = excluded.title, description = excluded.description, level = excluded.level, file_path = excluded.file_path, position = excluded.position;
 
 insert into public.paths (id, title, level, description, badge, goal_id, steps, position) values
@@ -121,10 +129,18 @@ insert into public.paths (id, title, level, description, badge, goal_id, steps, 
   ('ai-video-creation', 'AI Video Creation', 'Beginner', 'Plan, create and edit a short video with clear captions, permissioned assets and honest AI disclosure.', 'Video', 'create-content', array['Write a brief and storyboard', 'Create or gather permissioned clips', 'Edit and caption the video', 'Review and publish responsibly']::text[], 22),
   ('ai-career-skills', 'AI Job Search and Career Skills', 'Beginner', 'Build a truthful resume, targeted cover letter, interview practice plan and application tracker.', 'Career', 'ai-career', array['Match a role to real evidence', 'Tailor a resume and cover letter', 'Practise interview answers', 'Track applications and choose a learning goal']::text[], 23),
   ('ai-spreadsheets', 'AI Spreadsheets and Everyday Data', 'Beginner', 'Clean a practice table, verify formulas and create an honest chart in Excel or Google Sheets with optional AI support.', 'Data', 'analyze-data', array['Import and preserve a practice table', 'Check missing values and formulas', 'Reconcile a summary by hand', 'Chart and document the results']::text[], 24),
-  ('ai-automation-services', 'AI Automation Services', 'Beginner', 'Prepare a small automation-service pilot with customer discovery, a fictional demo, cost checks and a handover plan.', 'Business', 'start-ai-business', array['Validate one customer problem', 'Define a safe, bounded pilot', 'Build and test a fictional enquiry demo', 'Calculate costs and prepare an honest offer', 'Plan handover and review the evidence']::text[], 25)
+  ('ai-automation-services', 'AI Automation Services', 'Beginner', 'Prepare a small automation-service pilot with customer discovery, a fictional demo, cost checks and a handover plan.', 'Business', 'start-ai-business', array['Validate one customer problem', 'Define a safe, bounded pilot', 'Build and test a fictional enquiry demo', 'Calculate costs and prepare an honest offer', 'Plan handover and review the evidence']::text[], 25),
+  ('ai-content-services', 'AI Content Services', 'Beginner', 'Create a fictional client content package, check claims and permissions, manage revisions and plan delivery.', 'Business', 'offer-content-services', array['Agree on a content brief', 'Draft and verify a content package', 'Manage one revision round', 'Scope, cost and deliver the service']::text[], 26),
+  ('ai-cad-services', 'AI + CAD Concept Services', 'Beginner', 'Prepare a non-functional display-card concept with consistent dimensions, versioned views and clear exclusions.', 'Design', 'offer-cad-services', array['Define concept-only boundaries', 'Sketch and check dimensions', 'Model or document a paper alternative', 'Review revisions and hand over concept evidence']::text[], 27),
+  ('micro-saas-validation', 'Micro-SaaS Validation', 'Beginner', 'Validate a narrow problem with a local-only formatter prototype, boundary tests and honest user evidence.', 'Business', 'validate-micro-saas', array['Gather problem evidence', 'Specify and prototype a tiny service', 'Test boundaries and cost assumptions', 'Observe use and decide before launch']::text[], 28),
+  ('ai-education-services', 'AI Education Services', 'Beginner', 'Prepare an original adult workshop with source-checked materials, a practice rubric and accessible delivery.', 'Education', 'offer-education-services', array['Define an adult learning objective', 'Create original materials and a checked key', 'Rehearse and review accessibility', 'Scope the workshop and improve from evidence']::text[], 29)
 on conflict (id) do update set title = excluded.title, level = excluded.level, description = excluded.description, badge = excluded.badge, goal_id = excluded.goal_id, steps = excluded.steps, position = excluded.position;
 
 insert into public.recommendations (goal_id, title, summary, steps) values
+  ('offer-content-services', 'AI Content Services', 'Create a fictional client content package, check claims and permissions, manage revisions and plan delivery.', array['Agree on a content brief', 'Draft and verify a content package', 'Manage one revision round', 'Scope, cost and deliver the service']::text[]),
+  ('offer-cad-services', 'AI + CAD Concept Services', 'Prepare a non-functional display-card concept with consistent dimensions, versioned views and clear exclusions.', array['Define concept-only boundaries', 'Sketch and check dimensions', 'Model or document a paper alternative', 'Review revisions and hand over concept evidence']::text[]),
+  ('validate-micro-saas', 'Micro-SaaS Validation', 'Validate a narrow problem with a local-only formatter prototype, boundary tests and honest user evidence.', array['Gather problem evidence', 'Specify and prototype a tiny service', 'Test boundaries and cost assumptions', 'Observe use and decide before launch']::text[]),
+  ('offer-education-services', 'AI Education Services', 'Prepare an original adult workshop with source-checked materials, a practice rubric and accessible delivery.', array['Define an adult learning objective', 'Create original materials and a checked key', 'Rehearse and review accessibility', 'Scope the workshop and improve from evidence']::text[]),
   ('start-ai-business', 'Your AI Automation Service Pilot', 'Start with evidence of a customer problem, not an income promise. Build a fictional administrative demo before agreeing to any live work.', array['Validate one customer problem', 'Define a safe, bounded pilot', 'Build and test a fictional enquiry demo', 'Calculate costs and prepare an honest offer', 'Plan handover and review the evidence']::text[]),
   ('learn-ai', 'AI for Beginners', 'Start with AI basics, prompt writing, and simple real-world workflows before moving into deeper tool usage.', array['Understand AI basics', 'Learn prompt writing', 'Use AI in daily tasks', 'Build a small practical project']::text[]),
   ('build-website', 'Website Builder Path', 'Learn the essential steps for designing, creating, and publishing a simple website without feeling lost.', array['Learn structure and design', 'Create a simple layout', 'Publish your first page', 'Refine and share']::text[]),
@@ -146,6 +162,19 @@ on conflict (goal_id) do update set title = excluded.title, summary = excluded.s
 
 delete from public.recommendation_tools;
 insert into public.recommendation_tools (goal_id, tool_id, position) values
+  ('offer-content-services', 'chatgpt', 0),
+  ('offer-content-services', 'claude', 1),
+  ('offer-content-services', 'canva', 2),
+  ('offer-content-services', 'google-sheets', 3),
+  ('offer-cad-services', 'fusion-360', 0),
+  ('offer-cad-services', 'chatgpt', 1),
+  ('validate-micro-saas', 'vscode', 0),
+  ('validate-micro-saas', 'figma', 1),
+  ('validate-micro-saas', 'chatgpt', 2),
+  ('validate-micro-saas', 'google-sheets', 3),
+  ('offer-education-services', 'chatgpt', 0),
+  ('offer-education-services', 'canva', 1),
+  ('offer-education-services', 'notebooklm', 2),
   ('start-ai-business', 'make', 0),
   ('start-ai-business', 'n8n', 1),
   ('start-ai-business', 'chatgpt', 2),
@@ -252,6 +281,14 @@ on conflict (goal_id, tool_id) do update set position = excluded.position;
 
 delete from public.recommendation_starters;
 insert into public.recommendation_starters (goal_id, pack_id, position) values
+  ('offer-content-services', 'ai-content-services-kit', 0),
+  ('offer-content-services', 'ai-small-business-kit', 1),
+  ('offer-cad-services', 'ai-cad-services-kit', 0),
+  ('offer-cad-services', 'design-starter-kit', 1),
+  ('validate-micro-saas', 'micro-saas-validation-kit', 0),
+  ('validate-micro-saas', 'app-launch-kit', 1),
+  ('offer-education-services', 'ai-education-services-kit', 0),
+  ('offer-education-services', 'ai-for-education-kit', 1),
   ('start-ai-business', 'ai-automation-services-kit', 0),
   ('start-ai-business', 'advanced-no-code-kit', 1),
   ('learn-ai', 'ai-prompt-pack', 0),

@@ -374,5 +374,41 @@
       "Plan handover and review the evidence"
     ],
     "goal": "start-ai-business"
+  },
+  {
+    "id": "ai-content-services",
+    "title": "AI Content Services",
+    "level": "Beginner",
+    "description": "Create a fictional client content package, check claims and permissions, manage revisions and plan delivery.",
+    "badge": "Business",
+    "steps": ["Agree on a content brief", "Draft and verify a content package", "Manage one revision round", "Scope, cost and deliver the service"],
+    "goal": "offer-content-services"
+  },
+  {
+    "id": "ai-cad-services",
+    "title": "AI + CAD Concept Services",
+    "level": "Beginner",
+    "description": "Prepare a non-functional display-card concept with consistent dimensions, versioned views and clear exclusions.",
+    "badge": "Design",
+    "steps": ["Define concept-only boundaries", "Sketch and check dimensions", "Model or document a paper alternative", "Review revisions and hand over concept evidence"],
+    "goal": "offer-cad-services"
+  },
+  {
+    "id": "micro-saas-validation",
+    "title": "Micro-SaaS Validation",
+    "level": "Beginner",
+    "description": "Validate a narrow problem with a local-only formatter prototype, boundary tests and honest user evidence.",
+    "badge": "Business",
+    "steps": ["Gather problem evidence", "Specify and prototype a tiny service", "Test boundaries and cost assumptions", "Observe use and decide before launch"],
+    "goal": "validate-micro-saas"
+  },
+  {
+    "id": "ai-education-services",
+    "title": "AI Education Services",
+    "level": "Beginner",
+    "description": "Prepare an original adult workshop with source-checked materials, a practice rubric and accessible delivery.",
+    "badge": "Education",
+    "steps": ["Define an adult learning objective", "Create original materials and a checked key", "Rehearse and review accessibility", "Scope the workshop and improve from evidence"],
+    "goal": "offer-education-services"
   }
 ]

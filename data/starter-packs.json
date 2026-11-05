@@ -166,5 +166,33 @@
     "description": "Discovery, scope, six demo tests, cost and proposal worksheets for a small administrative automation pilot.",
     "level": "Beginner",
     "file": "downloads/ai-automation-services-kit.md"
+  },
+  {
+    "id": "ai-content-services-kit",
+    "title": "AI Content Services Kit",
+    "description": "A fictional bakery brief, claim ledger, revision log and content-service handover worksheet.",
+    "level": "Beginner",
+    "file": "downloads/ai-content-services-kit.md"
+  },
+  {
+    "id": "ai-cad-services-kit",
+    "title": "AI + CAD Concept Services Kit",
+    "description": "Concept-only dimensions, revision checks, licensing boundaries and a traceable handover worksheet.",
+    "level": "Beginner",
+    "file": "downloads/ai-cad-services-kit.md"
+  },
+  {
+    "id": "micro-saas-validation-kit",
+    "title": "Micro-SaaS Validation Kit",
+    "description": "Problem evidence, a local prototype specification, five boundary tests and a validation decision worksheet.",
+    "level": "Beginner",
+    "file": "downloads/micro-saas-validation-kit.md"
+  },
+  {
+    "id": "ai-education-services-kit",
+    "title": "AI Education Services Kit",
+    "description": "An adult workshop brief, original lesson plan, checked rubric and accessible delivery checklist.",
+    "level": "Beginner",
+    "file": "downloads/ai-education-services-kit.md"
   }
 ]

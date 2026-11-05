@@ -2,6 +2,10 @@ export type GoalMatch = { goalId: string; score: number };
 
 // Keywords per goal in English, French, German and Spanish. Matching is local and needs no AI service.
 const keywords: Record<string, string[]> = {
+  'offer-content-services': ['content service', 'content agency', 'sell content', 'agence de contenu', 'service de contenu', 'content-agentur', 'content-dienstleistung', 'agencia de contenido', 'servicio de contenido'],
+  'offer-cad-services': ['cad service', 'cad concept', 'service cao', 'concept cao', 'cad-dienstleistung', 'cad-konzept', 'servicio cad', 'concepto cad'],
+  'validate-micro-saas': ['micro-saas', 'micro saas', 'validate saas', 'valider saas', 'saas validieren', 'validar saas'],
+  'offer-education-services': ['education service', 'sell workshop', 'adult workshop', 'service de formation', 'atelier pour adultes', 'ki-schulung', 'erwachsenenworkshop', 'servicio de formación', 'taller para adultos'],
   'start-ai-business': ['automation agency', 'ai agency', 'automation service', 'ai business', 'sell automation', 'agence ia', 'agence automatisation', 'service automatisation', 'ki-agentur', 'automatisierungsagentur', 'ki-dienstleistung', 'agencia ia', 'agencia de automatización', 'servicio de automatización'],
   'learn-ai': ['ai', 'artificial intelligence', 'chatgpt', 'prompt', 'assistant', 'ia', 'intelligence artificielle', 'ki', 'künstliche', 'inteligencia artificial'],
   'build-website': ['website', 'web site', 'web page', 'webpage', 'landing', 'portfolio', 'blog', 'site web', 'site internet', 'webseite', 'homepage', 'sitio web', 'página web'],

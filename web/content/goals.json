@@ -100,5 +100,29 @@
     "name": "Start an AI service business",
     "description": "Validate one customer problem, test a safe automation demo and prepare an evidence-based pilot offer.",
     "badge": "Business"
+  },
+  {
+    "id": "offer-content-services",
+    "name": "Offer AI content services",
+    "description": "Prepare a checked content package, manage revisions and scope an honest client service.",
+    "badge": "Business"
+  },
+  {
+    "id": "offer-cad-services",
+    "name": "Offer AI + CAD concept services",
+    "description": "Prepare non-functional concept views with checked dimensions, licensing boundaries and review evidence.",
+    "badge": "Design"
+  },
+  {
+    "id": "validate-micro-saas",
+    "name": "Validate a micro-SaaS idea",
+    "description": "Investigate a recurring problem, test a local prototype and review demand before building subscriptions.",
+    "badge": "Business"
+  },
+  {
+    "id": "offer-education-services",
+    "name": "Offer AI education services",
+    "description": "Design an original adult workshop with a checked answer key, accessible materials and a bounded offer.",
+    "badge": "Education"
   }
 ]

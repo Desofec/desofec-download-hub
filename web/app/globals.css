@@ -405,6 +405,16 @@ h3 {
   box-shadow: var(--shadow);
 }
 
+.service-path-entry {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.service-path-entry .path-card {
+  flex: 1;
+}
+
 .goal-card {
   min-height: 200px;
   background: var(--panel-grad);

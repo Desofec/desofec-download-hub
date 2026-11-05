@@ -4,10 +4,12 @@ import { PackChecklist } from '@/components/pack-checklist';
 import { Tr } from '@/components/tr';
 import { getCatalog } from '@/lib/catalog';
 import { phrase } from '@/lib/phrase-mark';
+import { PathCard } from '@/components/cards';
+import { tutorials } from '@/lib/tutorials';
 
 export const metadata: Metadata = {
   title: 'AI Business Launchpad',
-  description: 'Prepare an automation-service pilot with customer discovery, a safe fictional demo, cost checks and a practical proposal.'
+  description: 'Explore five service learning paths: automation, content, CAD concepts, micro-SaaS validation and adult AI education.'
 };
 
 const stages = [
@@ -19,7 +21,8 @@ const stages = [
 ];
 
 export default async function BusinessLaunchpadPage() {
-  const { starterPackChecklists } = await getCatalog();
+  const { starterPackChecklists, paths } = await getCatalog();
+  const services = tutorials.filter((tutorial) => tutorial.serviceKitId);
 
   return (
     <section className="section">
@@ -27,8 +30,8 @@ export default async function BusinessLaunchpadPage() {
         <div className="section-head">
           <span className="eyebrow"><Tr>From learning to a small pilot</Tr></span>
           <h1><Tr>AI Business Launchpad</Tr></h1>
-          <p><Tr>Start with AI automation services: validate a problem, build a safe demo and prepare a pilot proposal. This is a learning journey, not a promise of income.</Tr></p>
-          <p><Tr>No paid tool is required for the worksheets. Allow about two hours, plus time for customer discovery and workflow setup. The tutorial and download are currently in English.</Tr></p>
+          <p><Tr>Choose from five service learning paths. Build practice evidence before offering real work; no path promises clients or income.</Tr></p>
+          <p><Tr>No paid AI is required for the worksheets. Lessons and downloads are currently English; the surrounding interface follows your language. Interviews, feedback and tool setup take additional time.</Tr></p>
           <div className="cta-row">
             <Link className="btn btn-primary" href="/tutorials/ai-automation-services"><Tr>Start the automation service tutorial</Tr></Link>
             <Link className="btn btn-secondary" href="/starter-packs/ai-automation-services-kit"><Tr>Open the pilot kit</Tr></Link>
@@ -36,6 +39,29 @@ export default async function BusinessLaunchpadPage() {
             <Link className="btn btn-secondary" href="/business-launchpad/results-tracker"><Tr>Track pilot tests and results</Tr></Link>
           </div>
         </div>
+
+        <section className="progress-section" aria-labelledby="launchpad-services">
+          <h2 id="launchpad-services"><Tr>Choose a service learning path</Tr></h2>
+          <p><Tr>New: content services, CAD concept services, micro-SaaS validation and adult education services. Automation remains available. Each path includes six lessons and a starter kit.</Tr></p>
+          <div className="path-grid">
+            {services.map((tutorial) => {
+              const path = paths.find((entry) => entry.id === tutorial.pathId);
+              return path ? (
+                <div key={path.id} className="service-path-entry">
+                  <PathCard path={path} />
+                  <div className="cta-row">
+                    <Link className="btn btn-primary" href={tutorial.href}>
+                      <Tr>Start the tutorial</Tr>
+                    </Link>
+                    <Link className="btn btn-secondary" href={`/starter-packs/${tutorial.serviceKitId}`}>
+                      <Tr>Open the service kit</Tr>
+                    </Link>
+                  </div>
+                </div>
+              ) : null;
+            })}
+          </div>
+        </section>
 
         <section className="progress-section" aria-labelledby="launchpad-route">
           <h2 id="launchpad-route"><Tr>Your first service: an enquiry review queue</Tr></h2>
