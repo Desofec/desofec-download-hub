@@ -1,4 +1,10 @@
 {
+ "Study groups are not set up yet. The site owner needs to apply the study board migration.": "Los grupos de estudio aún no están configurados. El propietario debe aplicar la migración del tablón de estudio.",
+ "Refresh study board": "Actualizar tablón de estudio",
+ "Choose your next lesson": "Elige tu próxima lección",
+ "Choose a goal to find matching paths and tools. Your saved progress stays below.": "Elige un objetivo para encontrar rutas y herramientas adecuadas. Tu progreso guardado sigue disponible abajo.",
+ "{count} matching learning paths": "{count} rutas de aprendizaje coincidentes",
+ "Tools for this goal": "Herramientas para este objetivo",
  "All": "Todos",
  "All starter packs": "Todos los paquetes iniciales",
  "Back to all tools": "Volver a todas las herramientas",

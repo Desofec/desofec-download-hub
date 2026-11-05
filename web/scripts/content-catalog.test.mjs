@@ -13,7 +13,8 @@ test('practical AI paths have recommendations, kits and catalog translations', a
   const additions = [
     { id: 'ai-small-business', goal: 'ai-small-business', kit: 'ai-small-business-kit', tools: ['tally', 'hubspot-breeze'] },
     { id: 'ai-video-creation', goal: 'create-content', kit: 'ai-video-creation-kit', tools: ['runway'] },
-    { id: 'ai-career-skills', goal: 'ai-career', kit: 'ai-career-skills-kit', tools: ['teal'] }
+    { id: 'ai-career-skills', goal: 'ai-career', kit: 'ai-career-skills-kit', tools: ['teal'] },
+    { id: 'ai-spreadsheets', goal: 'analyze-data', kit: 'ai-spreadsheets-kit', tools: ['excel-copilot', 'google-sheets'] }
   ];
 
   for (const addition of additions) {

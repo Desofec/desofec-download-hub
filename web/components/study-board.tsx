@@ -1,23 +1,13 @@
 'use client';
 
-import { useCallback, useEffect, useState, type FormEvent } from 'react';
+import { useCallback, useEffect, useRef, useState, type FormEvent } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/components/auth-provider';
 import { useTr } from '@/components/tr';
 import { getSupabaseBrowserClient } from '@/lib/supabase-browser';
+import { isStudyPost, isStudyRequest, studyRows, type StudyPost, type StudyRequest } from '@/lib/study-board-data';
 
 type Goal = { id: string; name: string };
-type Post = {
-  id: string;
-  goal_id: string;
-  display_name: string;
-  note: string;
-  created_at: string;
-  mine: boolean;
-  my_request_status: string | null;
-  joined_workspace_id: string | null;
-};
-type Request = { id: string; post_id: string; goal_id: string; display_name: string; message: string };
 type Workspace = { id: string; name: string };
 
 const reportReasons = ['Spam', 'Personal information', 'Unkind or unsafe', 'Other'];
@@ -26,13 +16,23 @@ function ReportButton({ postId, onDone }: { postId: string; onDone: (text: strin
   const tr = useTr();
   const [open, setOpen] = useState(false);
   const [reason, setReason] = useState(reportReasons[0]);
+  const [pending, setPending] = useState(false);
 
   async function send() {
     const client = getSupabaseBrowserClient();
     if (!client) return;
-    const { error } = await client.rpc('report_study_post', { _post_id: postId, _reason: reason });
-    setOpen(false);
-    onDone(error ? tr('Could not send the report. Please try again.') : tr('Thank you. We will review this post.'));
+    setPending(true);
+    try {
+      const { error } = await client.rpc('report_study_post', { _post_id: postId, _reason: reason });
+      if (error) throw error;
+      setOpen(false);
+      onDone(tr('Thank you. We will review this post.'));
+    } catch (error) {
+      console.error('Unable to report study post:', error);
+      onDone(tr('Could not send the report. Please try again.'));
+    } finally {
+      setPending(false);
+    }
   }
 
   if (!open) {
@@ -51,7 +51,7 @@ function ReportButton({ postId, onDone }: { postId: string; onDone: (text: strin
           <option key={item} value={item}>{tr(item)}</option>
         ))}
       </select>
-      <button className="btn btn-secondary" type="button" onClick={send}>{tr('Send report')}</button>
+      <button className="btn btn-secondary" type="button" disabled={pending} onClick={send}>{tr('Send report')}</button>
     </span>
   );
 }
@@ -59,12 +59,26 @@ function ReportButton({ postId, onDone }: { postId: string; onDone: (text: strin
 export function StudyBoard({ goals }: { goals: Goal[] }) {
   const tr = useTr();
   const { session, ready } = useAuth();
-  const userId = session?.user.id;
+  if (!ready) return <p role="status">{tr('Checking your sign-in…')}</p>;
+  if (!session?.user) {
+    return (
+      <div className="account-panel">
+        <p>{tr('Sign in to see the study board, post a card or ask to join a group.')}</p>
+        <Link className="btn btn-primary" href="/account">{tr('Sign in')}</Link>
+      </div>
+    );
+  }
+  return <SignedInStudyBoard key={session.user.id} userId={session.user.id} goals={goals} />;
+}
+
+function SignedInStudyBoard({ goals, userId }: { goals: Goal[]; userId: string }) {
+  const tr = useTr();
   const goalName = (id: string) => tr(goals.find((goal) => goal.id === id)?.name ?? id);
+  const loadSequence = useRef(0);
 
   const [filter, setFilter] = useState('');
-  const [posts, setPosts] = useState<Post[] | null>(null);
-  const [requests, setRequests] = useState<Request[]>([]);
+  const [posts, setPosts] = useState<StudyPost[] | null>(null);
+  const [requests, setRequests] = useState<StudyRequest[]>([]);
   const [workspaces, setWorkspaces] = useState<Workspace[]>([]);
   const [message, setMessage] = useState('');
   const [displayName, setDisplayName] = useState('');
@@ -74,34 +88,63 @@ export function StudyBoard({ goals }: { goals: Goal[] }) {
   const [askingId, setAskingId] = useState<string | null>(null);
   const [askText, setAskText] = useState('');
   const [pending, setPending] = useState(false);
+  const [loadError, setLoadError] = useState('');
 
   const load = useCallback(async () => {
     const client = getSupabaseBrowserClient();
-    if (!client || !userId) return;
-    const [list, incoming, owned] = await Promise.all([
-      client.rpc('list_study_posts', { _goal_id: filter || null }),
-      client.rpc('list_study_requests'),
-      client.from('learning_workspaces').select('id, name').eq('created_by', userId).order('created_at', { ascending: false })
-    ]);
-    if (list.error) setMessage(tr('Could not load the study board. Please try again.'));
-    setPosts((list.data as Post[] | null) ?? []);
-    setRequests((incoming.data as Request[] | null) ?? []);
-    setWorkspaces((owned.data as Workspace[] | null) ?? []);
+    if (!client) return;
+    const sequence = ++loadSequence.current;
+    setLoadError('');
+    setPosts(null);
+    try {
+      const [list, incoming, owned] = await Promise.all([
+        client.rpc('list_study_posts', { _goal_id: filter || null }),
+        client.rpc('list_study_requests'),
+        client.from('learning_workspaces').select('id, name').eq('created_by', userId).order('created_at', { ascending: false })
+      ]);
+      if (sequence !== loadSequence.current) return;
+      const error = list.error ?? incoming.error ?? owned.error;
+      if (error) {
+        console.error('Unable to load study board:', error);
+        setLoadError(tr(error.code === 'PGRST202' || error.code === '42P01'
+          ? 'Study groups are not set up yet. The site owner needs to apply the study board migration.'
+          : 'Could not load the study board. Please try again.'));
+        return;
+      }
+      const loadedPosts = studyRows(list.data, isStudyPost);
+      const loadedRequests = studyRows(incoming.data, isStudyRequest);
+      setPosts(loadedPosts);
+      setRequests(loadedRequests);
+      setWorkspaces(owned.data ?? []);
+    } catch (error) {
+      if (sequence !== loadSequence.current) return;
+      console.error('Unable to load study board:', error);
+      setLoadError(tr('Could not load the study board. Please try again.'));
+    }
   }, [filter, tr, userId]);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     void load();
+    return () => { loadSequence.current += 1; };
   }, [load]);
 
   async function run(action: () => PromiseLike<{ error: unknown }>, failure: string, success?: string) {
     setPending(true);
     setMessage('');
-    const { error } = await action();
-    setMessage(error ? failure : (success ?? ''));
-    setPending(false);
-    if (!error) await load();
-    return !error;
+    try {
+      const { error } = await action();
+      if (error) throw error;
+      setMessage(success ?? '');
+      await load();
+      return true;
+    } catch (error) {
+      console.error('Unable to update study board:', error);
+      setMessage(failure);
+      return false;
+    } finally {
+      setPending(false);
+    }
   }
 
   async function createPost(event: FormEvent<HTMLFormElement>) {
@@ -133,16 +176,16 @@ export function StudyBoard({ goals }: { goals: Goal[] }) {
     }
   }
 
-  if (!ready) return <p role="status">{tr('Checking your sign-in…')}</p>;
-
-  if (!session?.user) {
+  if (loadError) {
     return (
       <div className="account-panel">
-        <p>{tr('Sign in to see the study board, post a card or ask to join a group.')}</p>
-        <Link className="btn btn-primary" href="/account">{tr('Sign in')}</Link>
+        <p role="alert">{loadError}</p>
+        <button className="btn btn-secondary" type="button" onClick={() => void load()}>{tr('Try again')}</button>
       </div>
     );
   }
+
+  if (posts === null) return <p role="status">{tr('Loading…')}</p>;
 
   const nameOk = displayName.trim().length >= 2;
 
@@ -222,6 +265,9 @@ export function StudyBoard({ goals }: { goals: Goal[] }) {
       </form>
 
       <h2>{tr('Study board')}</h2>
+      <button className="btn btn-secondary" type="button" disabled={pending} onClick={() => void load()}>
+        {tr('Refresh study board')}
+      </button>
       <label htmlFor="board-filter">{tr('Show goal')}</label>
       <select id="board-filter" value={filter} onChange={(event) => setFilter(event.target.value)}>
         <option value="">{tr('All goals')}</option>

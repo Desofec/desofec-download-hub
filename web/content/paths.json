@@ -345,5 +345,19 @@
       "Track applications and choose a learning goal"
     ],
     "goal": "ai-career"
+  },
+  {
+    "id": "ai-spreadsheets",
+    "title": "AI Spreadsheets and Everyday Data",
+    "level": "Beginner",
+    "description": "Clean a practice table, verify formulas and create an honest chart in Excel or Google Sheets with optional AI support.",
+    "badge": "Data",
+    "steps": [
+      "Import and preserve a practice table",
+      "Check missing values and formulas",
+      "Reconcile a summary by hand",
+      "Chart and document the results"
+    ],
+    "goal": "analyze-data"
   }
 ]

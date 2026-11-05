@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test:content": "node --test scripts/content-catalog.test.mjs",
+    "test:content": "node --test scripts/content-catalog.test.mjs scripts/learning-improvements.test.mjs",
     "validate-content": "node scripts/validate-content.mjs",
     "sync-content": "node scripts/sync-content.mjs"
   },

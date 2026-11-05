@@ -385,5 +385,23 @@
     "skill": "Beginner",
     "description": "Build and tailor resumes to job descriptions and track applications; check every claim yourself.",
     "badge": "Career"
+  },
+  {
+    "id": "excel-copilot",
+    "url": "https://support.microsoft.com/en-gb/excel/copilot/get-started-with-copilot-in-excel",
+    "name": "Copilot in Excel",
+    "category": "Data",
+    "skill": "Beginner",
+    "description": "Use AI support for Excel formulas, tables and data analysis; availability depends on your plan and settings.",
+    "badge": "Spreadsheets"
+  },
+  {
+    "id": "google-sheets",
+    "url": "https://workspace.google.com/products/sheets/",
+    "name": "Google Sheets",
+    "category": "Data",
+    "skill": "Beginner",
+    "description": "Create collaborative spreadsheets with formulas and charts, with optional Gemini features on eligible plans.",
+    "badge": "Spreadsheets"
   }
 ]
