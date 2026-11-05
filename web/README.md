@@ -92,6 +92,29 @@ Home, My progress, the footer, goal recommendations, idea matching and sitemap l
 new goal, path, recommendations and kit are available. No new migration is needed. The existing
 `0010_lesson_feedback.sql` migration must already be applied for private tutorial feedback.
 
+### Pilot Proposal Builder
+
+`/business-launchpad/proposal-builder` uses guided templates, not an AI API. It calculates setup labour
+plus labour contingency and other costs, and monthly support plus vendor/other costs, with cents-based
+rounding. All amounts use EUR. Proposed service fees are independent inputs; internal cost estimates
+are **not included** in the generated client-facing document. Blank costs mean unknown, not zero.
+Numbers accept a decimal comma or point (two places), reject negatives, grouping and exponents, and
+enforce displayed limits. No tax, margin or profit calculation is implied.
+
+The generated plain-text draft remains editable. Changing the source form or interface language blocks
+export until rebuilding, with confirmation before replacing manual edits. Downloads contain the edited
+text; printing/Save as PDF uses scoped print styles and excludes the form, internal costs and navigation.
+Unknown details remain marked for confirmation. UI and template headings follow the selected language;
+user-written text is never translated.
+
+Save/Load/Delete are explicit and use one versioned browser-local draft (`desofec:pilot-proposal:v1`).
+There is no automatic save, account sync or backend write. Load validates stored data and asks before
+replacing unsaved work; failed storage operations report an error and retain the current form.
+Deletion removes only the saved browser copy, not the current form or downloads. Browser storage is
+shared within the profile, not app-encrypted, and can be cleared; use fictional/anonymised inputs only.
+This builder requires **no new seed or migration** (the Launchpad catalog seed remains a prerequisite
+for the separate learning path).
+
 ## Update the catalog
 
 `data/*.json` and `downloads/` in the repository root remain the source of truth. After editing them, run:

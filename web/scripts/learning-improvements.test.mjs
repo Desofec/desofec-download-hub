@@ -131,3 +131,95 @@ test('business launch intent matches the new goal in all four languages', async 
     assert.equal(matchGoals(idea)[0]?.goalId, 'start-ai-business', idea);
   }
 });
+
+test('proposal costs distinguish unknown from zero and keep costs separate from prices', async () => {
+  const { emptyProposalInputs, proposalCalculations } = await loadContent('../lib/pilot-proposal.ts');
+  const blank = emptyProposalInputs();
+  assert.deepEqual(proposalCalculations(blank), { setup: null, monthly: null, setupFee: null, monthlyFee: null, errors: [] });
+  const inputs = {
+    ...blank, setupHours: '9', setupRate: '30', contingency: '20', setupExpenses: '0',
+    monthlyHours: '1', monthlyRate: '30', monthlyExpenses: '15', setupFee: '500', monthlyFee: '75'
+  };
+  assert.deepEqual(proposalCalculations(inputs), { setup: 32400, monthly: 4500, setupFee: 50000, monthlyFee: 7500, errors: [] });
+  assert.equal(proposalCalculations({ ...inputs, setupExpenses: '' }).setup, null);
+  assert.equal(proposalCalculations({ ...inputs, setupRate: '0' }).setup, 0);
+  assert.equal(proposalCalculations({ ...inputs, setupFee: '0' }).setupFee, 0);
+  assert.equal(proposalCalculations({ ...inputs, setupHours: '1,25', setupRate: '10.10', contingency: '10', setupExpenses: '0.01' }).setup, 1263 + 126 + 1);
+  assert.equal(proposalCalculations({ ...inputs, setupHours: '0.01', setupRate: '0.50', contingency: '50' }).setup, 2);
+});
+
+test('proposal numeric validation rejects malformed and excessive values without inventing totals', async () => {
+  const { emptyProposalInputs, proposalCalculations, proposalCostFields, buildPilotProposal } = await loadContent('../lib/pilot-proposal.ts');
+  for (const field of proposalCostFields) {
+    for (const number of ['-1', 'NaN', 'Infinity', '1e3', '1,000', '1.234', '1 000', '.50', '1.', String(field.max + 0.01)]) {
+      const inputs = { ...emptyProposalInputs(), [field.key]: number };
+      assert.deepEqual(proposalCalculations(inputs).errors, [field.key], `${field.key}: ${number}`);
+      assert.throws(() => buildPilotProposal(inputs, 'en', (text) => text), /Invalid proposal number/);
+    }
+    assert.deepEqual(proposalCalculations({ ...emptyProposalInputs(), [field.key]: String(field.max) }).errors, []);
+  }
+});
+
+test('proposal generation preserves user text, marks unknowns and never exports internal costs', async () => {
+  const { emptyProposalInputs, buildPilotProposal } = await loadContent('../lib/pilot-proposal.ts');
+  const inputs = {
+    ...emptyProposalInputs(), title: '<script>alert("fictional")</script>',
+    scope: 'CUSTOM SCOPE\nSecond line', setupHours: '9', setupRate: '30',
+    contingency: '20', setupExpenses: '0', monthlyHours: '1', monthlyRate: '30', monthlyExpenses: '15',
+    setupFee: '500', monthlyFee: '75'
+  };
+  const document = buildPilotProposal(inputs, 'en', (text) => text);
+  assert.ok(document.startsWith('DRAFT PILOT PROPOSAL - NOT AN AGREEMENT'));
+  assert.ok(document.includes(inputs.title) && document.includes(inputs.scope));
+  assert.ok(document.includes('[TO CONFIRM]'));
+  assert.ok(document.includes('€500.00') && document.includes('€75.00'));
+  assert.ok(!document.includes('324.00') && !document.includes('45.00'));
+  const french = JSON.parse(await readFile(new URL('../content/translations/ui-fr.json', import.meta.url), 'utf8'));
+  const translated = buildPilotProposal(inputs, 'fr', (text) => french[text] ?? text);
+  assert.ok(translated.includes('[À CONFIRMER]'));
+  assert.ok(translated.includes(inputs.scope));
+  assert.ok(!translated.includes('DRAFT PILOT PROPOSAL'));
+});
+
+test('saved proposal validation round-trips editable text and rejects damaged or incompatible drafts', async () => {
+  const { emptyProposalInputs, readProposalDraft, proposalSource, proposalTextLimit } = await loadContent('../lib/pilot-proposal.ts');
+  const inputs = { ...emptyProposalInputs(), title: 'Fictional pilot', setupFee: '0' };
+  const draft = { version: 1, inputs, document: 'Manual edits\nRemain unchanged', source: proposalSource(inputs, 'en') };
+  assert.deepEqual(readProposalDraft(JSON.stringify(draft)), draft);
+  const longInputs = { ...inputs, scope: '\n'.repeat(proposalTextLimit) };
+  const longDraft = { ...draft, inputs: longInputs, source: proposalSource(longInputs, 'en') };
+  assert.deepEqual(readProposalDraft(JSON.stringify(longDraft)), longDraft);
+  for (const invalid of [
+    'broken JSON', 'null', '[]', '{}', JSON.stringify({ ...draft, version: 2 }),
+    JSON.stringify({ ...draft, document: 0 }), JSON.stringify({ ...draft, source: null }),
+    JSON.stringify({ ...draft, inputs: { ...inputs, setupFee: '-1' } }),
+    JSON.stringify({ ...draft, inputs: { title: 'missing fields' } }),
+    JSON.stringify({ ...draft, inputs: { ...inputs, title: 'a'.repeat(proposalTextLimit + 1) } }),
+    JSON.stringify({ ...draft, document: 'a'.repeat(40001) })
+  ]) {
+    assert.throws(() => readProposalDraft(invalid));
+  }
+});
+
+test('proposal builder UI, notices and templates have all three translations', async () => {
+  const sources = await Promise.all([
+    '../lib/pilot-proposal.ts',
+    '../components/pilot-proposal-builder.tsx',
+    '../app/business-launchpad/proposal-builder/page.tsx'
+  ].map((file) => readFile(new URL(file, import.meta.url), 'utf8')));
+  const text = sources.join('\n');
+  const phrases = [
+    ...text.matchAll(/\btr\('([^']+)'\)/g),
+    ...text.matchAll(/\blabel: '([^']+)'/g),
+    ...text.matchAll(/\bset(?:Notice|Error)\('([^']+)'\)/g),
+    ...text.matchAll(/<Tr>([^<{]+)<\/Tr>/g)
+  ].map((match) => match[1]);
+  // Both branches of these conditional labels are intentionally translated.
+  phrases.push('Rebuild proposal from form', 'Generate editable proposal',
+    'Changes are not saved on this device.', 'No automatic saving. Save explicitly if you want to return later.');
+  assert.ok(phrases.length > 65);
+  for (const locale of ['fr', 'de', 'es']) {
+    const book = JSON.parse(await readFile(new URL(`../content/translations/ui-${locale}.json`, import.meta.url), 'utf8'));
+    for (const phrase of phrases) assert.ok(book[phrase], `${locale}: missing "${phrase}"`);
+  }
+});
