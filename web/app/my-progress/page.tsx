@@ -4,6 +4,7 @@ import { getCatalog } from '@/lib/catalog';
 import { tutorialStorageKey, tutorials } from '@/lib/tutorials';
 import { ProgressDashboard } from '@/components/progress-dashboard';
 import { Tr } from '@/components/tr';
+import { NextLesson } from '@/components/next-lesson';
 
 export const metadata: Metadata = {
   title: 'My progress',
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 export default async function MyProgressPage() {
-  const { paths, starterPacks, starterPackChecklists, tools } = await getCatalog();
+  const { goals, paths, starterPacks, starterPackChecklists, tools, recommendations } = await getCatalog();
 
   return (
     <section className="section">
@@ -21,6 +22,7 @@ export default async function MyProgressPage() {
           <h1><Tr>My progress</Tr></h1>
           <p><Tr>Pick up where you left off, or choose something new to learn.</Tr></p>
         </div>
+        <NextLesson goals={goals} paths={paths} tools={tools} recommendations={recommendations} />
         <ProgressDashboard
           paths={paths}
           packs={starterPacks}

@@ -237,11 +237,14 @@
       "claude",
       "python",
       "colab",
-      "streamlit"
+      "streamlit",
+      "excel-copilot",
+      "google-sheets"
     ],
     "starters": [
       "origin-analysis-kit",
-      "advanced-measurement-analysis-kit"
+      "advanced-measurement-analysis-kit",
+      "ai-spreadsheets-kit"
     ],
     "steps": [
       "Write your analysis question",

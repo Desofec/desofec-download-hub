@@ -62,7 +62,9 @@ insert into public.tools (id, name, category, skill, description, badge, url, po
   ('tally', 'Tally', 'Automation', 'Beginner', 'Build forms and surveys to collect customer feedback, with conditional logic and app integrations.', 'Forms', 'https://tally.so/', 39),
   ('hubspot-breeze', 'HubSpot Breeze', 'AI', 'Intermediate', 'Use HubSpot''s built-in AI to support marketing, sales and customer service with CRM context.', 'Business', 'https://www.hubspot.com/products/artificial-intelligence', 40),
   ('runway', 'Runway', 'Design', 'Intermediate', 'Generate and edit video with AI using text or image references, then review the result before sharing.', 'Video', 'https://runwayml.com/', 41),
-  ('teal', 'Teal', 'AI', 'Beginner', 'Build and tailor resumes to job descriptions and track applications; check every claim yourself.', 'Career', 'https://www.tealhq.com/tools/resume-builder', 42)
+  ('teal', 'Teal', 'AI', 'Beginner', 'Build and tailor resumes to job descriptions and track applications; check every claim yourself.', 'Career', 'https://www.tealhq.com/tools/resume-builder', 42),
+  ('excel-copilot', 'Copilot in Excel', 'Data', 'Beginner', 'Use AI support for Excel formulas, tables and data analysis; availability depends on your plan and settings.', 'Spreadsheets', 'https://support.microsoft.com/en-gb/excel/copilot/get-started-with-copilot-in-excel', 43),
+  ('google-sheets', 'Google Sheets', 'Data', 'Beginner', 'Create collaborative spreadsheets with formulas and charts, with optional Gemini features on eligible plans.', 'Spreadsheets', 'https://workspace.google.com/products/sheets/', 44)
 on conflict (id) do update set name = excluded.name, category = excluded.category, skill = excluded.skill, description = excluded.description, badge = excluded.badge, url = excluded.url, position = excluded.position;
 
 insert into public.starter_packs (id, title, description, level, file_path, position) values
@@ -87,7 +89,8 @@ insert into public.starter_packs (id, title, description, level, file_path, posi
   ('advanced-no-code-kit', 'Advanced No-Code Automation Kit', 'A process map, data checks, decision table, error plan and runbook outline for reliable no-code automations.', 'Intermediate', 'downloads/advanced-no-code-kit.md', 18),
   ('ai-small-business-kit', 'AI Small Business Kit', 'Customer research, product copy, FAQ and campaign worksheets with a fact-checking checklist.', 'Beginner', 'downloads/ai-small-business-kit.md', 19),
   ('ai-video-creation-kit', 'AI Video Creation Kit', 'A short-video brief, storyboard, asset permission log and caption review checklist.', 'Beginner', 'downloads/ai-video-creation-kit.md', 20),
-  ('ai-career-skills-kit', 'AI Career Skills Kit', 'Evidence-based resume prompts, interview practice and an application tracking template.', 'Beginner', 'downloads/ai-career-skills-kit.md', 21)
+  ('ai-career-skills-kit', 'AI Career Skills Kit', 'Evidence-based resume prompts, interview practice and an application tracking template.', 'Beginner', 'downloads/ai-career-skills-kit.md', 21),
+  ('ai-spreadsheets-kit', 'AI Spreadsheets Kit', 'A fictional order table, checked formulas and a missing-data checklist for Excel or Google Sheets.', 'Beginner', 'downloads/ai-spreadsheets-kit.md', 22)
 on conflict (id) do update set title = excluded.title, description = excluded.description, level = excluded.level, file_path = excluded.file_path, position = excluded.position;
 
 insert into public.paths (id, title, level, description, badge, goal_id, steps, position) values
@@ -114,7 +117,8 @@ insert into public.paths (id, title, level, description, badge, goal_id, steps, 
   ('advanced-no-code-automation', 'Advanced No-Code Automation', 'Intermediate', 'Build reliable multi-step automations with clean data, branches, duplicate protection, retries, alerts and a runbook.', 'Advanced', 'automate-work', array['Map the process', 'Clean and map the data', 'Add branches, approvals and duplicate protection', 'Handle errors, monitor and document']::text[], 20),
   ('ai-small-business', 'AI for Small Business', 'Beginner', 'Create an evidence-based customer brief, product description, FAQ and one-week marketing plan.', 'Business', 'ai-small-business', array['Define an offer and research customer needs', 'Draft a truthful product description', 'Create a checked FAQ', 'Plan, review and measure a small campaign']::text[], 21),
   ('ai-video-creation', 'AI Video Creation', 'Beginner', 'Plan, create and edit a short video with clear captions, permissioned assets and honest AI disclosure.', 'Video', 'create-content', array['Write a brief and storyboard', 'Create or gather permissioned clips', 'Edit and caption the video', 'Review and publish responsibly']::text[], 22),
-  ('ai-career-skills', 'AI Job Search and Career Skills', 'Beginner', 'Build a truthful resume, targeted cover letter, interview practice plan and application tracker.', 'Career', 'ai-career', array['Match a role to real evidence', 'Tailor a resume and cover letter', 'Practise interview answers', 'Track applications and choose a learning goal']::text[], 23)
+  ('ai-career-skills', 'AI Job Search and Career Skills', 'Beginner', 'Build a truthful resume, targeted cover letter, interview practice plan and application tracker.', 'Career', 'ai-career', array['Match a role to real evidence', 'Tailor a resume and cover letter', 'Practise interview answers', 'Track applications and choose a learning goal']::text[], 23),
+  ('ai-spreadsheets', 'AI Spreadsheets and Everyday Data', 'Beginner', 'Clean a practice table, verify formulas and create an honest chart in Excel or Google Sheets with optional AI support.', 'Data', 'analyze-data', array['Import and preserve a practice table', 'Check missing values and formulas', 'Reconcile a summary by hand', 'Chart and document the results']::text[], 24)
 on conflict (id) do update set title = excluded.title, level = excluded.level, description = excluded.description, badge = excluded.badge, goal_id = excluded.goal_id, steps = excluded.steps, position = excluded.position;
 
 insert into public.recommendations (goal_id, title, summary, steps) values
@@ -209,6 +213,8 @@ insert into public.recommendation_tools (goal_id, tool_id, position) values
   ('analyze-data', 'python', 4),
   ('analyze-data', 'colab', 5),
   ('analyze-data', 'streamlit', 6),
+  ('analyze-data', 'excel-copilot', 7),
+  ('analyze-data', 'google-sheets', 8),
   ('visualize-data', 'python', 0),
   ('visualize-data', 'colab', 1),
   ('visualize-data', 'originpro', 2),
@@ -261,6 +267,7 @@ insert into public.recommendation_starters (goal_id, pack_id, position) values
   ('create-content', 'ai-video-creation-kit', 2),
   ('analyze-data', 'origin-analysis-kit', 0),
   ('analyze-data', 'advanced-measurement-analysis-kit', 1),
+  ('analyze-data', 'ai-spreadsheets-kit', 2),
   ('visualize-data', 'data-visualization-kit', 0),
   ('research-ai', 'research-prompt-kit', 0),
   ('research-ai', 'ai-prompt-pack', 1),

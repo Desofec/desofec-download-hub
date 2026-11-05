@@ -17,6 +17,7 @@ import { advancedDataAnalysisSteps } from '@/lib/advanced-data-analysis-tutorial
 import { codingFoundationsSteps } from '@/lib/coding-foundations-tutorial';
 import { taskTrackerSteps, type TutorialStep } from '@/lib/task-tracker-tutorial';
 import { smallBusinessSteps, videoCreationSteps, careerSkillsSteps } from '@/lib/practical-ai-tutorials';
+import { spreadsheetSteps } from '@/lib/spreadsheets-tutorial';
 
 export type TutorialInfo = {
   pathId: string;
@@ -29,6 +30,14 @@ export type TutorialInfo = {
 
 // Older tutorials keep their original URLs. New ones live under /tutorials/<pathId>.
 export const tutorials: TutorialInfo[] = [
+  {
+    pathId: 'ai-spreadsheets',
+    href: '/tutorials/ai-spreadsheets',
+    title: 'Make a checked spreadsheet with AI support',
+    intro: 'Practise importing, checking, calculating and charting five fictional orders in Excel or Google Sheets. AI features are optional; no paid AI plan is required.',
+    time: '45 minutes',
+    steps: spreadsheetSteps
+  },
   {
     pathId: 'ai-small-business',
     href: '/tutorials/ai-small-business',

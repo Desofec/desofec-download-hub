@@ -58,6 +58,9 @@ export default async function HomePage() {
               <Link className="btn btn-secondary" href="/tools">
                 <Tr>Explore tools</Tr>
               </Link>
+              <Link className="text-link" href="/my-progress">
+                <Tr>Choose your next lesson</Tr>
+              </Link>
             </div>
             <ul className="mini-stats" aria-label="Project stats">
               <li>

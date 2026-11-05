@@ -3,6 +3,9 @@ import { codingTranslations } from '@/lib/translations/coding';
 import { mlDesignTranslations } from '@/lib/translations/ml-design';
 import { taskTrackerTranslations } from '@/lib/translations/task-tracker';
 import { webNocodeTranslations } from '@/lib/translations/web-nocode';
+import { practicalFrench } from '@/lib/translations/practical-fr';
+import { practicalGerman } from '@/lib/translations/practical-de';
+import { practicalSpanish } from '@/lib/translations/practical-es';
 
 export type StepTranslation = {
   title: string;
@@ -318,5 +321,12 @@ export const tutorialTranslations: Record<string, Partial<Record<Exclude<Languag
   ...taskTrackerTranslations,
   ...codingTranslations,
   ...webNocodeTranslations,
-  ...mlDesignTranslations
+  ...mlDesignTranslations,
+  ...Object.fromEntries(
+    Object.keys(practicalFrench).map((id) => [id, {
+      fr: practicalFrench[id],
+      de: practicalGerman[id],
+      es: practicalSpanish[id]
+    }])
+  )
 };

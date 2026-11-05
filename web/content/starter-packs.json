@@ -152,5 +152,12 @@
     "description": "Evidence-based resume prompts, interview practice and an application tracking template.",
     "level": "Beginner",
     "file": "downloads/ai-career-skills-kit.md"
+  },
+  {
+    "id": "ai-spreadsheets-kit",
+    "title": "AI Spreadsheets Kit",
+    "description": "A fictional order table, checked formulas and a missing-data checklist for Excel or Google Sheets.",
+    "level": "Beginner",
+    "file": "downloads/ai-spreadsheets-kit.md"
   }
 ]

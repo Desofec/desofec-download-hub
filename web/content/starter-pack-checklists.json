@@ -175,5 +175,13 @@
     "Tailor your resume without invented skills, dates or results.",
     "Practise interview answers using real examples and your own words.",
     "Review each application yourself and record a next action."
+  ],
+  "ai-spreadsheets-kit": [
+    "Keep an unchanged Raw sheet and a separate Working copy.",
+    "Check five unique IDs, one missing quantity and one known zero.",
+    "Verify the row results: 10, 6, 5, 0 and REVIEW.",
+    "Reconcile the known subtotal of 21 and the one unresolved row.",
+    "Label the chart honestly without presenting unknown values as zero.",
+    "Save notes and recheck all formulas after reopening the workbook."
   ]
 }
