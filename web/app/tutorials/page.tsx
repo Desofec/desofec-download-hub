@@ -26,6 +26,7 @@ export default async function TutorialsPage() {
             </Link>
           </div>
         </div>
+        <h2 className="sr-only"><Tr>Tutorials</Tr></h2>
         <TutorialList
           items={tutorials.map((tutorial) => {
             const path = paths.find((entry) => entry.id === tutorial.pathId);

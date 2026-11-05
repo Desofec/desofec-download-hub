@@ -39,7 +39,7 @@ export default async function ResultsPage({ params }: { params: Promise<{ goal: 
         </div>
         <div className="result-summary">
           <article className="result-card">
-            <h3><Tr>Recommended next step</Tr></h3>
+            <h2><Tr>Recommended next step</Tr></h2>
             <p><Tr>{recommendation.summary}</Tr></p>
             <ul className="mini-checklist">
               {recommendation.steps.map((step) => (

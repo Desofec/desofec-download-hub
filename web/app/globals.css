@@ -335,6 +335,7 @@ h3 {
 .starter-card h3,
 .goal-card h3,
 .step-card h3,
+.result-card h2,
 .result-card h3 {
   font-size: 1.08rem;
   margin: 0 0 8px;

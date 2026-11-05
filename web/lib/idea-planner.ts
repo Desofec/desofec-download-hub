@@ -15,6 +15,8 @@ const keywords: Record<string, string[]> = {
   'visualize-data': ['data visualization', 'visualize', 'visualise', 'chart', 'charts', 'graph', 'graphs', 'dashboard', 'visualization', 'visualisation', 'gráficos', 'visualización', 'dataviz', 'diagram'],
   'research-ai': ['research', 'literature review', 'sources', 'citations', 'academic', 'scholar', 'evidence', 'investigate', 'recherche', 'forschung', 'investigación'],
   'ai-education': ['teacher', 'teaching', 'student', 'school', 'classroom', 'lesson plan', 'tutor', 'homework', 'education', 'enseignant', 'étudiant', 'lehrer', 'schüler', 'docente', 'estudiante', 'educación'],
+  'ai-small-business': ['small business', 'customer', 'marketing', 'business', 'shop', 'petite entreprise', 'client', 'kleinunternehmen', 'kunde', 'negocio', 'cliente'],
+  'ai-career': ['career', 'resume', 'cv', 'job search', 'interview', 'cover letter', 'carrière', 'emploi', 'entretien', 'karriere', 'lebenslauf', 'bewerbung', 'carrera', 'currículum', 'entrevista'],
   'ai-productivity': ['productivity', 'productive', 'email', 'summarize', 'plan my', 'research', 'notes', 'productivité', 'produktivität', 'productividad', 'organize']
 };
 

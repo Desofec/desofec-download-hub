@@ -154,5 +154,26 @@
     "Use an event ID or lookup step so repeats do not create duplicates.",
     "Set retries, an error route and an alert that reaches a real person.",
     "Write a runbook and review run history every week."
+  ],
+  "ai-small-business-kit": [
+    "Define one offer and a customer question without inventing research.",
+    "Collect feedback with permission and remove identifying details before using AI.",
+    "Check every product claim against your actual offer.",
+    "Verify FAQ answers and route unknown questions to a person.",
+    "Approve one campaign draft and record results without promising sales."
+  ],
+  "ai-video-creation-kit": [
+    "Write a single-message brief and a timed storyboard.",
+    "Record permission or licensing for every clip, voice and music track.",
+    "Review generated footage for distortions and misleading claims.",
+    "Correct captions and check the video with sound off on a phone.",
+    "Check current platform AI disclosure rules before publishing."
+  ],
+  "ai-career-skills-kit": [
+    "Choose a real role and match its requirements to verifiable experience.",
+    "Remove personal identifiers before uploading drafts to an AI service.",
+    "Tailor your resume without invented skills, dates or results.",
+    "Practise interview answers using real examples and your own words.",
+    "Review each application yourself and record a next action."
   ]
 }

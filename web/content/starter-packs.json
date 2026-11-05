@@ -131,5 +131,26 @@
     "description": "A process map, data checks, decision table, error plan and runbook outline for reliable no-code automations.",
     "level": "Intermediate",
     "file": "downloads/advanced-no-code-kit.md"
+  },
+  {
+    "id": "ai-small-business-kit",
+    "title": "AI Small Business Kit",
+    "description": "Customer research, product copy, FAQ and campaign worksheets with a fact-checking checklist.",
+    "level": "Beginner",
+    "file": "downloads/ai-small-business-kit.md"
+  },
+  {
+    "id": "ai-video-creation-kit",
+    "title": "AI Video Creation Kit",
+    "description": "A short-video brief, storyboard, asset permission log and caption review checklist.",
+    "level": "Beginner",
+    "file": "downloads/ai-video-creation-kit.md"
+  },
+  {
+    "id": "ai-career-skills-kit",
+    "title": "AI Career Skills Kit",
+    "description": "Evidence-based resume prompts, interview practice and an application tracking template.",
+    "level": "Beginner",
+    "file": "downloads/ai-career-skills-kit.md"
   }
 ]
