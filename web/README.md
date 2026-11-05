@@ -78,6 +78,22 @@ development URLs there too if you test sign-in locally.
 
 ## AI Business Launchpad
 
+The Launchpad now lists five service paths. Four additions have six lessons each:
+`ai-content-services` (fictional bakery package and revisions), `ai-cad-services` (non-functional
+display-card concept only), `micro-saas-validation` (local formatter prototype, not a live subscription),
+and `ai-education-services` (original adult workshop, not certification). Each has a separate goal,
+recommendation and five-item starter-kit checklist. Existing catalog ordering and progress IDs are retained.
+
+The tutorial registry's `serviceKitId` connects each service path to its kit and the shared proposal
+builder/results tracker. These tools do not prefill outcomes or grant client/engineering approval.
+Lesson instructions and downloads remain English with visible notices; catalog, checklist and hub copy
+support French, German and Spanish. No paid AI is needed; CAD commercial-use licensing must be verified
+before actual client work, and a paper alternative is clearly not a CAD deliverable.
+
+**For this expansion, run the regenerated `supabase/seed.sql` before merge/deployment. No new migration
+is required.** The seed adds four goals, paths and kits plus recommendations. The existing feedback
+function recognises the new lesson IDs once the paths are seeded.
+
 `/business-launchpad` starts with `/tutorials/ai-automation-services`: six lessons covering discovery,
 bounded scope, a six-event fictional enquiry demo, costs, a draft offer and handover. The practice workflow
 prepares drafts for human review and never requires real customer data, paid tools or automatic sending.

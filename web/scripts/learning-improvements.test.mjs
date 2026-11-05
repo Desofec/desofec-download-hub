@@ -20,6 +20,62 @@ async function loadContent(relativePath, imports = {}) {
   return import(await contentUrl(relativePath, imports));
 }
 
+test('four service curricula each provide six complete and independently keyed lessons', async () => {
+  const curricula = await loadContent('../lib/business-services-tutorials.ts');
+  const allIds = new Set();
+  for (const steps of Object.values(curricula)) {
+    assert.equal(steps.length, 6);
+    for (const step of steps) {
+      assert.match(step.id, /^[a-z]+(?:-[a-z]+)+$/);
+      assert.ok(!allIds.has(step.id));
+      allIds.add(step.id);
+      assert.ok(step.title && step.file && step.code && step.check && step.aiPrompt);
+      assert.equal(step.explanation.length, 2);
+      assert.ok(step.explanation.every((text) => text.length > 100));
+    }
+  }
+  assert.equal(allIds.size, 24);
+});
+
+test('service worksheets retain independently verified scope, arithmetic and approval boundaries', async () => {
+  const { contentServicesSteps, cadServicesSteps, microSaasSteps, educationServicesSteps } =
+    await loadContent('../lib/business-services-tutorials.ts');
+  const copy = (steps) => JSON.stringify(steps);
+  assert.match(contentServicesSteps[0].code, /3 posts \(40-60 words each\), 4 FAQ answers/);
+  assert.match(contentServicesSteps[2].code, /Open Sunday.*REMOVE/);
+  assert.match(contentServicesSteps[2].code, /Delivery available.*REMOVE/);
+  assert.match(contentServicesSteps[4].code, new RegExp(`EUR ${(1 + 2 + 1 + 1) * 20}`));
+  assert.match(contentServicesSteps[5].code, /BLOCKED, not PASS/);
+  assert.match(cadServicesSteps[1].code, new RegExp(`${80 * 40 * 3} mm\\^3`));
+  assert.match(cadServicesSteps[1].code, /Front: 80 x 40 mm[\s\S]*Side: 3 x 40 mm[\s\S]*Top: 80 x 3 mm/);
+  assert.match(cadServicesSteps[1].code, /front drawn 40 x 20 mm/);
+  assert.match(cadServicesSteps[3].code, new RegExp(`${90 * 40 * 3} mm\\^3`));
+  assert.match(cadServicesSteps[3].code, new RegExp(`${90 / 40}:1`));
+  assert.match(copy(cadServicesSteps), /CONCEPT ONLY - NOT FOR MANUFACTURE/);
+  assert.match(copy(cadServicesSteps), /personal-use CAD license may exclude paid client projects/);
+  assert.match(microSaasSteps[2].code, /output\.textContent/);
+  assert.doesNotMatch(microSaasSteps[2].code, /fetch\(|localStorage|innerHTML|https?:\/\//);
+  assert.match(microSaasSteps[3].code, /41 characters.*visible error/);
+  assert.match(educationServicesSteps[1].code, /3 min[\s\S]*5 min[\s\S]*4 min[\s\S]*3 min/);
+  assert.equal(3 + 5 + 4 + 3, 15);
+  assert.match(educationServicesSteps[2].code, /30/);
+  assert.match(copy(educationServicesSteps), /0-4|0–4/);
+  assert.match(copy(educationServicesSteps), /NOT RUN|not run/);
+});
+
+test('service intents select their distinct recommendations in four languages', async () => {
+  const { matchGoals } = await loadContent('../lib/idea-planner.ts');
+  for (const [goal, ideas] of [
+    ['offer-content-services', ['content agency', 'agence de contenu', 'content-agentur', 'agencia de contenido']],
+    ['offer-cad-services', ['cad service', 'service cao', 'cad-dienstleistung', 'servicio cad']],
+    ['validate-micro-saas', ['validate micro-saas', 'valider saas', 'saas validieren', 'validar saas']],
+    ['offer-education-services', ['adult workshop', 'atelier pour adultes', 'ki-schulung', 'taller para adultos']]
+  ]) {
+    for (const idea of ideas) assert.equal(matchGoals(idea)[0]?.goalId, goal, idea);
+  }
+  assert.equal(matchGoals('automation agency')[0]?.goalId, 'start-ai-business');
+});
+
 test('all three practical tutorials have complete translations without changing progress IDs', async () => {
   const { smallBusinessSteps, videoCreationSteps, careerSkillsSteps } = await loadContent('../lib/practical-ai-tutorials.ts');
   const tutorials = {

@@ -1,4 +1,32 @@
 {
+  "offer-content-services": {
+    "title": "AI Content Services",
+    "summary": "Create a fictional client content package, check claims and permissions, manage revisions and plan delivery.",
+    "tools": ["chatgpt", "claude", "canva", "google-sheets"],
+    "starters": ["ai-content-services-kit", "ai-small-business-kit"],
+    "steps": ["Agree on a content brief", "Draft and verify a content package", "Manage one revision round", "Scope, cost and deliver the service"]
+  },
+  "offer-cad-services": {
+    "title": "AI + CAD Concept Services",
+    "summary": "Prepare a non-functional display-card concept with consistent dimensions, versioned views and clear exclusions.",
+    "tools": ["fusion-360", "chatgpt"],
+    "starters": ["ai-cad-services-kit", "design-starter-kit"],
+    "steps": ["Define concept-only boundaries", "Sketch and check dimensions", "Model or document a paper alternative", "Review revisions and hand over concept evidence"]
+  },
+  "validate-micro-saas": {
+    "title": "Micro-SaaS Validation",
+    "summary": "Validate a narrow problem with a local-only formatter prototype, boundary tests and honest user evidence.",
+    "tools": ["vscode", "figma", "chatgpt", "google-sheets"],
+    "starters": ["micro-saas-validation-kit", "app-launch-kit"],
+    "steps": ["Gather problem evidence", "Specify and prototype a tiny service", "Test boundaries and cost assumptions", "Observe use and decide before launch"]
+  },
+  "offer-education-services": {
+    "title": "AI Education Services",
+    "summary": "Prepare an original adult workshop with source-checked materials, a practice rubric and accessible delivery.",
+    "tools": ["chatgpt", "canva", "notebooklm"],
+    "starters": ["ai-education-services-kit", "ai-for-education-kit"],
+    "steps": ["Define an adult learning objective", "Create original materials and a checked key", "Rehearse and review accessibility", "Scope the workshop and improve from evidence"]
+  },
   "start-ai-business": {
     "title": "Your AI Automation Service Pilot",
     "summary": "Start with evidence of a customer problem, not an income promise. Build a fictional administrative demo before agreeing to any live work.",

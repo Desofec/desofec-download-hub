@@ -1,4 +1,32 @@
 {
+  "ai-content-services-kit": [
+    "Separate approved brief facts from unknown prices, delivery and dietary claims.",
+    "Draft three 40-60-word posts and four checked FAQ answers.",
+    "Verify claims, asset permissions and accessibility before approval.",
+    "Preserve two versions and document one controlled revision round.",
+    "Distinguish internal costs from fees and hand over review evidence."
+  ],
+  "ai-cad-services-kit": [
+    "Label all outputs concept-only, not for manufacture, with millimetre units.",
+    "Reconcile 80 x 40 x 3 dimensions and the 9600 cubic mm geometric check.",
+    "State CAD or paper-only method and check commercial licensing before client work.",
+    "Verify the 90 x 40 x 3 revision and 10800 cubic mm check across all views.",
+    "Reopen exports and leave missing professional or customer review blocked."
+  ],
+  "micro-saas-validation-kit": [
+    "Separate interview evidence from unvalidated demand.",
+    "Specify a 1-40-character project name and Draft or Review status.",
+    "Run the local or manual prototype and record which method was tested.",
+    "Record five boundary cases without inventing browser test results.",
+    "Review feedback and unknown costs before deciding to continue discovery, revise or stop."
+  ],
+  "ai-education-services-kit": [
+    "Define a measurable 15-minute objective for consenting adults.",
+    "Create original readable materials from the fictional fact sheet.",
+    "Check three claim classifications and the four-point practice rubric.",
+    "Rehearse and record material-level access issues without learner profiles.",
+    "Scope the service honestly and keep missing trial or review evidence pending."
+  ],
   "ai-automation-services-kit": [
     "Separate customer evidence from assumptions before buying tools.",
     "Define the pilot scope, reviewer, exclusions and stop conditions.",

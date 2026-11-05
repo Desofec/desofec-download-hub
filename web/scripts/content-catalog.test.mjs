@@ -15,7 +15,11 @@ test('practical AI paths have recommendations, kits and catalog translations', a
     { id: 'ai-video-creation', goal: 'create-content', kit: 'ai-video-creation-kit', tools: ['runway'] },
     { id: 'ai-career-skills', goal: 'ai-career', kit: 'ai-career-skills-kit', tools: ['teal'] },
     { id: 'ai-spreadsheets', goal: 'analyze-data', kit: 'ai-spreadsheets-kit', tools: ['excel-copilot', 'google-sheets'] },
-    { id: 'ai-automation-services', goal: 'start-ai-business', kit: 'ai-automation-services-kit', tools: ['make', 'n8n', 'google-sheets'] }
+    { id: 'ai-automation-services', goal: 'start-ai-business', kit: 'ai-automation-services-kit', tools: ['make', 'n8n', 'google-sheets'] },
+    { id: 'ai-content-services', goal: 'offer-content-services', kit: 'ai-content-services-kit', tools: ['canva'] },
+    { id: 'ai-cad-services', goal: 'offer-cad-services', kit: 'ai-cad-services-kit', tools: ['fusion-360'] },
+    { id: 'micro-saas-validation', goal: 'validate-micro-saas', kit: 'micro-saas-validation-kit', tools: ['vscode'] },
+    { id: 'ai-education-services', goal: 'offer-education-services', kit: 'ai-education-services-kit', tools: ['notebooklm'] }
   ];
 
   for (const addition of additions) {
@@ -26,7 +30,18 @@ test('practical AI paths have recommendations, kits and catalog translations', a
     for (const tool of addition.tools) assert.ok(recommendation.tools.includes(tool));
 
     const pack = catalog.starterPacks.find((entry) => entry.id === addition.kit);
+    const goal = catalog.goals.find((entry) => entry.id === addition.goal);
+    const checklist = catalog.starterPackChecklists[addition.kit];
+    assert.ok(checklist.length >= 5);
     const strings = [learningPath.title, learningPath.description, ...learningPath.steps, pack.title, pack.description];
+    if (['offer-content-services', 'offer-cad-services', 'validate-micro-saas', 'offer-education-services'].includes(addition.goal)) {
+      assert.equal(checklist.length, 5);
+      strings.push(goal.name, goal.description, goal.badge, recommendation.title, recommendation.summary,
+        ...recommendation.steps, ...checklist);
+      const download = await readFile(path.join(repoDir, pack.file), 'utf8');
+      assert.ok(download.length > 2000, `${addition.kit}: substantial practical worksheet`);
+      assert.equal(download, await readFile(path.join(repoDir, 'web/public', pack.file), 'utf8'));
+    }
     for (const locale of ['fr', 'de', 'es']) {
       const translations = JSON.parse(await readFile(path.join(repoDir, 'web/content/translations', `catalog-${locale}.json`), 'utf8'));
       for (const text of strings) assert.ok(translations[text], `${locale}: missing "${text}"`);
