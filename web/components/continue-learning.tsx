@@ -24,7 +24,7 @@ type SavedProgress = {
 };
 
 type RemoteProgress = {
-  item_type: 'path' | 'pack';
+  item_type: 'path' | 'pack' | 'tutorial';
   item_id: string;
   completed_steps: number[];
   updated_at: string;
@@ -55,7 +55,7 @@ function readProgress(
       const timestamp = Number(localStorage.getItem(`${tutorial.storageKey}:activity`) ?? 0);
       const ids = Array.isArray(done) ? done.filter((id) => tutorial.stepIds.includes(id)) : [];
       saved[`tutorial:${tutorial.id}`] = {
-        completed: ids.map((_, index) => index),
+        completed: [...new Set(ids.map((id) => tutorial.stepIds.indexOf(id)))],
         lastActivity: Number.isFinite(timestamp) ? timestamp : 0
       };
     }
@@ -136,7 +136,7 @@ export function ContinueLearning({ paths, packs, checklists, tutorials = NO_TUTO
         if (!active || error) return;
         const rows = (data ?? []).filter(
           (row): row is RemoteProgress =>
-            (row.item_type === 'path' || row.item_type === 'pack') &&
+            (row.item_type === 'path' || row.item_type === 'pack' || row.item_type === 'tutorial') &&
             Array.isArray(row.completed_steps) &&
             typeof row.updated_at === 'string'
         );
@@ -165,6 +165,13 @@ export function ContinueLearning({ paths, packs, checklists, tutorials = NO_TUTO
         title: pack.title,
         href: `/starter-packs/${encodeURIComponent(pack.id)}`,
         total: checklists[pack.id]?.length ?? 0
+      })),
+      ...tutorials.map((tutorial) => ({
+        key: `tutorial:${tutorial.id}`,
+        kind: 'tutorial' as const,
+        title: tutorial.title,
+        href: tutorial.href,
+        total: tutorial.stepIds.length
       }))
     ].flatMap((item) => {
       const local = localProgress[item.key] ?? { completed: [], lastActivity: 0 };
@@ -199,23 +206,7 @@ export function ContinueLearning({ paths, packs, checklists, tutorials = NO_TUTO
       return [{ ...item, completed: Math.min(completed.length, item.total), lastActivity }];
     });
 
-    const tutorialItems: Candidate[] = tutorials.flatMap((tutorial) => {
-      const local = localProgress[`tutorial:${tutorial.id}`];
-      if (!local || local.completed.length === 0 || local.lastActivity === 0) return [];
-      return [
-        {
-          key: `tutorial:${tutorial.id}`,
-          kind: 'tutorial' as const,
-          title: tutorial.title,
-          href: tutorial.href,
-          total: tutorial.stepIds.length,
-          completed: local.completed.length,
-          lastActivity: local.lastActivity
-        }
-      ];
-    });
-
-    return [...all, ...tutorialItems].sort((a, b) => b.lastActivity - a.lastActivity);
+    return all.sort((a, b) => b.lastActivity - a.lastActivity);
   }, [checklists, localProgress, packs, paths, remoteRows, tutorials, userId]);
 
   if (!authReady || snapshot === null) return null;

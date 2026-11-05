@@ -3,6 +3,7 @@ import { FavoriteToolButton } from '@/components/favorite-tool-button';
 import { downloadUrl } from '@/lib/urls';
 import type { Goal, LearningPath, StarterPack, Tool } from '@/lib/types';
 import { Tr } from '@/components/tr';
+import { ToolFreshness } from '@/components/tool-freshness';
 
 export function GoalCard({ goal }: { goal: Goal }) {
   return (
@@ -36,6 +37,7 @@ export function ToolCard({
       </div>
       <h3>{tool.name}</h3>
       <p><Tr>{tool.description}</Tr></p>
+      <ToolFreshness tool={tool} />
       <div className="card-cta">
         <FavoriteToolButton toolId={tool.id} />
         <a

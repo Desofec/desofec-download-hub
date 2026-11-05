@@ -23,7 +23,7 @@ and starter pack downloads; the offline page appears when a page has not been ca
 ## Connect Supabase
 
 1. Create a Supabase project.
-2. In the SQL editor, run the migrations in order, including `0004_user_progress.sql`, `0005_user_favorites.sql`, `0006_newsletter_confirmation.sql`, `0007_tutorial_progress.sql`, and `0008_learning_workspaces.sql`, then `supabase/seed.sql`.
+2. In the SQL editor, run the migrations in order, including `0004_user_progress.sql`, `0005_user_favorites.sql`, `0006_newsletter_confirmation.sql`, `0007_tutorial_progress.sql`, `0008_learning_workspaces.sql`, `0009_study_board.sql`, and `0010_lesson_feedback.sql`, then `supabase/seed.sql`.
    Both are safe to re-run; the seed upserts.
 3. Copy `.env.example` to `.env.local` and fill in the project URL and anon key
    (Project settings → API):
@@ -41,6 +41,37 @@ them), and set `NEXT_PUBLIC_SITE_URL` to the deployed site URL. Resend must have
 are eligible for future newsletter sends. Existing addresses must confirm again before being treated as subscribed.
 Catalog reads are cached for an hour (`lib/catalog.ts`).
 
+### Lesson feedback and the first-website challenge
+
+`/challenges/first-website` reuses the website tutorial content as seven daily tasks with its own
+`tutorial` progress ID (`first-website-challenge`). It appears on home, My progress and the tutorial index.
+The final checklist shares the existing `ai-website-kit` checklist and its progress. There are no calendar
+locks, deadlines or missed-day penalties. The challenge instructions are currently English; the surrounding
+UI follows the selected language and displays the existing English-content notice.
+
+Feedback requires sign-in. Migration `0010_lesson_feedback.sql` stores one changeable helpful/not-helpful
+vote per account and lesson, without text comments. Learners can read/delete only their own votes; writes
+use `save_lesson_feedback`, which derives the account from the session and accepts an existing path ID or
+the first-website challenge ID. Votes are deleted with the account.
+Run the migration **before deploying** the feedback UI; no seed update is required for this feature.
+Signed-out and backend-free visitors can still learn but cannot submit votes.
+
+The site owner can inspect aggregate results in the Supabase SQL Editor (not a public endpoint):
+
+```sql
+select lesson_id,
+       count(*) filter (where helpful) as helpful_votes,
+       count(*) filter (where not helpful) as not_helpful_votes
+from public.lesson_feedback
+group by lesson_id;
+```
+
+`supabase/tests/lesson_feedback.sql` and `supabase/tests/study_board.sql` are regression scripts for isolated
+test databases with the matching migrations applied. Do not run these fixture scripts against production.
+For a read-only live study-board setup check, use `select to_regclass('public.study_posts');`.
+Then sign in with Google, create a workspace, post and remove a card. Approval/joining requires a second
+consenting test account; never share passwords, session tokens or private account data.
+
 For email sign-in, keep the Supabase email provider enabled and add the deployed account URL (for example
 `https://your-domain.example/account`) under Authentication → URL Configuration → Redirect URLs. Add local
 development URLs there too if you test sign-in locally.
@@ -57,6 +88,12 @@ npm run sync-content
 Validation checks required fields, unique IDs, cross-references, starter-pack checklists, and downloadable files.
 Sync runs the same checks before copying the files into `content/` and `public/downloads/` and regenerating
 `../supabase/seed.sql`. Commit the results, then re-run the seed in Supabase when catalog data changes.
+
+`data/tool-reviews.json` records dated **description** reviews from indexed official documentation for the
+six tools researched on 2026-11-05. It does not claim successful live link checks. Other tools display that
+no review is recorded. Entries bind the reviewed description and tool URL; validation rejects changed text
+or URLs until the review is updated or removed. The bundled metadata is joined in both catalog loaders,
+including Supabase catalogs, so these labels require no database column or seed change.
 
 ## Structure
 

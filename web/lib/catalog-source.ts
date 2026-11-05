@@ -6,6 +6,8 @@ import paths from '@/content/paths.json';
 import starterPacks from '@/content/starter-packs.json';
 import starterPackChecklists from '@/content/starter-pack-checklists.json';
 import recommendations from '@/content/recommendations.json';
+import toolReviews from '@/content/tool-reviews.json';
+import { withToolReviews } from './tool-review';
 import type { Catalog } from './types';
 
 export function isSupabaseConfigured() {
@@ -15,7 +17,7 @@ export function isSupabaseConfigured() {
 export function loadBundledCatalog(): Catalog {
   return {
     goals,
-    tools,
+    tools: withToolReviews(tools, toolReviews),
     paths,
     starterPacks,
     recommendations,
@@ -60,7 +62,7 @@ export async function loadSupabaseCatalog(): Promise<Catalog> {
 
   return {
     goals: unwrap(goalRows, 'goals'),
-    tools: unwrap(toolRows, 'tools'),
+    tools: withToolReviews(unwrap(toolRows, 'tools'), toolReviews),
     starterPacks: unwrap(packRows, 'starter_packs').map((row) => ({
       id: row.id,
       title: row.title,

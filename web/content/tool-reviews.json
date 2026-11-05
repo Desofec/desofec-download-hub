@@ -1,0 +1,38 @@
+{
+  "tally": {
+    "reviewedOn": "2026-11-05",
+    "sourceUrl": "https://tally.so/",
+    "toolUrl": "https://tally.so/",
+    "description": "Build forms and surveys to collect customer feedback, with conditional logic and app integrations."
+  },
+  "hubspot-breeze": {
+    "reviewedOn": "2026-11-05",
+    "sourceUrl": "https://www.hubspot.com/products/artificial-intelligence",
+    "toolUrl": "https://www.hubspot.com/products/artificial-intelligence",
+    "description": "Use HubSpot's built-in AI to support marketing, sales and customer service with CRM context."
+  },
+  "runway": {
+    "reviewedOn": "2026-11-05",
+    "sourceUrl": "https://runwayml.com/product",
+    "toolUrl": "https://runwayml.com/",
+    "description": "Generate and edit video with AI using text or image references, then review the result before sharing."
+  },
+  "teal": {
+    "reviewedOn": "2026-11-05",
+    "sourceUrl": "https://www.tealhq.com/tools/resume-builder",
+    "toolUrl": "https://www.tealhq.com/tools/resume-builder",
+    "description": "Build and tailor resumes to job descriptions and track applications; check every claim yourself."
+  },
+  "excel-copilot": {
+    "reviewedOn": "2026-11-05",
+    "sourceUrl": "https://support.microsoft.com/en-gb/excel/copilot/get-started-with-copilot-in-excel",
+    "toolUrl": "https://support.microsoft.com/en-gb/excel/copilot/get-started-with-copilot-in-excel",
+    "description": "Use AI support for Excel formulas, tables and data analysis; availability depends on your plan and settings."
+  },
+  "google-sheets": {
+    "reviewedOn": "2026-11-05",
+    "sourceUrl": "https://workspace.google.com/resources/spreadsheet-ai/",
+    "toolUrl": "https://workspace.google.com/products/sheets/",
+    "description": "Create collaborative spreadsheets with formulas and charts, with optional Gemini features on eligible plans."
+  }
+}

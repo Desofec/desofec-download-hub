@@ -7,7 +7,8 @@ const catalogFiles = {
   paths: 'paths.json',
   starterPacks: 'starter-packs.json',
   recommendations: 'recommendations.json',
-  starterPackChecklists: 'starter-pack-checklists.json'
+  starterPackChecklists: 'starter-pack-checklists.json',
+  toolReviews: 'tool-reviews.json'
 };
 
 function assertString(value, field, context) {
@@ -89,6 +90,26 @@ export async function readAndValidateCatalog(repoDir) {
       throw new Error(`tools[${index}]: "url" must be an https:// link.`);
     }
   });
+  if (!catalog.toolReviews || Array.isArray(catalog.toolReviews) || typeof catalog.toolReviews !== 'object') {
+    throw new Error('tool-reviews must be an object keyed by tool id.');
+  }
+  for (const [toolId, review] of Object.entries(catalog.toolReviews)) {
+    const tool = catalog.tools.find((entry) => entry.id === toolId);
+    if (!tool) throw new Error(`tool-reviews: unknown tool "${toolId}".`);
+    if (!review || typeof review !== 'object') throw new Error(`tool-reviews: invalid review for "${toolId}".`);
+    const date = review.reviewedOn;
+    if (typeof date !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(date)
+      || !Number.isFinite(Date.parse(date)) || new Date(date).toISOString().slice(0, 10) !== date
+      || date > new Date().toISOString().slice(0, 10)) {
+      throw new Error(`tool-reviews: invalid review date for "${toolId}".`);
+    }
+    if (typeof review.sourceUrl !== 'string' || !/^https:\/\/[^\s]+$/.test(review.sourceUrl)) {
+      throw new Error(`tool-reviews: invalid source URL for "${toolId}".`);
+    }
+    if (review.toolUrl !== tool.url || review.description !== tool.description) {
+      throw new Error(`tool-reviews: stale review for "${toolId}"; review the changed URL or description.`);
+    }
+  }
   assertFields(catalog.paths, 'paths', ['title', 'level', 'description', 'badge', 'goal']);
   assertFields(catalog.starterPacks, 'starter-packs', ['title', 'description', 'level', 'file']);
 
