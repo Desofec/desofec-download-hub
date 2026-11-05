@@ -82,5 +82,17 @@
     "name": "AI for teachers and students",
     "description": "Use AI to support lesson planning, tutoring and practice while protecting privacy and academic integrity.",
     "badge": "Education"
+  },
+  {
+    "id": "ai-small-business",
+    "name": "AI for small business",
+    "description": "Research customer needs and draft useful business content with AI, then verify it before publishing.",
+    "badge": "Business"
+  },
+  {
+    "id": "ai-career",
+    "name": "Build career skills with AI",
+    "description": "Prepare truthful applications, practise interviews and organise your job search with AI support.",
+    "badge": "Career"
   }
 ]

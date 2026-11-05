@@ -14,7 +14,9 @@ insert into public.goals (id, name, description, badge, position) values
   ('analyze-data', 'Analyze data', 'Turn measurements into clear graphs, numbers and decisions with analysis software and AI help.', 'Data', 10),
   ('visualize-data', 'Visualize data', 'Choose clear charts and explain what data shows with honest, accessible visualizations.', 'Data', 11),
   ('research-ai', 'Research with AI', 'Use AI to organise research while finding, checking and citing real sources.', 'Research', 12),
-  ('ai-education', 'AI for teachers and students', 'Use AI to support lesson planning, tutoring and practice while protecting privacy and academic integrity.', 'Education', 13)
+  ('ai-education', 'AI for teachers and students', 'Use AI to support lesson planning, tutoring and practice while protecting privacy and academic integrity.', 'Education', 13),
+  ('ai-small-business', 'AI for small business', 'Research customer needs and draft useful business content with AI, then verify it before publishing.', 'Business', 14),
+  ('ai-career', 'Build career skills with AI', 'Prepare truthful applications, practise interviews and organise your job search with AI support.', 'Career', 15)
 on conflict (id) do update set name = excluded.name, description = excluded.description, badge = excluded.badge, position = excluded.position;
 
 insert into public.tools (id, name, category, skill, description, badge, url, position) values
@@ -56,7 +58,11 @@ insert into public.tools (id, name, category, skill, description, badge, url, po
   ('google-ai-studio', 'Google AI Studio', 'AI', 'Beginner', 'Experiment with Google''s Gemini models in the browser and test prompts before you build anything.', 'Prompt playground', 'https://aistudio.google.com', 35),
   ('bolt-new', 'Bolt', 'Coding', 'Beginner', 'Describe an app or website in plain words and get a working project with a live preview in your browser.', 'App builder', 'https://bolt.new', 36),
   ('streamlit', 'Streamlit', 'Data', 'Intermediate', 'Turn a short Python script into a shareable web app with charts, inputs and tables.', 'Data apps', 'https://streamlit.io', 37),
-  ('obsidian', 'Obsidian', 'AI', 'Beginner', 'Keep linked notes as plain files on your own device to build a personal knowledge base for study and research.', 'Notes', 'https://obsidian.md', 38)
+  ('obsidian', 'Obsidian', 'AI', 'Beginner', 'Keep linked notes as plain files on your own device to build a personal knowledge base for study and research.', 'Notes', 'https://obsidian.md', 38),
+  ('tally', 'Tally', 'Automation', 'Beginner', 'Build forms and surveys to collect customer feedback, with conditional logic and app integrations.', 'Forms', 'https://tally.so/', 39),
+  ('hubspot-breeze', 'HubSpot Breeze', 'AI', 'Intermediate', 'Use HubSpot''s built-in AI to support marketing, sales and customer service with CRM context.', 'Business', 'https://www.hubspot.com/products/artificial-intelligence', 40),
+  ('runway', 'Runway', 'Design', 'Intermediate', 'Generate and edit video with AI using text or image references, then review the result before sharing.', 'Video', 'https://runwayml.com/', 41),
+  ('teal', 'Teal', 'AI', 'Beginner', 'Build and tailor resumes to job descriptions and track applications; check every claim yourself.', 'Career', 'https://www.tealhq.com/tools/resume-builder', 42)
 on conflict (id) do update set name = excluded.name, category = excluded.category, skill = excluded.skill, description = excluded.description, badge = excluded.badge, url = excluded.url, position = excluded.position;
 
 insert into public.starter_packs (id, title, description, level, file_path, position) values
@@ -78,7 +84,10 @@ insert into public.starter_packs (id, title, description, level, file_path, posi
   ('advanced-measurement-analysis-kit', 'Advanced Measurement Analysis Kit', 'A repeatable checklist and report template for pump logs, scanner maps, mass-loading data and independent run comparisons.', 'Intermediate', 'downloads/advanced-measurement-analysis-kit.md', 15),
   ('ai-workflows-kit', 'AI Workflows and Agents Kit', 'A workflow design template, build prompt, guardrail checklist and weekly review for AI automations and simple agents.', 'Intermediate', 'downloads/ai-workflows-kit.md', 16),
   ('advanced-web-dev-kit', 'Advanced Web Development with AI Kit', 'A spec template, small-change prompt, code review checklist and pre-deploy checklist for building apps with an AI assistant.', 'Intermediate', 'downloads/advanced-web-dev-kit.md', 17),
-  ('advanced-no-code-kit', 'Advanced No-Code Automation Kit', 'A process map, data checks, decision table, error plan and runbook outline for reliable no-code automations.', 'Intermediate', 'downloads/advanced-no-code-kit.md', 18)
+  ('advanced-no-code-kit', 'Advanced No-Code Automation Kit', 'A process map, data checks, decision table, error plan and runbook outline for reliable no-code automations.', 'Intermediate', 'downloads/advanced-no-code-kit.md', 18),
+  ('ai-small-business-kit', 'AI Small Business Kit', 'Customer research, product copy, FAQ and campaign worksheets with a fact-checking checklist.', 'Beginner', 'downloads/ai-small-business-kit.md', 19),
+  ('ai-video-creation-kit', 'AI Video Creation Kit', 'A short-video brief, storyboard, asset permission log and caption review checklist.', 'Beginner', 'downloads/ai-video-creation-kit.md', 20),
+  ('ai-career-skills-kit', 'AI Career Skills Kit', 'Evidence-based resume prompts, interview practice and an application tracking template.', 'Beginner', 'downloads/ai-career-skills-kit.md', 21)
 on conflict (id) do update set title = excluded.title, description = excluded.description, level = excluded.level, file_path = excluded.file_path, position = excluded.position;
 
 insert into public.paths (id, title, level, description, badge, goal_id, steps, position) values
@@ -102,7 +111,10 @@ insert into public.paths (id, title, level, description, badge, goal_id, steps, 
   ('advanced-measurement-analysis', 'Advanced Measurement Data Analysis', 'Intermediate', 'Build a defensible, repeatable analysis of pump logs and coating scanner data by auditing raw data, comparing independent runs and checking spatial mass-loading uniformity.', 'Advanced', 'analyze-data', array['Define a defensible analysis plan', 'Audit raw data before calculating', 'Measure pump stability by time window', 'Map coating uniformity and mass loading', 'Compare independent runs, not just readings', 'Make the analysis reproducible and report it']::text[], 17),
   ('ai-workflows-agents', 'AI Workflows and Agents', 'Intermediate', 'Design, build and safely test AI-powered workflows and simple agents, with approvals, limits and guardrails.', 'Advanced', 'ai-productivity', array['Choose a workflow or an agent', 'Design it on paper with stop rules', 'Build and test it in a no-code tool', 'Add guardrails, measure and improve']::text[], 18),
   ('advanced-web-dev-ai', 'Advanced Web Development with AI', 'Intermediate', 'Build and ship a small web app with an AI coding assistant using specs, Git, tests and code review.', 'Advanced', 'build-app', array['Write a spec and set up Git', 'Prompt in small steps', 'Test first, then review the AI''s code', 'Ship and maintain']::text[], 19),
-  ('advanced-no-code-automation', 'Advanced No-Code Automation', 'Intermediate', 'Build reliable multi-step automations with clean data, branches, duplicate protection, retries, alerts and a runbook.', 'Advanced', 'automate-work', array['Map the process', 'Clean and map the data', 'Add branches, approvals and duplicate protection', 'Handle errors, monitor and document']::text[], 20)
+  ('advanced-no-code-automation', 'Advanced No-Code Automation', 'Intermediate', 'Build reliable multi-step automations with clean data, branches, duplicate protection, retries, alerts and a runbook.', 'Advanced', 'automate-work', array['Map the process', 'Clean and map the data', 'Add branches, approvals and duplicate protection', 'Handle errors, monitor and document']::text[], 20),
+  ('ai-small-business', 'AI for Small Business', 'Beginner', 'Create an evidence-based customer brief, product description, FAQ and one-week marketing plan.', 'Business', 'ai-small-business', array['Define an offer and research customer needs', 'Draft a truthful product description', 'Create a checked FAQ', 'Plan, review and measure a small campaign']::text[], 21),
+  ('ai-video-creation', 'AI Video Creation', 'Beginner', 'Plan, create and edit a short video with clear captions, permissioned assets and honest AI disclosure.', 'Video', 'create-content', array['Write a brief and storyboard', 'Create or gather permissioned clips', 'Edit and caption the video', 'Review and publish responsibly']::text[], 22),
+  ('ai-career-skills', 'AI Job Search and Career Skills', 'Beginner', 'Build a truthful resume, targeted cover letter, interview practice plan and application tracker.', 'Career', 'ai-career', array['Match a role to real evidence', 'Tailor a resume and cover letter', 'Practise interview answers', 'Track applications and choose a learning goal']::text[], 23)
 on conflict (id) do update set title = excluded.title, level = excluded.level, description = excluded.description, badge = excluded.badge, goal_id = excluded.goal_id, steps = excluded.steps, position = excluded.position;
 
 insert into public.recommendations (goal_id, title, summary, steps) values
@@ -119,7 +131,9 @@ insert into public.recommendations (goal_id, title, summary, steps) values
   ('analyze-data', 'Data Analysis Path', 'Learn to import, plot, measure and report on measurement data such as pump logs and scanner maps. Use Origin for graphs, or automate the analysis with Python scripts and AI assistants.', array['Write your analysis question', 'Import, label and plot data', 'Measure stability, integrate and fit', 'Map scans, then template and report']::text[]),
   ('visualize-data', 'Data Visualization Path', 'Use clear charts to answer questions about data. Start with clean tables, choose a chart, create it in Python or Colab and explain its limits.', array['Choose a question and chart', 'Prepare and label data', 'Create and review visualizations', 'Explain the evidence and limitations']::text[]),
   ('research-ai', 'Research Prompting Path', 'Use AI to narrow research questions, organize evidence and draft synthesis, while verifying original sources and every citation yourself.', array['Focus a research question', 'Find real sources', 'Compare evidence and limitations', 'Verify and cite the final brief']::text[]),
-  ('ai-education', 'AI for Teachers and Students Path', 'Use AI for lesson planning, tutoring and practice without sharing personal student data or handing over human judgement and learning.', array['Set privacy and course rules', 'Plan a lesson or study with a tutor', 'Create and review practice', 'Reflect on and disclose AI use']::text[])
+  ('ai-education', 'AI for Teachers and Students Path', 'Use AI for lesson planning, tutoring and practice without sharing personal student data or handing over human judgement and learning.', array['Set privacy and course rules', 'Plan a lesson or study with a tutor', 'Create and review practice', 'Reflect on and disclose AI use']::text[]),
+  ('ai-small-business', 'Small Business Content Path', 'Start with real customer evidence, draft useful content and check every claim before sharing.', array['Define an offer and research customer needs', 'Draft a truthful product description', 'Create a checked FAQ', 'Plan, review and measure a small campaign']::text[]),
+  ('ai-career', 'Career Skills Path', 'Use real experience to prepare applications and interview practice, then plan a manageable skill-building project.', array['Match a role to real evidence', 'Tailor a resume and cover letter', 'Practise interview answers', 'Track applications and choose a learning goal']::text[])
 on conflict (goal_id) do update set title = excluded.title, summary = excluded.summary, steps = excluded.steps;
 
 delete from public.recommendation_tools;
@@ -187,6 +201,7 @@ insert into public.recommendation_tools (goal_id, tool_id, position) values
   ('create-content', 'elevenlabs', 4),
   ('create-content', 'descript', 5),
   ('create-content', 'gamma', 6),
+  ('create-content', 'runway', 7),
   ('analyze-data', 'originpro', 0),
   ('analyze-data', 'julius-ai', 1),
   ('analyze-data', 'chatgpt', 2),
@@ -208,7 +223,16 @@ insert into public.recommendation_tools (goal_id, tool_id, position) values
   ('ai-education', 'notebooklm', 1),
   ('ai-education', 'canva', 2),
   ('ai-education', 'microsoft-copilot', 3),
-  ('ai-education', 'obsidian', 4)
+  ('ai-education', 'obsidian', 4),
+  ('ai-small-business', 'chatgpt', 0),
+  ('ai-small-business', 'claude', 1),
+  ('ai-small-business', 'tally', 2),
+  ('ai-small-business', 'canva', 3),
+  ('ai-small-business', 'hubspot-breeze', 4),
+  ('ai-career', 'chatgpt', 0),
+  ('ai-career', 'claude', 1),
+  ('ai-career', 'teal', 2),
+  ('ai-career', 'notion-ai', 3)
 on conflict (goal_id, tool_id) do update set position = excluded.position;
 
 delete from public.recommendation_starters;
@@ -234,13 +258,18 @@ insert into public.recommendation_starters (goal_id, pack_id, position) values
   ('ai-productivity', 'ai-workflows-kit', 2),
   ('create-content', 'content-creator-kit', 0),
   ('create-content', 'ai-prompt-pack', 1),
+  ('create-content', 'ai-video-creation-kit', 2),
   ('analyze-data', 'origin-analysis-kit', 0),
   ('analyze-data', 'advanced-measurement-analysis-kit', 1),
   ('visualize-data', 'data-visualization-kit', 0),
   ('research-ai', 'research-prompt-kit', 0),
   ('research-ai', 'ai-prompt-pack', 1),
   ('ai-education', 'ai-for-education-kit', 0),
-  ('ai-education', 'ai-prompt-pack', 1)
+  ('ai-education', 'ai-prompt-pack', 1),
+  ('ai-small-business', 'ai-small-business-kit', 0),
+  ('ai-small-business', 'ai-prompt-pack', 1),
+  ('ai-career', 'ai-career-skills-kit', 0),
+  ('ai-career', 'ai-prompt-pack', 1)
 on conflict (goal_id, pack_id) do update set position = excluded.position;
 
 commit;

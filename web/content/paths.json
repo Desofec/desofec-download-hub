@@ -303,5 +303,47 @@
       "Handle errors, monitor and document"
     ],
     "goal": "automate-work"
+  },
+  {
+    "id": "ai-small-business",
+    "title": "AI for Small Business",
+    "level": "Beginner",
+    "description": "Create an evidence-based customer brief, product description, FAQ and one-week marketing plan.",
+    "badge": "Business",
+    "steps": [
+      "Define an offer and research customer needs",
+      "Draft a truthful product description",
+      "Create a checked FAQ",
+      "Plan, review and measure a small campaign"
+    ],
+    "goal": "ai-small-business"
+  },
+  {
+    "id": "ai-video-creation",
+    "title": "AI Video Creation",
+    "level": "Beginner",
+    "description": "Plan, create and edit a short video with clear captions, permissioned assets and honest AI disclosure.",
+    "badge": "Video",
+    "steps": [
+      "Write a brief and storyboard",
+      "Create or gather permissioned clips",
+      "Edit and caption the video",
+      "Review and publish responsibly"
+    ],
+    "goal": "create-content"
+  },
+  {
+    "id": "ai-career-skills",
+    "title": "AI Job Search and Career Skills",
+    "level": "Beginner",
+    "description": "Build a truthful resume, targeted cover letter, interview practice plan and application tracker.",
+    "badge": "Career",
+    "steps": [
+      "Match a role to real evidence",
+      "Tailor a resume and cover letter",
+      "Practise interview answers",
+      "Track applications and choose a learning goal"
+    ],
+    "goal": "ai-career"
   }
 ]

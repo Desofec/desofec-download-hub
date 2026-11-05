@@ -212,11 +212,13 @@
       "capcut",
       "elevenlabs",
       "descript",
-      "gamma"
+      "gamma",
+      "runway"
     ],
     "starters": [
       "content-creator-kit",
-      "ai-prompt-pack"
+      "ai-prompt-pack",
+      "ai-video-creation-kit"
     ],
     "steps": [
       "Pick one audience and message",
@@ -308,6 +310,30 @@
       "Plan a lesson or study with a tutor",
       "Create and review practice",
       "Reflect on and disclose AI use"
+    ]
+  },
+  "ai-small-business": {
+    "title": "Small Business Content Path",
+    "summary": "Start with real customer evidence, draft useful content and check every claim before sharing.",
+    "tools": ["chatgpt", "claude", "tally", "canva", "hubspot-breeze"],
+    "starters": ["ai-small-business-kit", "ai-prompt-pack"],
+    "steps": [
+      "Define an offer and research customer needs",
+      "Draft a truthful product description",
+      "Create a checked FAQ",
+      "Plan, review and measure a small campaign"
+    ]
+  },
+  "ai-career": {
+    "title": "Career Skills Path",
+    "summary": "Use real experience to prepare applications and interview practice, then plan a manageable skill-building project.",
+    "tools": ["chatgpt", "claude", "teal", "notion-ai"],
+    "starters": ["ai-career-skills-kit", "ai-prompt-pack"],
+    "steps": [
+      "Match a role to real evidence",
+      "Tailor a resume and cover letter",
+      "Practise interview answers",
+      "Track applications and choose a learning goal"
     ]
   }
 }

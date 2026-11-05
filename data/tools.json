@@ -349,5 +349,41 @@
     "skill": "Beginner",
     "description": "Keep linked notes as plain files on your own device to build a personal knowledge base for study and research.",
     "badge": "Notes"
+  },
+  {
+    "id": "tally",
+    "url": "https://tally.so/",
+    "name": "Tally",
+    "category": "Automation",
+    "skill": "Beginner",
+    "description": "Build forms and surveys to collect customer feedback, with conditional logic and app integrations.",
+    "badge": "Forms"
+  },
+  {
+    "id": "hubspot-breeze",
+    "url": "https://www.hubspot.com/products/artificial-intelligence",
+    "name": "HubSpot Breeze",
+    "category": "AI",
+    "skill": "Intermediate",
+    "description": "Use HubSpot's built-in AI to support marketing, sales and customer service with CRM context.",
+    "badge": "Business"
+  },
+  {
+    "id": "runway",
+    "url": "https://runwayml.com/",
+    "name": "Runway",
+    "category": "Design",
+    "skill": "Intermediate",
+    "description": "Generate and edit video with AI using text or image references, then review the result before sharing.",
+    "badge": "Video"
+  },
+  {
+    "id": "teal",
+    "url": "https://www.tealhq.com/tools/resume-builder",
+    "name": "Teal",
+    "category": "AI",
+    "skill": "Beginner",
+    "description": "Build and tailor resumes to job descriptions and track applications; check every claim yourself.",
+    "badge": "Career"
   }
 ]

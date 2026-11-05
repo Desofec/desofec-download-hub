@@ -16,6 +16,7 @@ import { advancedWebDevSteps } from '@/lib/advanced-web-dev-tutorial';
 import { advancedDataAnalysisSteps } from '@/lib/advanced-data-analysis-tutorial';
 import { codingFoundationsSteps } from '@/lib/coding-foundations-tutorial';
 import { taskTrackerSteps, type TutorialStep } from '@/lib/task-tracker-tutorial';
+import { smallBusinessSteps, videoCreationSteps, careerSkillsSteps } from '@/lib/practical-ai-tutorials';
 
 export type TutorialInfo = {
   pathId: string;
@@ -28,6 +29,30 @@ export type TutorialInfo = {
 
 // Older tutorials keep their original URLs. New ones live under /tutorials/<pathId>.
 export const tutorials: TutorialInfo[] = [
+  {
+    pathId: 'ai-small-business',
+    href: '/tutorials/ai-small-business',
+    title: 'Build a small business content pack with AI',
+    intro: 'Start with real customer evidence, then draft and check product copy, FAQs and a small campaign. No paid tool is required for the exercises.',
+    time: '60 minutes',
+    steps: smallBusinessSteps
+  },
+  {
+    pathId: 'ai-video-creation',
+    href: '/tutorials/ai-video-creation',
+    title: 'Create your first responsible AI-assisted video',
+    intro: 'Make a 30-second video from a brief and storyboard, using your own or permissioned assets. Optional AI generation may require credits.',
+    time: '60 minutes',
+    steps: videoCreationSteps
+  },
+  {
+    pathId: 'ai-career-skills',
+    href: '/tutorials/ai-career-skills',
+    title: 'Prepare a truthful, targeted job application',
+    intro: 'Use a real job description and your own experience to draft an application, practise interviews and plan a next learning step. AI cannot guarantee a job.',
+    time: '60 minutes',
+    steps: careerSkillsSteps
+  },
   {
     pathId: 'first-app',
     href: '/projects/first-app/build',
