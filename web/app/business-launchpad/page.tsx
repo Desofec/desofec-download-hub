@@ -33,6 +33,7 @@ export default async function BusinessLaunchpadPage() {
           <p><Tr>Choose from five service learning paths. Build practice evidence before offering real work; no path promises clients or income.</Tr></p>
           <p><Tr>No paid AI is required for the worksheets. Lessons and downloads are currently English; the surrounding interface follows your language. Interviews, feedback and tool setup take additional time.</Tr></p>
           <div className="cta-row">
+            <Link className="btn btn-primary" href="/business-launchpad/projects"><Tr>Open the Pilot Project Workspace</Tr></Link>
             <Link className="btn btn-primary" href="/tutorials/ai-automation-services"><Tr>Start the automation service tutorial</Tr></Link>
             <Link className="btn btn-secondary" href="/starter-packs/ai-automation-services-kit"><Tr>Open the pilot kit</Tr></Link>
             <Link className="btn btn-secondary" href="/business-launchpad/proposal-builder"><Tr>Build a pilot proposal</Tr></Link>
@@ -55,6 +56,9 @@ export default async function BusinessLaunchpadPage() {
                     </Link>
                     <Link className="btn btn-secondary" href={`/starter-packs/${tutorial.serviceKitId}`}>
                       <Tr>Open the service kit</Tr>
+                    </Link>
+                    <Link className="btn btn-secondary" href={`/business-launchpad/projects?path=${encodeURIComponent(path.id)}`}>
+                      <Tr>Start a practice project</Tr>
                     </Link>
                   </div>
                 </div>

@@ -31,8 +31,9 @@ export default async function MyProgressPage() {
         <NextLesson goals={goals} paths={paths} tools={tools} recommendations={recommendations} />
         <section className="progress-section">
           <h2><Tr>AI Business Launchpad</Tr></h2>
-          <p><Tr>Start with AI automation services: validate a problem, build a safe demo and prepare a pilot proposal. This is a learning journey, not a promise of income.</Tr></p>
+          <p><Tr>Choose from five service learning paths. Build practice evidence before offering real work; no path promises clients or income.</Tr></p>
           <Link className="btn btn-secondary" href="/business-launchpad"><Tr>Open the AI Business Launchpad</Tr></Link>
+          <Link className="btn btn-secondary" href="/business-launchpad/projects"><Tr>Open the Pilot Project Workspace</Tr></Link>
         </section>
         <ProgressDashboard
           paths={paths}
