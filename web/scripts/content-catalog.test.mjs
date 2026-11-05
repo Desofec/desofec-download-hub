@@ -14,7 +14,8 @@ test('practical AI paths have recommendations, kits and catalog translations', a
     { id: 'ai-small-business', goal: 'ai-small-business', kit: 'ai-small-business-kit', tools: ['tally', 'hubspot-breeze'] },
     { id: 'ai-video-creation', goal: 'create-content', kit: 'ai-video-creation-kit', tools: ['runway'] },
     { id: 'ai-career-skills', goal: 'ai-career', kit: 'ai-career-skills-kit', tools: ['teal'] },
-    { id: 'ai-spreadsheets', goal: 'analyze-data', kit: 'ai-spreadsheets-kit', tools: ['excel-copilot', 'google-sheets'] }
+    { id: 'ai-spreadsheets', goal: 'analyze-data', kit: 'ai-spreadsheets-kit', tools: ['excel-copilot', 'google-sheets'] },
+    { id: 'ai-automation-services', goal: 'start-ai-business', kit: 'ai-automation-services-kit', tools: ['make', 'n8n', 'google-sheets'] }
   ];
 
   for (const addition of additions) {
@@ -31,6 +32,30 @@ test('practical AI paths have recommendations, kits and catalog translations', a
       for (const text of strings) assert.ok(translations[text], `${locale}: missing "${text}"`);
     }
   }
+});
+
+test('business launchpad catalog, checklist and hub copy have complete translations', async () => {
+  const catalog = await readAndValidateCatalog(repoDir);
+  const goal = catalog.goals.find((entry) => entry.id === 'start-ai-business');
+  const recommendation = catalog.recommendations[goal.id];
+  const checklist = catalog.starterPackChecklists['ai-automation-services-kit'];
+  assert.equal(checklist.length, 6);
+  const hub = await readFile(path.join(repoDir, 'web/app/business-launchpad/page.tsx'), 'utf8');
+  const uiStrings = [
+    ...hub.matchAll(/<Tr>([^<{]+)<\/Tr>/g),
+    ...hub.matchAll(/phrase\('([^']+)'\)/g)
+  ].map((match) => match[1]);
+  assert.ok(uiStrings.length >= 25);
+  for (const locale of ['fr', 'de', 'es']) {
+    const catalogBook = JSON.parse(await readFile(path.join(repoDir, 'web/content/translations', `catalog-${locale}.json`), 'utf8'));
+    const uiBook = JSON.parse(await readFile(path.join(repoDir, 'web/content/translations', `ui-${locale}.json`), 'utf8'));
+    const book = { ...catalogBook, ...uiBook };
+    for (const text of [goal.name, goal.description, goal.badge, recommendation.title, recommendation.summary, ...recommendation.steps, ...checklist, ...uiStrings]) {
+      assert.ok(book[text], `${locale}: missing launchpad translation "${text}"`);
+    }
+  }
+  const download = await readFile(path.join(repoDir, 'downloads/ai-automation-services-kit.md'), 'utf8');
+  assert.equal(download, await readFile(path.join(repoDir, 'web/public/downloads/ai-automation-services-kit.md'), 'utf8'));
 });
 
 async function withCatalog(callback) {

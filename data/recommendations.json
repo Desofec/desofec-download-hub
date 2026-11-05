@@ -1,4 +1,17 @@
 {
+  "start-ai-business": {
+    "title": "Your AI Automation Service Pilot",
+    "summary": "Start with evidence of a customer problem, not an income promise. Build a fictional administrative demo before agreeing to any live work.",
+    "tools": ["make", "n8n", "chatgpt", "claude", "google-sheets"],
+    "starters": ["ai-automation-services-kit", "advanced-no-code-kit"],
+    "steps": [
+      "Validate one customer problem",
+      "Define a safe, bounded pilot",
+      "Build and test a fictional enquiry demo",
+      "Calculate costs and prepare an honest offer",
+      "Plan handover and review the evidence"
+    ]
+  },
   "learn-ai": {
     "title": "AI for Beginners",
     "summary": "Start with AI basics, prompt writing, and simple real-world workflows before moving into deeper tool usage.",

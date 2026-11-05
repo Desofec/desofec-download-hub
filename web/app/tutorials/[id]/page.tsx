@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { TutorialHeader } from '@/components/tutorial-header';
 import { TutorialSteps } from '@/components/tutorial-steps';
 import { TutorialLabel } from '@/components/tutorial-back-label';
+import { Tr } from '@/components/tr';
 import { tutorialStorageKey, tutorials } from '@/lib/tutorials';
 
 const hosted = tutorials.filter((tutorial) => tutorial.href.startsWith('/tutorials/'));
@@ -39,6 +40,11 @@ export default async function TutorialPage({ params }: { params: Promise<{ id: s
           title={tutorial.title}
         />
         <div className="cta-row">
+          {tutorial.pathId === 'ai-automation-services' && (
+            <Link className="btn btn-secondary" href="/business-launchpad">
+              <Tr>AI Business Launchpad</Tr>
+            </Link>
+          )}
           <Link className="btn btn-secondary" href={`/paths/${tutorial.pathId}`}>
             <TutorialLabel k="tutorial.back" />
           </Link>

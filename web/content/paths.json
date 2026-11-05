@@ -359,5 +359,20 @@
       "Chart and document the results"
     ],
     "goal": "analyze-data"
+  },
+  {
+    "id": "ai-automation-services",
+    "title": "AI Automation Services",
+    "level": "Beginner",
+    "description": "Prepare a small automation-service pilot with customer discovery, a fictional demo, cost checks and a handover plan.",
+    "badge": "Business",
+    "steps": [
+      "Validate one customer problem",
+      "Define a safe, bounded pilot",
+      "Build and test a fictional enquiry demo",
+      "Calculate costs and prepare an honest offer",
+      "Plan handover and review the evidence"
+    ],
+    "goal": "start-ai-business"
   }
 ]

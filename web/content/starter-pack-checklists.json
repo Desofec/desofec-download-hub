@@ -1,4 +1,12 @@
 {
+  "ai-automation-services-kit": [
+    "Separate customer evidence from assumptions before buying tools.",
+    "Define the pilot scope, reviewer, exclusions and stop conditions.",
+    "Pass all six fictional demo events and a visible failure/retry check without sending messages.",
+    "Verify setup and monthly costs without confusing them with price or profit.",
+    "Draft a proposal without invented clients, testimonials or guaranteed returns.",
+    "Document the off switch, manual fallback, data handling and review decision."
+  ],
   "ai-prompt-pack": [
     "Choose one small task you do every week.",
     "Pick a prompt template and replace the bracketed details with your own.",

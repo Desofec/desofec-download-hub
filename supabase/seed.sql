@@ -16,7 +16,8 @@ insert into public.goals (id, name, description, badge, position) values
   ('research-ai', 'Research with AI', 'Use AI to organise research while finding, checking and citing real sources.', 'Research', 12),
   ('ai-education', 'AI for teachers and students', 'Use AI to support lesson planning, tutoring and practice while protecting privacy and academic integrity.', 'Education', 13),
   ('ai-small-business', 'AI for small business', 'Research customer needs and draft useful business content with AI, then verify it before publishing.', 'Business', 14),
-  ('ai-career', 'Build career skills with AI', 'Prepare truthful applications, practise interviews and organise your job search with AI support.', 'Career', 15)
+  ('ai-career', 'Build career skills with AI', 'Prepare truthful applications, practise interviews and organise your job search with AI support.', 'Career', 15),
+  ('start-ai-business', 'Start an AI service business', 'Validate one customer problem, test a safe automation demo and prepare an evidence-based pilot offer.', 'Business', 16)
 on conflict (id) do update set name = excluded.name, description = excluded.description, badge = excluded.badge, position = excluded.position;
 
 insert into public.tools (id, name, category, skill, description, badge, url, position) values
@@ -90,7 +91,8 @@ insert into public.starter_packs (id, title, description, level, file_path, posi
   ('ai-small-business-kit', 'AI Small Business Kit', 'Customer research, product copy, FAQ and campaign worksheets with a fact-checking checklist.', 'Beginner', 'downloads/ai-small-business-kit.md', 19),
   ('ai-video-creation-kit', 'AI Video Creation Kit', 'A short-video brief, storyboard, asset permission log and caption review checklist.', 'Beginner', 'downloads/ai-video-creation-kit.md', 20),
   ('ai-career-skills-kit', 'AI Career Skills Kit', 'Evidence-based resume prompts, interview practice and an application tracking template.', 'Beginner', 'downloads/ai-career-skills-kit.md', 21),
-  ('ai-spreadsheets-kit', 'AI Spreadsheets Kit', 'A fictional order table, checked formulas and a missing-data checklist for Excel or Google Sheets.', 'Beginner', 'downloads/ai-spreadsheets-kit.md', 22)
+  ('ai-spreadsheets-kit', 'AI Spreadsheets Kit', 'A fictional order table, checked formulas and a missing-data checklist for Excel or Google Sheets.', 'Beginner', 'downloads/ai-spreadsheets-kit.md', 22),
+  ('ai-automation-services-kit', 'AI Automation Services Pilot Kit', 'Discovery, scope, six demo tests, cost and proposal worksheets for a small administrative automation pilot.', 'Beginner', 'downloads/ai-automation-services-kit.md', 23)
 on conflict (id) do update set title = excluded.title, description = excluded.description, level = excluded.level, file_path = excluded.file_path, position = excluded.position;
 
 insert into public.paths (id, title, level, description, badge, goal_id, steps, position) values
@@ -118,10 +120,12 @@ insert into public.paths (id, title, level, description, badge, goal_id, steps, 
   ('ai-small-business', 'AI for Small Business', 'Beginner', 'Create an evidence-based customer brief, product description, FAQ and one-week marketing plan.', 'Business', 'ai-small-business', array['Define an offer and research customer needs', 'Draft a truthful product description', 'Create a checked FAQ', 'Plan, review and measure a small campaign']::text[], 21),
   ('ai-video-creation', 'AI Video Creation', 'Beginner', 'Plan, create and edit a short video with clear captions, permissioned assets and honest AI disclosure.', 'Video', 'create-content', array['Write a brief and storyboard', 'Create or gather permissioned clips', 'Edit and caption the video', 'Review and publish responsibly']::text[], 22),
   ('ai-career-skills', 'AI Job Search and Career Skills', 'Beginner', 'Build a truthful resume, targeted cover letter, interview practice plan and application tracker.', 'Career', 'ai-career', array['Match a role to real evidence', 'Tailor a resume and cover letter', 'Practise interview answers', 'Track applications and choose a learning goal']::text[], 23),
-  ('ai-spreadsheets', 'AI Spreadsheets and Everyday Data', 'Beginner', 'Clean a practice table, verify formulas and create an honest chart in Excel or Google Sheets with optional AI support.', 'Data', 'analyze-data', array['Import and preserve a practice table', 'Check missing values and formulas', 'Reconcile a summary by hand', 'Chart and document the results']::text[], 24)
+  ('ai-spreadsheets', 'AI Spreadsheets and Everyday Data', 'Beginner', 'Clean a practice table, verify formulas and create an honest chart in Excel or Google Sheets with optional AI support.', 'Data', 'analyze-data', array['Import and preserve a practice table', 'Check missing values and formulas', 'Reconcile a summary by hand', 'Chart and document the results']::text[], 24),
+  ('ai-automation-services', 'AI Automation Services', 'Beginner', 'Prepare a small automation-service pilot with customer discovery, a fictional demo, cost checks and a handover plan.', 'Business', 'start-ai-business', array['Validate one customer problem', 'Define a safe, bounded pilot', 'Build and test a fictional enquiry demo', 'Calculate costs and prepare an honest offer', 'Plan handover and review the evidence']::text[], 25)
 on conflict (id) do update set title = excluded.title, level = excluded.level, description = excluded.description, badge = excluded.badge, goal_id = excluded.goal_id, steps = excluded.steps, position = excluded.position;
 
 insert into public.recommendations (goal_id, title, summary, steps) values
+  ('start-ai-business', 'Your AI Automation Service Pilot', 'Start with evidence of a customer problem, not an income promise. Build a fictional administrative demo before agreeing to any live work.', array['Validate one customer problem', 'Define a safe, bounded pilot', 'Build and test a fictional enquiry demo', 'Calculate costs and prepare an honest offer', 'Plan handover and review the evidence']::text[]),
   ('learn-ai', 'AI for Beginners', 'Start with AI basics, prompt writing, and simple real-world workflows before moving into deeper tool usage.', array['Understand AI basics', 'Learn prompt writing', 'Use AI in daily tasks', 'Build a small practical project']::text[]),
   ('build-website', 'Website Builder Path', 'Learn the essential steps for designing, creating, and publishing a simple website without feeling lost.', array['Learn structure and design', 'Create a simple layout', 'Publish your first page', 'Refine and share']::text[]),
   ('automate-work', 'Automation Starter', 'Use beginner-friendly tools to reduce repetitive tasks and improve the way you work.', array['Identify a repetitive task', 'Choose a workflow tool', 'Connect two or three tools', 'Test and adjust']::text[]),
@@ -142,6 +146,11 @@ on conflict (goal_id) do update set title = excluded.title, summary = excluded.s
 
 delete from public.recommendation_tools;
 insert into public.recommendation_tools (goal_id, tool_id, position) values
+  ('start-ai-business', 'make', 0),
+  ('start-ai-business', 'n8n', 1),
+  ('start-ai-business', 'chatgpt', 2),
+  ('start-ai-business', 'claude', 3),
+  ('start-ai-business', 'google-sheets', 4),
   ('learn-ai', 'chatgpt', 0),
   ('learn-ai', 'perplexity', 1),
   ('learn-ai', 'notion-ai', 2),
@@ -243,6 +252,8 @@ on conflict (goal_id, tool_id) do update set position = excluded.position;
 
 delete from public.recommendation_starters;
 insert into public.recommendation_starters (goal_id, pack_id, position) values
+  ('start-ai-business', 'ai-automation-services-kit', 0),
+  ('start-ai-business', 'advanced-no-code-kit', 1),
   ('learn-ai', 'ai-prompt-pack', 0),
   ('learn-ai', 'productivity-boost', 1),
   ('build-website', 'website-bundle', 0),

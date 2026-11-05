@@ -2,6 +2,7 @@ export type GoalMatch = { goalId: string; score: number };
 
 // Keywords per goal in English, French, German and Spanish. Matching is local and needs no AI service.
 const keywords: Record<string, string[]> = {
+  'start-ai-business': ['automation agency', 'ai agency', 'automation service', 'ai business', 'sell automation', 'agence ia', 'agence automatisation', 'service automatisation', 'ki-agentur', 'automatisierungsagentur', 'ki-dienstleistung', 'agencia ia', 'agencia de automatización', 'servicio de automatización'],
   'learn-ai': ['ai', 'artificial intelligence', 'chatgpt', 'prompt', 'assistant', 'ia', 'intelligence artificielle', 'ki', 'künstliche', 'inteligencia artificial'],
   'build-website': ['website', 'web site', 'web page', 'webpage', 'landing', 'portfolio', 'blog', 'site web', 'site internet', 'webseite', 'homepage', 'sitio web', 'página web'],
   'automate-work': ['automate', 'automation', 'workflow', 'repetitive', 'zapier', 'save time', 'automatiser', 'automatisation', 'automatisieren', 'automatización', 'automatizar'],

@@ -64,6 +64,9 @@ export default async function HomePage() {
               <Link className="text-link" href="/challenges/first-website">
                 <Tr>Open the 7-day website challenge</Tr>
               </Link>
+              <Link className="text-link" href="/business-launchpad">
+                <Tr>Open the AI Business Launchpad</Tr>
+              </Link>
             </div>
             <ul className="mini-stats" aria-label="Project stats">
               <li>
