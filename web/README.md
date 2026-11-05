@@ -76,6 +76,22 @@ For email sign-in, keep the Supabase email provider enabled and add the deployed
 `https://your-domain.example/account`) under Authentication → URL Configuration → Redirect URLs. Add local
 development URLs there too if you test sign-in locally.
 
+## AI Business Launchpad
+
+`/business-launchpad` starts with `/tutorials/ai-automation-services`: six lessons covering discovery,
+bounded scope, a six-event fictional enquiry demo, costs, a draft offer and handover. The practice workflow
+prepares drafts for human review and never requires real customer data, paid tools or automatic sending.
+The hub, catalog and checklist UI are translated; the tutorial and Markdown download are currently English
+and visibly labelled. Costs are illustrative, not market prices or earnings promises.
+
+The hub checklist shares `ai-automation-services-kit` progress with its starter-pack page. The tutorial
+uses the existing independent `tutorial` progress type; no client notes or cost worksheets are submitted.
+Home, My progress, the footer, goal recommendations, idea matching and sitemap link to the new content.
+
+**Deployment: re-run the regenerated `supabase/seed.sql` before deploying** when using Supabase so the
+new goal, path, recommendations and kit are available. No new migration is needed. The existing
+`0010_lesson_feedback.sql` migration must already be applied for private tutorial feedback.
+
 ## Update the catalog
 
 `data/*.json` and `downloads/` in the repository root remain the source of truth. After editing them, run:

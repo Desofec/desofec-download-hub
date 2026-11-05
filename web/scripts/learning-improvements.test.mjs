@@ -96,3 +96,38 @@ test('website challenge has seven ordered tasks with independent progress and a 
   assert.equal(websiteChallengeSteps[6].id, 'final-project-review');
   assert.ok(websiteChallengeSteps[4].explanation.join(' ').includes('commercial'));
 });
+
+test('automation services lessons keep six stable tasks, reproducible demo checks and honest costs', async () => {
+  const { automationServicesSteps: steps } = await loadContent('../lib/automation-services-tutorial.ts');
+  assert.deepEqual(steps.map((step) => step.id), [
+    'validate-one-problem', 'define-safe-pilot', 'build-test-demo',
+    'calculate-pilot-cost', 'prepare-honest-offer', 'handover-review-pilot'
+  ]);
+  for (const step of steps) {
+    assert.ok(step.title && step.file && step.code && step.check && step.aiPrompt);
+    assert.ok(step.explanation.length >= 2 && step.explanation.every(Boolean));
+  }
+  const cases = steps[2].code.split('\n').filter((line) => /^E\d \|/.test(line));
+  assert.equal(cases.length, 6);
+  for (const [status, count] of [['QUEUED', 2], ['DUPLICATE', 1], ['INVALID', 1], ['REVIEW', 2]]) {
+    assert.equal(cases.filter((line) => line.split(' | ')[2].startsWith(status)).length, count);
+  }
+  assert.ok(steps[2].code.includes('External messages sent: 0'));
+  assert.ok(steps[2].explanation.join(' ').includes('Only mark an ID successful after its queue write succeeds'));
+  assert.ok(steps[3].code.includes('Setup planning subtotal: 324'));
+  assert.ok(steps[3].code.includes('Monthly planning subtotal: 45'));
+  assert.ok(steps[3].code.includes('NOT VALIDATED'));
+  assert.ok(steps[5].code.includes('continue / revise / stop'));
+});
+
+test('business launch intent matches the new goal in all four languages', async () => {
+  const { matchGoals } = await loadContent('../lib/idea-planner.ts');
+  for (const idea of [
+    'I want to start an automation agency',
+    'Je veux lancer une agence automatisation',
+    'Ich starte eine Automatisierungsagentur',
+    'Quiero crear una agencia de automatización'
+  ]) {
+    assert.equal(matchGoals(idea)[0]?.goalId, 'start-ai-business', idea);
+  }
+});

@@ -159,5 +159,12 @@
     "description": "A fictional order table, checked formulas and a missing-data checklist for Excel or Google Sheets.",
     "level": "Beginner",
     "file": "downloads/ai-spreadsheets-kit.md"
+  },
+  {
+    "id": "ai-automation-services-kit",
+    "title": "AI Automation Services Pilot Kit",
+    "description": "Discovery, scope, six demo tests, cost and proposal worksheets for a small administrative automation pilot.",
+    "level": "Beginner",
+    "file": "downloads/ai-automation-services-kit.md"
   }
 ]

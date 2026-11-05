@@ -29,6 +29,11 @@ export default async function MyProgressPage() {
           <Link className="btn btn-primary" href="/challenges/first-website"><Tr>Open the 7-day website challenge</Tr></Link>
         </section>
         <NextLesson goals={goals} paths={paths} tools={tools} recommendations={recommendations} />
+        <section className="progress-section">
+          <h2><Tr>AI Business Launchpad</Tr></h2>
+          <p><Tr>Start with AI automation services: validate a problem, build a safe demo and prepare a pilot proposal. This is a learning journey, not a promise of income.</Tr></p>
+          <Link className="btn btn-secondary" href="/business-launchpad"><Tr>Open the AI Business Launchpad</Tr></Link>
+        </section>
         <ProgressDashboard
           paths={paths}
           packs={starterPacks}

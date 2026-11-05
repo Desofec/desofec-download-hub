@@ -94,5 +94,11 @@
     "name": "Build career skills with AI",
     "description": "Prepare truthful applications, practise interviews and organise your job search with AI support.",
     "badge": "Career"
+  },
+  {
+    "id": "start-ai-business",
+    "name": "Start an AI service business",
+    "description": "Validate one customer problem, test a safe automation demo and prepare an evidence-based pilot offer.",
+    "badge": "Business"
   }
 ]
