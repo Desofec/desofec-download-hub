@@ -1,3 +1,5 @@
+import { pilotHundredths, formatPilotMoney } from '@/lib/pilot-numbers';
+
 export const proposalStorageKey = 'desofec:pilot-proposal:v1';
 export const proposalTextLimit = 2000;
 export const proposalDocumentLimit = 40000;
@@ -40,23 +42,12 @@ export function emptyProposalInputs(): ProposalInputs {
   };
 }
 
-// Keep two decimal places as integers; accept a decimal comma but no thousands separators.
-function hundredths(value: string, max: number): number | null {
-  const text = value.trim();
-  if (!text) return null;
-  if (!/^\d+(?:[.,]\d{1,2})?$/.test(text)) throw new Error('Invalid proposal number');
-  const [whole, fraction = ''] = text.replace(',', '.').split('.');
-  const result = Number(whole) * 100 + Number(fraction.padEnd(2, '0'));
-  if (!Number.isSafeInteger(result) || result > max * 100) throw new Error('Invalid proposal number');
-  return result;
-}
-
 export function proposalCalculations(inputs: ProposalInputs) {
   const values: Partial<Record<CostKey, number | null>> = {};
   const errors: CostKey[] = [];
   for (const field of proposalCostFields) {
     try {
-      values[field.key] = hundredths(inputs[field.key], field.max);
+      values[field.key] = pilotHundredths(inputs[field.key], field.max);
     } catch {
       errors.push(field.key);
     }
@@ -72,9 +63,7 @@ export function proposalCalculations(inputs: ProposalInputs) {
   return { setup, monthly, setupFee: values.setupFee ?? null, monthlyFee: values.monthlyFee ?? null, errors };
 }
 
-export function formatProposalMoney(cents: number, language: string) {
-  return new Intl.NumberFormat(language, { style: 'currency', currency: 'EUR' }).format(cents / 100);
-}
+export const formatProposalMoney = formatPilotMoney;
 
 export function proposalSource(inputs: ProposalInputs, language: string) {
   return JSON.stringify({ inputs, language });

@@ -19,6 +19,7 @@ export default function ProposalBuilderPage() {
           <div className="cta-row">
             <Link className="btn btn-secondary" href="/business-launchpad"><Tr>AI Business Launchpad</Tr></Link>
             <Link className="btn btn-secondary" href="/tutorials/ai-automation-services"><Tr>Start the automation service tutorial</Tr></Link>
+            <Link className="btn btn-secondary" href="/business-launchpad/results-tracker"><Tr>Track pilot tests and results</Tr></Link>
           </div>
         </div>
         <PilotProposalBuilder />

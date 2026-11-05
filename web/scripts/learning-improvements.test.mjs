@@ -8,8 +8,10 @@ async function contentUrl(relativePath, imports = {}) {
   let { outputText } = ts.transpileModule(source, {
     compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2020 }
   });
-  for (const [specifier, dependency] of Object.entries(imports)) {
-    outputText = outputText.replaceAll(`'${specifier}'`, JSON.stringify(await contentUrl(dependency)));
+  for (const [specifier, dependency] of Object.entries({ '@/lib/pilot-numbers': '../lib/pilot-numbers.ts', ...imports })) {
+    if (outputText.includes(`'${specifier}'`)) {
+      outputText = outputText.replaceAll(`'${specifier}'`, JSON.stringify(await contentUrl(dependency)));
+    }
   }
   return `data:text/javascript;base64,${Buffer.from(outputText).toString('base64')}`;
 }
@@ -221,5 +223,141 @@ test('proposal builder UI, notices and templates have all three translations', a
   for (const locale of ['fr', 'de', 'es']) {
     const book = JSON.parse(await readFile(new URL(`../content/translations/ui-${locale}.json`, import.meta.url), 'utf8'));
     for (const phrase of phrases) assert.ok(book[phrase], `${locale}: missing "${phrase}"`);
+  }
+});
+
+test('pilot results metrics retain unknowns, measured zero and negative net time', async () => {
+  const { emptyPilotResults, resultMetrics } = await loadContent('../lib/pilot-results.ts');
+  const blank = emptyPilotResults().metrics;
+  assert.deepEqual(resultMetrics(blank), {
+    errors: [], values: { runs: null, baseline: null, processing: null, review: null, cost: null },
+    net: null, netPerRun: null, costPerRun: null
+  });
+  const sample = { runs: '40', baseline: '240', processing: '80', review: '40', cost: '12' };
+  assert.deepEqual(resultMetrics(sample), {
+    errors: [], values: { runs: 4000, baseline: 24000, processing: 8000, review: 4000, cost: 1200 },
+    net: 12000, netPerRun: 3, costPerRun: 30
+  });
+  assert.equal(resultMetrics({ ...sample, baseline: '100' }).net, -2000);
+  assert.equal(resultMetrics({ ...sample, baseline: '100' }).netPerRun, -0.5);
+  assert.equal(resultMetrics({ ...sample, review: '' }).net, null);
+  assert.equal(resultMetrics({ ...sample, runs: '' }).net, 12000);
+  assert.equal(resultMetrics({ ...sample, runs: '' }).netPerRun, null);
+  assert.equal(resultMetrics({ ...sample, runs: '' }).costPerRun, null);
+  assert.equal(resultMetrics({ ...sample, review: '0' }).net, 16000);
+  assert.equal(resultMetrics({ ...sample, cost: '0' }).costPerRun, 0);
+  assert.equal(resultMetrics({ ...sample, baseline: '240,25', review: '40.10' }).net, 12015);
+});
+
+test('pilot metrics reject zero/fractional runs, malformed numbers and displayed limit violations', async () => {
+  const { emptyPilotResults, resultMetrics, resultMetricFields, buildPilotResultsReport } = await loadContent('../lib/pilot-results.ts');
+  const blank = emptyPilotResults();
+  for (const field of resultMetricFields) {
+    const invalid = ['-1', 'Infinity', '1e3', '1,000', '1.000', '1 000', '.2', '1.', String(field.max + 1)];
+    if (field.key === 'runs') invalid.push('0', '0.00', '1.5', '1,5', '1.00');
+    for (const value of invalid) {
+      const data = { ...blank, metrics: { ...blank.metrics, [field.key]: value } };
+      assert.deepEqual(resultMetrics(data.metrics).errors, [field.key], `${field.key}: ${value}`);
+      assert.throws(() => buildPilotResultsReport(data, 'en', (text) => text), /Invalid pilot metrics/);
+    }
+    assert.deepEqual(resultMetrics({ ...blank.metrics, [field.key]: String(field.max) }).errors, []);
+  }
+});
+
+test('test summaries never turn unrun plans or unsupported passes into successful evidence', async () => {
+  const { emptyPilotTest, starterPilotTests, resultTestSummary, effectiveTestStatus } = await loadContent('../lib/pilot-results.ts');
+  const examples = starterPilotTests((text) => text);
+  assert.equal(examples.length, 7);
+  assert.equal(new Set(examples.map((test) => test.id)).size, 7);
+  assert.ok(examples[6].name.includes('failure'));
+  assert.ok(examples.every((test) => test.status === 'pending' && test.retestStatus === 'pending' && !test.actual));
+  assert.deepEqual(resultTestSummary(examples), { pending: 7, pass: 0, fail: 0, blocked: 0, total: 7, open: 7 });
+  const unsupported = { ...emptyPilotTest('test-1'), status: 'pass' };
+  assert.equal(effectiveTestStatus(unsupported), 'pending');
+  const failed = { ...examples[0], actual: 'Two rows, failure screenshot recorded', status: 'fail', correction: 'Fix deduplication' };
+  assert.equal(effectiveTestStatus(failed), 'fail');
+  assert.equal(effectiveTestStatus({ ...failed, retestStatus: 'pass' }), 'pending');
+  const retested = { ...failed, retestStatus: 'pass', retest: '2026-11-05: one row, screenshot checked' };
+  assert.equal(effectiveTestStatus(retested), 'pass');
+  assert.equal(retested.status, 'fail');
+  assert.equal(effectiveTestStatus({ ...retested, retestStatus: 'blocked' }), 'blocked');
+  assert.equal(effectiveTestStatus({ ...retested, retestStatus: 'fail' }), 'fail');
+  assert.deepEqual(resultTestSummary([retested, { ...examples[1], status: 'blocked' }, unsupported]), {
+    pending: 1, pass: 1, fail: 0, blocked: 1, total: 3, open: 2
+  });
+});
+
+test('results reports include original failures, retests, actual costs, unknowns and explicit decisions', async () => {
+  const { emptyPilotResults, starterPilotTests, buildPilotResultsReport } = await loadContent('../lib/pilot-results.ts');
+  const data = emptyPilotResults();
+  data.notes = {
+    title: 'FICTIONAL TEST PILOT', objective: 'Manual approval only', period: '40 matched tasks, one week, manually timed',
+    uncertainty: 'Small fictional sample, no production evidence', rationale: 'More representative tests needed',
+    nextSteps: 'Workshop owner role: review next week'
+  };
+  data.metrics = { runs: '40', baseline: '240', processing: '80', review: '40', cost: '12' };
+  data.tests = [{
+    ...starterPilotTests((text) => text)[0], actual: 'Wrong output', status: 'fail',
+    correction: 'Fixed the mapping', retestStatus: 'pass', retest: '2026-11-05: verified expected output'
+  }];
+  for (const decision of ['continue', 'revise', 'stop', '']) {
+    data.decision = decision;
+    const report = buildPilotResultsReport(data, 'en', (text) => text);
+    assert.ok(report.includes('Original outcome: Fail'));
+    assert.ok(report.includes('Retest outcome: Pass'));
+    assert.ok(report.includes('Fixed the mapping'));
+    assert.ok(report.includes('Net time saved (minutes): 120'));
+    assert.ok(report.includes('Running cost per run (EUR): €0.30'));
+    assert.ok(report.includes(`Recorded decision: ${decision ? decision[0].toUpperCase() + decision.slice(1) : 'Not decided'}`));
+    assert.equal(report.includes('Evidence is incomplete or tests remain open.'), decision === '');
+  }
+  data.decision = 'continue';
+  data.tests[0].retest = '';
+  assert.ok(buildPilotResultsReport(data, 'en', (text) => text).includes('Evidence is incomplete or tests remain open.'));
+  const blankReport = buildPilotResultsReport(emptyPilotResults(), 'en', (text) => text);
+  assert.ok(blankReport.includes('[TO CONFIRM]'));
+  assert.ok(blankReport.includes('Recorded decision: Not decided'));
+});
+
+test('results draft schema rejects damaged, oversized and incompatible drafts without accepting invalid metrics', async () => {
+  const { emptyPilotResults, readPilotResults, starterPilotTests } = await loadContent('../lib/pilot-results.ts');
+  const data = emptyPilotResults();
+  data.tests = starterPilotTests((text) => text);
+  assert.deepEqual(readPilotResults(JSON.stringify(data)), data);
+  const twenty = { ...data, tests: Array.from({ length: 20 }, (_, i) => ({ ...data.tests[0], id: `test-${i + 1}` })) };
+  assert.deepEqual(readPilotResults(JSON.stringify(twenty)), twenty);
+  for (const invalid of [
+    'broken', '{}', 'null', '[]',
+    JSON.stringify({ ...data, version: 2 }), JSON.stringify({ ...data, decision: 'approve' }),
+    JSON.stringify({ ...data, notes: { ...data.notes, title: 'a'.repeat(2001) } }),
+    JSON.stringify({ ...data, metrics: { ...data.metrics, runs: '0' } }),
+    JSON.stringify({ ...data, tests: [] }),
+    JSON.stringify({ ...twenty, tests: [...twenty.tests, { ...data.tests[0], id: 'test-21' }] }),
+    JSON.stringify({ ...data, tests: [data.tests[0], data.tests[0]] }),
+    JSON.stringify({ ...data, tests: [{ ...data.tests[0], id: 'bad-id' }] }),
+    JSON.stringify({ ...data, tests: [{ ...data.tests[0], actual: null }] }),
+    JSON.stringify({ ...data, tests: [{ ...data.tests[0], status: 'success' }] }),
+    JSON.stringify({ ...data, tests: [{ ...data.tests[0], retestStatus: 'success' }] }),
+    JSON.stringify({ ...data, tests: [{ ...data.tests[0], correction: 'a'.repeat(2001) }] })
+  ]) assert.throws(() => readPilotResults(invalid));
+});
+
+test('tracker UI, report, statuses and workshop plans have French, German and Spanish translations', async () => {
+  const { starterPilotTests, resultStatuses, pilotDecisions, resultTestFields, resultNoteFields, resultDecisionFields, resultMetricFields } = await loadContent('../lib/pilot-results.ts');
+  const files = ['../lib/pilot-results.ts', '../components/pilot-results-tracker.tsx', '../app/business-launchpad/results-tracker/page.tsx'];
+  const source = (await Promise.all(files.map((file) => readFile(new URL(file, import.meta.url), 'utf8')))).join('\n');
+  const phrases = [
+    ...source.matchAll(/\btr\('([^']+)'\)/g),
+    ...source.matchAll(/\bset(?:Notice|Error)\('([^']+)'\)/g),
+    ...source.matchAll(/<Tr>([^<{]+)<\/Tr>/g)
+  ].map((match) => match[1].replaceAll('&amp;', '&'));
+  phrases.push(...[...resultStatuses, ...pilotDecisions, ...resultTestFields, ...resultNoteFields, ...resultDecisionFields, ...resultMetricFields].map((field) => field.label));
+  for (const example of starterPilotTests((text) => text)) phrases.push(example.name, example.input, example.expected);
+  for (const locale of ['fr', 'de', 'es']) {
+    const book = JSON.parse(await readFile(new URL(`../content/translations/ui-${locale}.json`, import.meta.url), 'utf8'));
+    for (const phrase of phrases) assert.ok(book[phrase], `${locale}: missing tracker phrase "${phrase}"`);
+    const plans = starterPilotTests((text) => book[text] ?? text);
+    assert.notEqual(plans[0].expected, starterPilotTests((text) => text)[0].expected);
+    assert.ok(plans.every((plan) => !plan.actual && plan.status === 'pending'));
   }
 });
