@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useLanguage } from '@/components/language';
 import { useTr } from '@/components/tr';
+import { downloadPilotText } from '@/lib/pilot-download';
 import {
   buildPilotProposal, emptyProposalInputs, formatProposalMoney, proposalCalculations,
   proposalCostFields, proposalDocumentLimit, proposalSource, proposalStorageKey,
@@ -105,23 +106,11 @@ export function PilotProposalBuilder() {
     if (!exportReady) return;
     setError('');
     setNotice('');
-    let url: string | undefined;
     try {
-      url = URL.createObjectURL(new Blob([document], { type: 'text/plain;charset=utf-8' }));
-      const link = window.document.createElement('a');
-      link.href = url;
-      link.download = 'pilot-proposal-draft.txt';
-      window.document.body.appendChild(link);
-      link.click();
-      link.remove();
+      downloadPilotText(document, 'pilot-proposal-draft.txt');
       setNotice('Download requested. Check your browser downloads for pilot-proposal-draft.txt.');
     } catch {
       setError('Could not download the proposal. Copy the editable text or try printing instead.');
-    } finally {
-      if (url) {
-        const downloadUrl = url;
-        window.setTimeout(() => URL.revokeObjectURL(downloadUrl), 1000);
-      }
     }
   };
 

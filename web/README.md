@@ -115,6 +115,30 @@ shared within the profile, not app-encrypted, and can be cleared; use fictional/
 This builder requires **no new seed or migration** (the Launchpad catalog seed remains a prerequisite
 for the separate learning path).
 
+### Pilot Test & Results Tracker
+
+`/business-launchpad/results-tracker` records up to 20 test cases (input, expected and actual results),
+original outcomes, corrections and dated retests. The seven optional workshop plans include the six
+tutorial events and a connector failure/retry check, with no fabricated outcomes. Replacing/removing
+cases requires confirmation. Original and retest outcomes remain separately visible; this editable
+worksheet is not an immutable audit log. A pass lacking name/input/expected/actual evidence counts as
+pending; a retest also requires evidence notes. No automated test execution or production integration.
+
+Metrics use one observed sample: baseline manual minutes minus processing and additional review/correction
+minutes. Negative net time is retained (more work, not savings). Runs must be positive integers, other
+inputs use the shared bounded hundredths parser (comma/point, up to two places), and blanks remain unknown.
+Per-run time and EUR costs require a sample count; there is no monthly extrapolation, profit or ROI.
+The user explicitly chooses continue/revise/stop, records reasons and next actions; unresolved tests or
+missing context/metrics keep an incomplete-evidence notice. No decision grants deployment approval.
+
+The report updates with current inputs and includes original results, retests, all metrics, costs, decision
+and unknowns. Text download and scoped multi-page printing exclude the controls, not report evidence.
+Report headings, UI and optional workshop plans support en/fr/de/es; user-entered text is not translated.
+Save/Load/Delete use `desofec:pilot-results:v1` independently of the proposal. Saving/loading is explicit,
+local only, not app-encrypted or synced; load validates schema and asks before replacing unsaved work.
+Storage/download errors are visible and keep current work. Do not enter personal/confidential client data.
+**No seed or migration is required for the tracker.**
+
 ## Update the catalog
 
 `data/*.json` and `downloads/` in the repository root remain the source of truth. After editing them, run:

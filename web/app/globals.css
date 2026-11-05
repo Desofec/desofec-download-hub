@@ -1457,7 +1457,8 @@ h3 {
 }
 
 .proposal-builder textarea,
-.proposal-builder input {
+.proposal-builder input,
+.proposal-builder select {
   width: 100%;
   padding: .8rem;
   border: 1px solid var(--line);
@@ -1471,7 +1472,7 @@ h3 {
   resize: vertical;
 }
 
-.proposal-builder :is(textarea, input):focus-visible {
+.proposal-builder :is(textarea, input, select):focus-visible {
   outline: 2px solid var(--primary);
   outline-offset: 3px;
 }
