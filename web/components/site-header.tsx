@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useSyncExternalStore } from 'react';
 import { useAuth } from '@/components/auth-provider';
 import { LanguageSwitcher } from '@/components/language-switcher';
 import { RainbowSwitch } from '@/components/rainbow-switch';
@@ -26,10 +26,15 @@ function isActive(pathname: string, href: string, match?: string[]) {
   return (match ?? [href]).some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`));
 }
 
+const subscribeHydration = () => () => {};
+
 export function SiteHeader() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const { session } = useAuth();
+  // A streamed header can hydrate after the auth provider has already read its session.
+  const hydrated = useSyncExternalStore(subscribeHydration, () => true, () => false);
+  const signedIn = hydrated && Boolean(session?.user.email);
   const t = useT();
   const tr = useTr();
 
@@ -69,9 +74,9 @@ export function SiteHeader() {
           ))}
           <Link
             href="/account"
-            className={session?.user.email ? undefined : 'signin-pulse'}
+            className={signedIn ? undefined : 'signin-pulse'}
             onClick={() => setMenuOpen(false)}>
-            {session?.user.email ? t('nav.account') : t('nav.signin')}
+            {signedIn ? t('nav.account') : t('nav.signin')}
           </Link>
           <LanguageSwitcher />
           <ThemeToggle />

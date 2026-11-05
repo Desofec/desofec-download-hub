@@ -415,6 +415,35 @@ h3 {
   flex: 1;
 }
 
+.project-workspace {
+  display: grid;
+  gap: 32px;
+}
+
+.project-workspace .path-card {
+  overflow-wrap: anywhere;
+}
+
+.project-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin: 12px 0;
+  cursor: pointer;
+}
+
+.proposal-builder .project-check input {
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  accent-color: var(--primary);
+}
+
+.project-check span {
+  min-width: 0;
+}
+
 .goal-card {
   min-height: 200px;
   background: var(--panel-grad);

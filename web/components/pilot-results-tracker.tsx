@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { PilotProjectTool } from '@/components/pilot-project-tool';
 import { useLanguage } from '@/components/language';
 import { useTr } from '@/components/tr';
 import { downloadPilotText } from '@/lib/pilot-download';
@@ -27,7 +28,7 @@ function ResultsText({
   );
 }
 
-export function PilotResultsTracker() {
+export function PilotResultsTracker({ projectId }: { projectId?: string }) {
   const tr = useTr();
   const language = useLanguage();
   const [data, setData] = useState(emptyPilotResults);
@@ -42,6 +43,12 @@ export function PilotResultsTracker() {
   const incomplete = summary.open > 0 || !data.decision
     || Object.values(data.notes).some((value) => !value.trim())
     || resultMetricFields.some((field) => metrics.values[field.key] == null);
+  const loadProjectDraft = useCallback((draft: PilotResults) => {
+    setData(draft);
+    setDirty(false);
+    setNotice('');
+    setError('');
+  }, []);
 
   useEffect(() => {
     if (!dirty) return;
@@ -130,7 +137,10 @@ export function PilotResultsTracker() {
 
   return (
     <div className="proposal-builder results-tracker">
-      <div className="proposal-controls">
+      {projectId !== undefined ? (
+        <PilotProjectTool projectId={projectId} kind="results" value={data}
+          dirty={dirty} onLoad={loadProjectDraft} onDirty={() => setDirty(true)} />
+      ) : <div className="proposal-controls">
         <p>{tr('Use fictional or anonymised details only. Do not enter credentials, personal data or confidential client information. Nothing you type is sent to AI or saved to our servers.')}</p>
         <p>{tr('Saving is optional and stores one draft in this browser, shared with anyone using this browser profile. It is not encrypted by the app and does not sync when you sign in. Browser clearing may erase it.')}</p>
         <div className="cta-row">
@@ -140,7 +150,11 @@ export function PilotResultsTracker() {
         </div>
         <p role="status">{notice ? tr(notice) : dirty ? tr('Changes are not saved on this device.') : tr('No automatic saving. Save explicitly if you want to return later.')}</p>
         {error && <p className="proposal-error" role="alert">{tr(error)}</p>}
-      </div>
+      </div>}
+      {projectId !== undefined && <>
+        {notice && <p role="status">{tr(notice)}</p>}
+        {error && <p role="alert" className="proposal-error">{tr(error)}</p>}
+      </>}
 
       <section aria-labelledby="results-context">
         <h2 id="results-context">{tr('Pilot context and evidence')}</h2>

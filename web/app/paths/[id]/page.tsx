@@ -49,6 +49,11 @@ export default async function PathDetailPage({ params }: { params: Promise<{ id:
           </div>
           <PathSteps pathId={path.id} steps={path.steps} />
           <div className="cta-row">
+            {tutorial?.serviceKitId && (
+              <Link className="btn btn-secondary" href={`/business-launchpad/projects?path=${encodeURIComponent(path.id)}`}>
+                <Tr>Start a practice project</Tr>
+              </Link>
+            )}
             {tutorial && (
               <Link className="btn btn-primary" href={tutorial.href}>
                 <Tr>Learn step by step: tutorial</Tr>

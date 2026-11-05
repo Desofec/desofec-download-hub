@@ -20,6 +20,165 @@ async function loadContent(relativePath, imports = {}) {
   return import(await contentUrl(relativePath, imports));
 }
 
+const projectImports = {
+  '@/lib/pilot-proposal': '../lib/pilot-proposal.ts',
+  '@/lib/pilot-results': '../lib/pilot-results.ts'
+};
+function memoryStorage() {
+  const data = new Map();
+  return {
+    get length() { return data.size; },
+    getItem: (key) => data.get(key) ?? null,
+    setItem: (key, value) => data.set(key, value),
+    removeItem: (key) => data.delete(key),
+    key: (index) => [...data.keys()][index] ?? null
+  };
+}
+const projectId = '11111111-1111-4111-8111-111111111111';
+
+test('project schema supports five tracks, validates all nested drafts and rejects malformed data', async () => {
+  const { newPilotProject, readPilotProject, servicePathIds } = await loadContent('../lib/pilot-projects.ts', projectImports);
+  for (const id of servicePathIds) {
+    const project = newPilotProject(projectId, id, ' Fictional pilot ');
+    assert.equal(project.title, 'Fictional pilot');
+    assert.deepEqual(readPilotProject(JSON.stringify(project)), project);
+    for (const bad of [
+      { version: 2 }, { id: '../bad' }, { pathId: 'made-up' }, { title: '' }, { title: 'a'.repeat(121) },
+      { brief: { ...project.brief, scope: 42 } }, { completed: ['review', 'review'] },
+      { completed: ['approved'] }, { proposal: {} }, { results: {} }, { proposal: undefined }
+    ]) assert.throws(() => readPilotProject(JSON.stringify({ ...project, ...bad })));
+    assert.throws(() => readPilotProject(JSON.stringify({ ...project, brief: { ...project.brief, scope: 'a'.repeat(2001) } })));
+    assert.throws(() => readPilotProject(JSON.stringify({ ...project, extra: '😀'.repeat(300000) })), /storage limit/);
+  }
+});
+
+test('project persistence preserves standalone drafts, enforces quota and rejects stale revisions', async () => {
+  const { newPilotProject, loadProject, listProjects, saveProject, deleteProject, projectStoragePrefix } =
+    await loadContent('../lib/pilot-projects.ts', projectImports);
+  const storage = memoryStorage();
+  storage.setItem('desofec:pilot-proposal:v1', 'legacy proposal');
+  storage.setItem('desofec:pilot-results:v1', 'legacy results');
+  const project = newPilotProject(projectId, 'ai-content-services', 'Bakery practice');
+  const first = saveProject(storage, project, 0);
+  assert.equal(first.revision, 1);
+  const second = saveProject(storage, { ...project, title: 'Reviewed brief' }, 1);
+  assert.equal(second.revision, 2);
+  assert.throws(() => saveProject(storage, project, 1), /another tab/);
+  assert.throws(() => deleteProject(storage, projectId, 1), /another tab/);
+  assert.equal(loadProject(storage, projectId).project.title, 'Reviewed brief');
+  for (let index = 2; index <= 10; index++) {
+    const id = `11111111-1111-4111-8111-${String(index).padStart(12, '0')}`;
+    saveProject(storage, newPilotProject(id, 'ai-education-services', `Workshop ${index}`), 0);
+  }
+  assert.equal(listProjects(storage).length, 10);
+  assert.throws(() => saveProject(storage, newPilotProject('11111111-1111-4111-8111-000000000011', 'ai-cad-services', 'Too many'), 0), /limit reached/);
+  deleteProject(storage, projectId, 2);
+  assert.equal(listProjects(storage).length, 9);
+  assert.equal(storage.getItem('desofec:pilot-proposal:v1'), 'legacy proposal');
+  assert.equal(storage.getItem('desofec:pilot-results:v1'), 'legacy results');
+  assert.throws(() => loadProject(storage, projectId), /not found/);
+  storage.setItem(projectStoragePrefix + projectId, '{');
+  assert.throws(() => listProjects(storage));
+  assert.throws(() => loadProject(storage, 'invalid'), /Invalid project link/);
+});
+
+test('project tool saves merge only their own field and block stale replacement or resurrection', async () => {
+  const { newPilotProject, loadProject, saveProject, saveProjectPart, deleteProject, projectProposalSeed, projectResultsSeed } =
+    await loadContent('../lib/pilot-projects.ts', projectImports);
+  const storage = memoryStorage();
+  const project = newPilotProject(projectId, 'micro-saas-validation', 'Formatter');
+  saveProject(storage, project, 0);
+  const proposal = projectProposalSeed(project);
+  saveProjectPart(storage, projectId, 'proposal', proposal, 'null');
+  const withResults = saveProjectPart(storage, projectId, 'results', projectResultsSeed(project), 'null');
+  assert.deepEqual(withResults.project.proposal, proposal);
+  assert.throws(() => saveProjectPart(storage, projectId, 'proposal', proposal, 'null'), /draft changed/);
+  const newer = saveProject(storage, { ...withResults.project, brief: { ...project.brief, scope: 'New scope' } }, withResults.revision);
+  const updated = saveProjectPart(storage, projectId, 'proposal', { ...proposal, document: 'Manual edits' }, JSON.stringify(proposal));
+  assert.equal(updated.project.brief.scope, 'New scope');
+  assert.equal(updated.revision, newer.revision + 1);
+  deleteProject(storage, projectId, updated.revision);
+  assert.throws(() => saveProjectPart(storage, projectId, 'proposal', proposal, JSON.stringify(proposal)), /not found/);
+  assert.throws(() => saveProject(storage, loadProject(storage, projectId).project, 1));
+});
+
+test('project seeds copy only context; summaries omit internal costs and respect decisions and missing evidence', async () => {
+  const { newPilotProject, projectProposalSeed, projectResultsSeed, projectNextAction, projectProposalReady, buildProjectSummary } =
+    await loadContent('../lib/pilot-projects.ts', projectImports);
+  const { proposalSource } = await loadContent('../lib/pilot-proposal.ts');
+  const project = newPilotProject(projectId, 'ai-cad-services', 'Concept practice');
+  assert.match(projectNextAction(project), /brief/);
+  project.brief = { objective: 'Fictional concept', scope: 'Not for manufacture', review: 'Review pending' };
+  project.proposal = projectProposalSeed(project);
+  assert.equal(project.proposal.inputs.setupFee, '');
+  assert.equal(project.proposal.document, '');
+  project.results = projectResultsSeed(project);
+  assert.equal(project.results.tests[0].status, 'pending');
+  assert.equal(project.results.decision, '');
+  assert.match(projectNextAction(project), /proposal/);
+  project.proposal.inputs.setupRate = '12345.67';
+  project.proposal.document = 'INTERNAL_COST_CANARY';
+  project.proposal.source = proposalSource(project.proposal.inputs, 'en');
+  assert.equal(projectProposalReady(project), true);
+  assert.match(projectNextAction(project), /results tracker/);
+  project.results.decision = 'continue';
+  Object.assign(project.results.notes, { rationale: 'Recorded reason', nextSteps: 'Review again', uncertainty: 'Not approved' });
+  assert.match(projectNextAction(project), /unresolved tests/);
+  project.results.decision = 'stop';
+  assert.match(projectNextAction(project), /Stop recorded/);
+  project.results.decision = 'revise';
+  assert.match(projectNextAction(project), /Revision recorded/);
+  const report = buildProjectSummary(project, (text) => text);
+  assert.doesNotMatch(report, /12345.67|INTERNAL_COST_CANARY/);
+  assert.match(report, /NOT CLIENT APPROVAL/);
+  assert.match(report, /Recorded reason/);
+  project.proposal.inputs.scope = 'Changed form';
+  assert.equal(projectProposalReady(project), false);
+  project.proposal.source = '{';
+  assert.equal(projectProposalReady(project), false);
+});
+
+test('project saving reports unavailable storage and validates account metadata', async () => {
+  const { newPilotProject, saveProject, loadProject, projectStoragePrefix } =
+    await loadContent('../lib/pilot-projects.ts', projectImports);
+  const project = newPilotProject(projectId, 'ai-automation-services', 'Queue practice');
+  const storage = memoryStorage();
+  storage.setItem = () => { throw new Error('Storage full'); };
+  assert.throws(() => saveProject(storage, project, 0), /Storage full/);
+  const good = memoryStorage();
+  const saved = saveProject(good, project, 0, { userId: projectId, version: 2 });
+  assert.deepEqual(loadProject(good, projectId).cloud, { userId: projectId, version: 2 });
+  good.setItem(projectStoragePrefix + projectId, JSON.stringify({ ...saved, cloud: { userId: projectId, version: -1 } }));
+  assert.throws(() => loadProject(good, projectId));
+});
+
+test('workspace interface, project checklist, next actions and errors have three translations', async () => {
+  const files = [
+    '../components/pilot-project-workspace.tsx', '../components/pilot-project-tool.tsx',
+    '../components/pilot-project-account.tsx', '../lib/pilot-projects.ts',
+    '../app/business-launchpad/projects/page.tsx'
+  ];
+  const strings = new Set([
+    'Open the Pilot Project Workspace', 'Working...', 'Saved draft; review before sharing.',
+    'Missing or needs regeneration.', 'Load the project draft before editing.',
+    'Project draft saved on this device only. Account copies are unchanged.',
+    'Saved project draft removed from this device. Current work, account copies and downloads remain.',
+    'Brief copied into the form. Review it and save explicitly; no outcomes or approvals were filled in.',
+    'Project draft loaded.'
+  ]);
+  for (const file of files) {
+    const source = await readFile(new URL(file, import.meta.url), 'utf8');
+    for (const match of source.matchAll(/(?:tr\(|new Error\(|label: |return |setNotice\()'([^']+)'|<Tr>([^<{]+)<\/Tr>/g)) {
+      strings.add(match[1] ?? match[2]);
+    }
+  }
+  assert.ok(strings.size >= 100);
+  for (const locale of ['fr', 'de', 'es']) {
+    const book = JSON.parse(await readFile(new URL(`../content/translations/ui-${locale}.json`, import.meta.url), 'utf8'));
+    for (const text of strings) assert.ok(book[text], `${locale}: missing project phrase "${text}"`);
+  }
+});
+
 test('four service curricula each provide six complete and independently keyed lessons', async () => {
   const curricula = await loadContent('../lib/business-services-tutorials.ts');
   const allIds = new Set();

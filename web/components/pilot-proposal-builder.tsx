@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { PilotProjectTool } from '@/components/pilot-project-tool';
 import { useLanguage } from '@/components/language';
 import { useTr } from '@/components/tr';
 import { downloadPilotText } from '@/lib/pilot-download';
@@ -10,7 +11,7 @@ import {
   proposalTextFields, proposalTextLimit, readProposalDraft, type ProposalDraft, type ProposalInputs
 } from '@/lib/pilot-proposal';
 
-export function PilotProposalBuilder() {
+export function PilotProposalBuilder({ projectId }: { projectId?: string }) {
   const tr = useTr();
   const language = useLanguage();
   const [inputs, setInputs] = useState(emptyProposalInputs);
@@ -25,6 +26,14 @@ export function PilotProposalBuilder() {
   const stale = Boolean(source && source !== currentSource);
   const exportReady = Boolean(source && document.trim()) && !stale && totals.errors.length === 0;
   const money = (value: number | null) => value === null ? tr('Not calculated: complete every cost field in this group.') : formatProposalMoney(value, language);
+  const loadProjectDraft = useCallback((draft: ProposalDraft) => {
+    setInputs(draft.inputs);
+    setDocument(draft.document);
+    setSource(draft.source);
+    setDirty(false);
+    setNotice('');
+    setError('');
+  }, []);
 
   useEffect(() => {
     if (!dirty) return;
@@ -116,7 +125,10 @@ export function PilotProposalBuilder() {
 
   return (
     <div className="proposal-builder">
-      <div className="proposal-controls">
+      {projectId !== undefined ? (
+        <PilotProjectTool projectId={projectId} kind="proposal" value={{ version: 1, inputs, document, source }}
+          dirty={dirty} onLoad={loadProjectDraft} onDirty={() => setDirty(true)} />
+      ) : <div className="proposal-controls">
         <p>{tr('Use fictional or anonymised details only. Do not enter credentials, personal data or confidential client information. Nothing you type is sent to AI or saved to our servers.')}</p>
         <p>{tr('Saving is optional and stores one draft in this browser, shared with anyone using this browser profile. It is not encrypted by the app and does not sync when you sign in. Browser clearing may erase it.')}</p>
         <div className="cta-row">
@@ -126,7 +138,11 @@ export function PilotProposalBuilder() {
         </div>
         <p role="status">{notice ? tr(notice) : dirty ? tr('Changes are not saved on this device.') : tr('No automatic saving. Save explicitly if you want to return later.')}</p>
         {error && <p className="proposal-error" role="alert">{tr(error)}</p>}
-      </div>
+      </div>}
+      {projectId !== undefined && <>
+        {notice && <p role="status">{tr(notice)}</p>}
+        {error && <p role="alert" className="proposal-error">{tr(error)}</p>}
+      </>}
 
       <form className="proposal-form" onSubmit={(event) => { event.preventDefault(); generate(); }}>
         <fieldset>

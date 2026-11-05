@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { AccountPanel } from '@/components/account-panel';
 import { Tr } from '@/components/tr';
+import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'Your account',
@@ -17,6 +18,8 @@ export default function AccountPage() {
           <p><Tr>Sign in to save your learning progress across devices.</Tr></p>
         </div>
         <AccountPanel />
+        <p><Tr>Signing in does not upload project drafts. Use the workspace to choose private account snapshots explicitly.</Tr></p>
+        <Link className="btn btn-secondary" href="/business-launchpad/projects"><Tr>Open the Pilot Project Workspace</Tr></Link>
       </div>
     </section>
   );

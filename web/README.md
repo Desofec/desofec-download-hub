@@ -78,6 +78,43 @@ development URLs there too if you test sign-in locally.
 
 ## AI Business Launchpad
 
+### Pilot Project Workspace
+
+`/business-launchpad/projects` creates up to ten device projects from the five service paths.
+Each owns a brief, independent five-item project checklist, optional proposal/results drafts and a
+next-action prompt derived only from saved evidence. Project checklists do not complete tutorial or kit
+progress. The path is fixed at creation; start a separate project for another track.
+
+Open a project tool, press **Reload project draft**, then optionally **Start from project brief**.
+The latter copies only context, never results/approvals or fees. Save explicitly; standalone drafts
+and other projects are not overwritten. Changing a brief does not rewrite existing tool drafts.
+Summaries use saved data, omit financial fields/full drafts, and are internal practice records, not
+proof of customer approval, engineering readiness, accreditation or income. Review text before sharing.
+
+**Deployment: apply `supabase/migrations/0011_pilot_projects.sql` before deploying this workspace.
+No new seed is needed beyond the existing service-path seed from PR #94.**
+The migration creates owner-private `pilot_projects`, read-only direct authenticated access and two
+security-definer RPCs. Upload uses account-version compare-and-swap; deletion also checks its version.
+Per-owner transaction locks serialise writes/quota checks (ten account projects). Auth user deletion
+cascades to project snapshots. Do not grant clients direct insert/update/delete permissions.
+
+Account saving is opt-in and manual: consent plus **Upload saved project to my account** sends the
+entire saved snapshot, including internal costs. Signing in, editing, local saving and refreshing an
+account list do not upload. **Load account copy onto device** explicitly replaces that project's device
+copy after confirmation; it never merges records. Conflicts block replacement: refresh the account list
+and load its latest copy before uploading again. Download/back up local work before replacing it.
+Device and account deletion are separate; downloaded files remain. Account snapshots are private under
+RLS, not end-to-end encrypted. Local copies are shared by the browser profile even after sign-out.
+Device mutations use a shared Web Lock plus revision/draft comparisons to serialise tabs. Saving needs a
+current browser with the Web Locks API in a secure context; unsupported browsers show an explicit error
+rather than risking concurrent overwrite. Account requests pin the initiating session token, and switching
+accounts resets account-list/consent state without uploading device content.
+Operations show failures explicitly. Both sides bound document size (1 MB UTF-8 client limit; 1.1 MB
+database serialisation limit), and client validators reuse the existing proposal/results validators.
+`npm run test:content` covers the project model, isolation and translations. For an isolated database
+with auth fixtures and migration 0011 applied, `supabase/tests/pilot_projects.sql` checks ownership,
+permissions, version conflicts, limits, deletion and cascade behavior; its fixtures roll back.
+
 The Launchpad now lists five service paths. Four additions have six lessons each:
 `ai-content-services` (fictional bakery package and revisions), `ai-cad-services` (non-functional
 display-card concept only), `micro-saas-validation` (local formatter prototype, not a live subscription),
