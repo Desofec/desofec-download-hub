@@ -82,25 +82,47 @@ development URLs there too if you test sign-in locally.
 
 `/business-launchpad/first-project` recommends AI Content Services for a first no-code, fictional
 practice package. Goal selection links to the existing workspace with a preselected path; it does not
-create a project or upload anything. The other four goals retain their existing lessons, kits and
-workspace; the six-stage guided portfolio currently supports content services only.
+create a project or upload anything. All five goals have six-stage guided journeys and private
+portfolios, with service-specific instructions, evidence and explicit scope boundaries.
 
-Content projects (including existing ones and loaded account snapshots) show six sequential milestones
+Service projects (including existing ones and loaded account snapshots) show six sequential milestones
 derived from **saved** project data: learn, practise, draft, test, review and handover. They reuse the
 existing checklist; no progress keys or record schemas change. Learn/practise/handover are self-recorded
 work, not proof of tutorial completion or file inspection. Draft requires a current generated proposal
-and seven scope/review fields. Test requires four distinct named cases with input, expected and actual
-evidence, non-pending outcomes, and the evidence checklist item. A supported failed/blocked case counts
+and seven scope/review fields; automation, micro-SaaS and education additionally require data handling,
+and education requires a timeline. Content retains its four-distinct-named-case rule. Other services
+require exactly one evidenced case for every bracketed service code, not just an arbitrary test count.
+Each requires input, expected and actual evidence, a non-pending outcome, and the evidence checklist.
+Duplicate codes and unsupported passes/retests do not count. A supported failed/blocked case counts
 as recorded evidence, not success; unavailable real owner approval must stay blocked. Review requires
 an explicit decision, rationale, uncertainty, next steps and the review item. Handover requires all prior
 milestones and the handover item; no milestone grants publication permission or client approval.
+
+| Service | Required recorded cases | Boundary |
+| --- | --- | --- |
+| Automation | AUTO-1 through AUTO-9: six ordered events, failure/retry, off switch/manual fallback, authorised customer review | Fictional queue; never send messages or enable live work |
+| CAD | CAD-1 through CAD-5: base dimensions, revision, reopened exports, method/licensing, required review | CAD or paper-only, explicitly not for manufacture |
+| Micro-SaaS | SAAS-1 through SAAS-8: exact output, blank/40/41/markup/invalid status, observed demand, costs/launch gaps | Local toy; manual work cannot establish browser passes; no subscriptions |
+| Education | EDU-1 through EDU-5: facts/key, rehearsal timing, accessible original materials, adult trial, independent review | Consenting-adult practice; no learner records or qualification claims |
+
+After **Reload project draft**, the results tool offers **Load required service test plans** for these
+four services. Replacement requires confirmation, changes only current test cases, and never fills in
+actual evidence, original/retest outcomes, correction or retest notes. Context, metrics and decision stay
+unchanged. Save explicitly. Content and standalone workshop plans keep their previous behavior.
+Existing projects are never rewritten: add bracketed codes to matching historical cases manually, or
+back up evidence before choosing replacement. Codes are stable across interface languages; user text
+and recorded evidence are not automatically translated. The model checks recorded fields, not whether
+the learner truly performed a test. Missing real trials/review can be recorded blocked with reasons,
+allowing a practice record without pretending success.
 
 The private practice-portfolio preview is derived from saved data, not stored separately or published.
 It retains incomplete status, failed/blocked/pending counts and the recorded decision. It omits full
 proposal text, structured financial fields and raw test evidence; titles and notes remain user text and
 must be checked before manual sharing. Download requires explicit review acknowledgement; unsaved
 brief/checklist changes disable it. Saving a new project revision resets that acknowledgement.
-Original posts, FAQ, asset/claim ledger and revision log stay in the learner's own storage.
+Original deliverables (including posts, sketches, prototypes and handouts) stay in the learner's own
+storage. Portfolio filenames identify their service. Track boundaries and required-case coverage are
+included in new service exports; assembled records are not production-readiness assessments.
 Tool **Back to project** links deliberately use document navigation so Next's retained route state
 cannot show an older workspace revision after saving a draft. The tool's existing `beforeunload`
 guard protects unsaved edits. If returning through browser history or editing in another tab,

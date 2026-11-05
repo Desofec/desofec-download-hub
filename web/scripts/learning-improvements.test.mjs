@@ -36,7 +36,10 @@ function memoryStorage() {
 }
 const projectId = '11111111-1111-4111-8111-111111111111';
 
-const journeyImports = { ...projectImports, '@/lib/pilot-projects': '../lib/pilot-projects.ts' };
+const journeyImports = {
+  ...projectImports, '@/lib/pilot-projects': '../lib/pilot-projects.ts',
+  '@/lib/first-content-project': '../lib/first-content-project.ts'
+};
 async function contentProjectFixture() {
   const { newPilotProject, projectProposalSeed, projectResultsSeed } =
     await loadContent('../lib/pilot-projects.ts', projectImports);
@@ -72,7 +75,7 @@ async function contentProjectFixture() {
 }
 
 test('guided content milestones are sequential, saved-data derived and accept documented blocked outcomes without approval', async () => {
-  const { contentJourney, contentJourneyHref, buildContentPortfolio } =
+  const { contentJourney, projectJourneyHref, buildContentPortfolio } =
     await loadContent('../lib/first-content-project.ts', journeyImports);
   const project = await contentProjectFixture();
   const before = JSON.stringify(project);
@@ -90,11 +93,11 @@ test('guided content milestones are sequential, saved-data derived and accept do
     assert.doesNotMatch(report, /98765|87654|PRIVATE_PROPOSAL_CANARY|RAW_TEST_|RAW_CORRECTION_CANARY/);
   }
   assert.equal(JSON.stringify(project), before);
-  assert.equal(contentJourneyHref(project, 'proposal'), `/business-launchpad/proposal-builder?project=${project.id}`);
-  assert.equal(contentJourneyHref(project, 'results'), `/business-launchpad/results-tracker?project=${project.id}`);
-  assert.equal(contentJourneyHref(project, 'tutorial'), '/tutorials/ai-content-services');
-  assert.equal(contentJourneyHref(project, 'kit'), '/starter-packs/ai-content-services-kit');
-  assert.equal(contentJourneyHref(project, 'brief'), '#project-brief-form');
+  assert.equal(projectJourneyHref(project, 'proposal'), `/business-launchpad/proposal-builder?project=${project.id}`);
+  assert.equal(projectJourneyHref(project, 'results'), `/business-launchpad/results-tracker?project=${project.id}`);
+  assert.equal(projectJourneyHref(project, 'tutorial'), '/tutorials/ai-content-services');
+  assert.equal(projectJourneyHref(project, 'kit'), '/starter-packs/ai-content-services-kit');
+  assert.equal(projectJourneyHref(project, 'brief'), '#project-brief-form');
   for (const [milestone, next] of [['brief', 'learn'], ['scope', 'practise'], ['evidence', 'test'], ['review', 'review'], ['handover', 'handover']]) {
     const copy = structuredClone(project);
     copy.completed = copy.completed.filter((item) => item !== milestone);
@@ -170,7 +173,7 @@ test('guided portfolio uses unchanged project serialization and has translated i
   assert.equal(contentJourney(saved.project).ready, true);
   const strings = new Set(['Find a guided first project']);
   const files = ['../lib/first-content-project.ts', '../components/first-project-chooser.tsx',
-    '../components/content-project-journey.tsx', '../app/business-launchpad/first-project/page.tsx'];
+    '../components/service-project-journey.tsx', '../app/business-launchpad/first-project/page.tsx'];
   for (const file of files) {
     const source = await readFile(new URL(file, import.meta.url), 'utf8');
     const ast = ts.createSourceFile(file, source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
@@ -188,6 +191,164 @@ test('guided portfolio uses unchanged project serialization and has translated i
     assert.ok(report.startsWith(book['PRACTICE PORTFOLIO - FICTIONAL CONTENT SERVICE, NOT CLIENT WORK']));
     assert.doesNotMatch(report, /Recorded decision:|Practice record assembled - self-recorded/);
   }
+});
+
+test('four service journeys define distinct required plans without invented evidence or changed schemas', async () => {
+  const { serviceJourneys, serviceJourneyTests, serviceProjectJourney, serviceJourneyCoverage } =
+    await loadContent('../lib/service-project-journeys.ts', journeyImports);
+  const { readPilotProject } = await loadContent('../lib/pilot-projects.ts', projectImports);
+  const counts = { 'ai-automation-services': 9, 'ai-cad-services': 5, 'micro-saas-validation': 8, 'ai-education-services': 5 };
+  const allCodes = new Set();
+  for (const [pathId, definition] of Object.entries(serviceJourneys)) {
+    const project = await contentProjectFixture();
+    project.pathId = pathId;
+    const original = JSON.stringify(project);
+    const plans = serviceJourneyTests(pathId, (text) => text);
+    assert.equal(plans.length, counts[pathId]);
+    assert.deepEqual(plans.map((test) => test.id), plans.map((_, index) => `test-${index + 1}`));
+    for (const [index, plan] of plans.entries()) {
+      const { code, label } = definition.checks[index];
+      assert.equal(allCodes.has(code), false);
+      allCodes.add(code);
+      assert.equal(plan.name, `[${code}] ${label}`);
+      assert.ok(plan.input.trim() && plan.expected.trim());
+      assert.equal(plan.status, 'pending');
+      assert.equal(plan.retestStatus, 'pending');
+      for (const field of ['actual', 'correction', 'retest']) assert.equal(plan[field], '');
+    }
+    assert.equal(JSON.stringify(project), original);
+    project.results.tests = plans;
+    for (const key of definition.proposalFields) project.proposal.inputs[key] = `Practice ${key}`;
+    const { proposalSource } = await loadContent('../lib/pilot-proposal.ts');
+    project.proposal.source = proposalSource(project.proposal.inputs, 'en');
+    assert.equal(serviceProjectJourney(project).next.id, 'test');
+    assert.ok(serviceJourneyCoverage(project).every((check) => !check.recorded));
+    assert.deepEqual(readPilotProject(JSON.stringify(project)), project);
+  }
+  assert.throws(() => serviceJourneyTests('ai-content-services', (text) => text), /content-service checks/);
+});
+
+test('required service evidence cannot be replaced by arbitrary counts, duplicates or unsupported passes and retests', async () => {
+  const { serviceJourneys, serviceJourneyTests, serviceProjectJourney, serviceJourneyCoverage } =
+    await loadContent('../lib/service-project-journeys.ts', journeyImports);
+  const { proposalSource } = await loadContent('../lib/pilot-proposal.ts');
+  for (const [pathId, definition] of Object.entries(serviceJourneys)) {
+    const project = await contentProjectFixture();
+    project.pathId = pathId;
+    for (const key of definition.proposalFields) project.proposal.inputs[key] = `Practice ${key}`;
+    project.proposal.source = proposalSource(project.proposal.inputs, 'en');
+    project.results.tests = serviceJourneyTests(pathId, (text) => text).map((test, index) => ({
+      ...test, actual: index === definition.checks.length - 1 ? 'Required external review unavailable; documented blocked.' : 'Observed fictional result in my practice files.',
+      status: index === definition.checks.length - 1 ? 'blocked' : 'pass'
+    }));
+    assert.equal(serviceProjectJourney(project).ready, true);
+    const renamed = structuredClone(project);
+    renamed.results.tests.forEach((test) => { test.name = test.name.split(']')[0] + '] Titre traduit'; });
+    assert.equal(serviceProjectJourney(renamed).ready, true, 'stable codes survive translated names');
+    for (const mutate of [
+      (copy) => { copy.results.tests.pop(); },
+      (copy) => { copy.results.tests[0].name = '[UNRELATED-1] arbitrary test'; },
+      (copy) => { copy.results.tests[0].actual = ' '; },
+      (copy) => { copy.results.tests[0].input = ''; },
+      (copy) => { copy.results.tests[0].expected = ''; },
+      (copy) => { copy.results.tests[0].status = 'pending'; },
+      (copy) => { copy.results.tests[0].retestStatus = 'pass'; copy.results.tests[0].retest = ''; },
+      (copy) => { copy.results.tests.push({ ...copy.results.tests[0], id: 'test-20' }); },
+      (copy) => { copy.results.tests[1].name = copy.results.tests[0].name; },
+      (copy) => { copy.results.tests[0].name = '[AUTO-10] wrong code'; }
+    ]) {
+      const copy = structuredClone(project);
+      mutate(copy);
+      assert.equal(serviceProjectJourney(copy).next.id, 'test', pathId);
+      assert.ok(serviceJourneyCoverage(copy).some((check) => !check.recorded));
+    }
+    for (const status of ['fail', 'blocked']) {
+      const copy = structuredClone(project);
+      copy.results.tests[0].status = status;
+      assert.equal(serviceProjectJourney(copy).ready, true, 'documented learning is not a success claim');
+    }
+    const retested = structuredClone(project);
+    Object.assign(retested.results.tests[0], { status: 'fail', retestStatus: 'pass', retest: 'Dated recheck after correction in fictional exercise.' });
+    assert.equal(serviceProjectJourney(retested).ready, true);
+    for (const [flag, expected] of [['brief', 'learn'], ['scope', 'practise'], ['evidence', 'test'], ['review', 'review'], ['handover', 'handover']]) {
+      const copy = structuredClone(project);
+      copy.completed = copy.completed.filter((item) => item !== flag);
+      const journey = serviceProjectJourney(copy);
+      assert.equal(journey.next.id, expected);
+      assert.equal(journey.stages.at(-1).complete, false);
+    }
+    for (const field of definition.proposalFields) {
+      const copy = structuredClone(project);
+      copy.proposal.inputs[field] = '';
+      copy.proposal.source = proposalSource(copy.proposal.inputs, 'en');
+      assert.equal(serviceProjectJourney(copy).next.id, 'draft', pathId + ': ' + field);
+    }
+    const stale = structuredClone(project);
+    stale.proposal.inputs.scope = 'New unsynchronised proposal input';
+    assert.equal(serviceProjectJourney(stale).next.id, 'draft');
+    for (const field of ['rationale', 'uncertainty', 'nextSteps']) {
+      const copy = structuredClone(project);
+      copy.results.notes[field] = '';
+      assert.equal(serviceProjectJourney(copy).next.id, 'review');
+    }
+    const undecided = structuredClone(project);
+    undecided.results.decision = '';
+    assert.equal(serviceProjectJourney(undecided).next.id, 'review');
+  }
+});
+
+test('service portfolios preserve decisions, missing coverage, privacy and optional account serialization in four languages', async () => {
+  const { serviceJourneys, serviceJourneyTests, buildServicePortfolio, serviceProjectJourney } =
+    await loadContent('../lib/service-project-journeys.ts', journeyImports);
+  const { saveProject, loadProject, readPilotProject } = await loadContent('../lib/pilot-projects.ts', projectImports);
+  const { proposalSource } = await loadContent('../lib/pilot-proposal.ts');
+  for (const [pathId, definition] of Object.entries(serviceJourneys)) {
+    const project = await contentProjectFixture();
+    project.pathId = pathId;
+    for (const key of definition.proposalFields) project.proposal.inputs[key] = `Practice ${key}`;
+    project.proposal.source = proposalSource(project.proposal.inputs, 'en');
+    project.results.tests = serviceJourneyTests(pathId, (text) => text).map((test) => ({
+      ...test, actual: 'RAW_PRIVATE_EVIDENCE_CANARY', status: 'blocked'
+    }));
+    const before = JSON.stringify(project);
+    for (const decision of ['continue', 'revise', 'stop']) {
+      const copy = structuredClone(project);
+      copy.results.decision = decision;
+      const report = buildServicePortfolio(copy, (text) => text);
+      assert.ok(report.startsWith(definition.heading));
+      assert.ok(report.includes(definition.boundary));
+      assert.match(report, new RegExp(`Recorded decision: ${decision[0].toUpperCase() + decision.slice(1)}`));
+      assert.match(report, /Practice record assembled - self-recorded/);
+      assert.match(report, /not a passing grade or independent verification/);
+      assert.doesNotMatch(report, /98765|87654|RAW_PRIVATE_EVIDENCE_CANARY|PRIVATE_PROPOSAL_CANARY/);
+    }
+    assert.equal(JSON.stringify(project), before);
+    const storage = memoryStorage();
+    saveProject(storage, project, 0, { userId: projectId, version: 3 });
+    project.brief.objective = 'UNSAVED_CANARY';
+    const saved = loadProject(storage, projectId);
+    assert.deepEqual(readPilotProject(JSON.stringify(saved.project)), saved.project);
+    assert.equal(serviceProjectJourney(saved.project).ready, true);
+    assert.doesNotMatch(buildServicePortfolio(saved.project, (text) => text), /UNSAVED_CANARY/);
+    const partial = structuredClone(saved.project);
+    partial.results.tests[0].actual = '';
+    const report = buildServicePortfolio(partial, (text) => text);
+    assert.match(report, /Incomplete practice draft/);
+    assert.ok(report.includes(`[ ] [${definition.checks[0].code}]`));
+    for (const locale of ['fr', 'de', 'es']) {
+      const book = JSON.parse(await readFile(new URL(`../content/translations/ui-${locale}.json`, import.meta.url), 'utf8'));
+      const tr = (text) => { assert.ok(book[text], `${locale}: missing service phrase "${text}"`); return book[text]; };
+      for (const field of ['title', 'heading', 'exercise', 'boundary', 'practiceTitle', 'learn', 'practise', 'draft', 'handover']) tr(definition[field]);
+      const plans = serviceJourneyTests(pathId, tr);
+      assert.deepEqual(plans.map((test) => test.name.match(/^\[[^\]]+\]/)[0]), definition.checks.map((check) => `[${check.code}]`));
+      assert.ok(plans.every((test) => test.actual === '' && test.status === 'pending'));
+      assert.ok(buildServicePortfolio(saved.project, tr).startsWith(book[definition.heading]));
+    }
+  }
+  const content = await contentProjectFixture();
+  const { buildContentPortfolio, contentJourney } = await loadContent('../lib/first-content-project.ts', journeyImports);
+  assert.equal(buildServicePortfolio(content, (text) => text), buildContentPortfolio(content, (text) => text));
+  assert.deepEqual(serviceProjectJourney(content), contentJourney(content), 'existing content behavior is unchanged');
 });
 
 test('project schema supports five tracks, validates all nested drafts and rejects malformed data', async () => {

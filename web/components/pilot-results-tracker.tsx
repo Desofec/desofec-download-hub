@@ -6,6 +6,7 @@ import { useLanguage } from '@/components/language';
 import { useTr } from '@/components/tr';
 import { downloadPilotText } from '@/lib/pilot-download';
 import { formatPilotMoney } from '@/lib/pilot-numbers';
+import type { ServicePathId } from '@/lib/pilot-projects';
 import {
   buildPilotResultsReport, effectiveTestStatus, emptyPilotResults, emptyPilotTest,
   formatPilotMinutes, isPilotDecision, isResultStatus, maxPilotTests, pilotDecisions,
@@ -32,6 +33,7 @@ export function PilotResultsTracker({ projectId }: { projectId?: string }) {
   const tr = useTr();
   const language = useLanguage();
   const [data, setData] = useState(emptyPilotResults);
+  const [projectPath, setProjectPath] = useState<ServicePathId | null>(null);
   const [dirty, setDirty] = useState(false);
   const [notice, setNotice] = useState('');
   const [error, setError] = useState('');
@@ -43,8 +45,9 @@ export function PilotResultsTracker({ projectId }: { projectId?: string }) {
   const incomplete = summary.open > 0 || !data.decision
     || Object.values(data.notes).some((value) => !value.trim())
     || resultMetricFields.some((field) => metrics.values[field.key] == null);
-  const loadProjectDraft = useCallback((draft: PilotResults) => {
+  const loadProjectDraft = useCallback((draft: PilotResults, pathId: ServicePathId) => {
     setData(draft);
+    setProjectPath(pathId);
     setDirty(false);
     setNotice('');
     setError('');
@@ -167,11 +170,13 @@ export function PilotResultsTracker({ projectId }: { projectId?: string }) {
       <section aria-labelledby="results-tests">
         <h2 id="results-tests">{tr('1. Test cases: expected versus actual')}</h2>
         <p>{tr('Record your own observations, not AI guesses. The workshop examples are test plans with no pre-filled outcomes. Use test accounts, never a live inbox or machine control.')}</p>
-        <p>{tr('Up to 20 tests. Run workshop examples in order. A failure/retry case is included. Loading examples replaces only test cases after confirmation; other tracker fields stay unchanged.')}</p>
-        <button type="button" className="btn btn-secondary" onClick={() => {
-          if (!window.confirm(tr('Replace current test cases with seven fictional workshop test plans? Existing test evidence will be lost.'))) return;
-          change((previous) => ({ ...previous, tests: starterPilotTests(tr) }));
-        }}>{tr('Load workshop test plans')}</button>
+        {(projectId === undefined || projectPath === 'ai-content-services') && <>
+          <p>{tr('Up to 20 tests. Run workshop examples in order. A failure/retry case is included. Loading examples replaces only test cases after confirmation; other tracker fields stay unchanged.')}</p>
+          <button type="button" className="btn btn-secondary" onClick={() => {
+            if (!window.confirm(tr('Replace current test cases with seven fictional workshop test plans? Existing test evidence will be lost.'))) return;
+            change((previous) => ({ ...previous, tests: starterPilotTests(tr) }));
+          }}>{tr('Load workshop test plans')}</button>
+        </>}
         <p className="path-progress" aria-live="polite">
           {tr('Total tests:')} {summary.total} · {tr('Pass:')} {summary.pass} · {tr('Fail:')} {summary.fail} · {tr('Blocked:')} {summary.blocked} · {tr('Not run or missing evidence:')} {summary.pending}
         </p>

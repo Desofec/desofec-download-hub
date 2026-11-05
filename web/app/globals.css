@@ -444,7 +444,7 @@ h3 {
   min-width: 0;
 }
 
-.content-project-journey {
+.service-project-journey {
   display: grid;
   gap: 16px;
   margin: 24px 0;
@@ -457,7 +457,7 @@ h3 {
   padding: 0;
 }
 
-.journey-stages li,
+.journey-stages > li,
 .journey-portfolio {
   min-width: 0;
   padding: 18px;
@@ -466,7 +466,7 @@ h3 {
   background: var(--surface-strong);
 }
 
-.journey-stages li[aria-current="step"] {
+.journey-stages > li[aria-current="step"] {
   border-color: var(--primary);
 }
 
@@ -480,6 +480,12 @@ h3 {
   overflow-wrap: anywhere;
   font: inherit;
   line-height: 1.6;
+}
+
+.journey-checks {
+  display: grid;
+  gap: 12px;
+  overflow-wrap: anywhere;
 }
 
 .goal-card {
