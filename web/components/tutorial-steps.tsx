@@ -6,8 +6,10 @@ import { Tr } from '@/components/tr';
 import { getTutorialTranslation } from '@/lib/tutorial-translations';
 import { useProgressSync } from '@/components/progress-sync';
 import type { TutorialStep } from '@/lib/task-tracker-tutorial';
+import { LessonFeedback } from '@/components/lesson-feedback';
 
 const EVENT_NAME = 'desofec-tutorial-change';
+const STORAGE_ERROR = 'storage-unavailable';
 
 function subscribe(callback: () => void) {
   window.addEventListener('storage', callback);
@@ -22,7 +24,7 @@ function readSaved(storageKey: string) {
   try {
     return localStorage.getItem(storageKey) ?? '[]';
   } catch {
-    return '[]';
+    return STORAGE_ERROR;
   }
 }
 
@@ -70,24 +72,30 @@ export function TutorialSteps({
     [sourceSteps, translation]
   );
   const raw = useSyncExternalStore(subscribe, () => readSaved(storageKey), () => null);
+  const [fallbackRaw, setFallbackRaw] = useState<string | null>(null);
   const ready = raw !== null;
+  const currentRaw = fallbackRaw ?? raw;
+  const storageUnavailable = raw === STORAGE_ERROR || fallbackRaw !== null;
 
   const done = useMemo(() => {
     try {
-      const saved: unknown = JSON.parse(raw ?? '[]');
+      const saved: unknown = JSON.parse(currentRaw ?? '[]');
       return Array.isArray(saved)
         ? saved.filter((id): id is string => typeof id === 'string' && steps.some((step) => step.id === id))
         : [];
     } catch {
       return [];
     }
-  }, [raw, steps]);
+  }, [currentRaw, steps]);
 
   const persist = useCallback((next: string[]) => {
     try {
       localStorage.setItem(storageKey, JSON.stringify(next));
       localStorage.setItem(`${storageKey}:activity`, String(Date.now()));
-    } catch {}
+      setFallbackRaw(null);
+    } catch {
+      setFallbackRaw(JSON.stringify(next));
+    }
     window.dispatchEvent(new Event(EVENT_NAME));
   }, [storageKey]);
 
@@ -125,6 +133,7 @@ export function TutorialSteps({
         </p>
       )}
       <progress className="progress-bar" value={done.length} max={steps.length} aria-label="Tutorial progress" />
+      {storageUnavailable && <p role="status"><Tr>Progress cannot be saved in this browser right now.</Tr></p>}
       <ol className="tutorial-steps">
         {steps.map((step, index) => (
           <li className={`tutorial-step${done.includes(step.id) ? ' step-done' : ''}`} key={step.id}>
@@ -182,6 +191,7 @@ export function TutorialSteps({
           </div>
         </section>
       )}
+      <LessonFeedback lessonId={syncId} />
     </div>
   );
 }

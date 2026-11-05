@@ -37,8 +37,8 @@ export default async function TutorialsPage() {
               intro: tutorial.intro,
               time: tutorial.time,
               stepCount: tutorial.steps.length,
-              badge: path?.badge,
-              level: path?.level,
+              badge: path?.badge ?? tutorial.badge,
+              level: path?.level ?? tutorial.level,
               pathTitle: path?.title
             };
           })}

@@ -18,6 +18,7 @@ import { codingFoundationsSteps } from '@/lib/coding-foundations-tutorial';
 import { taskTrackerSteps, type TutorialStep } from '@/lib/task-tracker-tutorial';
 import { smallBusinessSteps, videoCreationSteps, careerSkillsSteps } from '@/lib/practical-ai-tutorials';
 import { spreadsheetSteps } from '@/lib/spreadsheets-tutorial';
+import { websiteChallengeId, websiteChallengeSteps } from '@/lib/website-challenge';
 
 export type TutorialInfo = {
   pathId: string;
@@ -26,10 +27,22 @@ export type TutorialInfo = {
   intro: string;
   time: string;
   steps: TutorialStep[];
+  badge?: string;
+  level?: string;
 };
 
 // Older tutorials keep their original URLs. New ones live under /tutorials/<pathId>.
 export const tutorials: TutorialInfo[] = [
+  {
+    pathId: websiteChallengeId,
+    href: '/challenges/first-website',
+    title: '7-Day First Website Challenge',
+    intro: 'Build one small website with a daily task and a final project review. Go at your own pace: there is no deadline or penalty for missing a day. Start with about 15-30 minutes per day; setup may take longer.',
+    time: '150 minutes',
+    steps: websiteChallengeSteps,
+    badge: 'Challenge',
+    level: 'Beginner'
+  },
   {
     pathId: 'ai-spreadsheets',
     href: '/tutorials/ai-spreadsheets',

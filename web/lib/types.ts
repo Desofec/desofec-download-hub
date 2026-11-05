@@ -13,6 +13,12 @@ export type Tool = {
   description: string;
   badge: string;
   url: string;
+  review?: ToolReview;
+};
+
+export type ToolReview = {
+  reviewedOn: string;
+  sourceUrl: string;
 };
 
 export type StarterPack = {

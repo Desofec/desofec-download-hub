@@ -5,6 +5,7 @@ import { useMemo, useState } from 'react';
 import { ToolCard } from '@/components/cards';
 import type { Tool } from '@/lib/types';
 import { Tr, useTr } from '@/components/tr';
+import { ToolFreshness } from '@/components/tool-freshness';
 
 export function ToolsExplorer({ tools }: { tools: Tool[] }) {
   const tr = useTr();
@@ -168,6 +169,10 @@ export function ToolsExplorer({ tools }: { tools: Tool[] }) {
                 <tr>
                   <th scope="row"><Tr>Highlights</Tr></th>
                   {comparedTools.map((tool) => <td key={tool.id}><Tr>{tool.badge}</Tr></td>)}
+                </tr>
+                <tr>
+                  <th scope="row"><Tr>Description review</Tr></th>
+                  {comparedTools.map((tool) => <td key={tool.id}><ToolFreshness tool={tool} /></td>)}
                 </tr>
                 <tr>
                   <th scope="row"><Tr>Visit</Tr></th>

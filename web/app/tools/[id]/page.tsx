@@ -5,6 +5,7 @@ import { PackCard, ToolCard } from '@/components/cards';
 import { FavoriteToolButton } from '@/components/favorite-tool-button';
 import { getCatalog } from '@/lib/catalog';
 import { Tr } from '@/components/tr';
+import { ToolFreshness } from '@/components/tool-freshness';
 
 export async function generateStaticParams() {
   const { tools } = await getCatalog();
@@ -47,6 +48,7 @@ export default async function ToolDetailPage({ params }: { params: Promise<{ id:
             <span className="tool-tag"><Tr>{tool.badge}</Tr></span>
             <span className="skill-chip"><Tr>{tool.skill}</Tr></span>
           </div>
+          <ToolFreshness tool={tool} details />
           <div className="cta-row">
             <FavoriteToolButton toolId={tool.id} />
           </div>

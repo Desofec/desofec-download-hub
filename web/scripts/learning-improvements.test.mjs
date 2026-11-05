@@ -3,12 +3,19 @@ import { readFile } from 'node:fs/promises';
 import { test } from 'node:test';
 import ts from 'typescript';
 
-async function loadContent(relativePath) {
+async function contentUrl(relativePath, imports = {}) {
   const source = await readFile(new URL(relativePath, import.meta.url), 'utf8');
-  const { outputText } = ts.transpileModule(source, {
+  let { outputText } = ts.transpileModule(source, {
     compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2020 }
   });
-  return import(`data:text/javascript;base64,${Buffer.from(outputText).toString('base64')}`);
+  for (const [specifier, dependency] of Object.entries(imports)) {
+    outputText = outputText.replaceAll(`'${specifier}'`, JSON.stringify(await contentUrl(dependency)));
+  }
+  return `data:text/javascript;base64,${Buffer.from(outputText).toString('base64')}`;
+}
+
+async function loadContent(relativePath, imports = {}) {
+  return import(await contentUrl(relativePath, imports));
 }
 
 test('all three practical tutorials have complete translations without changing progress IDs', async () => {
@@ -51,4 +58,41 @@ test('study board data validation rejects malformed responses instead of showing
   const request = { id: 'request', post_id: 'post', goal_id: 'learn-ai', display_name: 'Learner', message: '' };
   assert.deepEqual(studyRows([request], isStudyRequest), [request]);
   assert.throws(() => studyRows([{ ...request, message: null }], isStudyRequest), /Invalid study board response/);
+});
+
+test('feedback response parsing preserves false votes and rejects malformed data', async () => {
+  const { readLessonVote } = await loadContent('../lib/lesson-feedback.ts');
+  assert.equal(readLessonVote(null), null);
+  assert.equal(readLessonVote({ helpful: true }), true);
+  assert.equal(readLessonVote({ helpful: false }), false);
+  for (const invalid of [{}, [], { helpful: 'false' }, undefined]) {
+    assert.throws(() => readLessonVote(invalid), /Invalid lesson feedback response/);
+  }
+});
+
+test('review metadata only attaches to the exact reviewed description and URL', async () => {
+  const { withToolReviews } = await loadContent('../lib/tool-review.ts');
+  const tool = { id: 'tool', name: 'Tool', description: 'Reviewed', url: 'https://example.com' };
+  const reviews = {
+    tool: { reviewedOn: '2026-11-05', sourceUrl: 'https://example.com/help', toolUrl: tool.url, description: tool.description }
+  };
+  assert.equal(withToolReviews([tool], reviews)[0].review.reviewedOn, '2026-11-05');
+  assert.equal(withToolReviews([{ ...tool, description: 'Changed' }], reviews)[0].review, undefined);
+  assert.equal(withToolReviews([{ ...tool, url: 'https://different.example' }], reviews)[0].review, undefined);
+  assert.equal(withToolReviews([{ ...tool, id: 'other' }], reviews)[0].review, undefined);
+});
+
+test('website challenge has seven ordered tasks with independent progress and a final review', async () => {
+  const { websiteChallengeId, websiteChallengeSteps } = await loadContent('../lib/website-challenge.ts', {
+    '@/lib/ai-website-tutorial': '../lib/ai-website-tutorial.ts'
+  });
+  assert.equal(websiteChallengeId, 'first-website-challenge');
+  assert.equal(websiteChallengeSteps.length, 7);
+  assert.equal(new Set(websiteChallengeSteps.map((step) => step.id)).size, 7);
+  for (const [index, step] of websiteChallengeSteps.entries()) {
+    assert.ok(step.title.startsWith(`Day ${index + 1}:`));
+    assert.ok(step.check && step.aiPrompt && step.code && step.explanation.length);
+  }
+  assert.equal(websiteChallengeSteps[6].id, 'final-project-review');
+  assert.ok(websiteChallengeSteps[4].explanation.join(' ').includes('commercial'));
 });
