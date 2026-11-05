@@ -66,9 +66,9 @@ export function PilotProjectTool(props: Props) {
       <p>{tr('This form belongs to one device project. Save explicitly. Standalone drafts, learning progress and account snapshots stay separate.')}</p>
       <p>{tr('Use fictional or anonymised details only. Account upload happens only from the workspace after your consent; nothing is sent to AI or clients.')}</p>
       <div className="cta-row">
-        <Link className="btn btn-secondary" href={`/business-launchpad/projects${query}`} onNavigate={(event) => {
-          if (props.dirty && !window.confirm(tr('Leave this page without saving the current project draft?'))) event.preventDefault();
-        }}>{tr('Back to project')}</Link>
+        {/* Reload saved evidence instead of restoring Next's retained workspace state.
+            The parent tool's beforeunload guard protects unsaved edits. */}
+        <a className="btn btn-secondary" href={`/business-launchpad/projects${query}`}>{tr('Back to project')}</a>
         <Link className="btn btn-secondary" href={`/business-launchpad/${kind === 'proposal' ? 'results-tracker' : 'proposal-builder'}${query}`} onNavigate={(event) => {
           if (props.dirty && !window.confirm(tr('Leave this page without saving the current project draft?'))) event.preventDefault();
         }}>

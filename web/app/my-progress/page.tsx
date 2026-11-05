@@ -34,6 +34,7 @@ export default async function MyProgressPage() {
           <p><Tr>Choose from five service learning paths. Build practice evidence before offering real work; no path promises clients or income.</Tr></p>
           <Link className="btn btn-secondary" href="/business-launchpad"><Tr>Open the AI Business Launchpad</Tr></Link>
           <Link className="btn btn-secondary" href="/business-launchpad/projects"><Tr>Open the Pilot Project Workspace</Tr></Link>
+          <Link className="btn btn-secondary" href="/business-launchpad/first-project"><Tr>Complete your first practice project</Tr></Link>
         </section>
         <ProgressDashboard
           paths={paths}

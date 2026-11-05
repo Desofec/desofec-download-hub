@@ -31,6 +31,7 @@ export default function PilotProjectsPage({ searchParams }: { searchParams: Quer
           <h1><Tr>Pilot Project Workspace</Tr></h1>
           <p><Tr>Turn a service learning path into a private practice project: brief, checklist, proposal, test evidence and next action in one place.</Tr></p>
           <Link className="btn btn-secondary" href="/business-launchpad"><Tr>AI Business Launchpad</Tr></Link>
+          <Link className="btn btn-secondary" href="/business-launchpad/first-project"><Tr>Find a guided first project</Tr></Link>
         </div>
         <Suspense fallback={<p><Tr>Loading...</Tr></p>}>
           <Projects searchParams={searchParams} />

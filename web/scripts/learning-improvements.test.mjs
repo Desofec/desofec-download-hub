@@ -10,7 +10,7 @@ async function contentUrl(relativePath, imports = {}) {
   });
   for (const [specifier, dependency] of Object.entries({ '@/lib/pilot-numbers': '../lib/pilot-numbers.ts', ...imports })) {
     if (outputText.includes(`'${specifier}'`)) {
-      outputText = outputText.replaceAll(`'${specifier}'`, JSON.stringify(await contentUrl(dependency)));
+      outputText = outputText.replaceAll(`'${specifier}'`, JSON.stringify(await contentUrl(dependency, imports)));
     }
   }
   return `data:text/javascript;base64,${Buffer.from(outputText).toString('base64')}`;
@@ -35,6 +35,160 @@ function memoryStorage() {
   };
 }
 const projectId = '11111111-1111-4111-8111-111111111111';
+
+const journeyImports = { ...projectImports, '@/lib/pilot-projects': '../lib/pilot-projects.ts' };
+async function contentProjectFixture() {
+  const { newPilotProject, projectProposalSeed, projectResultsSeed } =
+    await loadContent('../lib/pilot-projects.ts', projectImports);
+  const { proposalSource } = await loadContent('../lib/pilot-proposal.ts');
+  const { emptyPilotTest } = await loadContent('../lib/pilot-results.ts');
+  const project = newPilotProject(projectId, 'ai-content-services', 'Cedar Bakery fictional practice');
+  project.brief = {
+    objective: 'Separate known bakery hours from unknown delivery and allergens.',
+    scope: 'Three posts, four FAQ answers; no publication or invented prices.',
+    review: 'Owner approval unavailable in fictional practice; keep blocked.'
+  };
+  project.completed = ['brief', 'scope', 'evidence', 'review', 'handover'];
+  project.proposal = projectProposalSeed(project);
+  for (const key of ['exclusions', 'acceptance', 'reviewer', 'handover']) project.proposal.inputs[key] = `Practice ${key}`;
+  project.proposal.inputs.setupRate = '98765.43';
+  project.proposal.document = 'PRIVATE_PROPOSAL_CANARY';
+  project.proposal.source = proposalSource(project.proposal.inputs, 'en');
+  project.results = projectResultsSeed(project);
+  project.results.metrics.cost = '87654.32';
+  project.results.tests = ['Brief facts', 'Post word counts', 'Asset permissions', 'Owner approval'].map((name, index) => ({
+    ...emptyPilotTest(`test-${index + 1}`), name,
+    input: 'RAW_TEST_INPUT_CANARY', expected: 'RAW_TEST_EXPECTED_CANARY',
+    actual: 'RAW_TEST_ACTUAL_CANARY', correction: 'RAW_CORRECTION_CANARY',
+    status: index === 3 ? 'blocked' : 'pass'
+  }));
+  project.results.decision = 'revise';
+  Object.assign(project.results.notes, {
+    rationale: 'Revise the copy; live approval is unavailable.',
+    uncertainty: 'Permissions and owner approval remain unverified.',
+    nextSteps: 'Keep publication paused and preserve versioned files.'
+  });
+  return project;
+}
+
+test('guided content milestones are sequential, saved-data derived and accept documented blocked outcomes without approval', async () => {
+  const { contentJourney, contentJourneyHref, buildContentPortfolio } =
+    await loadContent('../lib/first-content-project.ts', journeyImports);
+  const project = await contentProjectFixture();
+  const before = JSON.stringify(project);
+  assert.equal(contentJourney(project).ready, true);
+  assert.equal(contentJourney(project).summary.blocked, 1);
+  for (const decision of ['continue', 'revise', 'stop']) {
+    const copy = structuredClone(project);
+    copy.results.decision = decision;
+    const report = buildContentPortfolio(copy, (text) => text);
+    assert.match(report, new RegExp(`Recorded decision: ${decision[0].toUpperCase() + decision.slice(1)}`));
+    assert.match(report, /FICTIONAL CONTENT SERVICE, NOT CLIENT WORK/);
+    assert.match(report, /Practice record assembled - self-recorded, not independently verified/);
+    assert.match(report, /Blocked: 1/);
+    assert.match(report, /No client approval, publication permission/);
+    assert.doesNotMatch(report, /98765|87654|PRIVATE_PROPOSAL_CANARY|RAW_TEST_|RAW_CORRECTION_CANARY/);
+  }
+  assert.equal(JSON.stringify(project), before);
+  assert.equal(contentJourneyHref(project, 'proposal'), `/business-launchpad/proposal-builder?project=${project.id}`);
+  assert.equal(contentJourneyHref(project, 'results'), `/business-launchpad/results-tracker?project=${project.id}`);
+  assert.equal(contentJourneyHref(project, 'tutorial'), '/tutorials/ai-content-services');
+  assert.equal(contentJourneyHref(project, 'kit'), '/starter-packs/ai-content-services-kit');
+  assert.equal(contentJourneyHref(project, 'brief'), '#project-brief-form');
+  for (const [milestone, next] of [['brief', 'learn'], ['scope', 'practise'], ['evidence', 'test'], ['review', 'review'], ['handover', 'handover']]) {
+    const copy = structuredClone(project);
+    copy.completed = copy.completed.filter((item) => item !== milestone);
+    const result = contentJourney(copy);
+    assert.equal(result.next.id, next);
+    assert.equal(result.ready, false);
+    assert.ok(result.stages.slice(result.stages.findIndex((stage) => stage.id === next)).every((stage) => !stage.complete));
+    assert.match(buildContentPortfolio(copy, (text) => text), /Incomplete practice draft/);
+  }
+  for (const field of ['objective', 'scope', 'review']) {
+    const copy = structuredClone(project);
+    copy.brief[field] = ' ';
+    assert.equal(contentJourney(copy).next.id, field === 'objective' ? 'learn' : 'practise');
+  }
+  assert.throws(() => buildContentPortfolio({ ...project, pathId: 'ai-cad-services' }, (text) => text), /only/);
+});
+
+test('guided proposal and test milestones reject missing, stale, unsupported and duplicate evidence', async () => {
+  const { contentJourney } = await loadContent('../lib/first-content-project.ts', journeyImports);
+  const project = await contentProjectFixture();
+  for (const mutate of [
+    (copy) => { copy.proposal = null; },
+    (copy) => { copy.proposal.document = ''; },
+    (copy) => { copy.proposal.source = '{'; },
+    (copy) => { copy.proposal.inputs.scope = 'Stale form'; },
+    (copy) => { copy.proposal.inputs.acceptance = ''; }
+  ]) {
+    const copy = structuredClone(project);
+    mutate(copy);
+    assert.equal(contentJourney(copy).next.id, 'draft');
+  }
+  for (const mutate of [
+    (copy) => { copy.results = null; },
+    (copy) => { copy.results.tests.pop(); },
+    (copy) => { copy.results.tests[3].name = '  BRIEF FACTS  '; },
+    (copy) => { copy.results.tests[3].actual = ' '; },
+    (copy) => { copy.results.tests[0].actual = ''; },
+    (copy) => { copy.results.tests[0].retestStatus = 'pass'; copy.results.tests[0].retest = ''; },
+    (copy) => { copy.results.tests[0].status = 'pending'; }
+  ]) {
+    const copy = structuredClone(project);
+    mutate(copy);
+    assert.equal(contentJourney(copy).next.id, 'test');
+  }
+  const retested = structuredClone(project);
+  retested.results.tests[0].status = 'fail';
+  retested.results.tests[0].retestStatus = 'pass';
+  retested.results.tests[0].retest = 'Rechecked the source facts; corrected hours now match.';
+  assert.equal(contentJourney(retested).ready, true);
+  const failed = structuredClone(project);
+  failed.results.tests[0].status = 'fail';
+  assert.equal(contentJourney(failed).ready, true, 'recorded failure is evidence, not an approved outcome');
+  for (const key of ['rationale', 'uncertainty', 'nextSteps']) {
+    const copy = structuredClone(project);
+    copy.results.notes[key] = ' ';
+    assert.equal(contentJourney(copy).next.id, 'review');
+  }
+  const undecided = structuredClone(project);
+  undecided.results.decision = '';
+  assert.equal(contentJourney(undecided).next.id, 'review');
+});
+
+test('guided portfolio uses unchanged project serialization and has translated interface and exports', async () => {
+  const { contentJourney, buildContentPortfolio } = await loadContent('../lib/first-content-project.ts', journeyImports);
+  const { saveProject, loadProject, readPilotProject } = await loadContent('../lib/pilot-projects.ts', projectImports);
+  const project = await contentProjectFixture();
+  const storage = memoryStorage();
+  saveProject(storage, project, 0, { userId: projectId, version: 1 });
+  project.brief.objective = 'UNSAVED_CANARY';
+  const saved = loadProject(storage, projectId);
+  assert.doesNotMatch(buildContentPortfolio(saved.project, (text) => text), /UNSAVED_CANARY/);
+  assert.deepEqual(readPilotProject(JSON.stringify(saved.project)), saved.project);
+  assert.equal(contentJourney(saved.project).ready, true);
+  const strings = new Set(['Find a guided first project']);
+  const files = ['../lib/first-content-project.ts', '../components/first-project-chooser.tsx',
+    '../components/content-project-journey.tsx', '../app/business-launchpad/first-project/page.tsx'];
+  for (const file of files) {
+    const source = await readFile(new URL(file, import.meta.url), 'utf8');
+    const ast = ts.createSourceFile(file, source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
+    const visit = (node) => {
+      if (ts.isStringLiteral(node) && /^(?:[A-Z]|[1-6]\.)/.test(node.text) && node.text !== 'AI Content Services') strings.add(node.text);
+      if (ts.isJsxText(node) && node.parent.openingElement?.tagName.getText(ast) === 'Tr' && node.text.trim()) strings.add(node.text.trim());
+      ts.forEachChild(node, visit);
+    };
+    visit(ast);
+  }
+  for (const locale of ['fr', 'de', 'es']) {
+    const book = JSON.parse(await readFile(new URL(`../content/translations/ui-${locale}.json`, import.meta.url), 'utf8'));
+    for (const text of strings) assert.ok(book[text], `${locale}: missing guided phrase "${text}"`);
+    const report = buildContentPortfolio(saved.project, (text) => book[text] ?? text);
+    assert.ok(report.startsWith(book['PRACTICE PORTFOLIO - FICTIONAL CONTENT SERVICE, NOT CLIENT WORK']));
+    assert.doesNotMatch(report, /Recorded decision:|Practice record assembled - self-recorded/);
+  }
+});
 
 test('project schema supports five tracks, validates all nested drafts and rejects malformed data', async () => {
   const { newPilotProject, readPilotProject, servicePathIds } = await loadContent('../lib/pilot-projects.ts', projectImports);
