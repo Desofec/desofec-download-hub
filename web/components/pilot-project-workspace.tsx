@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { useAuth } from '@/components/auth-provider';
 import { PilotProjectAccount } from '@/components/pilot-project-account';
+import { ContentProjectJourney } from '@/components/content-project-journey';
+import { contentJourney, firstContentPath } from '@/lib/first-content-project';
 import { useTr } from '@/components/tr';
 import { downloadPilotText } from '@/lib/pilot-download';
 import {
@@ -138,7 +140,9 @@ function Workspace({ paths, projectId, initialPath }: WorkspaceProps) {
             <article className="path-card" key={project.id}>
               <h3>{project.title}</h3>
               <p>{tr(paths.find((path) => path.id === project.pathId)?.title ?? project.pathId)}</p>
-              <p>{tr(projectNextAction(project))}</p>
+              <p>{tr(project.pathId === firstContentPath
+                ? contentJourney(project).next?.action ?? 'Practice record assembled. Review the private portfolio and all unresolved issues before any manual sharing.'
+                : projectNextAction(project))}</p>
               <button type="button" className="btn btn-secondary" onClick={() => open(project.id)} aria-pressed={selected?.project.id === project.id}>{tr('Open project')}</button>
             </article>
           ))}
@@ -149,10 +153,12 @@ function Workspace({ paths, projectId, initialPath }: WorkspaceProps) {
         <section aria-labelledby="current-project">
           <h2 id="current-project" tabIndex={-1} ref={heading}>{saved.title}</h2>
           <p>{tr(paths.find((path) => path.id === saved.pathId)?.title ?? saved.pathId)}</p>
-          <p><strong>{tr('Next action:')}</strong> {tr(projectNextAction(saved))}</p>
+          {saved.pathId === firstContentPath
+            ? <ContentProjectJourney key={`${saved.id}:${selected.revision}`} saved={selected} dirty={dirty} />
+            : <p><strong>{tr('Next action:')}</strong> {tr(projectNextAction(saved))}</p>}
           <p>{tr('Checklist completion is self-recorded planning, not customer, engineering or teaching approval.')}</p>
           <p>{tr('Brief changes never rewrite existing proposal or results drafts. Review both after changing the brief.')}</p>
-          <form className="proposal-form" onSubmit={(event) => {
+          <form className="proposal-form" id="project-brief-form" onSubmit={(event) => {
             event.preventDefault();
             attempt(() => {
               const updated = saveProject(localStorage, draft, selected.revision);

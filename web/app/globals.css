@@ -444,6 +444,44 @@ h3 {
   min-width: 0;
 }
 
+.content-project-journey {
+  display: grid;
+  gap: 16px;
+  margin: 24px 0;
+}
+
+.journey-stages {
+  display: grid;
+  gap: 16px;
+  list-style: none;
+  padding: 0;
+}
+
+.journey-stages li,
+.journey-portfolio {
+  min-width: 0;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface-strong);
+}
+
+.journey-stages li[aria-current="step"] {
+  border-color: var(--primary);
+}
+
+.journey-portfolio summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.project-portfolio-preview {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font: inherit;
+  line-height: 1.6;
+}
+
 .goal-card {
   min-height: 200px;
   background: var(--panel-grad);

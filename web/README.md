@@ -78,6 +78,37 @@ development URLs there too if you test sign-in locally.
 
 ## AI Business Launchpad
 
+### Guided first project
+
+`/business-launchpad/first-project` recommends AI Content Services for a first no-code, fictional
+practice package. Goal selection links to the existing workspace with a preselected path; it does not
+create a project or upload anything. The other four goals retain their existing lessons, kits and
+workspace; the six-stage guided portfolio currently supports content services only.
+
+Content projects (including existing ones and loaded account snapshots) show six sequential milestones
+derived from **saved** project data: learn, practise, draft, test, review and handover. They reuse the
+existing checklist; no progress keys or record schemas change. Learn/practise/handover are self-recorded
+work, not proof of tutorial completion or file inspection. Draft requires a current generated proposal
+and seven scope/review fields. Test requires four distinct named cases with input, expected and actual
+evidence, non-pending outcomes, and the evidence checklist item. A supported failed/blocked case counts
+as recorded evidence, not success; unavailable real owner approval must stay blocked. Review requires
+an explicit decision, rationale, uncertainty, next steps and the review item. Handover requires all prior
+milestones and the handover item; no milestone grants publication permission or client approval.
+
+The private practice-portfolio preview is derived from saved data, not stored separately or published.
+It retains incomplete status, failed/blocked/pending counts and the recorded decision. It omits full
+proposal text, structured financial fields and raw test evidence; titles and notes remain user text and
+must be checked before manual sharing. Download requires explicit review acknowledgement; unsaved
+brief/checklist changes disable it. Saving a new project revision resets that acknowledgement.
+Original posts, FAQ, asset/claim ledger and revision log stay in the learner's own storage.
+Tool **Back to project** links deliberately use document navigation so Next's retained route state
+cannot show an older workspace revision after saving a draft. The tool's existing `beforeunload`
+guard protects unsaved edits. If returning through browser history or editing in another tab,
+**Refresh device projects** explicitly reloads saved evidence with a discard confirmation if needed.
+
+**No new seed or migration is needed for this journey.** It uses PR #95's existing migration 0011
+for optional account snapshots. Device/account deletion and existing privacy controls are unchanged.
+
 ### Pilot Project Workspace
 
 `/business-launchpad/projects` creates up to ten device projects from the five service paths.
