@@ -159,6 +159,24 @@ do $$ begin
     public._test_pilot_document('aaaaaaaa-aaaa-4aaa-8aaa-000000000011'), 0) = 1;
 end $$;
 
+-- Optional automation metadata is retained by the unchanged JSON snapshot RPC.
+select set_config('request.jwt.claim.sub', '44444444-4444-4444-8444-444444444444', true);
+do $$
+declare
+  _id uuid := 'cccccccc-cccc-4ccc-8ccc-cccccccccccc';
+  _scenario text;
+  _version integer := 0;
+begin
+  foreach _scenario in array array['appointments', 'weekly-report'] loop
+    _version := public.save_pilot_project(_id,
+      public._test_pilot_document(_id) ||
+        jsonb_build_object('pathId', 'ai-automation-services', 'automationScenario', _scenario), _version);
+    assert (select document->>'automationScenario' from public.pilot_projects where id = _id) = _scenario;
+    assert (select document->>'pathId' from public.pilot_projects where id = _id) = 'ai-automation-services';
+  end loop;
+  perform public.delete_pilot_project(_id, _version);
+end $$;
+
 set local role anon;
 select public._test_pilot_error('select * from public.pilot_projects', 'permission denied');
 select public._test_pilot_error(

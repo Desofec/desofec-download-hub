@@ -78,6 +78,26 @@ development URLs there too if you test sign-in locally.
 
 ## AI Business Launchpad
 
+### Small-business workflow automation
+
+The existing `/paths/ai-automation-services` path is now **AI Workflow Automation for Small
+Business**. Its URLs, six lesson IDs, pack progress indexes and original AUTO-1..9 enquiry
+exercise remain unchanged. The English tutorial/download add appointment reminders and weekly
+reports, and `/business-launchpad/automation-lab` offers three temporary, rules-only simulations.
+The lab has no model, external connector, storage, automatic project evidence or message dispatch.
+Download observations explicitly. Fixed UTC appointments do not simulate timezone/DST services.
+Weekly reports use integer cents, preserve source revisions and label unresolved values incomplete.
+
+New automation projects choose an immutable optional `automationScenario`:
+`enquiries`, `appointments` or `weekly-report`. Omitted metadata means the original enquiry
+project; other paths reject this field. Selection drives plans (APPT-1..6 or REPORT-1..6),
+milestone evidence, workbook starters, review instructions and private handover. Plans start
+pending with blank actual results. All missing real owner approval stays blocked.
+The strict client parser preserves this field through part saves and opt-in account snapshots.
+No migration is needed beyond 0012: the existing server retains the project JSON and path ID.
+Run the regenerated `supabase/seed.sql` to update production catalog names/descriptions before
+deployment; it updates existing records without new catalog IDs or ordering changes.
+
 ### Guided first project
 
 `/business-launchpad/first-project` recommends AI Content Services for a first no-code, fictional
@@ -87,7 +107,7 @@ portfolios, with service-specific instructions, evidence and explicit scope boun
 
 Service projects (including existing ones and loaded account snapshots) show six sequential milestones
 derived from **saved** project data: learn, practise, draft, test, review and handover. They reuse the
-existing checklist; no progress keys or record schemas change. Learn/practise/handover are self-recorded
+existing checklist and progress keys; automation scenario metadata is optional and backward-compatible. Learn/practise/handover are self-recorded
 work, not proof of tutorial completion or file inspection. Draft requires a current generated proposal
 and seven scope/review fields; automation, micro-SaaS and education additionally require data handling,
 and education requires a timeline. Content retains its four-distinct-named-case rule. Other services
@@ -101,6 +121,8 @@ milestones and the handover item; no milestone grants publication permission or 
 | Service | Required recorded cases | Boundary |
 | --- | --- | --- |
 | Automation | AUTO-1 through AUTO-9: six ordered events, failure/retry, off switch/manual fallback, authorised customer review | Fictional queue; never send messages or enable live work |
+| Appointment reminders | APPT-1 through APPT-6: UTC window, permission, duplicate versions, cancellation/rescheduling, retry, off switch, owner review | Fixed-UTC simulation; no real calendar or dispatch |
+| Weekly business reports | REPORT-1 through REPORT-6: date filters, duplicates, exact subtotal/exceptions, revisions, safe retry, off switch, owner review | Fictional EUR 21 incomplete subtotal; no automatic distribution |
 | CAD | CAD-1 through CAD-5: base dimensions, revision, reopened exports, method/licensing, required review | CAD or paper-only, explicitly not for manufacture |
 | Micro-SaaS | SAAS-1 through SAAS-8: exact output, blank/40/41/markup/invalid status, observed demand, costs/launch gaps | Local toy; manual work cannot establish browser passes; no subscriptions |
 | Education | EDU-1 through EDU-5: facts/key, rehearsal timing, accessible original materials, adult trial, independent review | Consenting-adult practice; no learner records or qualification claims |

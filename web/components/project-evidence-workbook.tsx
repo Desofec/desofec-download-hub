@@ -5,6 +5,7 @@ import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { useTr } from '@/components/tr';
 import { downloadPilotText } from '@/lib/pilot-download';
 import { loadProject, saveProjectPart, withProjectLock, type StoredProject } from '@/lib/pilot-projects';
+import { automationProjects } from '@/lib/automation-projects';
 import {
   appendWorkbookRevision, buildWorkbookExport, setWorkbookTestLink, workbookItemLimit,
   workbookLinkState, workbookRevisionLimit, workbookStarters, workbookTextLimit, type EvidenceWorkbook
@@ -125,7 +126,10 @@ export function ProjectEvidenceWorkbook({ projectId }: { projectId?: string }) {
           }}>{tr('Start a new text item')}</button>
           <button type="button" className="btn btn-secondary" disabled={busy} onClick={() => {
             if (!window.confirm(tr('Replace the current unsaved title and text with this service starter? No saved revision or test outcome will change.'))) return;
-            const starter = workbookStarters[saved.project.pathId];
+            const scenario = saved.project.automationScenario;
+            const practice = saved.project.pathId === 'ai-automation-services' && scenario && scenario !== 'enquiries'
+              ? automationProjects[scenario] : null;
+            const starter = practice ? { title: practice.workbookTitle, text: practice.workbookText } : workbookStarters[saved.project.pathId];
             setTitle(tr(starter.title));
             setBody(tr(starter.text));
             setDirty(true);

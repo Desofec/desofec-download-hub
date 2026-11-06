@@ -49,8 +49,8 @@ export const tutorials: TutorialInfo[] = [
   {
     pathId: 'ai-automation-services',
     href: '/tutorials/ai-automation-services',
-    title: 'Prepare your first AI automation service pilot',
-    intro: 'Validate one administrative problem, test a fictional enquiry workflow, calculate costs and draft a bounded pilot proposal. Allow about two hours for the worksheets; customer discovery and workflow setup take additional time. No paid tool or income promise.',
+    title: 'Build AI Workflow Automation for Small Business',
+    intro: 'Choose customer enquiry tracking, appointment reminder automation or automated weekly business reports. Practise with fictional data, calculate costs and prepare a bounded offer. Allow about two hours for one project; discovery and external tool setup take additional time. No paid AI or live sending.',
     time: '120 minutes',
     steps: automationServicesSteps,
     serviceKitId: 'ai-automation-services-kit'

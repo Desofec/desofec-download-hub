@@ -21,6 +21,7 @@ async function loadContent(relativePath, imports = {}) {
 }
 
 const projectImports = {
+  '@/lib/automation-projects': '../lib/automation-projects.ts',
   '@/lib/project-review': '../lib/project-review.ts',
   '@/lib/evidence-workbook': '../lib/evidence-workbook.ts',
   '@/lib/pilot-proposal': '../lib/pilot-proposal.ts',
@@ -39,6 +40,166 @@ function memoryStorage() {
 const projectId = '11111111-1111-4111-8111-111111111111';
 
 const workbookTime = '2026-11-06T01:30:00.000Z';
+test('enquiry simulation preserves the original six events, supplied human review, atomic failures and off switch', async () => {
+  const { enquiryExamples, processEnquiry } = await loadContent('../lib/automation-practice.ts');
+  const controls = { enabled: true, failWrite: false };
+  let rows = [];
+  assert.throws(() => processEnquiry(rows, enquiryExamples[0], { ...controls, failWrite: true }), /write failed/);
+  assert.deepEqual(rows, []);
+  assert.deepEqual(processEnquiry(rows, enquiryExamples[0], { ...controls, enabled: false }).rows, []);
+  for (const event of enquiryExamples) rows = processEnquiry(rows, event, controls).rows;
+  assert.deepEqual(rows.map((row) => row.id), ['E1', 'E3', 'E4', 'E5']);
+  assert.equal(rows.filter((row) => row.draft).length, 2);
+  assert.equal(rows.filter((row) => row.status === 'REVIEW').length, 2);
+  assert.deepEqual(processEnquiry(rows, enquiryExamples[0], controls).rows, rows);
+  assert.equal(JSON.stringify(rows).includes('sent":'), false);
+});
+
+test('appointment practice enforces exact UTC bounds, permission, cancellation versions and atomic recovery', async () => {
+  const { reminderExamples, processReminder, reminderClock } = await loadContent('../lib/automation-practice.ts');
+  const controls = { enabled: true, failWrite: false };
+  let state = { drafts: [], latest: {} };
+  const event = reminderExamples[0];
+  for (const patch of [
+    { id: '' }, { version: 0 }, { version: 1.5 }, { at: '2030-02-30T09:00:00.000Z' },
+    { at: '2030-01-08T10:00:00+01:00' }, { at: '' }, { permission: 'yes' }, { status: 'pending' }
+  ]) assert.throws(() => processReminder(state, { ...event, ...patch }, controls), /Invalid appointment/);
+  assert.throws(() => processReminder(state, event, { ...controls, failWrite: true }), /write failed/);
+  assert.deepEqual(state, { drafts: [], latest: {} });
+  assert.deepEqual(processReminder(state, event, { ...controls, enabled: false }).state, state);
+  for (const [milliseconds, count] of [[0, 0], [1, 1], [86400000, 1], [86400001, 0]]) {
+    const result = processReminder(state, { ...event, at: new Date(Date.parse(reminderClock) + milliseconds).toISOString() }, controls);
+    assert.equal(result.state.drafts.length, count);
+  }
+  state = processReminder(state, event, controls).state;
+  const before = JSON.stringify(state);
+  assert.throws(() => processReminder(state, reminderExamples[5], { ...controls, failWrite: true }), /write failed/);
+  assert.equal(JSON.stringify(state), before);
+  assert.throws(() => processReminder(state, { ...event, permission: false }, controls), /new version/);
+  const revoked = processReminder(state, { ...event, version: 2, permission: false }, controls).state;
+  assert.equal(revoked.drafts.filter((draft) => !draft.cancelled).length, 0);
+  assert.equal(processReminder(revoked, event, controls).state, revoked, 'stale version cannot restore permission');
+  state = { drafts: [], latest: {} };
+  for (const sample of reminderExamples) state = processReminder(state, sample, controls).state;
+  assert.deepEqual(state.drafts.map(({ version, cancelled }) => ({ version, cancelled })), [
+    { version: 1, cancelled: true }, { version: 2, cancelled: false }
+  ]);
+  assert.equal(processReminder(state, event, controls).state, state);
+  assert.equal(processReminder(state, reminderExamples[7], controls).state, state);
+});
+
+test('weekly report practice reconciles exact cents, keeps incomplete totals explicit and preserves revisions on safe retry', async () => {
+  const { reportRows, reconcileWeek, writeWeeklyReport } = await loadContent('../lib/automation-practice.ts');
+  const controls = { enabled: true, failWrite: false };
+  const original = JSON.stringify(reportRows);
+  assert.deepEqual(reconcileWeek(reportRows), { knownCents: 2100, unresolved: 1, unique: 5, duplicates: 1, excluded: 1 });
+  for (const patch of [
+    { id: '' }, { date: '2030-02-30' }, { date: '2030-01-07T00:00:00Z' },
+    { quantity: -1 }, { quantity: 0.1 }, { quantity: undefined }, { priceCents: NaN }, { priceCents: -1 }
+  ]) assert.throws(() => reconcileWeek([{ ...reportRows[0], ...patch }]), /Invalid report row/);
+  assert.throws(() => reconcileWeek([{ ...reportRows[0], quantity: Number.MAX_SAFE_INTEGER }]), /safe calculation/);
+  assert.throws(() => reconcileWeek([...reportRows, { ...reportRows[0], quantity: 99 }]), /Conflicting duplicate/);
+  assert.throws(() => writeWeeklyReport([], 1, reportRows, { ...controls, failWrite: true }), /write failed/);
+  assert.deepEqual(writeWeeklyReport([], 1, reportRows, { ...controls, enabled: false }).reports, []);
+  for (const invalid of [0, -1, 1.5, NaN]) assert.throws(() => writeWeeklyReport([], invalid, reportRows, controls), /Invalid report revision/);
+  const first = writeWeeklyReport([], 1, reportRows, controls).reports;
+  assert.equal(first.length, 1);
+  assert.equal(writeWeeklyReport(first, 1, reportRows, controls).reports, first);
+  const corrected = reportRows.map((row) => ({ ...row, ...(row.id === 'O5' ? { quantity: 2 } : {}) }));
+  assert.throws(() => writeWeeklyReport(first, 1, corrected, controls), /new revision/);
+  assert.throws(() => writeWeeklyReport(first, 2, corrected, { ...controls, failWrite: true }), /write failed/);
+  const second = writeWeeklyReport(first, 2, corrected, controls).reports;
+  assert.deepEqual(second.map(({ knownCents, unresolved }) => ({ knownCents, unresolved })), [
+    { knownCents: 2100, unresolved: 1 }, { knownCents: 2900, unresolved: 0 }
+  ]);
+  assert.deepEqual(first[0].sourceRows, reportRows);
+  corrected[0].quantity = 99;
+  assert.equal(second[1].sourceRows[0].quantity, 2, 'report keeps its own source snapshot');
+  assert.equal(JSON.stringify(reportRows), original);
+});
+
+test('automation scenario metadata survives part saves and snapshot parsing while old projects retain their original plans', async () => {
+  const { newPilotProject, readPilotProject, saveProject, saveProjectPart, loadProject, projectResultsSeed } =
+    await loadContent('../lib/pilot-projects.ts', projectImports);
+  const { serviceJourneyTests, serviceJourneyCoverage, serviceProjectJourney, buildServicePortfolio } =
+    await loadContent('../lib/service-project-journeys.ts', journeyImports);
+  const { checksForService } = await loadContent('../lib/project-review.ts', projectImports);
+  const { proposalSource } = await loadContent('../lib/pilot-proposal.ts');
+  const legacy = newPilotProject(projectId, 'ai-automation-services', 'Original enquiry');
+  assert.equal('automationScenario' in readPilotProject(JSON.stringify(legacy)), false);
+  assert.equal(serviceJourneyTests(legacy.pathId, (text) => text).length, 9);
+  assert.deepEqual(serviceJourneyTests(legacy.pathId, (text) => text), serviceJourneyTests(legacy.pathId, (text) => text, 'enquiries'));
+  for (const invalid of [null, '', 'other', 3, {}]) {
+    assert.throws(() => readPilotProject(JSON.stringify({ ...legacy, automationScenario: invalid })), /Invalid automation/);
+  }
+  assert.throws(() => readPilotProject(JSON.stringify({ ...legacy, pathId: 'ai-video-business', automationScenario: 'appointments' })), /Invalid automation/);
+  for (const [scenario, code] of [['appointments', 'APPT'], ['weekly-report', 'REPORT']]) {
+    const project = newPilotProject(projectId, legacy.pathId, 'Fictional ' + scenario, scenario);
+    const storage = memoryStorage();
+    saveProject(storage, project, 0);
+    const results = projectResultsSeed(project);
+    results.tests = serviceJourneyTests(project.pathId, (text) => text, scenario);
+    assert.equal(results.tests.length, 6);
+    assert.ok(results.tests.every((test, at) => test.name.startsWith(`[${code}-${at + 1}]`) && !test.actual && test.status === 'pending'));
+    saveProjectPart(storage, projectId, 'results', results, 'null');
+    const loaded = loadProject(storage, projectId);
+    assert.equal(loaded.project.automationScenario, scenario);
+    assert.deepEqual(readPilotProject(JSON.stringify(loaded.project)), loaded.project, 'account serialization retains the choice');
+    assert.throws(() => saveProject(storage, { ...loaded.project, automationScenario: 'enquiries' }, loaded.revision), /cannot change/);
+    assert.equal(serviceJourneyCoverage(loaded.project).filter((check) => check.recorded).length, 0);
+    const fixture = await contentProjectFixture();
+    Object.assign(fixture, { pathId: project.pathId, automationScenario: scenario });
+    fixture.proposal.inputs.dataHandling = 'Fictional data, human review and no sending.';
+    fixture.proposal.source = proposalSource(fixture.proposal.inputs, 'en');
+    fixture.results.tests = results.tests.map((test, at) => ({
+      ...test, actual: at === 5 ? 'Real owner review unavailable.' : 'Observed fictional lab result.',
+      status: at === 5 ? 'blocked' : 'pass'
+    }));
+    assert.equal(serviceProjectJourney(fixture).ready, true);
+    assert.match(buildServicePortfolio(fixture, (text) => text), new RegExp(`\\[${code}-6\\]`));
+    fixture.results.tests = serviceJourneyTests(project.pathId, (text) => text).map((test) => ({ ...test, actual: 'Old enquiry evidence', status: 'pass' }));
+    assert.equal(serviceJourneyCoverage(fixture).filter((check) => check.recorded).length, 0, 'old enquiry cases cannot satisfy a different workflow');
+    assert.equal(serviceProjectJourney(fixture).next.id, 'test');
+    assert.equal(checksForService(project.pathId, scenario).length, 6);
+    assert.notEqual(checksForService(project.pathId, scenario)[1].instruction, checksForService(project.pathId)[1].instruction);
+  }
+});
+
+test('automation project plans, workbook starters and interactive controls have complete translations', async () => {
+  const { automationProjects, automationScenarioLabels } = await loadContent('../lib/automation-projects.ts');
+  const strings = new Set(Object.values(automationScenarioLabels));
+  const gather = (value) => {
+    if (typeof value === 'string' && !/^(APPT|REPORT)-\d$/.test(value)) strings.add(value);
+    else if (value && typeof value === 'object') Object.values(value).forEach(gather);
+  };
+  gather(automationProjects);
+  for (const file of ['../components/automation-practice-lab.tsx', '../app/business-launchpad/automation-lab/page.tsx']) {
+    const source = await readFile(new URL(file, import.meta.url), 'utf8');
+    const ast = ts.createSourceFile(file, source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
+    const visit = (node) => {
+      if (ts.isCallExpression(node) && node.expression.getText(ast) === 'tr') {
+        const find = (child) => {
+          if (ts.isStringLiteral(child) && /^[A-Z]/.test(child.text)) strings.add(child.text);
+          else ts.forEachChild(child, find);
+        };
+        node.arguments.forEach(find);
+      }
+      if (ts.isJsxText(node) && node.parent.openingElement?.tagName.getText(ast) === 'Tr' && node.text.trim()) strings.add(node.text.trim());
+      ts.forEachChild(node, visit);
+    };
+    visit(ast);
+  }
+  strings.delete('');
+  for (const locale of ['fr', 'de', 'es']) {
+    const book = JSON.parse(await readFile(new URL(`../content/translations/ui-${locale}.json`, import.meta.url), 'utf8'));
+    for (const text of strings) assert.ok(book[text], `${locale}: missing automation phrase ${text}`);
+  }
+  const { matchGoals } = await loadContent('../lib/idea-planner.ts');
+  for (const text of ['small business automation', 'appointment reminder', 'weekly business report', 'rappel de rendez-vous', 'terminerinnerung', 'informe semanal']) {
+    assert.equal(matchGoals(text)[0]?.goalId, 'start-ai-business', text);
+  }
+});
+
 test('content reviews strictly validate checks, copied source identity, limits and evidence without changing milestones', async () => {
   const { saveTextReview, readProjectReviewCentre, emptyReviewChecks, checksForService, textReviewState } = await loadContent('../lib/project-review.ts', projectImports);
   const { newPilotProject, readPilotProject } = await loadContent('../lib/pilot-projects.ts', projectImports);

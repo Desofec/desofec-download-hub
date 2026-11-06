@@ -5,6 +5,7 @@ export const automationServicesSteps: TutorialStep[] = [
     id: 'validate-one-problem',
     title: 'Choose one customer problem before buying tools',
     explanation: [
+      'Choose one of three small-business projects: customer enquiry tracking (the original exercise below), appointment reminder automation, or automated weekly business reports. Keep one task per saved project. The kit contains complete sample tables for all three and the no-send automation lab can simulate them locally.',
       'Start with one administrative task, such as sorting quotation enquiries for a small workshop. Do not automate machine control, safety decisions, hiring decisions or technical approval. This path prepares a pilot proposal, not a guaranteed income.',
       'Ask a consenting business contact how the task works today, how often it happens, what goes wrong and who approves the result. Record observations separately from guesses. If you have no contact yet, use the fictional workshop below and label every assumption unvalidated.',
       'Keep interview notes in your own private worksheet. Do not enter names, emails, confidential drawings or customer records into an AI tool. Do not buy subscriptions or spend an entire budget before finding evidence of demand.'
@@ -18,6 +19,7 @@ export const automationServicesSteps: TutorialStep[] = [
     id: 'define-safe-pilot',
     title: 'Define a small pilot with clear limits',
     explanation: [
+      'For appointment reminders, fix the exercise clock at 2030-01-07 09:00 UTC. Queue only confirmed, permitted appointments more than 0 and at most 24 hours away; cancel old drafts when appointments are cancelled or rescheduled. For reports, use the inclusive UTC week 2030-01-07 through 2030-01-13, retain raw rows and never replace missing quantities with zero.',
       'The practice pilot takes an invented enquiry, checks its event ID and message, and adds a row to a review queue. It may draft an acknowledgement, but a person must approve any real message. It must not quote prices, promise delivery dates or send messages automatically.',
       'Write down the trigger, input, actions, owner, exclusions and stop conditions before selecting a tool. A rules-based workflow may be enough; only add AI when you can explain what it improves and how a person will check it.',
       'For a real pilot, agree on authorised access, data minimisation, retention/deletion, vendor processing terms and who handles errors. Before contracting or processing real data, check applicable privacy, tax, registration and insurance requirements with qualified local guidance; this lesson is not legal or financial advice.'
@@ -29,8 +31,10 @@ export const automationServicesSteps: TutorialStep[] = [
   },
   {
     id: 'build-test-demo',
-    title: 'Build and test a fictional enquiry demo',
+    title: 'Build and test one fictional business workflow',
     explanation: [
+      'The original enquiry exercise below is unchanged. For appointments or reports, follow the corresponding kit worksheet and lab. In the workspace choose the matching automation practice project before creating it. Reload its results and load the required APPT or REPORT plans; AUTO plans remain for enquiry projects. Loading plans never fills actual results or claims a pass.',
+      'Appointment checks cover exact UTC boundaries, permission, duplicate versions, cancellation, rescheduling, missing data, safe retry and the off switch. Report checks reconcile five unique orders to a known subtotal of EUR 21 with one unresolved quantity, exclude outside dates and reject conflicting duplicates. A verified sample correction produces EUR 29 in a new revision. Both require missing real owner approval to stay blocked.',
       'Start with a spreadsheet or paper review queue; no paid AI plan is required. Create columns event_id, message, status, draft and reviewer. Process the six events below in order. A valid new event produces exactly one queue row. Keep the successful event IDs so a repeated event does not produce a second row.',
       'Use this rule order: reject missing required data; skip a previously successful event ID; flag uncertain or instruction-like text for review; otherwise prepare only the fixed acknowledgement draft. Write QUEUED and REVIEW events to the queue; INVALID and DUPLICATE events create no row. Only mark an ID successful after its queue write succeeds. For this hand-tested sample, flag the last message because it contains an instruction to bypass approval. That manual judgement is not an automatic prompt-injection detector.',
       'If workflow tools are new to you, complete the linked Automate your first task tutorial first. Then reproduce the same flow in Make, n8n or another tool using test accounts: manual trigger, field checks, successful-ID lookup, human review branch, queue write and error route. Check the current plan limits before enabling a connector. Add an AI drafting step only after the rules-only version passes.',
@@ -45,6 +49,7 @@ export const automationServicesSteps: TutorialStep[] = [
     id: 'calculate-pilot-cost',
     title: 'Calculate costs before choosing a price',
     explanation: [
+      'For reminders or reports, use the same worksheet but replace effort and vendor assumptions with what you actually observe. Local lab output is not evidence of saved business time, delivered reminders or accurate real accounting.',
       'Separate one-off setup work from recurring support. Include discovery, building, testing, training, documentation and an explicit contingency. Record vendor subscriptions and API usage separately, including who pays them and what happens when limits are reached.',
       'Use the arithmetic below only as a learning example, not a market rate or earnings forecast. An internal allowance for your time is not necessarily a customer price. Taxes, insurance, sales work and other overhead are not included; get appropriate guidance before quoting.',
       'Validate savings from observed work rather than AI estimates. If a task runs 40 times per month and verified net time saved is 3 minutes each, that is 120 minutes, or 2 hours per month. Review time and error correction must already be deducted. If the evidence is missing, record unknown, not zero or an invented return on investment.'
@@ -58,6 +63,7 @@ export const automationServicesSteps: TutorialStep[] = [
     id: 'prepare-honest-offer',
     title: 'Prepare an honest offer and a discovery conversation',
     explanation: [
+      'Name the chosen workflow precisely: customer enquiry tracking, appointment reminder automation or weekly business reports. Include its versioned acceptance checks, timezone or reporting period, missing-data policy and human review. Drafts are not sent reminders; an incomplete subtotal is not a certified financial report.',
       'Draft a one-page proposal: problem, evidence, scope, deliverables, exclusions, cost assumptions, proposed fee, payment terms, timeline, approval owner and measurable acceptance checks. Mark unknowns for discussion. Never present the fictional workshop as a real client or use invented testimonials.',
       'Use the demo to ask whether a narrow pilot would be useful, not to promise a percentage saving. Contact people through an appropriate, lawful channel; do not scrape addresses or send bulk unsolicited messages. If local outreach rules are unclear, get advice first.',
       'Offer a discovery conversation without requesting credentials or confidential files. Share only fictional screenshots or data you have permission to publish. Do not accept a live integration until scope, responsibilities and data handling are agreed in writing.'
@@ -71,6 +77,7 @@ export const automationServicesSteps: TutorialStep[] = [
     id: 'handover-review-pilot',
     title: 'Plan handover and decide whether to continue',
     explanation: [
+      'Keep the appointment current-version/cancellation ledger, or report raw rows, working rows, exceptions and revision history. The lab uses no connector and resets on reload. Download observations explicitly and write your own evidence in the workbook. A self-review and recorded milestone do not verify external tools or approve live automation.',
       'Before any real launch, get the authorised customer reviewer to accept the tests and scope. Use customer-owned accounts where possible, grant the least required access and keep secrets out of documents and screenshots. Test the off switch and the manual fallback.',
       'Prepare a runbook with the owner, error alert route, run history review, spending cap, safe retry procedure and deletion/export steps. State support hours and what is not covered; do not imply continuous monitoring unless that is actually provided.',
       'After an agreed trial, compare observed processing time, review/correction time, errors and running costs with the baseline. Record the sample size and uncertainty. Continue only if the customer accepts the evidence and ongoing responsibilities; otherwise improve, stop or hand back the manual process.'

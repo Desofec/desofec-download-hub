@@ -15,6 +15,7 @@ import {
 } from '@/lib/pilot-projects';
 import type { LearningPath } from '@/lib/types';
 import { resultTestSummary } from '@/lib/pilot-results';
+import { automationScenarioIds, automationScenarioLabels, isAutomationScenario, type AutomationScenario } from '@/lib/automation-projects';
 
 const subscribeHydration = () => () => {};
 type WorkspaceProps = { paths: LearningPath[]; projectId?: string; initialPath?: ServicePathId };
@@ -40,6 +41,7 @@ function Workspace({ paths, projectId, initialPath }: WorkspaceProps) {
   const [dirty, setDirty] = useState(false);
   const [title, setTitle] = useState('');
   const [pathId, setPathId] = useState<ServicePathId>(initialPath ?? 'ai-automation-services');
+  const [scenario, setScenario] = useState<AutomationScenario>('enquiries');
   const [error, setError] = useState(initial.error);
   const [notice, setNotice] = useState('');
   const heading = useRef<HTMLHeadingElement>(null);
@@ -106,7 +108,7 @@ function Workspace({ paths, projectId, initialPath }: WorkspaceProps) {
           event.preventDefault();
           attempt(() => {
             if (dirty && !window.confirm(tr('Discard unsaved brief and checklist changes?'))) return;
-            const project = newPilotProject(crypto.randomUUID(), pathId, title);
+            const project = newPilotProject(crypto.randomUUID(), pathId, title, pathId === 'ai-automation-services' ? scenario : undefined);
             saveProject(localStorage, project, 0);
             refresh(project.id);
             setTitle('');
@@ -128,6 +130,16 @@ function Workspace({ paths, projectId, initialPath }: WorkspaceProps) {
               {paths.map((path) => <option value={path.id} key={path.id}>{tr(path.title)}</option>)}
             </select>
           </div>
+          {pathId === 'ai-automation-services' && <div className="form-group">
+            <label htmlFor="project-automation">{tr('Automation practice project')}</label>
+            <select id="project-automation" value={scenario} onChange={(event) => {
+              if (isAutomationScenario(event.target.value)) setScenario(event.target.value);
+            }}>
+              {automationScenarioIds.map((id) => <option key={id} value={id}>{tr(automationScenarioLabels[id])}</option>)}
+            </select>
+            <p>{tr('This choice stays fixed. Create another project to practise a different workflow. Older automation projects keep the enquiry exercise.')}</p>
+            <Link href="/business-launchpad/automation-lab">{tr('Open the no-send automation practice lab')}</Link>
+          </div>}
           <button type="submit" className="btn btn-primary" disabled={!title.trim()}>{tr('Create and save on this device')}</button>
         </form>
       </section>
@@ -140,6 +152,7 @@ function Workspace({ paths, projectId, initialPath }: WorkspaceProps) {
             <article className="path-card" key={project.id}>
               <h3>{project.title}</h3>
               <p>{tr(paths.find((path) => path.id === project.pathId)?.title ?? project.pathId)}</p>
+              {project.pathId === 'ai-automation-services' && <p>{tr(automationScenarioLabels[project.automationScenario ?? 'enquiries'])}</p>}
               <p>{tr(serviceProjectJourney(project).next?.action ?? 'Practice record assembled. Review the private portfolio and all unresolved issues before any manual sharing.')}</p>
               <button type="button" className="btn btn-secondary" onClick={() => open(project.id)} aria-pressed={selected?.project.id === project.id}>{tr('Open project')}</button>
             </article>
@@ -151,6 +164,7 @@ function Workspace({ paths, projectId, initialPath }: WorkspaceProps) {
         <section aria-labelledby="current-project">
           <h2 id="current-project" tabIndex={-1} ref={heading}>{saved.title}</h2>
           <p>{tr(paths.find((path) => path.id === saved.pathId)?.title ?? saved.pathId)}</p>
+          {saved.pathId === 'ai-automation-services' && <p>{tr(automationScenarioLabels[saved.automationScenario ?? 'enquiries'])}</p>}
           <ServiceProjectJourney key={`${saved.id}:${selected.revision}`} saved={selected} dirty={dirty} />
           <p>{tr('Checklist completion is self-recorded planning, not customer, engineering or teaching approval.')}</p>
           <p>{tr('Brief changes never rewrite existing proposal or results drafts. Review both after changing the brief.')}</p>
