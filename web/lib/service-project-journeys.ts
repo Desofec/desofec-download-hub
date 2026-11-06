@@ -18,6 +18,41 @@ const automationChecks: Check[] = starterPilotTests((text) => text).map((test, i
 }));
 
 export const serviceJourneys: Record<Exclude<ServicePathId, 'ai-content-services'>, ServiceJourney> = {
+  'ai-video-business': {
+    title: 'Your guided business video project',
+    heading: 'PRACTICE PORTFOLIO - FICTIONAL BUSINESS VIDEOS, NOT PUBLICATION APPROVAL',
+    exercise: 'Exercise: three 15-30-second 1080 x 1920 videos for fictional Cedar Bakery: visit, products and counter collection. Storyboards alone are not finished videos.',
+    boundary: 'Private practice only: no posting, ads, cloned voices or guaranteed views and sales. Missing permissions or real owner approval stay blocked. Desofec does not inspect video files.',
+    practiceTitle: '2. Create short-form videos with AI support',
+    learn: 'Read lesson 1. Save the fictional facts, three video topics, 15-30-second duration, 1080 x 1920 format and unknown claims in the brief. Define the review owner and exclusions before checking brief and scope.',
+    practise: 'Use lessons 2-4 and the kit. Keep three scripts, timed storyboards, caption text, asset permissions and versioned exports in your own storage. Record actual duration, resolution and phone checks; storyboard-only export checks stay blocked.',
+    draft: 'Save a current proposal for three videos, scripts, captions and one revision round. Include exclusions, acceptance checks, review owner, timeline, data handling and handover. Unknown costs stay unknown; no automatic posting or sales promises.',
+    handover: 'Keep the brief, scripts, captions, v1/v2 exports, permission ledger, version log and actual checks. Record missing owner approval as blocked. Check handover for a private practice package only, not permission to publish.',
+    proposalFields: ['dataHandling', 'timeline'],
+    checks: [
+      { code: 'VIDEO-1', label: 'Video scripts and business facts',
+        input: 'Compare all three scripts and exports with the fictional bakery brief.',
+        expected: 'Tuesday-Saturday, 08:00-14:00, bread, pastries and counter collection only. No invented prices, delivery, allergens or results.' },
+      { code: 'VIDEO-2', label: 'Three measured video exports',
+        input: 'Reopen the visit, products and collection exports; measure each duration and resolution.',
+        expected: 'All three are 15-30 seconds inclusive and 1080 x 1920. Storyboards or timeline settings alone cannot establish an export pass.' },
+      { code: 'VIDEO-3', label: 'Captions and phone readability',
+        input: 'Compare captions with narration, or check complete silent-video text. Watch all three on a phone with sound off.',
+        expected: 'Correct text, readable messages and meaningful audio alternatives. Record actual observations and remaining gaps.' },
+      { code: 'VIDEO-4', label: 'Video asset permissions and disclosure',
+        input: 'Review source, permitted use and attribution for footage, music, fonts and generated illustrations.',
+        expected: 'Permissions and applicable disclosure rules recorded. Unknown terms stay blocked; generated illustrations are not claimed as real business footage.' },
+      { code: 'VIDEO-5', label: 'Video revisions and reopened files',
+        input: 'Preserve v1, move hours earlier and improve captions in v2; reopen and recheck all three exports.',
+        expected: 'Versions and changes traceable; facts and export checks repeated. The unknown price request remains pending and excluded.' },
+      { code: 'VIDEO-6', label: 'Video service scope and costs',
+        input: 'Review three-video scope, one revision round, actual time, vendor credits, unknown costs and data handling.',
+        expected: 'Internal costs stay separate from the proposed fee. No confidential AI inputs, automatic posting or guaranteed views, sales or income.' },
+      { code: 'VIDEO-7', label: 'Real owner approval before publication',
+        input: 'Check whether an authorised real owner reviewed the actual package and granted required publication permission.',
+        expected: 'Fictional practice has no real owner approval: blocked, never assumed passed. Continue means more practice or discovery.' }
+    ]
+  },
   'ai-automation-services': {
     title: 'Your guided automation-service project',
     heading: 'PRACTICE PORTFOLIO - FICTIONAL AUTOMATION PILOT, NOT A LIVE SERVICE',

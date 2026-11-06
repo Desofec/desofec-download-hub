@@ -9,7 +9,7 @@ import { tutorials } from '@/lib/tutorials';
 
 export const metadata: Metadata = {
   title: 'AI Business Launchpad',
-  description: 'Explore five service learning paths: automation, content, CAD concepts, micro-SaaS validation and adult AI education.'
+  description: 'Learn AI video creation for business, automation, content, CAD concepts, micro-SaaS validation and adult education with guided practice projects.'
 };
 
 const stages = [
@@ -30,9 +30,10 @@ export default async function BusinessLaunchpadPage() {
         <div className="section-head">
           <span className="eyebrow"><Tr>From learning to a small pilot</Tr></span>
           <h1><Tr>AI Business Launchpad</Tr></h1>
-          <p><Tr>Choose from five service learning paths. Build practice evidence before offering real work; no path promises clients or income.</Tr></p>
+          <p><Tr>Choose a service learning path, including AI video creation for business. Build practice evidence before offering real work; no path promises clients or income.</Tr></p>
           <p><Tr>No paid AI is required for the worksheets. Lessons and downloads are currently English; the surrounding interface follows your language. Interviews, feedback and tool setup take additional time.</Tr></p>
           <div className="cta-row">
+            <Link className="btn btn-primary" href="/paths/ai-video-business"><Tr>AI Video Creation for Business</Tr></Link>
             <Link className="btn btn-primary" href="/business-launchpad/first-project"><Tr>Complete your first practice project</Tr></Link>
             <Link className="btn btn-primary" href="/business-launchpad/projects"><Tr>Open the Pilot Project Workspace</Tr></Link>
             <Link className="btn btn-primary" href="/tutorials/ai-automation-services"><Tr>Start the automation service tutorial</Tr></Link>
@@ -44,7 +45,7 @@ export default async function BusinessLaunchpadPage() {
 
         <section className="progress-section" aria-labelledby="launchpad-services">
           <h2 id="launchpad-services"><Tr>Choose a service learning path</Tr></h2>
-          <p><Tr>New: content services, CAD concept services, micro-SaaS validation and adult education services. Automation remains available. Each path includes six lessons and a starter kit.</Tr></p>
+          <p><Tr>Explore business video creation, automation, content, CAD concepts, micro-SaaS validation and adult education. Each service path includes six lessons, a starter kit and a guided private project.</Tr></p>
           <div className="path-grid">
             {services.map((tutorial) => {
               const path = paths.find((entry) => entry.id === tutorial.pathId);

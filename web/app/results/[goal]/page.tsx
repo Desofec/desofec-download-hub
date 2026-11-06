@@ -15,7 +15,12 @@ export async function generateMetadata({ params }: { params: Promise<{ goal: str
   const { recommendations } = await getCatalog();
   const recommendation = recommendations[goal];
   return recommendation
-    ? { title: recommendation.title, description: recommendation.summary }
+    ? {
+      title: recommendation.title, description: recommendation.summary,
+      alternates: { canonical: `/results/${encodeURIComponent(goal)}` },
+      openGraph: { title: recommendation.title, description: recommendation.summary, url: `/results/${encodeURIComponent(goal)}` },
+      twitter: { card: 'summary_large_image', title: recommendation.title, description: recommendation.summary }
+    }
     : { title: 'Your recommendation' };
 }
 
@@ -68,6 +73,11 @@ export default async function ResultsPage({ params }: { params: Promise<{ goal: 
         </div>
 
         <div className="cta-row">
+          {catalog.paths.filter((path) => path.goal === goal).map((path) => (
+            <Link key={path.id} className="btn btn-primary" href={`/paths/${encodeURIComponent(path.id)}`}>
+              <Tr>{path.title}</Tr>
+            </Link>
+          ))}
           <Link className="btn btn-primary" href="/onboarding">
             <Tr>Try another goal</Tr>
           </Link>

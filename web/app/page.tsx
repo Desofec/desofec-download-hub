@@ -67,6 +67,9 @@ export default async function HomePage() {
               <Link className="text-link" href="/business-launchpad">
                 <Tr>Open the AI Business Launchpad</Tr>
               </Link>
+              <Link className="text-link" href="/paths/ai-video-business">
+                <Tr>AI Video Creation for Business</Tr>
+              </Link>
             </div>
             <ul className="mini-stats" aria-label="Project stats">
               <li>

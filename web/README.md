@@ -23,8 +23,8 @@ and starter pack downloads; the offline page appears when a page has not been ca
 ## Connect Supabase
 
 1. Create a Supabase project.
-2. In the SQL editor, run the migrations in order, including `0004_user_progress.sql`, `0005_user_favorites.sql`, `0006_newsletter_confirmation.sql`, `0007_tutorial_progress.sql`, `0008_learning_workspaces.sql`, `0009_study_board.sql`, and `0010_lesson_feedback.sql`, then `supabase/seed.sql`.
-   Both are safe to re-run; the seed upserts.
+2. In the SQL editor, run the migrations in order through `0012_video_business_projects.sql`, including `0011_pilot_projects.sql` for owner-private snapshots, then run `supabase/seed.sql`.
+   The migrations are safe to re-run; the seed upserts. Apply the video migration and regenerated seed before deploying the business-video path.
 3. Copy `.env.example` to `.env.local` and fill in the project URL and anon key
    (Project settings → API):
 
@@ -82,7 +82,7 @@ development URLs there too if you test sign-in locally.
 
 `/business-launchpad/first-project` recommends AI Content Services for a first no-code, fictional
 practice package. Goal selection links to the existing workspace with a preselected path; it does not
-create a project or upload anything. All five goals have six-stage guided journeys and private
+create a project or upload anything. All six service goals have six-stage guided journeys and private
 portfolios, with service-specific instructions, evidence and explicit scope boundaries.
 
 Service projects (including existing ones and loaded account snapshots) show six sequential milestones
@@ -104,9 +104,10 @@ milestones and the handover item; no milestone grants publication permission or 
 | CAD | CAD-1 through CAD-5: base dimensions, revision, reopened exports, method/licensing, required review | CAD or paper-only, explicitly not for manufacture |
 | Micro-SaaS | SAAS-1 through SAAS-8: exact output, blank/40/41/markup/invalid status, observed demand, costs/launch gaps | Local toy; manual work cannot establish browser passes; no subscriptions |
 | Education | EDU-1 through EDU-5: facts/key, rehearsal timing, accessible original materials, adult trial, independent review | Consenting-adult practice; no learner records or qualification claims |
+| Business video | VIDEO-1 through VIDEO-7: facts, three measured exports, captions, permissions, revisions, costs, owner approval | Fictional 15-30-second 1080 x 1920 videos; no posting or automatic file inspection |
 
 After **Reload project draft**, the results tool offers **Load required service test plans** for these
-four services. Replacement requires confirmation, changes only current test cases, and never fills in
+non-content services. Replacement requires confirmation, changes only current test cases, and never fills in
 actual evidence, original/retest outcomes, correction or retest notes. Context, metrics and decision stay
 unchanged. Save explicitly. Content and standalone workshop plans keep their previous behavior.
 Existing projects are never rewritten: add bracketed codes to matching historical cases manually, or
@@ -128,8 +129,36 @@ cannot show an older workspace revision after saving a draft. The tool's existin
 guard protects unsaved edits. If returning through browser history or editing in another tab,
 **Refresh device projects** explicitly reloads saved evidence with a discard confirmation if needed.
 
-**No new seed or migration is needed for this journey.** It uses PR #95's existing migration 0011
-for optional account snapshots. Device/account deletion and existing privacy controls are unchanged.
+Existing journeys use migration 0011 for optional account snapshots. The business-video addition
+requires migration 0012 and the regenerated seed. Device/account deletion and existing privacy controls are unchanged.
+
+### AI Video Creation for Business
+
+The public `/paths/ai-video-business` page uses **AI Video Creation for Business** as its title.
+`/tutorials/ai-video-business` teaches **Create Short-Form Videos with AI for Business** in six
+lessons. These descriptive names reflect researched AI-video search intent, not verified keyword
+volumes, a popularity ranking or a search-position guarantee. Existing `ai-video-creation` URLs and
+progress keys remain unchanged. The new goal `create-business-videos` links tools and kits back to the
+path; home, Launchpad and the original video tutorial link to it. Public path/tutorial/recommendation
+metadata has explicit canonicals and matching social titles; the existing sitemap discovers the new
+catalog records and tutorial. Private project routes remain noindex.
+
+The exercise uses three fictional Cedar Bakery videos: visit, products and counter collection.
+Each actual export is 15-30 seconds inclusive and 1080 x 1920; this is the exercise specification,
+not universal platform policy. Original text-slide videos are a valid alternative to generated clips.
+Storyboard-only work cannot establish an export pass. Record actual phone/sound-off checks,
+caption corrections, permissions, v1/v2 history and unresolved owner approval. The workbook starter
+and seven manual review checks support text records only: no video upload, generation, hosting or
+inspection. The proposal requires timeline and data handling as well as shared scope/review fields.
+All VIDEO plans start pending with empty actual evidence; a fictional owner approval stays blocked.
+Saved milestones indicate recorded work, not passing tests or permission to publish.
+
+**Deployment:** apply `0012_video_business_projects.sql` after `0011`, then the regenerated
+`supabase/seed.sql`, before deploying. Migration 0012 only extends the account RPC's accepted paths;
+owner isolation, locking, quotas, document limits and compare-and-swap remain unchanged. Reload all
+app tabs after deployment; older app versions cannot read business-video projects. Lesson instructions
+and downloads are English with the existing notice; catalog, journey, workbook and review UI support
+French, German and Spanish. Optional external tools may charge for credits, exports or licensed assets.
 
 ### Private Project Evidence Workbook
 
@@ -168,11 +197,11 @@ app versions do not understand workbook fields and must not be used to edit work
 
 ### Guided Project Review Centre
 
-`/business-launchpad/review-centre?project=<uuid>` is private/noindex and supports all five
+`/business-launchpad/review-centre?project=<uuid>` is private/noindex and supports all six
 service paths with distinct manual review checks. Reload saved project and reviews, select a
 workbook item/revision, then record observations for service-specific risk areas: content claims,
 automation event/failure safety, CAD dimensions/exports, prototype boundaries or education facts,
-timing and privacy. Every non-pending check needs observations; a correction status needs a task.
+timing and privacy, or video scripts/exports/captions/permissions. Every non-pending check needs observations; a correction status needs a task.
 Marking a task addressed requires written evidence, and never changes its review status, test
 outcome or project milestone.
 
@@ -192,13 +221,13 @@ records. It omits unselected text, full proposals, raw test evidence and structu
 Downloads are never public pages or approval. Deleting workbook items leaves review copies;
 delete saved reviews, account snapshots and downloads separately.
 
-No new migration or seed is required; existing migration 0011 retains optional review JSON.
+Migration 0011 retains optional review JSON; business-video account projects additionally need migration 0012.
 Account upload consent explicitly includes copied review text. Reload all tabs after deployment;
 older app versions must not edit review-bearing projects because they do not retain this field.
 
 ### Project storage and account snapshots
 
-`/business-launchpad/projects` creates up to ten device projects from the five service paths.
+`/business-launchpad/projects` creates up to ten device projects from the six service paths.
 Each owns a brief, independent five-item project checklist, optional proposal/results drafts and a
 next-action prompt derived only from saved evidence. Project checklists do not complete tutorial or kit
 progress. The path is fixed at creation; start a separate project for another track.
@@ -209,8 +238,8 @@ and other projects are not overwritten. Changing a brief does not rewrite existi
 Summaries use saved data, omit financial fields/full drafts, and are internal practice records, not
 proof of customer approval, engineering readiness, accreditation or income. Review text before sharing.
 
-**Deployment: apply `supabase/migrations/0011_pilot_projects.sql` before deploying this workspace.
-No new seed is needed beyond the existing service-path seed from PR #94.**
+**Deployment: apply `supabase/migrations/0011_pilot_projects.sql`, then
+`0012_video_business_projects.sql` and the regenerated `supabase/seed.sql` before deploying.**
 The migration creates owner-private `pilot_projects`, read-only direct authenticated access and two
 security-definer RPCs. Upload uses account-version compare-and-swap; deletion also checks its version.
 Per-owner transaction locks serialise writes/quota checks (ten account projects). Auth user deletion
@@ -230,10 +259,10 @@ accounts resets account-list/consent state without uploading device content.
 Operations show failures explicitly. Both sides bound document size (1 MB UTF-8 client limit; 1.1 MB
 database serialisation limit), and client validators reuse the existing proposal/results validators.
 `npm run test:content` covers the project model, isolation and translations. For an isolated database
-with auth fixtures and migration 0011 applied, `supabase/tests/pilot_projects.sql` checks ownership,
+with auth fixtures and migrations 0011/0012 applied, `supabase/tests/pilot_projects.sql` checks ownership,
 permissions, version conflicts, limits, deletion and cascade behavior; its fixtures roll back.
 
-The Launchpad now lists five service paths. Four additions have six lessons each:
+The Launchpad lists six service paths, including the business-video journey above. The four earlier additions have six lessons each:
 `ai-content-services` (fictional bakery package and revisions), `ai-cad-services` (non-functional
 display-card concept only), `micro-saas-validation` (local formatter prototype, not a live subscription),
 and `ai-education-services` (original adult workshop, not certification). Each has a separate goal,
@@ -245,8 +274,8 @@ Lesson instructions and downloads remain English with visible notices; catalog, 
 support French, German and Spanish. No paid AI is needed; CAD commercial-use licensing must be verified
 before actual client work, and a paper alternative is clearly not a CAD deliverable.
 
-**For this expansion, run the regenerated `supabase/seed.sql` before merge/deployment. No new migration
-is required.** The seed adds four goals, paths and kits plus recommendations. The existing feedback
+**Run the regenerated `supabase/seed.sql` before deployment, after migrations 0011 and 0012.**
+The seed includes service goals, paths, kits and recommendations. The existing feedback
 function recognises the new lesson IDs once the paths are seeded.
 
 `/business-launchpad` starts with `/tutorials/ai-automation-services`: six lessons covering discovery,

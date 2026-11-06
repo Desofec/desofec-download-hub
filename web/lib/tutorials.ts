@@ -21,6 +21,7 @@ import { spreadsheetSteps } from '@/lib/spreadsheets-tutorial';
 import { websiteChallengeId, websiteChallengeSteps } from '@/lib/website-challenge';
 import { automationServicesSteps } from '@/lib/automation-services-tutorial';
 import { contentServicesSteps, cadServicesSteps, microSaasSteps, educationServicesSteps } from '@/lib/business-services-tutorials';
+import { videoBusinessSteps } from '@/lib/video-business-tutorial';
 
 export type TutorialInfo = {
   pathId: string;
@@ -36,6 +37,15 @@ export type TutorialInfo = {
 
 // Older tutorials keep their original URLs. New ones live under /tutorials/<pathId>.
 export const tutorials: TutorialInfo[] = [
+  {
+    pathId: 'ai-video-business',
+    href: '/tutorials/ai-video-business',
+    title: 'Create Short-Form Videos with AI for Business',
+    intro: 'Create three 15-30-second business videos with scripts, storyboards, corrected captions and permission records. Follow six lessons into a private practice project, proposal, evidence checks and handover. Allow two hours for planning; editing and feedback take additional time. AI generation is optional.',
+    time: '120 minutes',
+    steps: videoBusinessSteps,
+    serviceKitId: 'ai-video-business-kit'
+  },
   {
     pathId: 'ai-automation-services',
     href: '/tutorials/ai-automation-services',

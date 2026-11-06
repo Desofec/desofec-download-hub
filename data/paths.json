@@ -410,5 +410,19 @@
     "badge": "Education",
     "steps": ["Define an adult learning objective", "Create original materials and a checked key", "Rehearse and review accessibility", "Scope the workshop and improve from evidence"],
     "goal": "offer-education-services"
+  },
+  {
+    "id": "ai-video-business",
+    "title": "AI Video Creation for Business",
+    "level": "Beginner",
+    "description": "Learn to create short-form videos with AI support: plan three business videos, write scripts, edit captions and review a private practice package.",
+    "badge": "Business",
+    "steps": [
+      "Plan short-form business videos",
+      "Write AI-assisted video scripts and storyboards",
+      "Edit videos and check captions",
+      "Review permissions, revisions and handover"
+    ],
+    "goal": "create-business-videos"
   }
 ]

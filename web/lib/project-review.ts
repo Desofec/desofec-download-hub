@@ -4,6 +4,15 @@ import type { PilotProject, ServicePathId } from '@/lib/pilot-projects';
 
 type ReviewDefinition = { id: string; label: string; instruction: string };
 export const serviceReviewChecks = {
+  'ai-video-business': [
+    { id: 'facts', label: 'Video scripts and business facts', instruction: 'Compare scripts and captions with the supplied fictional facts. Remove unsupported prices, delivery, allergens and results.' },
+    { id: 'exports', label: 'Three measured video exports', instruction: 'Record duration and resolution for all three reopened exports: 15-30 seconds inclusive, 1080 x 1920. Text or storyboards cannot verify external videos.' },
+    { id: 'captions', label: 'Captions and phone readability', instruction: 'Record caption corrections, sound-off phone checks and readable text. Silent slides need complete text; self-review does not inspect the video.' },
+    { id: 'rights', label: 'Video asset permissions and disclosure', instruction: 'Record asset sources, permitted use, attribution and applicable AI disclosure. Unknown terms or missing consent stay blocked.' },
+    { id: 'revision', label: 'Video revisions and reopened files', instruction: 'Preserve v1, trace v2 changes and repeat export checks. An unknown price stays excluded; later text does not resolve feedback automatically.' },
+    { id: 'costs', label: 'Video service scope and costs', instruction: 'Separate time and vendor costs from the proposed fee. Confirm one revision round, data boundaries and no automatic posting or earnings promises.' },
+    { id: 'approval', label: 'Real owner approval before publication', instruction: 'Missing real owner review and publication permission stay blocked. A self-review or completed practice journey never grants approval.' }
+  ],
   'ai-content-services': [
   { id: 'facts', label: 'Facts and unknowns', instruction: 'Check Cedar Bakery facts: Tuesday-Saturday, 08:00-14:00, bread, pastries and counter collection. Flag prices, delivery and allergens as unknown; do not invent claims.' },
   { id: 'copy', label: 'Posts and FAQ quality', instruction: 'Count each of the three posts yourself: 40-60 words each. Review four FAQ answers for clarity and unsupported promises. Record the counts and remaining gaps.' },
@@ -47,7 +56,8 @@ export type ReviewCheckId = typeof contentReviewChecks[number]['id']
   | typeof serviceReviewChecks['ai-automation-services'][number]['id']
   | typeof serviceReviewChecks['ai-cad-services'][number]['id']
   | typeof serviceReviewChecks['micro-saas-validation'][number]['id']
-  | typeof serviceReviewChecks['ai-education-services'][number]['id'];
+  | typeof serviceReviewChecks['ai-education-services'][number]['id']
+  | typeof serviceReviewChecks['ai-video-business'][number]['id'];
 export const reviewStatuses = ['pending', 'checked', 'needs-work', 'blocked'] as const;
 export const reviewStatusLabels = {
   pending: 'Not reviewed', checked: 'Self-checked', 'needs-work': 'Needs correction', blocked: 'Blocked'

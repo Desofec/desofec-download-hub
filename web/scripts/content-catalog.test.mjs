@@ -13,6 +13,7 @@ test('practical AI paths have recommendations, kits and catalog translations', a
   const additions = [
     { id: 'ai-small-business', goal: 'ai-small-business', kit: 'ai-small-business-kit', tools: ['tally', 'hubspot-breeze'] },
     { id: 'ai-video-creation', goal: 'create-content', kit: 'ai-video-creation-kit', tools: ['runway'] },
+    { id: 'ai-video-business', goal: 'create-business-videos', kit: 'ai-video-business-kit', tools: ['canva', 'runway', 'chatgpt'] },
     { id: 'ai-career-skills', goal: 'ai-career', kit: 'ai-career-skills-kit', tools: ['teal'] },
     { id: 'ai-spreadsheets', goal: 'analyze-data', kit: 'ai-spreadsheets-kit', tools: ['excel-copilot', 'google-sheets'] },
     { id: 'ai-automation-services', goal: 'start-ai-business', kit: 'ai-automation-services-kit', tools: ['make', 'n8n', 'google-sheets'] },
@@ -34,7 +35,7 @@ test('practical AI paths have recommendations, kits and catalog translations', a
     const checklist = catalog.starterPackChecklists[addition.kit];
     assert.ok(checklist.length >= 5);
     const strings = [learningPath.title, learningPath.description, ...learningPath.steps, pack.title, pack.description];
-    if (['offer-content-services', 'offer-cad-services', 'validate-micro-saas', 'offer-education-services'].includes(addition.goal)) {
+    if (['offer-content-services', 'offer-cad-services', 'validate-micro-saas', 'offer-education-services', 'create-business-videos'].includes(addition.goal)) {
       assert.equal(checklist.length, 5);
       strings.push(goal.name, goal.description, goal.badge, recommendation.title, recommendation.summary,
         ...recommendation.steps, ...checklist);

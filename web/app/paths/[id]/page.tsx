@@ -15,7 +15,12 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;
   const path = (await getCatalog()).paths.find((entry) => entry.id === id);
-  return path ? { title: path.title, description: path.description } : { title: 'Learning path' };
+  return path ? {
+    title: path.title, description: path.description,
+    alternates: { canonical: `/paths/${encodeURIComponent(id)}` },
+    openGraph: { title: path.title, description: path.description, url: `/paths/${encodeURIComponent(id)}` },
+    twitter: { card: 'summary_large_image', title: path.title, description: path.description }
+  } : { title: 'Learning path' };
 }
 
 export default async function PathDetailPage({ params }: { params: Promise<{ id: string }> }) {
