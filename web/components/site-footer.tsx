@@ -13,6 +13,7 @@ export function SiteFooter() {
           <div>{t('footer.copy')}</div>
           <nav className="footer-links" aria-label="Legal">
             <Link href="/business-launchpad"><Tr>AI Business Launchpad</Tr></Link>
+            <Link href="/ai-updates"><Tr>AI updates</Tr></Link>
             <Link href="/break-room"><Tr>Break room</Tr></Link>
             <Link href="/workspaces"><Tr>Workspaces</Tr></Link>
             <Link href="/study-groups"><Tr>Study groups</Tr></Link>

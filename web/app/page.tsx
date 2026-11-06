@@ -70,6 +70,9 @@ export default async function HomePage() {
               <Link className="text-link" href="/paths/ai-video-business">
                 <Tr>AI Video Creation for Business</Tr>
               </Link>
+              <Link className="text-link" href="/ai-updates">
+                <Tr>Explore reviewed AI updates</Tr>
+              </Link>
             </div>
             <ul className="mini-stats" aria-label="Project stats">
               <li>
