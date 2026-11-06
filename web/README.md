@@ -267,6 +267,37 @@ Migration 0011 retains optional review JSON; business-video account projects add
 Account upload consent explicitly includes copied review text. Reload all tabs after deployment;
 older app versions must not edit review-bearing projects because they do not retain this field.
 
+### Freelance portfolio and case study builder
+
+The public `/business-launchpad/freelance-portfolio` landing page explains the workflow.
+From any saved service project, choose **Build a freelance case study**, then explicitly
+reload on the private/noindex `/business-launchpad/case-study-builder?project=<uuid>` page.
+Write the problem, contribution, observed outcome and limitations. The optional brief starter
+copies saved context only: outcome stays blank, and no test is automatically selected.
+
+The optional, strictly validated `caseStudy` project part retains five text fields (120 characters
+for title, 2,000 for each narrative field) and up to twenty unique selected test IDs.
+Explicit part saves preserve other project parts and reject conflicting edits or deleted projects.
+Previews and exports use saved text and saved source tests, not unsaved edits. Export checks the
+current device project against the reviewed snapshot and rejects changed evidence until reloaded.
+Selected evidence includes original/effective outcomes, corrections and retests; unsupported passes
+remain pending. Missing selected tests remain flagged. Review-check counts include archived records,
+keep needs-correction statuses visible even when a task is marked addressed, and omit raw review text.
+Whole-project counts, required-code gaps,
+decision and journey state cannot be hidden by deselecting tests. All exports are fictional practice,
+not verified client work, certification or financial/employment guarantees.
+
+Text downloads and browser **Print / Save as PDF** require sensitive-data acknowledgement.
+A print-only body portal excludes navigation, controls, account UI and unrelated drafts; React
+renders user text without HTML interpretation. PDF creation is the browser's print feature, not an
+app PDF conversion service. Disable browser headers/footers to omit the URL. No public hosting,
+automatic sharing, AI generation, file upload or new dependency is introduced.
+
+No new migration or seed is needed for this feature: the existing project RPC retains optional JSON,
+and spreadsheet account projects still require migrations through 0013. Account consent includes
+saved case studies. Device removal leaves account and downloaded/printed copies unchanged.
+Reload old tabs after deployment; older app versions must not edit case-study-bearing snapshots.
+
 ### Project storage and account snapshots
 
 `/business-launchpad/projects` creates up to ten device projects from the six service paths.

@@ -23,6 +23,10 @@ export function ServiceProjectJourney({ saved, dirty }: { saved: StoredProject; 
       <h3 id="guided-service-heading">{tr(definition?.title ?? 'Your first content-service project')}</h3>
       <p>{tr('Learn → practise → draft → test → review → hand over. These milestones use saved project records and self-recorded checklist items, not independent checks of your files. Lesson and kit progress stay separate.')}</p>
       {definition && <p className="path-card">{tr(definition.boundary)}</p>}
+      <Link className="btn btn-secondary" href={`/business-launchpad/case-study-builder?project=${encodeURIComponent(project.id)}`}
+        onNavigate={(event) => {
+          if (dirty && !window.confirm(tr('Discard unsaved brief and checklist changes?'))) event.preventDefault();
+        }}>{tr('Build a freelance case study')}</Link>
       <Link className="btn btn-secondary" href={`/business-launchpad/review-centre?project=${encodeURIComponent(project.id)}`}
         onNavigate={(event) => {
           if (dirty && !window.confirm(tr('Discard unsaved brief and checklist changes?'))) event.preventDefault();

@@ -1,0 +1,53 @@
+.case-study-sheet {
+  padding: 1.5rem;
+  border: 1px solid currentColor;
+  border-radius: 0.5rem;
+}
+
+.case-study-sheet p {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.case-study-print-root {
+  display: none;
+}
+
+@media print {
+  @page {
+    margin: 18mm;
+  }
+
+  body:has(> .case-study-print-root) > :not(.case-study-print-root) {
+    display: none !important;
+  }
+
+  body:has(> .case-study-print-root),
+  body:has(> .case-study-print-root) > .case-study-print-root {
+    display: block !important;
+    background: white !important;
+    color: black !important;
+    font: 11pt/1.5 Arial, sans-serif;
+  }
+
+  body:has(> .case-study-print-root) > .case-study-print-root,
+  body:has(> .case-study-print-root) > .case-study-print-root * {
+    visibility: visible !important;
+  }
+
+  .case-study-print-root .case-study-sheet {
+    padding: 0;
+    border: 0;
+    max-width: none;
+  }
+
+  .case-study-print-root h2 {
+    font-size: 14pt;
+    break-after: avoid;
+  }
+
+  .case-study-print-root p {
+    orphans: 3;
+    widows: 3;
+  }
+}
