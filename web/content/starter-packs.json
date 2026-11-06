@@ -155,8 +155,8 @@
   },
   {
     "id": "ai-spreadsheets-kit",
-    "title": "AI Spreadsheets Kit",
-    "description": "A fictional order table, checked formulas and a missing-data checklist for Excel or Google Sheets.",
+    "title": "Excel Data Cleaning & PDF-to-Excel Kit",
+    "description": "Three spreadsheet service exercises with fictional data, PDF source checks, known subtotals, exceptions and private handover worksheets.",
     "level": "Beginner",
     "file": "downloads/ai-spreadsheets-kit.md"
   },

@@ -108,6 +108,10 @@ export function workbookLinkState(item: WorkbookItem, link: WorkbookTestLink, te
 }
 
 export const workbookStarters: Record<ServicePathId, { title: string; text: string }> = {
+  'ai-spreadsheets': {
+    title: 'Spreadsheet source checks and exception ledger',
+    text: 'FICTIONAL SPREADSHEET PRACTICE.\n\nRaw: seven rows / cleaned: six unique / one duplicate:\n\nA5 missing quantity / A6 ambiguous date / A4 known zero:\n\nPDF source page / five rows / A2 and A5 corrections:\n\nFormula locale / 10 + 6 + 5 + 0 = EUR 21 / one unresolved:\n\nSummary / chart baseline / text alternative / unresolved note:\n\nReopened CSV and workbook / types / formulas / Raw preserved:\n\nReal owner approval: BLOCKED without evidence.'
+  },
   'ai-video-business': {
     title: 'Business video scripts, captions and review ledger',
     text: 'FICTIONAL PRACTICE - NOT APPROVED FOR PUBLICATION.\n\nThree topics: visit / products / counter collection.\n\nFor each: script / timed storyboard / caption text / asset permissions.\n\nActual export duration (15-30 seconds) / resolution (1080 x 1920) / phone and sound-off checks:\n\nv1 / v2 changes / reopened exports / unknown price excluded:\n\nTool terms / actual time / vendor costs / unknowns:\n\nOwner approval: BLOCKED without real evidence. Storyboards are not finished videos.'

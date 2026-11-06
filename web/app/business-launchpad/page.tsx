@@ -33,6 +33,7 @@ export default async function BusinessLaunchpadPage() {
           <p><Tr>Choose a service learning path, including AI video creation for business. Build practice evidence before offering real work; no path promises clients or income.</Tr></p>
           <p><Tr>No paid AI is required for the worksheets. Lessons and downloads are currently English; the surrounding interface follows your language. Interviews, feedback and tool setup take additional time.</Tr></p>
           <div className="cta-row">
+            <Link className="btn btn-primary" href="/business-launchpad/spreadsheet-lab"><Tr>{'Excel Data Cleaning & PDF-to-Excel Services'}</Tr></Link>
             <Link className="btn btn-primary" href="/paths/ai-video-business"><Tr>AI Video Creation for Business</Tr></Link>
             <Link className="btn btn-primary" href="/paths/ai-automation-services"><Tr>AI Workflow Automation for Small Business</Tr></Link>
             <Link className="btn btn-secondary" href="/business-launchpad/automation-lab"><Tr>Open the no-send automation practice lab</Tr></Link>
