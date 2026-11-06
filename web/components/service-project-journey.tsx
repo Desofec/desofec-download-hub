@@ -4,26 +4,30 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { useTr } from '@/components/tr';
 import { downloadPilotText } from '@/lib/pilot-download';
-import { buildContentPortfolio, contentJourney, contentJourneyHref } from '@/lib/first-content-project';
+import { projectJourneyHref } from '@/lib/first-content-project';
+import { buildServicePortfolio, serviceJourneyCoverage, serviceJourneyDefinition, serviceProjectJourney } from '@/lib/service-project-journeys';
 import type { StoredProject } from '@/lib/pilot-projects';
 
-export function ContentProjectJourney({ saved, dirty }: { saved: StoredProject; dirty: boolean }) {
+export function ServiceProjectJourney({ saved, dirty }: { saved: StoredProject; dirty: boolean }) {
   const tr = useTr();
   const project = saved.project;
-  const journey = contentJourney(project);
-  const portfolio = buildContentPortfolio(project, tr);
+  const definition = serviceJourneyDefinition(project.pathId);
+  const journey = serviceProjectJourney(project);
+  const coverage = serviceJourneyCoverage(project);
+  const portfolio = buildServicePortfolio(project, tr);
   const [reviewed, setReviewed] = useState(false);
   const [notice, setNotice] = useState('');
   const [error, setError] = useState('');
   return (
-    <section className="content-project-journey" aria-labelledby="guided-content-heading">
-      <h3 id="guided-content-heading">{tr('Your first content-service project')}</h3>
+    <section className="service-project-journey" aria-labelledby="guided-service-heading">
+      <h3 id="guided-service-heading">{tr(definition?.title ?? 'Your first content-service project')}</h3>
       <p>{tr('Learn → practise → draft → test → review → hand over. These milestones use saved project records and self-recorded checklist items, not independent checks of your files. Lesson and kit progress stay separate.')}</p>
+      {definition && <p className="path-card">{tr(definition.boundary)}</p>}
       {dirty && <p role="status">{tr('Unsaved brief or checklist changes are not included below. Save them before continuing or exporting.')}</p>}
       <div className="path-card journey-next" role="status">
         <strong>{tr('Your next guided action')}</strong>
         <p>{tr(journey.next?.action ?? 'Practice record assembled. Review the private portfolio and all unresolved issues before any manual sharing.')}</p>
-        {journey.next && <Link className="btn btn-primary" href={contentJourneyHref(project, journey.next.destination)}
+        {journey.next && <Link className="btn btn-primary" href={projectJourneyHref(project, journey.next.destination)}
           onNavigate={(event) => {
             if (journey.next?.destination !== 'brief' && dirty && !window.confirm(tr('Discard unsaved brief and checklist changes?'))) event.preventDefault();
           }}>{tr(journey.next.link)}</Link>}
@@ -34,12 +38,22 @@ export function ContentProjectJourney({ saved, dirty }: { saved: StoredProject; 
             <h4>{tr(stage.title)}</h4>
             <p><strong>{tr(stage.complete ? 'Recorded milestone' : 'Evidence still needed')}</strong></p>
             <p>{tr(stage.instruction)}</p>
+            {stage.id === 'test' && coverage.length > 0 && <>
+              <p>{tr('Required service checks: every bracketed code needs one case with recorded evidence. Keep codes when translating or renaming tests; duplicates and unsupported passes do not count. Existing saved cases are never rewritten automatically.')}</p>
+              <ul className="journey-checks">
+                {coverage.map((check) => (
+                  <li key={check.code} data-journey-check={check.code}>
+                    <strong>[{check.code}] {tr(check.label)}</strong>: {tr(check.recorded ? 'Recorded milestone' : 'Evidence still needed')}
+                  </li>
+                ))}
+              </ul>
+            </>}
           </li>
         ))}
       </ol>
       <details className="journey-portfolio">
         <summary>{tr('Preview private practice portfolio')}</summary>
-        <p>{tr('No public portfolio page or sharing link is created. The preview is derived from your saved project and is not stored separately. Original content files stay in your own storage.')}</p>
+        <p>{tr('No public portfolio page or sharing link is created. The preview is derived from your saved project and is not stored separately. Original project files stay in your own storage.')}</p>
         <pre className="project-portfolio-preview" tabIndex={0}>{portfolio}</pre>
         <label className="project-check">
           <input type="checkbox" checked={reviewed} onChange={(event) => setReviewed(event.target.checked)} />
@@ -49,7 +63,7 @@ export function ContentProjectJourney({ saved, dirty }: { saved: StoredProject; 
           setNotice('');
           setError('');
           try {
-            downloadPilotText(portfolio, 'content-practice-portfolio.txt');
+            downloadPilotText(portfolio, definition ? `${project.pathId}-practice-portfolio.txt` : 'content-practice-portfolio.txt');
             setNotice('Practice portfolio download requested. No public page was created. Delete downloaded files separately when no longer needed.');
           } catch {
             setError('Could not download the practice portfolio. Keep this page open, copy the preview or retry.');

@@ -42,41 +42,54 @@ export const contentJourneyStages = [
   }
 ] as const;
 
-export function contentJourney(project: PilotProject) {
+export type JourneyStage = {
+  id: string; title: string; instruction: string; action: string;
+  link: string; destination: typeof contentJourneyStages[number]['destination'];
+};
+
+export function evaluateJourney(
+  project: PilotProject, stages: readonly JourneyStage[], testsRecorded: boolean,
+  extraProposalFields: readonly ('dataHandling' | 'timeline')[] = []
+) {
   const proposal = project.proposal;
   const tests = project.results?.tests ?? [];
-  const recorded = tests.filter((test) => testHasEvidence(test) && effectiveTestStatus(test) !== 'pending');
-  const distinct = new Set(recorded.map((test) => test.name.trim().toLowerCase()));
   const notes = project.results?.notes;
   const ownChecks = [
     Boolean(project.brief.objective.trim() && project.completed.includes('brief')),
     Boolean(project.brief.scope.trim() && project.brief.review.trim() && project.completed.includes('scope')),
     Boolean(projectProposalReady(project) && proposal && ([
       'title', 'problem', 'scope', 'exclusions', 'acceptance', 'reviewer', 'handover'
-    ] as const).every((key) => proposal.inputs[key].trim())),
-    distinct.size >= 4 && project.completed.includes('evidence'),
+    ] as const).every((key) => proposal.inputs[key].trim())
+      && extraProposalFields.every((key) => proposal.inputs[key].trim())),
+    testsRecorded && project.completed.includes('evidence'),
     Boolean(project.results?.decision && notes?.rationale.trim() && notes.uncertainty.trim()
       && notes.nextSteps.trim() && project.completed.includes('review')),
     project.completed.includes('handover')
   ];
   let previousComplete = true;
-  const stages = contentJourneyStages.map((stage, index) => {
+  const evaluated = stages.map((stage, index) => {
     const complete = previousComplete && ownChecks[index];
     previousComplete = complete;
     return { ...stage, complete };
   });
-  const next = stages.find((stage) => !stage.complete);
+  const next = evaluated.find((stage) => !stage.complete);
   return {
-    stages, next, ready: !next,
-    recordedChecks: distinct.size,
+    stages: evaluated, next, ready: !next,
     summary: project.results ? resultTestSummary(tests) : null
   };
 }
 
-export function contentJourneyHref(project: PilotProject, destination: typeof contentJourneyStages[number]['destination']) {
+export function contentJourney(project: PilotProject) {
+  const tests = project.results?.tests ?? [];
+  const recorded = tests.filter((test) => testHasEvidence(test) && effectiveTestStatus(test) !== 'pending');
+  const distinct = new Set(recorded.map((test) => test.name.trim().toLowerCase()));
+  return { ...evaluateJourney(project, contentJourneyStages, distinct.size >= 4), recordedChecks: distinct.size };
+}
+
+export function projectJourneyHref(project: PilotProject, destination: typeof contentJourneyStages[number]['destination']) {
   switch (destination) {
-    case 'tutorial': return '/tutorials/ai-content-services';
-    case 'kit': return '/starter-packs/ai-content-services-kit';
+    case 'tutorial': return `/tutorials/${project.pathId}`;
+    case 'kit': return `/starter-packs/${project.pathId}-kit`;
     case 'proposal': return `/business-launchpad/proposal-builder?project=${encodeURIComponent(project.id)}`;
     case 'results': return `/business-launchpad/results-tracker?project=${encodeURIComponent(project.id)}`;
     case 'brief': return '#project-brief-form';
@@ -86,13 +99,24 @@ export function contentJourneyHref(project: PilotProject, destination: typeof co
 export function buildContentPortfolio(project: PilotProject, tr: (text: string) => string) {
   if (project.pathId !== firstContentPath) throw new Error('This guided portfolio is available for AI Content Services projects only.');
   const journey = contentJourney(project);
+  return buildPracticePortfolio(project, tr, journey, {
+    heading: 'PRACTICE PORTFOLIO - FICTIONAL CONTENT SERVICE, NOT CLIENT WORK',
+    exercise: 'Exercise: three 40-60-word posts and four FAQ answers for fictional Cedar Bakery. This describes the exercise, not proof that the files were created.',
+    boundary: 'Files stay in your own storage. Desofec does not inspect the posts, word counts, permissions or approval; saved outcomes are your statements, not independent verification.'
+  });
+}
+
+export function buildPracticePortfolio(
+  project: PilotProject, tr: (text: string) => string, journey: ReturnType<typeof evaluateJourney>,
+  description: { heading: string; exercise: string; boundary: string }
+) {
   const unknown = tr('[TO CONFIRM]');
   const decision = project.results?.decision;
   return [
-    tr('PRACTICE PORTFOLIO - FICTIONAL CONTENT SERVICE, NOT CLIENT WORK'),
+    tr(description.heading),
     tr(journey.ready ? 'Practice record assembled - self-recorded, not independently verified.' : 'Incomplete practice draft - milestones or evidence are missing.'),
     `${tr('Project title')}\n${project.title}`,
-    tr('Exercise: three 40-60-word posts and four FAQ answers for fictional Cedar Bakery. This describes the exercise, not proof that the files were created.'),
+    tr(description.exercise),
     `${tr('Practice objective and evidence')}\n${project.brief.objective.trim() || unknown}`,
     `${tr('Deliverables and exclusions')}\n${project.brief.scope.trim() || unknown}`,
     `${tr('Review role, missing evidence and next review date')}\n${project.brief.review.trim() || unknown}`,
@@ -112,7 +136,7 @@ export function buildContentPortfolio(project: PilotProject, tr: (text: string) 
     `${tr('Decision reasoning')}\n${project.results?.notes.rationale.trim() || unknown}`,
     `${tr('Remaining uncertainty')}\n${project.results?.notes.uncertainty.trim() || unknown}`,
     `${tr('Next actions')}\n${project.results?.notes.nextSteps.trim() || unknown}`,
-    tr('Files stay in your own storage. Desofec does not inspect the posts, word counts, permissions or approval; saved outcomes are your statements, not independent verification.'),
+    tr(description.boundary),
     tr('This entry is private in your workspace. Downloading creates a device file, not a public page. No full proposal, structured financial fields or raw test evidence is included; user-entered titles and notes may still contain sensitive details. Review before sharing manually.'),
     tr('No client approval, publication permission, income promise or professional credential is granted by completing this journey.')
   ].join('\n\n');
