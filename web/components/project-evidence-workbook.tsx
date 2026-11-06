@@ -87,6 +87,7 @@ export function ProjectEvidenceWorkbook({ projectId }: { projectId?: string }) {
         <p>{tr('The workbook belongs to one private project. Save each revision explicitly on this device. Account upload only happens from the workspace after consent; saved text and all retained revisions are included.')}</p>
         <div className="cta-row">
           <a className="btn btn-secondary" href={`/business-launchpad/projects${query}`}>{tr('Back to project')}</a>
+          {saved?.project.pathId === 'ai-content-services' && <a className="btn btn-secondary" href={`/business-launchpad/review-centre${query}`}>{tr('Open project review centre')}</a>}
           <Link className="btn btn-secondary" href={`/business-launchpad/results-tracker${query}`} onNavigate={(event) => {
             if (!discard()) event.preventDefault();
           }}>{tr('Track pilot tests and results')}</Link>
@@ -105,6 +106,7 @@ export function ProjectEvidenceWorkbook({ projectId }: { projectId?: string }) {
 
       {saved && <>
         <h2>{saved.project.title}</h2>
+        {saved.project.pathId === 'ai-content-services' && <p>{tr('Saved reviews keep a separate copy of reviewed text. Deleting workbook text does not delete those copies; remove saved reviews separately in the Review Centre.')}</p>}
         <p>{tr('Up to eight text items, five saved revisions per item and 8,000 characters per revision. No silent pruning: export or remove an item when a limit is reached.')}</p>
         {workbook.items.length >= workbookItemLimit && <p role="status">{tr('Workbook item limit reached. Export or remove a saved item before adding another.')}</p>}
         {item && item.revisions.length >= workbookRevisionLimit && <p role="status">{tr('Revision limit reached. Export this item and start a separate item; old revisions are never removed automatically.')}</p>}

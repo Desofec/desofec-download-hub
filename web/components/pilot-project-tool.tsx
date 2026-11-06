@@ -111,6 +111,9 @@ export function PilotProjectTool(props: Props) {
           if (props.dirty && !window.confirm(tr('Leave this page without saving the current project draft?'))) event.preventDefault();
         }}>{tr('Open private evidence workbook')}</Link>
       </section>}
+      {saved?.project.pathId === 'ai-content-services' && <Link className="btn btn-secondary" href={`/business-launchpad/review-centre${query}`} onNavigate={(event) => {
+        if (props.dirty && !window.confirm(tr('Leave this page without saving the current project draft?'))) event.preventDefault();
+      }}>{tr('Open project review centre')}</Link>}
       <p role="status">{notice ? tr(notice) : tr(props.dirty ? 'Changes are not saved on this device.' : 'No automatic saving. Save explicitly if you want to return later.')}</p>
       {error && <p className="proposal-error" role="alert">{tr(error)}</p>}
     </div>

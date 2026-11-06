@@ -166,6 +166,33 @@ download contains full saved text and all revisions; inspect older text before s
 Downloaded files must be deleted separately. Reload all app tabs after deploying this release: older
 app versions do not understand workbook fields and must not be used to edit workbook-bearing snapshots.
 
+### Guided Project Review Centre
+
+`/business-launchpad/review-centre?project=<uuid>` is private/noindex and initially supports
+AI Content Services only. Reload saved project and reviews, select a workbook item/revision,
+then record five manual checks: facts, copy, accessibility/permissions, corrections and
+publication boundaries. Every non-pending check needs observations; a correction status needs
+a task. Marking a task addressed requires written evidence, and never changes its review status,
+test outcome or project milestone.
+
+The optional `reviewCentre` project part stores at most eight reviews, one per text item.
+Each pins a full copy of its reviewed revision so deleting/reusing a workbook ID cannot silently
+reattach feedback. Newer or missing/replaced text is explicitly flagged. Reviewing another
+revision starts with pending checks; replacing an item's saved review requires confirmation.
+Review saves compare only their own part, validate the selected source against current storage,
+preserve unrelated parts and reject deleted projects. The existing UTF-8 project size bound applies.
+
+Select saved reviews and acknowledge sensitive-data review to download a saved-only text
+handover pack. It includes selected copied revisions, feedback, correction evidence, test
+names/effective outcomes, decision, uncertainty and next actions, including unresolved/archived
+records. It omits unselected text, full proposals, raw test evidence and structured costs.
+Downloads are never public pages or approval. Deleting workbook items leaves review copies;
+delete saved reviews, account snapshots and downloads separately.
+
+No new migration or seed is required; existing migration 0011 retains optional review JSON.
+Account upload consent explicitly includes copied review text. Reload all tabs after deployment;
+older app versions must not edit review-bearing projects because they do not retain this field.
+
 ### Project storage and account snapshots
 
 `/business-launchpad/projects` creates up to ten device projects from the five service paths.

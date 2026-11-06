@@ -21,6 +21,7 @@ async function loadContent(relativePath, imports = {}) {
 }
 
 const projectImports = {
+  '@/lib/project-review': '../lib/project-review.ts',
   '@/lib/evidence-workbook': '../lib/evidence-workbook.ts',
   '@/lib/pilot-proposal': '../lib/pilot-proposal.ts',
   '@/lib/pilot-results': '../lib/pilot-results.ts'
@@ -38,6 +39,173 @@ function memoryStorage() {
 const projectId = '11111111-1111-4111-8111-111111111111';
 
 const workbookTime = '2026-11-06T01:30:00.000Z';
+test('content reviews strictly validate checks, copied source identity, limits and evidence without changing milestones', async () => {
+  const { saveTextReview, readProjectReviewCentre, emptyReviewChecks, textReviewState } = await loadContent('../lib/project-review.ts', projectImports);
+  const { newPilotProject, readPilotProject } = await loadContent('../lib/pilot-projects.ts', projectImports);
+  const { appendWorkbookRevision } = await loadContent('../lib/evidence-workbook.ts');
+  const project = newPilotProject(projectId, 'ai-content-services', 'Private review');
+  assert.equal('reviewCentre' in readPilotProject(JSON.stringify(project)), false);
+  project.workbook = appendWorkbookRevision({ version: 1, items: [] }, null, 'v1', 'REVIEW_SOURCE_ONE', workbookTime);
+  const source = project.workbook.items[0].revisions[0];
+  const before = JSON.stringify(project);
+  const checks = emptyReviewChecks();
+  checks[0] = { ...checks[0], status: 'needs-work', notes: 'An unsupported claim remains', task: 'Remove the invented price' };
+  checks[4] = { ...checks[4], status: 'blocked', notes: 'Owner approval unavailable' };
+  const centre = saveTextReview(project, 'item-1', source, checks, workbookTime);
+  assert.throws(() => saveTextReview(project, 'item-1', source, checks.map((check, index) => index === 0 ? { ...check, notes: ' ' } : check), workbookTime), /Add observations/);
+  assert.throws(() => saveTextReview(project, 'item-1', source, checks.map((check, index) => index === 0 ? { ...check, task: ' ' } : check), workbookTime), /Add a correction task/);
+  assert.throws(() => saveTextReview(project, 'item-1', source, checks.map((check, index) => index === 0 ? { ...check, done: true } : check), workbookTime), /Record a task and correction evidence/);
+  assert.throws(() => saveTextReview(project, 'item-1', source, checks.map((check, index) => index === 1 ? { ...check, resolution: 'Evidence without task' } : check), workbookTime), /Add a correction task before/);
+  assert.equal(JSON.stringify(project), before);
+  project.reviewCentre = centre;
+  assert.deepEqual(readPilotProject(JSON.stringify(project)), project);
+  assert.deepEqual(project.completed, []);
+  assert.equal(project.results, null);
+  assert.match(textReviewState(project, centre.reviews[0]), /current saved text/);
+  for (const mutate of [
+    (copy) => { copy.version = 2; },
+    (copy) => { copy.reviews = null; },
+    (copy) => { copy.reviews.push(structuredClone(copy.reviews[0])); },
+    (copy) => { copy.reviews[0].itemId = 'item-9'; },
+    (copy) => { copy.reviews[0].source.number = 6; },
+    (copy) => { copy.reviews[0].source.savedAt = '2026-02-30T01:30:00.000Z'; },
+    (copy) => { copy.reviews[0].source.body = 'x'.repeat(8001); },
+    (copy) => { copy.reviews[0].savedAt = '2026-02-30T01:30:00.000Z'; },
+    (copy) => { copy.reviews[0].checks.pop(); },
+    (copy) => { copy.reviews[0].checks[0].id = 'access'; },
+    (copy) => { copy.reviews[0].checks[0].status = 'approved'; },
+    (copy) => { copy.reviews[0].checks[0].notes = ' '; },
+    (copy) => { copy.reviews[0].checks[0].notes = 'x'.repeat(2001); },
+    (copy) => { copy.reviews[0].checks[0].task = ''; },
+    (copy) => { copy.reviews[0].checks[0].done = true; },
+    (copy) => { copy.reviews[0].checks[1].resolution = 'Evidence without a task'; },
+    (copy) => { copy.reviews[0].checks[1].done = 'yes'; }
+  ]) {
+    const copy = structuredClone(centre);
+    mutate(copy);
+    assert.throws(() => readProjectReviewCentre(copy), /Invalid saved/);
+  }
+  assert.throws(() => readPilotProject(JSON.stringify({ ...project, reviewCentre: null })), /Invalid saved/);
+  assert.throws(() => readPilotProject(JSON.stringify({ ...project, pathId: 'ai-cad-services' })), /Invalid project/);
+  assert.throws(() => saveTextReview({ ...project, pathId: 'ai-cad-services' }, 'item-1', source, checks, workbookTime), /only/);
+  project.workbook = appendWorkbookRevision(project.workbook, 'item-1', 'v2', 'REVIEW_SOURCE_TWO', workbookTime);
+  assert.match(textReviewState(project, centre.reviews[0]), /Newer text/);
+  assert.equal(centre.reviews[0].checks[0].done, false);
+  assert.deepEqual(emptyReviewChecks().map((check) => check.status), Array(5).fill('pending'));
+  project.workbook.items = [];
+  assert.match(textReviewState(project, centre.reviews[0]), /removed or replaced/);
+  assert.throws(() => saveTextReview(project, 'item-1', source, checks, workbookTime), /changed or was removed/);
+  project.workbook = appendWorkbookRevision(project.workbook, null, 'New item with reused ID', 'REPLACEMENT', workbookTime);
+  assert.match(textReviewState(project, centre.reviews[0]), /removed or replaced/);
+  assert.equal(centre.reviews[0].source.body, 'REVIEW_SOURCE_ONE');
+  assert.throws(() => saveTextReview(project, 'item-1', source, checks, workbookTime), /changed or was removed/);
+  checks[0] = { ...checks[0], done: true, resolution: 'Price removed in a separately saved draft; review pending' };
+  const replaced = saveTextReview(project, 'item-1', project.workbook.items[0].revisions[0], checks, workbookTime);
+  assert.equal(replaced.reviews.length, 1);
+  assert.equal(replaced.reviews[0].checks[0].status, 'needs-work');
+});
+
+test('review saves merge their own part, retain copied text in snapshots and reject stale or deleted-project writes', async () => {
+  const { newPilotProject, saveProject, saveProjectPart, loadProject, deleteProject, projectResultsSeed } = await loadContent('../lib/pilot-projects.ts', projectImports);
+  const { appendWorkbookRevision } = await loadContent('../lib/evidence-workbook.ts');
+  const { saveTextReview, emptyReviewChecks } = await loadContent('../lib/project-review.ts', projectImports);
+  const project = newPilotProject(projectId, 'ai-content-services', 'CAS review');
+  project.workbook = appendWorkbookRevision({ version: 1, items: [] }, null, 'Source', 'COPY_RETENTION', workbookTime);
+  const centre = saveTextReview(project, 'item-1', project.workbook.items[0].revisions[0], emptyReviewChecks(), workbookTime);
+  const storage = memoryStorage();
+  saveProject(storage, project, 0, { userId: projectId, version: 1 });
+  saveProjectPart(storage, projectId, 'results', projectResultsSeed(project), 'null');
+  const saved = saveProjectPart(storage, projectId, 'reviewCentre', centre, 'null');
+  assert.deepEqual(saved.project.results, projectResultsSeed(project));
+  assert.deepEqual(saved.cloud, { userId: projectId, version: 1 });
+  assert.throws(() => saveProjectPart(storage, projectId, 'reviewCentre', centre, 'null'), /draft changed/);
+  saveProjectPart(storage, projectId, 'workbook', { version: 1, items: [] }, JSON.stringify(project.workbook));
+  assert.equal(loadProject(storage, projectId).project.reviewCentre.reviews[0].source.body, 'COPY_RETENTION');
+  const current = loadProject(storage, projectId);
+  deleteProject(storage, projectId, current.revision);
+  assert.throws(() => saveProjectPart(storage, projectId, 'reviewCentre', centre, JSON.stringify(centre)), /not found/);
+});
+
+test('review count and combined UTF-8 size limits are enforced without silently removing copies', async () => {
+  const { newPilotProject, readPilotProject } = await loadContent('../lib/pilot-projects.ts', projectImports);
+  const { appendWorkbookRevision } = await loadContent('../lib/evidence-workbook.ts');
+  const { emptyReviewChecks, readProjectReviewCentre, saveTextReview } = await loadContent('../lib/project-review.ts', projectImports);
+  const project = newPilotProject(projectId, 'ai-content-services', 'Review limits');
+  project.workbook = { version: 1, items: [] };
+  for (let index = 1; index <= 8; index++) {
+    project.workbook = appendWorkbookRevision(project.workbook, null, `Text ${index}`, 'x'.repeat(8000), workbookTime);
+    const checks = emptyReviewChecks().map((check) => ({
+      ...check, status: 'needs-work', notes: 'N'.repeat(2000), task: 'T'.repeat(2000), resolution: 'R'.repeat(2000)
+    }));
+    project.reviewCentre = saveTextReview(project, `item-${index}`, project.workbook.items[index - 1].revisions[0], checks, workbookTime);
+  }
+  assert.equal(readPilotProject(JSON.stringify(project)).reviewCentre.reviews.length, 8);
+  assert.throws(() => readProjectReviewCentre({
+    version: 1, reviews: [...project.reviewCentre.reviews, project.reviewCentre.reviews[0]]
+  }), /Invalid saved/);
+  const original = JSON.stringify(project.reviewCentre);
+  for (let index = 1; index <= 8; index++) {
+    for (let number = 2; number <= 5; number++) {
+      project.workbook = appendWorkbookRevision(project.workbook, `item-${index}`, `Text ${index} v${number}`, '界'.repeat(8000), workbookTime);
+    }
+  }
+  assert.throws(() => readPilotProject(JSON.stringify(project)), /storage limit/);
+  assert.equal(JSON.stringify(project.reviewCentre), original);
+});
+
+test('private review handovers include only selected saved copies, honest pending outcomes and unresolved feedback in four languages', async () => {
+  const { buildReviewHandover, saveTextReview, emptyReviewChecks } = await loadContent('../lib/project-review.ts', projectImports);
+  const { appendWorkbookRevision } = await loadContent('../lib/evidence-workbook.ts');
+  const { buildProjectSummary } = await loadContent('../lib/pilot-projects.ts', projectImports);
+  const { buildServicePortfolio } = await loadContent('../lib/service-project-journeys.ts', journeyImports);
+  const project = await contentProjectFixture();
+  project.workbook = appendWorkbookRevision({ version: 1, items: [] }, null, 'Reviewed', 'SELECTED_REVIEW_COPY', workbookTime);
+  project.workbook = appendWorkbookRevision(project.workbook, null, 'Excluded', 'UNSELECTED_REVIEW_COPY', workbookTime);
+  project.workbook = appendWorkbookRevision(project.workbook, null, 'Unreviewed', 'UNREVIEWED_WORKBOOK_COPY', workbookTime);
+  const checks = emptyReviewChecks();
+  checks[0] = { ...checks[0], status: 'needs-work', notes: 'REVIEW_FEEDBACK_CANARY', task: 'Unresolved correction' };
+  project.reviewCentre = saveTextReview(project, 'item-1', project.workbook.items[0].revisions[0], checks, workbookTime);
+  project.reviewCentre = saveTextReview(project, 'item-2', project.workbook.items[1].revisions[0], emptyReviewChecks(), workbookTime);
+  project.results.tests[0] = { ...project.results.tests[0], actual: '', status: 'pass' };
+  const before = JSON.stringify(project);
+  const report = buildReviewHandover(project, ['item-1'], (text) => text);
+  assert.equal(JSON.stringify(project), before);
+  assert.match(report, /SELECTED_REVIEW_COPY|REVIEW_FEEDBACK_CANARY/);
+  assert.match(report, /Unresolved correction/);
+  assert.match(report, /Not run or missing evidence/);
+  assert.doesNotMatch(report, /UNSELECTED_REVIEW_COPY|UNREVIEWED_WORKBOOK_COPY|RAW_TEST_|PRIVATE_PROPOSAL_CANARY|98765|87654/);
+  assert.doesNotMatch(buildProjectSummary(project, (text) => text), /REVIEW_FEEDBACK_CANARY|SELECTED_REVIEW_COPY/);
+  assert.doesNotMatch(buildServicePortfolio(project, (text) => text), /REVIEW_FEEDBACK_CANARY|SELECTED_REVIEW_COPY/);
+  assert.throws(() => buildReviewHandover(project, [], (text) => text), /Select saved/);
+  assert.throws(() => buildReviewHandover(project, ['item-1', 'item-1'], (text) => text), /Select saved/);
+  assert.throws(() => buildReviewHandover(project, ['item-8'], (text) => text), /no longer exists/);
+  project.workbook.items = [];
+  assert.match(buildReviewHandover(project, ['item-1'], (text) => text), /archived/);
+  for (const locale of ['fr', 'de', 'es']) {
+    const book = JSON.parse(await readFile(new URL(`../content/translations/ui-${locale}.json`, import.meta.url), 'utf8'));
+    const tr = (text) => { assert.ok(book[text], `${locale}: missing review phrase "${text}"`); return book[text]; };
+    assert.ok(buildReviewHandover(project, ['item-1'], tr).startsWith(book['PRIVATE CONTENT PRACTICE HANDOVER - SELF-REVIEW, NOT CLIENT APPROVAL']));
+  }
+});
+
+test('review instructions, statuses, errors, consent and private route have complete translations', async () => {
+  const strings = new Set();
+  for (const file of ['../lib/project-review.ts', '../components/project-review-centre.tsx', '../app/business-launchpad/review-centre/page.tsx']) {
+    const source = await readFile(new URL(file, import.meta.url), 'utf8');
+    const ast = ts.createSourceFile(file, source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
+    const visit = (node) => {
+      if (ts.isStringLiteral(node) && /^[A-Z]/.test(node.text)) strings.add(node.text);
+      if (ts.isJsxText(node) && node.parent.openingElement?.tagName.getText(ast) === 'Tr' && node.text.trim()) strings.add(node.text.trim());
+      ts.forEachChild(node, visit);
+    };
+    visit(ast);
+  }
+  for (const locale of ['fr', 'de', 'es']) {
+    const book = JSON.parse(await readFile(new URL(`../content/translations/ui-${locale}.json`, import.meta.url), 'utf8'));
+    for (const phrase of strings) assert.ok(book[phrase], `${locale}: missing review phrase "${phrase}"`);
+  }
+});
+
 test('workbook validation preserves bounded title/text revisions and rejects corrupted archives and references', async () => {
   const { appendWorkbookRevision, readEvidenceWorkbook, setWorkbookTestLink, workbookTextLimit } =
     await loadContent('../lib/evidence-workbook.ts');
