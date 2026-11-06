@@ -34,7 +34,7 @@ export function PilotProjectTool(props: Props) {
         if (expected === null) throw new Error('Reload the project draft before saving.');
         if (props.kind !== 'results') return;
         if (!window.confirm(tr('Replace current test cases with the required service plans? Existing test evidence will be lost from the current form; the saved project is unchanged until you save.'))) return;
-        props.onLoad({ ...props.value, tests: serviceJourneyTests(current.project.pathId, tr) }, current.project.pathId);
+        props.onLoad({ ...props.value, tests: serviceJourneyTests(current.project.pathId, tr, current.project.automationScenario) }, current.project.pathId);
         props.onDirty();
         setNotice('Required plans loaded without outcomes. Record actual evidence and save the project draft explicitly.');
         return;
@@ -70,7 +70,7 @@ export function PilotProjectTool(props: Props) {
     });
   };
   const query = `?project=${encodeURIComponent(projectId)}`;
-  const definition = saved ? serviceJourneyDefinition(saved.project.pathId) : null;
+  const definition = saved ? serviceJourneyDefinition(saved.project.pathId, saved.project.automationScenario) : null;
 
   return (
     <div className="proposal-controls project-tool-context">

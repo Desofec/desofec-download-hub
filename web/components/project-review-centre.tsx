@@ -26,7 +26,7 @@ export function ProjectReviewCentre({ projectId }: { projectId?: string }) {
   const [notice, setNotice] = useState('');
   const working = useRef(false);
   const query = projectId === undefined ? '' : `?project=${encodeURIComponent(projectId)}`;
-  const definitions = saved ? checksForService(saved.project.pathId) : [];
+  const definitions = saved ? checksForService(saved.project.pathId, saved.project.automationScenario) : [];
   const items = saved?.project.workbook?.items ?? [];
   const item = items.find((entry) => entry.id === itemId);
   const source = item?.revisions.find((entry) => entry.number === number);

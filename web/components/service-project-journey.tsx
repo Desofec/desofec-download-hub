@@ -11,7 +11,7 @@ import type { StoredProject } from '@/lib/pilot-projects';
 export function ServiceProjectJourney({ saved, dirty }: { saved: StoredProject; dirty: boolean }) {
   const tr = useTr();
   const project = saved.project;
-  const definition = serviceJourneyDefinition(project.pathId);
+  const definition = serviceJourneyDefinition(project.pathId, project.automationScenario);
   const journey = serviceProjectJourney(project);
   const coverage = serviceJourneyCoverage(project);
   const portfolio = buildServicePortfolio(project, tr);

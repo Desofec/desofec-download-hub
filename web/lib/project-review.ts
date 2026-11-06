@@ -1,6 +1,7 @@
 import { readEvidenceWorkbook, type WorkbookRevision } from '@/lib/evidence-workbook';
 import { effectiveTestStatus } from '@/lib/pilot-results';
 import type { PilotProject, ServicePathId } from '@/lib/pilot-projects';
+import { automationScenarioLabels, type AutomationScenario } from '@/lib/automation-projects';
 
 type ReviewDefinition = { id: string; label: string; instruction: string };
 export const serviceReviewChecks = {
@@ -51,7 +52,19 @@ export const serviceReviewChecks = {
   ]
 } satisfies Record<ServicePathId, readonly ReviewDefinition[]>;
 export const contentReviewChecks = serviceReviewChecks['ai-content-services'];
-export const checksForService = (pathId: ServicePathId) => serviceReviewChecks[pathId];
+export const checksForService = (pathId: ServicePathId, scenario?: AutomationScenario) => {
+  if (pathId !== 'ai-automation-services' || !scenario || scenario === 'enquiries') return serviceReviewChecks[pathId];
+  return serviceReviewChecks[pathId].map((check) => {
+    if (check.id === 'scope') return { ...check, instruction: scenario === 'appointments'
+      ? 'Check fixed UTC time, the 24-hour window, explicit permission and confirmed status. Exclude live calendars, contact details and automatic sending.'
+      : 'Check inclusive UTC week, raw/working copies, unique order IDs and source permissions. Exclude real records and automatic distribution.' };
+    if (check.id === 'queue') return { ...check, label: automationScenarioLabels[scenario], instruction: scenario === 'appointments'
+      ? 'Reconcile current appointment versions, duplicate keys and cancelled drafts. An old event must not restore a cancellation; recheck current state before any hypothetical dispatch.'
+      : 'Reconcile five unique rows: known subtotal EUR 21 with one unresolved quantity. Missing is not zero. Check duplicate conflicts, excluded dates and report revision keys.' };
+    if (check.id === 'failure') return { ...check, instruction: 'Review visible write failure, unchanged state and a safe retry. Repeated successful version keys must not create duplicates. Lab behavior does not verify a real connector.' };
+    return check;
+  });
+};
 export type ReviewCheckId = typeof contentReviewChecks[number]['id']
   | typeof serviceReviewChecks['ai-automation-services'][number]['id']
   | typeof serviceReviewChecks['ai-cad-services'][number]['id']
@@ -140,7 +153,7 @@ export function textReviewState(project: PilotProject, review: SavedTextReview) 
 export function buildReviewHandover(project: PilotProject, selected: readonly string[], tr: (text: string) => string) {
   if (!selected.length || new Set(selected).size !== selected.length) throw new Error('Select saved reviews before preparing a handover pack.');
   const centre = readProjectReviewCentre(project.reviewCentre ?? emptyReviewCentre, project.pathId);
-  const definitions = checksForService(project.pathId);
+  const definitions = checksForService(project.pathId, project.automationScenario);
   const reviews = selected.map((id) => {
     const review = centre.reviews.find((entry) => entry.itemId === id);
     if (!review) throw new Error('Selected review no longer exists. Reload before downloading.');
@@ -151,6 +164,7 @@ export function buildReviewHandover(project: PilotProject, selected: readonly st
       ? 'PRIVATE CONTENT PRACTICE HANDOVER - SELF-REVIEW, NOT CLIENT APPROVAL'
       : 'PRIVATE SERVICE PRACTICE HANDOVER - SELF-REVIEW, NOT CLIENT APPROVAL'),
     project.title,
+    ...(project.pathId === 'ai-automation-services' ? [tr(automationScenarioLabels[project.automationScenario ?? 'enquiries'])] : []),
     tr('Contains only selected reviewed text revisions, saved feedback and recorded test outcomes. Archived or unresolved work remains labelled. No publication permission is granted. Delete downloaded files separately.'),
     ...reviews.flatMap((review) => [
       `${review.itemId}: ${review.source.title}\n${tr('Saved revision')}: ${review.source.number} (${review.source.savedAt})`,

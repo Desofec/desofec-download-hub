@@ -34,6 +34,8 @@ export default async function BusinessLaunchpadPage() {
           <p><Tr>No paid AI is required for the worksheets. Lessons and downloads are currently English; the surrounding interface follows your language. Interviews, feedback and tool setup take additional time.</Tr></p>
           <div className="cta-row">
             <Link className="btn btn-primary" href="/paths/ai-video-business"><Tr>AI Video Creation for Business</Tr></Link>
+            <Link className="btn btn-primary" href="/paths/ai-automation-services"><Tr>AI Workflow Automation for Small Business</Tr></Link>
+            <Link className="btn btn-secondary" href="/business-launchpad/automation-lab"><Tr>Open the no-send automation practice lab</Tr></Link>
             <Link className="btn btn-primary" href="/business-launchpad/first-project"><Tr>Complete your first practice project</Tr></Link>
             <Link className="btn btn-primary" href="/business-launchpad/projects"><Tr>Open the Pilot Project Workspace</Tr></Link>
             <Link className="btn btn-primary" href="/tutorials/ai-automation-services"><Tr>Start the automation service tutorial</Tr></Link>

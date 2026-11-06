@@ -2,6 +2,7 @@ import { emptyProposalInputs, readProposalDraft, type ProposalDraft } from '@/li
 import { emptyPilotResults, readPilotResults, resultTestSummary, type PilotResults } from '@/lib/pilot-results';
 import { readEvidenceWorkbook, type EvidenceWorkbook } from '@/lib/evidence-workbook';
 import { readProjectReviewCentre, type ProjectReviewCentre } from '@/lib/project-review';
+import { automationScenarioLabels, isAutomationScenario, type AutomationScenario } from '@/lib/automation-projects';
 
 export const projectStoragePrefix = 'desofec:pilot-project:v1:';
 export const projectLimit = 10;
@@ -28,6 +29,7 @@ export type PilotProject = {
   version: 1;
   id: string;
   pathId: ServicePathId;
+  automationScenario?: AutomationScenario;
   title: string;
   brief: Record<typeof projectBriefFields[number]['key'], string>;
   completed: MilestoneId[];
@@ -70,11 +72,16 @@ export function readPilotProject(raw: string): PilotProject {
     throw new Error('Invalid project data.');
   }
   const brief = record(value.brief);
+  if ('automationScenario' in value
+    && (value.pathId !== 'ai-automation-services' || !isAutomationScenario(value.automationScenario))) {
+    throw new Error('Invalid automation project choice.');
+  }
   for (const { key } of projectBriefFields) {
     if (typeof brief[key] !== 'string' || brief[key].length > 2000) throw new Error('Invalid project data.');
   }
   return {
     version: 1, id: value.id, pathId: value.pathId as ServicePathId, title: value.title,
+    ...(isAutomationScenario(value.automationScenario) ? { automationScenario: value.automationScenario } : {}),
     brief: { objective: String(brief.objective), scope: String(brief.scope), review: String(brief.review) },
     completed: value.completed as MilestoneId[],
     proposal: value.proposal === null ? null : readProposalDraft(JSON.stringify(value.proposal)),
@@ -84,10 +91,10 @@ export function readPilotProject(raw: string): PilotProject {
   };
 }
 
-export function newPilotProject(id: string, pathId: ServicePathId, title: string): PilotProject {
+export function newPilotProject(id: string, pathId: ServicePathId, title: string, automationScenario?: AutomationScenario): PilotProject {
   return readPilotProject(JSON.stringify({
     version: 1, id, pathId, title: title.trim(), brief: { objective: '', scope: '', review: '' },
-    completed: [], proposal: null, results: null
+    completed: [], proposal: null, results: null, ...(automationScenario !== undefined ? { automationScenario } : {})
   }));
 }
 
@@ -129,6 +136,9 @@ export function saveProject(storage: Storage, project: PilotProject, expectedRev
   const exists = storage.getItem(key) !== null;
   const current = exists ? loadProject(storage, valid.id) : null;
   if ((current?.revision ?? 0) !== expectedRevision) throw new Error('Project changed in another tab. Reload it before saving.');
+  if (current && (current.project.automationScenario ?? 'enquiries') !== (valid.automationScenario ?? 'enquiries')) {
+    throw new Error('Automation project choice cannot change. Create a separate practice project.');
+  }
   if (!current && listProjects(storage).length >= projectLimit) throw new Error('Project limit reached. Delete a device copy before creating or loading another.');
   const saved = readStoredProject(JSON.stringify({
     project: valid, revision: expectedRevision + 1, savedAt: new Date().toISOString(),
@@ -195,6 +205,7 @@ export function buildProjectSummary(project: PilotProject, tr: (text: string) =>
   return [
     tr('INTERNAL PRACTICE PROJECT SUMMARY - NOT CLIENT APPROVAL'),
     project.title, project.pathId,
+    ...(project.pathId === 'ai-automation-services' ? [tr(automationScenarioLabels[project.automationScenario ?? 'enquiries'])] : []),
     ...projectBriefFields.map(({ key, label }) => `${tr(label)}\n${project.brief[key].trim() || tr('[TO CONFIRM]')}`),
     tr('Project checklist'),
     ...projectMilestones.map((item) => `${project.completed.includes(item.id) ? '[x]' : '[ ]'} ${tr(item.label)}`),

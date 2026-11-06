@@ -4,6 +4,7 @@ import {
 } from '@/lib/first-content-project';
 import type { PilotProject, ServicePathId } from '@/lib/pilot-projects';
 import { effectiveTestStatus, emptyPilotTest, starterPilotTests, testHasEvidence, type PilotTest } from '@/lib/pilot-results';
+import { automationProjects, type AutomationScenario } from '@/lib/automation-projects';
 
 type Check = { code: string; label: string; input: string; expected: string };
 type ServiceJourney = {
@@ -212,12 +213,15 @@ export const serviceJourneys: Record<Exclude<ServicePathId, 'ai-content-services
   }
 };
 
-export function serviceJourneyDefinition(pathId: ServicePathId) {
+export function serviceJourneyDefinition(pathId: ServicePathId, scenario?: AutomationScenario): ServiceJourney | null {
+  if (pathId === 'ai-automation-services' && scenario && scenario !== 'enquiries') {
+    return { ...serviceJourneys[pathId], ...automationProjects[scenario] };
+  }
   return pathId === firstContentPath ? null : serviceJourneys[pathId];
 }
 
-export function serviceJourneyTests(pathId: ServicePathId, tr: (text: string) => string): PilotTest[] {
-  const definition = serviceJourneyDefinition(pathId);
+export function serviceJourneyTests(pathId: ServicePathId, tr: (text: string) => string, scenario?: AutomationScenario): PilotTest[] {
+  const definition = serviceJourneyDefinition(pathId, scenario);
   if (!definition) throw new Error('Use the content-service checks described in your guided journey.');
   return definition.checks.map((check, index) => ({
     ...emptyPilotTest(`test-${index + 1}`),
@@ -226,7 +230,7 @@ export function serviceJourneyTests(pathId: ServicePathId, tr: (text: string) =>
 }
 
 export function serviceJourneyCoverage(project: PilotProject) {
-  const definition = serviceJourneyDefinition(project.pathId);
+  const definition = serviceJourneyDefinition(project.pathId, project.automationScenario);
   return definition?.checks.map((check) => {
     const matches = project.results?.tests.filter((test) => test.name.trim().startsWith(`[${check.code}]`)) ?? [];
     // Ambiguous duplicates cannot substitute for a missing required case.
@@ -236,7 +240,7 @@ export function serviceJourneyCoverage(project: PilotProject) {
 }
 
 export function serviceProjectJourney(project: PilotProject) {
-  const definition = serviceJourneyDefinition(project.pathId);
+  const definition = serviceJourneyDefinition(project.pathId, project.automationScenario);
   if (!definition) return contentJourney(project);
   const stages: JourneyStage[] = contentJourneyStages.map((stage) => {
     switch (stage.id) {
@@ -259,7 +263,7 @@ export function serviceProjectJourney(project: PilotProject) {
 }
 
 export function buildServicePortfolio(project: PilotProject, tr: (text: string) => string) {
-  const definition = serviceJourneyDefinition(project.pathId);
+  const definition = serviceJourneyDefinition(project.pathId, project.automationScenario);
   if (!definition) return buildContentPortfolio(project, tr);
   const journey = serviceProjectJourney(project);
   return [

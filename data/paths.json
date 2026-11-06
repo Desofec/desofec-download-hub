@@ -362,9 +362,9 @@
   },
   {
     "id": "ai-automation-services",
-    "title": "AI Automation Services",
+    "title": "AI Workflow Automation for Small Business",
     "level": "Beginner",
-    "description": "Prepare a small automation-service pilot with customer discovery, a fictional demo, cost checks and a handover plan.",
+    "description": "Build customer enquiry tracking, appointment reminder automation or automated weekly business reports with fictional data, human review and safe retries.",
     "badge": "Business",
     "steps": [
       "Validate one customer problem",
