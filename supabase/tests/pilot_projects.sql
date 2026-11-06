@@ -97,6 +97,22 @@ begin
     from public.pilot_projects where id = _id) = 'Original practice text';
   assert (select document->'workbook'->'items'->0->'links'->0->>'revision'
     from public.pilot_projects where id = _id) = '1';
+  assert public.save_pilot_project(_id,
+    public._test_pilot_document(_id) || jsonb_build_object('workbook', _workbook,
+      'reviewCentre', jsonb_build_object('version', 1, 'reviews', jsonb_build_array(jsonb_build_object(
+        'itemId', 'item-1', 'source', _workbook->'items'->0->'revisions'->0,
+        'savedAt', '2026-11-06T01:45:00.000Z', 'checks', jsonb_build_array(
+          jsonb_build_object('id', 'facts', 'status', 'needs-work', 'notes', 'Unknown price',
+            'task', 'Remove price', 'resolution', '', 'done', false),
+          jsonb_build_object('id', 'copy', 'status', 'pending', 'notes', '', 'task', '', 'resolution', '', 'done', false),
+          jsonb_build_object('id', 'access', 'status', 'pending', 'notes', '', 'task', '', 'resolution', '', 'done', false),
+          jsonb_build_object('id', 'revision', 'status', 'pending', 'notes', '', 'task', '', 'resolution', '', 'done', false),
+          jsonb_build_object('id', 'approval', 'status', 'blocked', 'notes', 'Owner review unavailable',
+            'task', '', 'resolution', '', 'done', false)
+        )
+      )))), 2) = 3;
+  assert (select document->'reviewCentre'->'reviews'->0->'source'->>'body'
+    from public.pilot_projects where id = _id) = 'Original practice text';
 end $$;
 
 select set_config('request.jwt.claim.sub', '33333333-3333-4333-8333-333333333333', true);

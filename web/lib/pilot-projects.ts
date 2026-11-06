@@ -1,6 +1,7 @@
 import { emptyProposalInputs, readProposalDraft, type ProposalDraft } from '@/lib/pilot-proposal';
 import { emptyPilotResults, readPilotResults, resultTestSummary, type PilotResults } from '@/lib/pilot-results';
 import { readEvidenceWorkbook, type EvidenceWorkbook } from '@/lib/evidence-workbook';
+import { readProjectReviewCentre, type ProjectReviewCentre } from '@/lib/project-review';
 
 export const projectStoragePrefix = 'desofec:pilot-project:v1:';
 export const projectLimit = 10;
@@ -33,6 +34,7 @@ export type PilotProject = {
   proposal: ProposalDraft | null;
   results: PilotResults | null;
   workbook?: EvidenceWorkbook;
+  reviewCentre?: ProjectReviewCentre;
 };
 export type StoredProject = {
   project: PilotProject;
@@ -68,6 +70,7 @@ export function readPilotProject(raw: string): PilotProject {
     throw new Error('Invalid project data.');
   }
   const brief = record(value.brief);
+  if ('reviewCentre' in value && value.pathId !== 'ai-content-services') throw new Error('Invalid project data.');
   for (const { key } of projectBriefFields) {
     if (typeof brief[key] !== 'string' || brief[key].length > 2000) throw new Error('Invalid project data.');
   }
@@ -77,7 +80,8 @@ export function readPilotProject(raw: string): PilotProject {
     completed: value.completed as MilestoneId[],
     proposal: value.proposal === null ? null : readProposalDraft(JSON.stringify(value.proposal)),
     results: value.results === null ? null : readPilotResults(JSON.stringify(value.results)),
-    ...('workbook' in value ? { workbook: readEvidenceWorkbook(value.workbook) } : {})
+    ...('workbook' in value ? { workbook: readEvidenceWorkbook(value.workbook) } : {}),
+    ...('reviewCentre' in value ? { reviewCentre: readProjectReviewCentre(value.reviewCentre) } : {})
   };
 }
 
@@ -140,7 +144,7 @@ export function deleteProject(storage: Storage, id: string, expectedRevision: nu
   storage.removeItem(projectStoragePrefix + id);
 }
 
-export function saveProjectPart<K extends 'proposal' | 'results' | 'workbook'>(
+export function saveProjectPart<K extends 'proposal' | 'results' | 'workbook' | 'reviewCentre'>(
   storage: Storage, id: string, key: K, value: PilotProject[K], expectedPart: string
 ) {
   const saved = loadProject(storage, id);
