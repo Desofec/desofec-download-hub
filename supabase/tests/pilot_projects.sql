@@ -79,6 +79,26 @@ do $$ begin
     public._test_pilot_document('aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa'), 0) = 1;
 end $$;
 
+-- Existing owner-private JSON snapshots preserve workbook revisions without a schema migration.
+do $$
+declare
+  _id uuid := 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa';
+  _workbook jsonb := '{
+    "version":1,"items":[{"id":"item-1","revisions":[
+      {"number":1,"title":"Fictional draft v1","body":"Original practice text","savedAt":"2026-11-06T01:30:00.000Z"},
+      {"number":2,"title":"Fictional draft v2","body":"Revised practice text","savedAt":"2026-11-06T01:31:00.000Z"}
+    ],"links":[{"testId":"test-1","revision":1,"name":"Fictional check","input":"Original draft","expected":"Unknown claims flagged"}]}]
+  }'::jsonb;
+begin
+  assert public.save_pilot_project(_id,
+    public._test_pilot_document(_id) || jsonb_build_object('workbook', _workbook), 1) = 2;
+  assert (select document->'workbook' from public.pilot_projects where id = _id) = _workbook;
+  assert (select document->'workbook'->'items'->0->'revisions'->0->>'body'
+    from public.pilot_projects where id = _id) = 'Original practice text';
+  assert (select document->'workbook'->'items'->0->'links'->0->>'revision'
+    from public.pilot_projects where id = _id) = '1';
+end $$;
+
 select set_config('request.jwt.claim.sub', '33333333-3333-4333-8333-333333333333', true);
 do $$
 declare _id uuid;

@@ -7,6 +7,7 @@ import { loadProject, projectProposalSeed, projectResultsSeed, saveProjectPart, 
 import { emptyProposalInputs, type ProposalDraft } from '@/lib/pilot-proposal';
 import { emptyPilotResults, type PilotResults } from '@/lib/pilot-results';
 import { serviceJourneyDefinition, serviceJourneyTests } from '@/lib/service-project-journeys';
+import { workbookLinkState } from '@/lib/evidence-workbook';
 
 type Props = { projectId: string; dirty: boolean; onDirty: () => void } & (
   { kind: 'proposal'; value: ProposalDraft; onLoad: (value: ProposalDraft) => void }
@@ -95,6 +96,21 @@ export function PilotProjectTool(props: Props) {
         <p>{tr('Load required plans only after reloading the project draft. This replaces test cases in the current form, not notes, metrics or the decision. Nothing is saved automatically; existing project evidence changes only when you explicitly save.')}</p>
         <button type="button" className="btn btn-secondary" disabled={expected === null} onClick={() => act('plans')}>{tr('Load required service test plans')}</button>
       </div>}
+      {props.kind === 'results' && saved?.project.workbook && <section aria-labelledby="results-workbook-references">
+        <h3 id="results-workbook-references">{tr('Saved workbook references')}</h3>
+        <p>{tr('These references use the reloaded saved project, not unsaved tracker edits. Reload after saving changes. References never fill actual evidence or change outcomes; workbook text is not included in the results report or practice portfolio.')}</p>
+        <ul className="journey-checks">
+          {saved.project.workbook.items.flatMap((item) => item.links.map((link) => (
+            <li key={`${item.id}:${link.testId}`}>
+              <strong>{link.testId}: {link.name}</strong> - {item.revisions[link.revision - 1].title}
+              <p>{tr('Saved revision')}: {link.revision}. {tr(workbookLinkState(item, link, saved.project.results?.tests ?? []))}</p>
+            </li>
+          )))}
+        </ul>
+        <Link className="btn btn-secondary" href={`/business-launchpad/evidence-workbook${query}`} onNavigate={(event) => {
+          if (props.dirty && !window.confirm(tr('Leave this page without saving the current project draft?'))) event.preventDefault();
+        }}>{tr('Open private evidence workbook')}</Link>
+      </section>}
       <p role="status">{notice ? tr(notice) : tr(props.dirty ? 'Changes are not saved on this device.' : 'No automatic saving. Save explicitly if you want to return later.')}</p>
       {error && <p className="proposal-error" role="alert">{tr(error)}</p>}
     </div>
