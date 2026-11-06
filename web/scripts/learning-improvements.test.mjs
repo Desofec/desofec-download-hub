@@ -955,6 +955,81 @@ async function contentProjectFixture() {
   return project;
 }
 
+test('completion dashboard reuses sequential project milestones and never converts recorded gaps into approval', async () => {
+  const { projectCompletion } = await loadContent('../lib/project-completion.ts', {
+    ...journeyImports, '@/lib/service-project-journeys': '../lib/service-project-journeys.ts'
+  });
+  const { newPilotProject } = await loadContent('../lib/pilot-projects.ts', projectImports);
+  const project = await contentProjectFixture();
+  const before = JSON.stringify(project);
+  const result = projectCompletion(project);
+  assert.equal(result.recorded, 6);
+  assert.equal(result.total, 6);
+  assert.equal(result.ready, true);
+  assert.equal(result.summary.blocked, 1);
+  assert.equal(result.decision, 'revise');
+  assert.equal(result.caseStudyStatus, 'No saved case study.');
+  assert.equal(result.nextHref, `/business-launchpad/case-study-builder?project=${project.id}`);
+  assert.equal(JSON.stringify(project), before);
+  project.completed = project.completed.filter((id) => id !== 'handover');
+  assert.equal(projectCompletion(project).recorded, 5);
+  assert.equal(projectCompletion(project).nextHref, `/business-launchpad/projects?project=${project.id}#project-brief-form`);
+  project.proposal = null;
+  assert.equal(projectCompletion(project).recorded, 2);
+  assert.equal(projectCompletion(project).nextHref, `/business-launchpad/proposal-builder?project=${project.id}`);
+  const empty = newPilotProject(projectId, 'ai-spreadsheets', 'Sample');
+  assert.equal(projectCompletion(empty).recorded, 0);
+  assert.equal(projectCompletion(empty).nextHref, '/tutorials/ai-spreadsheets');
+  for (const decision of ['continue', 'revise', 'stop']) {
+    const full = await contentProjectFixture();
+    full.results.decision = decision;
+    assert.equal(projectCompletion(full).decision, decision);
+    assert.equal(projectCompletion(full).summary.open, 1);
+  }
+});
+
+test('completion case study status distinguishes absent text and missing references without claiming verification', async () => {
+  const { projectCompletion } = await loadContent('../lib/project-completion.ts', {
+    ...journeyImports, '@/lib/service-project-journeys': '../lib/service-project-journeys.ts'
+  });
+  const { emptyCaseStudy, caseStudyFields } = await loadContent('../lib/case-study.ts', projectImports);
+  const project = await contentProjectFixture();
+  project.caseStudy = emptyCaseStudy();
+  assert.equal(projectCompletion(project).caseStudyStatus, 'Saved case study needs text or updated test references.');
+  for (const { key } of caseStudyFields) project.caseStudy.text[key] = 'Fictional practice';
+  project.caseStudy.testIds = ['test-20'];
+  assert.equal(projectCompletion(project).caseStudyStatus, 'Saved case study needs text or updated test references.');
+  project.caseStudy.testIds = ['test-1'];
+  assert.equal(projectCompletion(project).caseStudyStatus, 'Case study text saved; evidence and sharing still need review.');
+});
+
+test('start here and dashboard have translated states, safe routes and no new project storage', async () => {
+  const files = ['../app/start-here/page.tsx', '../components/project-completion-dashboard.tsx', '../lib/project-completion.ts'];
+  const strings = new Set([
+    'Practical learning for beginners',
+    'Follow a clear route from beginner lessons to a fictional work sample, recorded evidence and a private case study. No client or income promises.'
+  ]);
+  for (const file of files) {
+    const source = await readFile(new URL(file, import.meta.url), 'utf8');
+    const ast = ts.createSourceFile(file, source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
+    const visit = (node) => {
+      if (ts.isStringLiteral(node) && /^[A-Z]/.test(node.text)) strings.add(node.text);
+      if (ts.isJsxText(node) && node.parent.openingElement?.tagName.getText(ast) === 'Tr' && node.text.trim()) strings.add(node.text.trim());
+      ts.forEachChild(node, visit);
+    };
+    visit(ast);
+    assert.doesNotMatch(source, /localStorage\.(setItem|removeItem)|saveProject\(/);
+  }
+  for (const locale of ['fr', 'de', 'es']) {
+    const book = JSON.parse(await readFile(new URL(`../content/translations/ui-${locale}.json`, import.meta.url), 'utf8'));
+    for (const text of strings) assert.ok(book[text], `${locale}: missing start-here phrase "${text}"`);
+  }
+  const home = await readFile(new URL('../app/page.tsx', import.meta.url), 'utf8');
+  const header = await readFile(new URL('../components/site-header.tsx', import.meta.url), 'utf8');
+  assert.match(home, /href="\/start-here"/);
+  assert.match(header, /href: '\/start-here'/);
+});
+
 test('guided content milestones are sequential, saved-data derived and accept documented blocked outcomes without approval', async () => {
   const { contentJourney, projectJourneyHref, buildContentPortfolio } =
     await loadContent('../lib/first-content-project.ts', journeyImports);

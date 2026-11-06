@@ -13,7 +13,7 @@ import type { TranslationKey } from '@/lib/i18n';
 
 const links: { href: string; label: TranslationKey; match?: string[] }[] = [
   { href: '/', label: 'nav.home' },
-  { href: '/onboarding', label: 'nav.start', match: ['/onboarding', '/results'] },
+  { href: '/start-here', label: 'nav.start', match: ['/start-here', '/onboarding', '/results'] },
   { href: '/tools', label: 'nav.tools' },
   { href: '/paths', label: 'nav.paths' },
   { href: '/tutorials', label: 'nav.tutorials', match: ['/tutorials', '/projects'] },
@@ -99,11 +99,11 @@ export function SiteHeader() {
           >
             <span aria-hidden="true">🤝</span>
           </Link>
-          <Link className="btn btn-primary mobile-nav-cta" href="/onboarding" onClick={() => setMenuOpen(false)}>
+          <Link className="btn btn-primary mobile-nav-cta" href="/start-here" onClick={() => setMenuOpen(false)}>
             {t('nav.cta')}
           </Link>
         </nav>
-        <Link className="btn btn-primary desktop-nav-cta" href="/onboarding">
+        <Link className="btn btn-primary desktop-nav-cta" href="/start-here">
           {t('nav.cta')}
         </Link>
       </div>
