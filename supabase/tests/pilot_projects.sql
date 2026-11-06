@@ -39,6 +39,20 @@ end $$;
 select public._test_pilot_error(
   $q$select public.save_pilot_project('aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa', public._test_pilot_document('aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa'), 1)$q$,
   'Account project changed');
+-- Optional case-study JSON is retained by the existing owner-private RPC.
+do $$
+declare
+  _id uuid := 'dddddddd-dddd-4ddd-8ddd-dddddddddddd';
+  _case jsonb := '{"version":1,"text":{"title":"Fictional case","problem":"Sample cells","approach":"Compare","outcome":"","learning":"Review pending"},"testIds":["test-1"]}'::jsonb;
+begin
+  assert public.save_pilot_project(_id,
+    public._test_pilot_document(_id) || jsonb_build_object('caseStudy', _case), 0) = 1;
+  assert (select document->'caseStudy' from public.pilot_projects where id = _id) = _case;
+  assert public.save_pilot_project(_id, public._test_pilot_document(_id), 1) = 2;
+  assert not (select document ? 'caseStudy' from public.pilot_projects where id = _id);
+  perform public.delete_pilot_project(_id, 2);
+  assert (select count(*) from public.pilot_projects where id = _id) = 0;
+end $$;
 select public._test_pilot_error(
   $q$select public.delete_pilot_project('aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa', 1)$q$,
   'Account project changed');

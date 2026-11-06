@@ -53,11 +53,12 @@ export function PilotProjectAccount({ userId, selected, dirty, onChanged }: {
       <p>{tr('Signing in does not upload projects. An account snapshot includes the saved brief, checklist, full proposal including internal costs, and test results. Only your account can read it; this is not end-to-end encryption.')}</p>
       <p>{tr('If this project has a workbook, the account snapshot also includes complete saved text, every retained revision and test references. Review older revisions too before consenting to upload.')}</p>
       <p>{tr('Saved project reviews also include observations, correction tasks and separate copies of reviewed text, including text removed from the workbook. Upload consent includes these records; review and delete sensitive copies separately before uploading.')}</p>
+      <p>{tr('If saved, the case study narrative and selected test identifiers are also included in account upload consent. Delete sensitive case study text before uploading.')}</p>
       <p>{tr('There is no background sync or merging. Upload and load explicitly on each device. Version conflicts block overwrites. Delete account and device copies separately; downloaded files remain.')}</p>
       {!userId ? <Link className="btn btn-secondary" href="/account">{tr('Sign in to use private account snapshots.')}</Link> : <>
         <label className="project-check">
           <input type="checkbox" checked={consent} onChange={(event) => setConsentFor(event.target.checked ? selected?.project.id ?? null : null)} disabled={!selected} />
-          <span>{tr('I agree to upload this saved project, including costs, test evidence, workbook revisions, reviews and copied review text, to my private account when I press Upload.')}</span>
+          <span>{tr('I agree to upload this saved project, including costs, test evidence, workbook revisions, reviews, copied review text and case study drafts, to my private account when I press Upload.')}</span>
         </label>
         <p>{tr('Save brief and checklist changes before uploading. Only saved device data is uploaded.')}</p>
         <div className="cta-row">

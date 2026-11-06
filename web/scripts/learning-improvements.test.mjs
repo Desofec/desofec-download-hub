@@ -21,6 +21,7 @@ async function loadContent(relativePath, imports = {}) {
 }
 
 const projectImports = {
+  '@/lib/case-study': '../lib/case-study.ts',
   '@/lib/automation-projects': '../lib/automation-projects.ts',
   '@/lib/project-review': '../lib/project-review.ts',
   '@/lib/evidence-workbook': '../lib/evidence-workbook.ts',
@@ -40,6 +41,105 @@ function memoryStorage() {
 const projectId = '11111111-1111-4111-8111-111111111111';
 
 const workbookTime = '2026-11-06T01:30:00.000Z';
+test('case study validation, brief starter and part persistence preserve private project parts', async () => {
+  const { emptyCaseStudy, readCaseStudy, caseStudyFromBrief } = await loadContent('../lib/case-study.ts', projectImports);
+  const { newPilotProject, readPilotProject, saveProject, loadProject, saveProjectPart, deleteProject } = await loadContent('../lib/pilot-projects.ts', projectImports);
+  const storage = memoryStorage();
+  const project = newPilotProject(projectId, 'ai-spreadsheets', 'Spreadsheet practice');
+  project.brief = { objective: 'Fictional source', scope: 'Compare cells', review: 'Pending review' };
+  assert.equal('caseStudy' in readPilotProject(JSON.stringify(project)), false, 'legacy projects stay unchanged');
+  const draft = caseStudyFromBrief(project);
+  assert.equal(draft.text.outcome, '');
+  assert.deepEqual(draft.testIds, []);
+  assert.equal(draft.text.problem, project.brief.objective);
+  saveProject(storage, project, 0);
+  let saved = saveProjectPart(storage, projectId, 'caseStudy', draft, 'null');
+  assert.deepEqual(saved.project.brief, project.brief);
+  assert.deepEqual(saved.project.caseStudy, draft);
+  assert.throws(() => saveProjectPart(storage, projectId, 'caseStudy', draft, 'null'), /draft changed/);
+  saved = saveProject(storage, { ...saved.project, title: 'Updated project' }, saved.revision);
+  const changed = { ...draft, text: { ...draft.text, outcome: 'One correction recorded' } };
+  saved = saveProjectPart(storage, projectId, 'caseStudy', changed, JSON.stringify(draft));
+  assert.equal(saved.project.title, 'Updated project', 'part save preserves concurrent brief edits');
+  assert.deepEqual(readPilotProject(JSON.stringify(saved.project)).caseStudy, changed, 'account document round-trip');
+  saved = saveProjectPart(storage, projectId, 'caseStudy', undefined, JSON.stringify(changed));
+  assert.equal('caseStudy' in saved.project, false);
+  assert.deepEqual(saved.project.brief, project.brief);
+  deleteProject(storage, projectId, saved.revision);
+  assert.throws(() => saveProjectPart(storage, projectId, 'caseStudy', changed, 'null'), /not found/);
+  assert.throws(() => loadProject(storage, projectId), /not found/);
+  for (const invalid of [null, [], {}, { ...draft, version: 2 }, { ...draft, testIds: ['test-1', 'test-1'] },
+    { ...draft, testIds: ['test-21'] }, { ...draft, testIds: [1] }, { ...draft, text: { ...draft.text, title: 'x'.repeat(121) } },
+    { ...draft, text: { ...draft.text, outcome: 2 } }, { ...draft, text: { ...draft.text, learning: 'x'.repeat(2001) } }]) {
+    assert.throws(() => readCaseStudy(invalid), /Invalid saved case study/);
+  }
+  assert.deepEqual(readCaseStudy(emptyCaseStudy()), emptyCaseStudy());
+});
+
+test('case study exports retain gaps and honest outcomes without copying unselected private records', async () => {
+  const { caseStudyFromBrief, buildCaseStudy, caseStudyText } = await loadContent('../lib/case-study.ts', projectImports);
+  const { newPilotProject } = await loadContent('../lib/pilot-projects.ts', projectImports);
+  const { emptyPilotResults, emptyPilotTest } = await loadContent('../lib/pilot-results.ts');
+  const project = newPilotProject(projectId, 'ai-spreadsheets', '<script>alert(1)</script>');
+  project.caseStudy = caseStudyFromBrief(project);
+  project.caseStudy.testIds = ['test-1', 'test-3'];
+  project.results = emptyPilotResults();
+  project.results.decision = 'stop';
+  project.results.metrics.cost = '97531';
+  project.results.tests = [
+    { ...emptyPilotTest('test-1'), name: 'Selected test', status: 'pass', actual: 'SELECTED_EVIDENCE', retestStatus: 'pass' },
+    { ...emptyPilotTest('test-2'), name: 'SECRET_UNSELECTED', actual: 'SECRET_RAW', status: 'fail' }
+  ];
+  project.proposal = { version: 1, inputs: {}, document: 'SECRET_PROPOSAL', source: '' };
+  project.workbook = { version: 1, items: [{ body: 'SECRET_WORKBOOK' }] };
+  project.reviewCentre = { version: 1, reviews: [{ checks: [{ status: 'needs-work', notes: 'SECRET_REVIEW', done: true }] }] };
+  const text = caseStudyText(buildCaseStudy(project, [{ code: 'SHEET-1', recorded: false }], false, 'Practice only', (s) => s));
+  assert.match(text, /FICTIONAL PRACTICE CASE STUDY/);
+  assert.match(text, /Incomplete practice draft/);
+  assert.match(text, /SELECTED_EVIDENCE/);
+  assert.match(text, /Current evidenced outcome: Not run/);
+  assert.match(text, /Fail: 1/);
+  assert.match(text, /Recorded decision: Stop/);
+  assert.match(text, /Saved review checks not self-checked: 1/);
+  assert.match(text, /\[SHEET-1\]/);
+  assert.match(text, /Selected test no longer exists/);
+  assert.doesNotMatch(text, /SECRET_|97531/);
+  project.caseStudy.testIds = [];
+  const unselected = caseStudyText(buildCaseStudy(project, [], false, 'Practice only', (s) => s));
+  assert.match(unselected, /No test evidence selected/);
+  assert.match(unselected, /Fail: 1/);
+  assert.doesNotMatch(unselected, /SELECTED_EVIDENCE/);
+});
+
+test('case study routes, narrative fields, boundaries, errors and notices have three translations', async () => {
+  const files = [
+    '../lib/case-study.ts', '../components/project-case-study.tsx',
+    '../app/business-launchpad/case-study-builder/page.tsx', '../app/business-launchpad/freelance-portfolio/page.tsx'
+  ];
+  const strings = new Set([
+    'Build a freelance case study',
+    'I agree to upload this saved project, including costs, test evidence, workbook revisions, reviews, copied review text and case study drafts, to my private account when I press Upload.',
+    'If saved, the case study narrative and selected test identifiers are also included in account upload consent. Delete sensitive case study text before uploading.',
+    'Case study edits are not saved. The preview uses saved text only.',
+    'Fictional content practice only. No publication or client approval is implied.',
+    'Saved review checks not self-checked:', 'No saved self-reviews.'
+  ]);
+  for (const file of files) {
+    const source = await readFile(new URL(file, import.meta.url), 'utf8');
+    for (const match of source.matchAll(/(?:tr\(|label: |heading: |body: |new Error\(|setNotice\()'([^']+)'|<Tr>([^<{]+)<\/Tr>|<Tr>\{'([^']+)'\}<\/Tr>/g)) {
+      if (match[1] || match[2] || match[3]) strings.add(match[1] ?? match[2] ?? match[3]);
+    }
+  }
+  for (const locale of ['fr', 'de', 'es']) {
+    const book = JSON.parse(await readFile(new URL(`../content/translations/ui-${locale}.json`, import.meta.url), 'utf8'));
+    for (const text of strings) assert.ok(book[text], `${locale}: missing case study phrase "${text}"`);
+  }
+  const privatePage = await readFile(new URL(files[2], import.meta.url), 'utf8');
+  assert.match(privatePage, /index: false/);
+  const sitemap = await readFile(new URL('../app/sitemap.ts', import.meta.url), 'utf8');
+  assert.match(sitemap, /freelance-portfolio/);
+  assert.doesNotMatch(sitemap, /case-study-builder/);
+});
 test('spreadsheet cleaning preserves raw rows, flags unresolved dates/quantities and rejects conflicting IDs', async () => {
   const { cleanSpreadsheet, messySpreadsheet, spreadsheetSource } = await loadContent('../lib/spreadsheet-practice.ts');
   const before = JSON.stringify(messySpreadsheet);
