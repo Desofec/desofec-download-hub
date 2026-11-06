@@ -70,7 +70,6 @@ export function readPilotProject(raw: string): PilotProject {
     throw new Error('Invalid project data.');
   }
   const brief = record(value.brief);
-  if ('reviewCentre' in value && value.pathId !== 'ai-content-services') throw new Error('Invalid project data.');
   for (const { key } of projectBriefFields) {
     if (typeof brief[key] !== 'string' || brief[key].length > 2000) throw new Error('Invalid project data.');
   }
@@ -81,7 +80,7 @@ export function readPilotProject(raw: string): PilotProject {
     proposal: value.proposal === null ? null : readProposalDraft(JSON.stringify(value.proposal)),
     results: value.results === null ? null : readPilotResults(JSON.stringify(value.results)),
     ...('workbook' in value ? { workbook: readEvidenceWorkbook(value.workbook) } : {}),
-    ...('reviewCentre' in value ? { reviewCentre: readProjectReviewCentre(value.reviewCentre) } : {})
+    ...('reviewCentre' in value ? { reviewCentre: readProjectReviewCentre(value.reviewCentre, value.pathId as ServicePathId) } : {})
   };
 }
 

@@ -29,6 +29,11 @@ export function ProjectEvidenceWorkbook({ projectId }: { projectId?: string }) {
   const [notice, setNotice] = useState('');
   const working = useRef(false);
   const workbook = saved?.project.workbook ?? emptyWorkbook;
+  const archivedReviewIds = new Set((saved?.project.reviewCentre?.reviews ?? [])
+    .filter((review) => !workbook.items.some((item) => item.id === review.itemId)).map((review) => review.itemId));
+  const canAddItem = workbook.items.length < workbookItemLimit
+    && Array.from({ length: workbookItemLimit }, (_, index) => `item-${index + 1}`)
+      .some((id) => !archivedReviewIds.has(id) && !workbook.items.some((item) => item.id === id));
   const item = workbook.items.find((item) => item.id === selected);
   const history = item?.revisions.find((entry) => entry.number === revision);
   const tests = saved?.project.results?.tests ?? [];
@@ -87,7 +92,7 @@ export function ProjectEvidenceWorkbook({ projectId }: { projectId?: string }) {
         <p>{tr('The workbook belongs to one private project. Save each revision explicitly on this device. Account upload only happens from the workspace after consent; saved text and all retained revisions are included.')}</p>
         <div className="cta-row">
           <a className="btn btn-secondary" href={`/business-launchpad/projects${query}`}>{tr('Back to project')}</a>
-          {saved?.project.pathId === 'ai-content-services' && <a className="btn btn-secondary" href={`/business-launchpad/review-centre${query}`}>{tr('Open project review centre')}</a>}
+          <a className="btn btn-secondary" href={`/business-launchpad/review-centre${query}`}>{tr('Open project review centre')}</a>
           <Link className="btn btn-secondary" href={`/business-launchpad/results-tracker${query}`} onNavigate={(event) => {
             if (!discard()) event.preventDefault();
           }}>{tr('Track pilot tests and results')}</Link>
@@ -106,12 +111,13 @@ export function ProjectEvidenceWorkbook({ projectId }: { projectId?: string }) {
 
       {saved && <>
         <h2>{saved.project.title}</h2>
-        {saved.project.pathId === 'ai-content-services' && <p>{tr('Saved reviews keep a separate copy of reviewed text. Deleting workbook text does not delete those copies; remove saved reviews separately in the Review Centre.')}</p>}
+        <p>{tr('Saved reviews keep a separate copy of reviewed text. Deleting workbook text does not delete those copies; remove saved reviews separately in the Review Centre.')}</p>
         <p>{tr('Up to eight text items, five saved revisions per item and 8,000 characters per revision. No silent pruning: export or remove an item when a limit is reached.')}</p>
         {workbook.items.length >= workbookItemLimit && <p role="status">{tr('Workbook item limit reached. Export or remove a saved item before adding another.')}</p>}
+        {!canAddItem && workbook.items.length < workbookItemLimit && <p role="status">{tr('Saved reviews retain their deleted text item identifiers. Delete an archived review before reusing its slot.')}</p>}
         {item && item.revisions.length >= workbookRevisionLimit && <p role="status">{tr('Revision limit reached. Export this item and start a separate item; old revisions are never removed automatically.')}</p>}
         <div className="cta-row">
-          <button type="button" className="btn btn-secondary" disabled={busy || workbook.items.length >= workbookItemLimit} onClick={() => {
+          <button type="button" className="btn btn-secondary" disabled={busy || !canAddItem} onClick={() => {
             if (!discard()) return;
             display(saved, null);
             setNotice('');
@@ -143,7 +149,8 @@ export function ProjectEvidenceWorkbook({ projectId }: { projectId?: string }) {
           event.preventDefault();
           attempt(() => {
             const current = currentProject();
-            const next = appendWorkbookRevision(current.project.workbook ?? emptyWorkbook, selected, title, body, new Date().toISOString());
+            const next = appendWorkbookRevision(current.project.workbook ?? emptyWorkbook, selected, title, body, new Date().toISOString(),
+              current.project.reviewCentre?.reviews.map((review) => review.itemId) ?? []);
             persist(next, selected ?? next.items.at(-1)!.id);
             setNotice('New workbook revision saved on this device. Earlier revisions, tests and account copies are unchanged.');
           });
