@@ -21,6 +21,7 @@ async function loadContent(relativePath, imports = {}) {
 }
 
 const projectImports = {
+  '@/lib/evidence-workbook': '../lib/evidence-workbook.ts',
   '@/lib/pilot-proposal': '../lib/pilot-proposal.ts',
   '@/lib/pilot-results': '../lib/pilot-results.ts'
 };
@@ -35,6 +36,189 @@ function memoryStorage() {
   };
 }
 const projectId = '11111111-1111-4111-8111-111111111111';
+
+const workbookTime = '2026-11-06T01:30:00.000Z';
+test('workbook validation preserves bounded title/text revisions and rejects corrupted archives and references', async () => {
+  const { appendWorkbookRevision, readEvidenceWorkbook, setWorkbookTestLink, workbookTextLimit } =
+    await loadContent('../lib/evidence-workbook.ts');
+  const { emptyPilotTest } = await loadContent('../lib/pilot-results.ts');
+  const initial = { version: 1, items: [] };
+  const first = appendWorkbookRevision(initial, null, ' First title ', 'Draft v1 <script>not executable</script>', workbookTime);
+  const second = appendWorkbookRevision(first, 'item-1', 'Renamed v2', 'Corrected text', workbookTime);
+  assert.deepEqual(initial, { version: 1, items: [] });
+  assert.deepEqual(first.items[0].revisions, [{ number: 1, title: 'First title', body: 'Draft v1 <script>not executable</script>', savedAt: workbookTime }]);
+  assert.deepEqual(second.items[0].revisions[0], first.items[0].revisions[0]);
+  assert.equal(second.items[0].revisions[1].number, 2);
+  const test = { ...emptyPilotTest('test-1'), name: 'Claim facts', input: 'Review saved text', expected: 'Unknown claims flagged' };
+  const linked = setWorkbookTestLink(second, 'item-1', 1, test);
+  assert.equal(second.items[0].links.length, 0);
+  assert.deepEqual(linked.items[0].links, [{ testId: 'test-1', revision: 1, name: test.name, input: test.input, expected: test.expected }]);
+  const relinked = setWorkbookTestLink(linked, 'item-1', 2, test);
+  assert.equal(relinked.items[0].links.length, 1);
+  assert.equal(relinked.items[0].links[0].revision, 2);
+  assert.deepEqual(readEvidenceWorkbook(JSON.parse(JSON.stringify(relinked))), relinked);
+  for (const mutate of [
+    (copy) => { copy.version = 2; },
+    (copy) => { copy.items = null; },
+    (copy) => { copy.items.push(structuredClone(copy.items[0])); },
+    (copy) => { copy.items[0].id = '../bad'; },
+    (copy) => { copy.items[0].revisions = []; },
+    (copy) => { copy.items[0].revisions[0].number = 2; },
+    (copy) => { copy.items[0].revisions[0].title = ''; },
+    (copy) => { copy.items[0].revisions[0].title = 'x'.repeat(121); },
+    (copy) => { copy.items[0].revisions[0].body = ' '; },
+    (copy) => { copy.items[0].revisions[0].body = 'x'.repeat(8001); },
+    (copy) => { copy.items[0].revisions[0].body = 5; },
+    (copy) => { copy.items[0].revisions[0].savedAt = '2026-02-30T00:00:00.000Z'; },
+    (copy) => { copy.items[0].revisions[0].savedAt = 'not-a-date'; },
+    (copy) => { copy.items[0].links[0].revision = 3; },
+    (copy) => { copy.items[0].links[0].revision = 1.5; },
+    (copy) => { copy.items[0].links[0].testId = 'test-21'; },
+    (copy) => { copy.items[0].links[0].name = ' '; },
+    (copy) => { copy.items[0].links[0].input = 'x'.repeat(2001); },
+    (copy) => { copy.items[0].links[0].expected = null; },
+    (copy) => { copy.items[0].links.push({ ...copy.items[0].links[0] }); }
+  ]) {
+    const copy = structuredClone(relinked);
+    mutate(copy);
+    assert.throws(() => readEvidenceWorkbook(copy), /Invalid saved evidence workbook/);
+  }
+  assert.equal(appendWorkbookRevision(initial, null, 'At limit', 'x'.repeat(workbookTextLimit), workbookTime).items[0].revisions[0].body.length, 8000);
+  assert.throws(() => appendWorkbookRevision(initial, null, 'Too long', 'x'.repeat(8001), workbookTime), /limit/);
+  assert.throws(() => appendWorkbookRevision(initial, null, ' ', 'Text', workbookTime), /title and practice text/);
+  assert.throws(() => appendWorkbookRevision(second, 'item-1', 'Renamed v2', 'Corrected text', workbookTime), /unchanged/);
+  assert.throws(() => appendWorkbookRevision(second, 'item-8', 'Missing', 'Text', workbookTime), /no longer exists/);
+  assert.throws(() => setWorkbookTestLink(second, 'item-1', 1, { ...test, expected: '' }), /Save a test name/);
+  assert.throws(() => setWorkbookTestLink(second, 'item-1', 0, test), /Invalid/);
+});
+
+test('workbook limits are exact, never prune history and remain subject to the whole-project byte cap', async () => {
+  const { appendWorkbookRevision, readEvidenceWorkbook, setWorkbookTestLink } = await loadContent('../lib/evidence-workbook.ts');
+  const { emptyPilotTest } = await loadContent('../lib/pilot-results.ts');
+  const { newPilotProject, readPilotProject } = await loadContent('../lib/pilot-projects.ts', projectImports);
+  let workbook = { version: 1, items: [] };
+  for (let index = 1; index <= 8; index++) {
+    workbook = appendWorkbookRevision(workbook, null, `Item ${index}`, 'x'.repeat(8000), workbookTime);
+    for (let number = 2; number <= 5; number++) {
+      workbook = appendWorkbookRevision(workbook, `item-${index}`, `Item ${index} r${number}`, 'y'.repeat(8000), workbookTime);
+    }
+  }
+  assert.equal(workbook.items.length, 8);
+  assert.ok(workbook.items.every((item) => item.revisions.length === 5));
+  assert.throws(() => appendWorkbookRevision(workbook, null, 'Ninth', 'Text', workbookTime), /item limit/);
+  assert.throws(() => appendWorkbookRevision(workbook, 'item-1', 'Sixth', 'Text', workbookTime), /Revision limit/);
+  const original = JSON.stringify(workbook);
+  const project = newPilotProject(projectId, 'ai-cad-services', 'Full text archive');
+  project.workbook = workbook;
+  assert.deepEqual(readPilotProject(JSON.stringify(project)), project);
+  assert.equal(JSON.stringify(workbook), original);
+  for (let index = 1; index <= 8; index++) {
+    for (let testNumber = 1; testNumber <= 20; testNumber++) {
+      workbook = setWorkbookTestLink(workbook, `item-${index}`, 1, {
+        ...emptyPilotTest(`test-${testNumber}`), name: 'N'.repeat(2000), input: 'I'.repeat(2000), expected: 'E'.repeat(2000)
+      });
+    }
+  }
+  assert.deepEqual(readEvidenceWorkbook(workbook), workbook);
+  assert.throws(() => readPilotProject(JSON.stringify({ ...project, workbook })), /storage limit/);
+});
+
+test('workbook links pin saved definitions and revisions without changing results or completing milestones', async () => {
+  const { appendWorkbookRevision, setWorkbookTestLink, workbookLinkState } = await loadContent('../lib/evidence-workbook.ts');
+  const { emptyPilotTest } = await loadContent('../lib/pilot-results.ts');
+  const test = { ...emptyPilotTest('test-1'), name: 'Required scenario', input: 'Fictional input', expected: 'Expected behavior' };
+  const before = JSON.stringify(test);
+  let workbook = appendWorkbookRevision({ version: 1, items: [] }, null, 'Draft', 'Actual practice text', workbookTime);
+  workbook = setWorkbookTestLink(workbook, 'item-1', 1, test);
+  const item = workbook.items[0];
+  const link = item.links[0];
+  assert.match(workbookLinkState(item, link, [test]), /current saved revision and test definition/);
+  assert.match(workbookLinkState(item, link, []), /removed/);
+  for (const field of ['name', 'input', 'expected']) {
+    assert.match(workbookLinkState(item, link, [{ ...test, [field]: 'Definition changed' }]), /definition changed/);
+  }
+  assert.match(workbookLinkState(item, link, [{ ...test, actual: 'New outcome', status: 'fail' }]), /current saved revision/);
+  workbook = appendWorkbookRevision(workbook, 'item-1', 'Draft', 'Actual revised text', workbookTime);
+  assert.match(workbookLinkState(workbook.items[0], link, [test]), /older saved revision/);
+  assert.equal(JSON.stringify(test), before);
+});
+
+test('optional workbook round-trips legacy/account projects, merges only its own part and blocks stale/deleted saves', async () => {
+  const { newPilotProject, readPilotProject, saveProject, loadProject, saveProjectPart, deleteProject, projectResultsSeed, projectProposalSeed } =
+    await loadContent('../lib/pilot-projects.ts', projectImports);
+  const { appendWorkbookRevision } = await loadContent('../lib/evidence-workbook.ts');
+  const project = newPilotProject(projectId, 'ai-content-services', 'Legacy practice');
+  assert.equal('workbook' in readPilotProject(JSON.stringify(project)), false);
+  assert.deepEqual(readPilotProject(JSON.stringify(project)), project);
+  assert.throws(() => readPilotProject(JSON.stringify({ ...project, workbook: null })), /workbook/);
+  assert.throws(() => readPilotProject(JSON.stringify({ ...project, workbook: { version: 2, items: [] } })), /workbook/);
+  const storage = memoryStorage();
+  storage.setItem('desofec:pilot-proposal:v1', 'STANDALONE_PROPOSAL_CANARY');
+  storage.setItem('desofec:pilot-results:v1', 'STANDALONE_RESULTS_CANARY');
+  saveProject(storage, project, 0, { userId: projectId, version: 2 });
+  const workbook = appendWorkbookRevision({ version: 1, items: [] }, null, 'Saved title', 'Saved body', workbookTime);
+  saveProjectPart(storage, projectId, 'results', projectResultsSeed(project), 'null');
+  saveProjectPart(storage, projectId, 'proposal', projectProposalSeed(project), 'null');
+  const saved = saveProjectPart(storage, projectId, 'workbook', workbook, 'null');
+  assert.deepEqual(saved.project.results, projectResultsSeed(project));
+  assert.deepEqual(saved.project.proposal, projectProposalSeed(project));
+  assert.deepEqual(saved.project.completed, []);
+  assert.deepEqual(saved.cloud, { userId: projectId, version: 2 });
+  assert.deepEqual(readPilotProject(JSON.stringify(saved.project)), saved.project, 'account snapshots preserve workbook');
+  saveProjectPart(storage, projectId, 'results', { ...projectResultsSeed(project), decision: 'stop' }, JSON.stringify(saved.project.results));
+  assert.deepEqual(loadProject(storage, projectId).project.workbook, workbook, 'results save preserves workbook');
+  assert.throws(() => saveProjectPart(storage, projectId, 'workbook', workbook, 'null'), /draft changed/);
+  const copy = loadProject(storage, projectId);
+  deleteProject(storage, projectId, copy.revision);
+  assert.throws(() => saveProjectPart(storage, projectId, 'workbook', workbook, JSON.stringify(workbook)), /not found/);
+  assert.equal(storage.getItem('desofec:pilot-proposal:v1'), 'STANDALONE_PROPOSAL_CANARY');
+  assert.equal(storage.getItem('desofec:pilot-results:v1'), 'STANDALONE_RESULTS_CANARY');
+});
+
+test('workbook export includes only saved revisions while summaries and portfolios never include draft bodies or financial fields', async () => {
+  const { appendWorkbookRevision, buildWorkbookExport, setWorkbookTestLink } = await loadContent('../lib/evidence-workbook.ts');
+  const { buildProjectSummary, saveProject, loadProject } = await loadContent('../lib/pilot-projects.ts', projectImports);
+  const { buildServicePortfolio } = await loadContent('../lib/service-project-journeys.ts', journeyImports);
+  const project = await contentProjectFixture();
+  const first = appendWorkbookRevision({ version: 1, items: [] }, null, 'Draft one', 'PRIVATE_WORKBOOK_V1_CANARY', workbookTime);
+  project.workbook = appendWorkbookRevision(first, 'item-1', 'Draft two', 'PRIVATE_WORKBOOK_V2_CANARY', workbookTime);
+  project.workbook = setWorkbookTestLink(project.workbook, 'item-1', 1, project.results.tests[0]);
+  const storage = memoryStorage();
+  saveProject(storage, project, 0);
+  const saved = loadProject(storage, projectId);
+  project.workbook.items[0].revisions[1].body = 'UNSAVED_WORKBOOK_CANARY';
+  const report = buildWorkbookExport(saved.project.workbook, saved.project.title, saved.project.results.tests, (text) => text);
+  assert.match(report, /PRIVATE_WORKBOOK_V1_CANARY/);
+  assert.match(report, /PRIVATE_WORKBOOK_V2_CANARY/);
+  assert.match(report, /older saved revision/);
+  assert.doesNotMatch(report, /UNSAVED_WORKBOOK_CANARY|98765|87654|PRIVATE_PROPOSAL_CANARY|RAW_TEST_/);
+  assert.doesNotMatch(buildProjectSummary(saved.project, (text) => text), /PRIVATE_WORKBOOK/);
+  assert.doesNotMatch(buildServicePortfolio(saved.project, (text) => text), /PRIVATE_WORKBOOK/);
+  for (const locale of ['fr', 'de', 'es']) {
+    const book = JSON.parse(await readFile(new URL(`../content/translations/ui-${locale}.json`, import.meta.url), 'utf8'));
+    const tr = (text) => { assert.ok(book[text], `${locale}: missing workbook phrase "${text}"`); return book[text]; };
+    assert.ok(buildWorkbookExport(saved.project.workbook, saved.project.title, saved.project.results.tests, tr).startsWith(book['PRIVATE EVIDENCE WORKBOOK - SELF-RECORDED PRACTICE, NOT VERIFIED CLIENT WORK']));
+  }
+});
+
+test('workbook interface, starters, errors and privacy consent have three translations', async () => {
+  const strings = new Set();
+  for (const file of ['../lib/evidence-workbook.ts', '../components/project-evidence-workbook.tsx',
+    '../app/business-launchpad/evidence-workbook/page.tsx']) {
+    const source = await readFile(new URL(file, import.meta.url), 'utf8');
+    const ast = ts.createSourceFile(file, source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
+    const visit = (node) => {
+      if (ts.isStringLiteral(node) && /^[A-Z]/.test(node.text)) strings.add(node.text);
+      if (ts.isJsxText(node) && node.parent.openingElement?.tagName.getText(ast) === 'Tr' && node.text.trim()) strings.add(node.text.trim());
+      ts.forEachChild(node, visit);
+    };
+    visit(ast);
+  }
+  for (const locale of ['fr', 'de', 'es']) {
+    const book = JSON.parse(await readFile(new URL(`../content/translations/ui-${locale}.json`, import.meta.url), 'utf8'));
+    for (const text of strings) assert.ok(book[text], `${locale}: missing workbook phrase "${text}"`);
+  }
+});
 
 const journeyImports = {
   ...projectImports, '@/lib/pilot-projects': '../lib/pilot-projects.ts',

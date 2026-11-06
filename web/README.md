@@ -131,7 +131,42 @@ guard protects unsaved edits. If returning through browser history or editing in
 **No new seed or migration is needed for this journey.** It uses PR #95's existing migration 0011
 for optional account snapshots. Device/account deletion and existing privacy controls are unchanged.
 
-### Pilot Project Workspace
+### Private Project Evidence Workbook
+
+Open a saved project, then **Open private evidence workbook**. The private, `noindex`
+`/business-launchpad/evidence-workbook?project=<uuid>` route requires explicit **Reload saved project
+and workbook** before editing. It is not a standalone scratchpad. Each project can retain eight text
+items, with five explicitly saved revisions per item and 8,000 characters per revision. Each revision
+preserves its title, body, sequence number and save time. No autosave, background AI, binary uploads,
+script execution, CAD preview or independent assessment is added. Service starters are optional text
+outlines with no invented outcomes. Older revisions can be copied into an unsaved draft and saved as
+a new revision; history is never overwritten or pruned automatically. Delete item removes its history
+and references from that device project only.
+
+Test references pin a saved text revision to the saved test ID, name, input and expected result.
+Changing a test definition, removing a test or creating a newer text revision is visibly flagged for
+review. A link is not immutable proof of a test run: results may be edited, and a reused ID with the
+same definition denotes the same reference. Link/unlink operations never fill actual evidence,
+change pass/fail/retest outcomes or complete journey milestones. The results tool shows references
+from its reloaded saved project; workbook bodies are not copied into results reports, internal
+summaries or practice portfolios.
+
+`PilotProject.version` remains 1 with an optional, strictly validated `workbook` property. Legacy
+projects round-trip without adding it. Workbook changes use the same shared Web Lock and
+`saveProjectPart` compare-and-swap as proposal/results drafts, preserving unrelated current parts and
+rejecting stale workbook edits or deleted projects. Invalid workbook data, limits, storage failures and
+conflicts are surfaced without replacing the current unsaved draft. The existing one-megabyte
+project limit remains the final bound.
+
+**No new database migration or seed is required.** Migration 0011's owner-private JSON snapshots
+already retain the optional workbook within the existing size limit. Account consent explicitly covers
+full text, every retained revision and test references; saving locally never uploads. Device and account
+deletion remain separate. Unlike the concise practice portfolio, the explicitly acknowledged workbook
+download contains full saved text and all revisions; inspect older text before sharing or uploading.
+Downloaded files must be deleted separately. Reload all app tabs after deploying this release: older
+app versions do not understand workbook fields and must not be used to edit workbook-bearing snapshots.
+
+### Project storage and account snapshots
 
 `/business-launchpad/projects` creates up to ten device projects from the five service paths.
 Each owns a brief, independent five-item project checklist, optional proposal/results drafts and a

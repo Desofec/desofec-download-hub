@@ -51,11 +51,12 @@ export function PilotProjectAccount({ userId, selected, dirty, onChanged }: {
     <section className="proposal-controls" aria-labelledby="account-projects">
       <h2 id="account-projects">{tr('Optional private account snapshots')}</h2>
       <p>{tr('Signing in does not upload projects. An account snapshot includes the saved brief, checklist, full proposal including internal costs, and test results. Only your account can read it; this is not end-to-end encryption.')}</p>
+      <p>{tr('If this project has a workbook, the account snapshot also includes complete saved text, every retained revision and test references. Review older revisions too before consenting to upload.')}</p>
       <p>{tr('There is no background sync or merging. Upload and load explicitly on each device. Version conflicts block overwrites. Delete account and device copies separately; downloaded files remain.')}</p>
       {!userId ? <Link className="btn btn-secondary" href="/account">{tr('Sign in to use private account snapshots.')}</Link> : <>
         <label className="project-check">
           <input type="checkbox" checked={consent} onChange={(event) => setConsentFor(event.target.checked ? selected?.project.id ?? null : null)} disabled={!selected} />
-          <span>{tr('I agree to upload this saved project, including internal costs and test evidence, to my private account when I press Upload.')}</span>
+          <span>{tr('I agree to upload this saved project, including internal costs, test evidence and all saved workbook text and revisions, to my private account when I press Upload.')}</span>
         </label>
         <p>{tr('Save brief and checklist changes before uploading. Only saved device data is uploaded.')}</p>
         <div className="cta-row">

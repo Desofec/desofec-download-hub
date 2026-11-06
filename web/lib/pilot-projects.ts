@@ -1,5 +1,6 @@
 import { emptyProposalInputs, readProposalDraft, type ProposalDraft } from '@/lib/pilot-proposal';
 import { emptyPilotResults, readPilotResults, resultTestSummary, type PilotResults } from '@/lib/pilot-results';
+import { readEvidenceWorkbook, type EvidenceWorkbook } from '@/lib/evidence-workbook';
 
 export const projectStoragePrefix = 'desofec:pilot-project:v1:';
 export const projectLimit = 10;
@@ -31,6 +32,7 @@ export type PilotProject = {
   completed: MilestoneId[];
   proposal: ProposalDraft | null;
   results: PilotResults | null;
+  workbook?: EvidenceWorkbook;
 };
 export type StoredProject = {
   project: PilotProject;
@@ -74,7 +76,8 @@ export function readPilotProject(raw: string): PilotProject {
     brief: { objective: String(brief.objective), scope: String(brief.scope), review: String(brief.review) },
     completed: value.completed as MilestoneId[],
     proposal: value.proposal === null ? null : readProposalDraft(JSON.stringify(value.proposal)),
-    results: value.results === null ? null : readPilotResults(JSON.stringify(value.results))
+    results: value.results === null ? null : readPilotResults(JSON.stringify(value.results)),
+    ...('workbook' in value ? { workbook: readEvidenceWorkbook(value.workbook) } : {})
   };
 }
 
@@ -137,11 +140,11 @@ export function deleteProject(storage: Storage, id: string, expectedRevision: nu
   storage.removeItem(projectStoragePrefix + id);
 }
 
-export function saveProjectPart<K extends 'proposal' | 'results'>(
+export function saveProjectPart<K extends 'proposal' | 'results' | 'workbook'>(
   storage: Storage, id: string, key: K, value: PilotProject[K], expectedPart: string
 ) {
   const saved = loadProject(storage, id);
-  if (JSON.stringify(saved.project[key]) !== expectedPart) throw new Error('This project draft changed. Reload the project draft before replacing it.');
+  if (JSON.stringify(saved.project[key] ?? null) !== expectedPart) throw new Error('This project draft changed. Reload the project draft before replacing it.');
   return saveProject(storage, { ...saved.project, [key]: value }, saved.revision);
 }
 
