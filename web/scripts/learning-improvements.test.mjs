@@ -21,6 +21,7 @@ async function loadContent(relativePath, imports = {}) {
 }
 
 const projectImports = {
+  '@/lib/client-discovery': '../lib/client-discovery.ts',
   '@/lib/case-study': '../lib/case-study.ts',
   '@/lib/automation-projects': '../lib/automation-projects.ts',
   '@/lib/project-review': '../lib/project-review.ts',
@@ -41,6 +42,148 @@ function memoryStorage() {
 const projectId = '11111111-1111-4111-8111-111111111111';
 
 const workbookTime = '2026-11-06T01:30:00.000Z';
+test('discovery fit never grants acceptance and requires every check, complete brief and evidence', async () => {
+  const { emptyDiscovery, readDiscovery, discoveryFit, discoveryFields, fitChecks, buildDiscoveryReport } = await loadContent('../lib/client-discovery.ts', projectImports);
+  const draft = emptyDiscovery();
+  assert.equal(discoveryFit(draft).missing, 6);
+  assert.equal(discoveryFit(draft).ready, false);
+  for (const { id } of fitChecks) draft.fit[id] = 'yes';
+  assert.equal(discoveryFit(draft).ready, false);
+  for (const { key } of discoveryFields) draft.brief[key] = `Fictional ${key}`;
+  assert.equal(discoveryFit(draft).ready, false, 'Yes without evidence is not ready');
+  draft.fitEvidence = 'Self-recorded bounded sample evidence';
+  assert.equal(discoveryFit(draft).ready, true);
+  for (const { id } of fitChecks) {
+    for (const status of ['no', 'unknown']) {
+      draft.fit[id] = status;
+      assert.equal(discoveryFit(draft).ready, false, `${id}: ${status}`);
+    }
+    draft.fit[id] = 'yes';
+  }
+  for (const { key } of discoveryFields) {
+    const text = draft.brief[key];
+    draft.brief[key] = ' ';
+    assert.equal(discoveryFit(draft).ready, false, key);
+    draft.brief[key] = text;
+  }
+  const report = buildDiscoveryReport(draft, (s) => s);
+  assert.match(report, /Continue scoping, not approval/);
+  assert.match(report, /PROPOSED CHANGE - NOT ACCEPTED/);
+  assert.match(report, /\[TO CONFIRM\]/);
+  assert.deepEqual(readDiscovery(draft), draft);
+  for (const invalid of [null, [], {}, { ...draft, version: 2 }, { ...draft, brief: null },
+    { ...draft, fit: { ...draft.fit, skill: 'approved' } }, { ...draft, fitEvidence: 2 },
+    { ...draft, fitEvidence: 'x'.repeat(2001) }, { ...draft, change: [] },
+    { ...draft, brief: { ...draft.brief, problem: 'x'.repeat(2001) } },
+    { ...draft, change: { ...draft.change, request: 'x'.repeat(2001) } }]) {
+    assert.throws(() => readDiscovery(invalid), /Invalid saved discovery/);
+  }
+});
+
+test('discovery persistence is optional, conflict-safe and isolated from other project parts', async () => {
+  const { newPilotProject, saveProject, loadProject, saveProjectPart, readPilotProject, deleteProject } = await loadContent('../lib/pilot-projects.ts', projectImports);
+  const { emptyDiscovery } = await loadContent('../lib/client-discovery.ts', projectImports);
+  const storage = memoryStorage();
+  const project = newPilotProject(projectId, 'ai-spreadsheets', 'Fictional scoping');
+  assert.equal('discovery' in readPilotProject(JSON.stringify(project)), false);
+  saveProject(storage, project, 0);
+  const draft = emptyDiscovery();
+  draft.brief.problem = 'Fictional source';
+  let saved = saveProjectPart(storage, projectId, 'discovery', draft, 'null');
+  assert.deepEqual(readPilotProject(JSON.stringify(saved.project)).discovery, draft);
+  assert.deepEqual(saved.project.completed, []);
+  assert.equal(saved.project.proposal, null);
+  assert.equal(saved.project.results, null);
+  assert.throws(() => saveProjectPart(storage, projectId, 'discovery', draft, 'null'), /draft changed/);
+  saved = saveProject(storage, { ...saved.project, title: 'Concurrent brief edit' }, saved.revision);
+  const next = { ...draft, fitEvidence: 'Missing permission' };
+  saved = saveProjectPart(storage, projectId, 'discovery', next, JSON.stringify(draft));
+  assert.equal(saved.project.title, 'Concurrent brief edit');
+  saved = saveProjectPart(storage, projectId, 'discovery', undefined, JSON.stringify(next));
+  assert.equal('discovery' in saved.project, false);
+  deleteProject(storage, projectId, saved.revision);
+  assert.throws(() => saveProjectPart(storage, projectId, 'discovery', draft, 'null'), /not found/);
+  assert.throws(() => loadProject(storage, projectId), /not found/);
+});
+
+test('discovery proposal starter imports only original scope without money, changes or generated claims', async () => {
+  const { emptyDiscovery, discoveryProposalSeed, buildDiscoveryReport } = await loadContent('../lib/client-discovery.ts', projectImports);
+  const { proposalCostFields, readProposalDraft } = await loadContent('../lib/pilot-proposal.ts');
+  const draft = emptyDiscovery();
+  draft.brief.problem = 'Fictional five orders';
+  draft.brief.scope = 'One CSV';
+  draft.brief.unknowns = 'UNKNOWN_RECORD';
+  draft.change.request = 'CHANGE_NOT_ACCEPTED';
+  draft.change.impact = 'Costs UNKNOWN';
+  draft.fitEvidence = 'FIT_RECORD';
+  const before = JSON.stringify(draft);
+  const proposal = discoveryProposalSeed(draft, 'Sample');
+  assert.equal(proposal.inputs.scope, 'One CSV');
+  assert.equal(proposal.inputs.problem, 'Fictional five orders');
+  assert.equal(proposal.document, '');
+  assert.equal(proposal.source, '');
+  for (const { key } of proposalCostFields) assert.equal(proposal.inputs[key], '');
+  assert.doesNotMatch(JSON.stringify(proposal), /CHANGE_NOT_ACCEPTED|UNKNOWN_RECORD|FIT_RECORD/);
+  assert.deepEqual(readProposalDraft(JSON.stringify(proposal)), proposal);
+  assert.equal(JSON.stringify(draft), before);
+  const report = buildDiscoveryReport(draft, (s) => s);
+  assert.match(report, /UNKNOWN_RECORD/);
+  assert.match(report, /CHANGE_NOT_ACCEPTED/);
+  assert.match(report, /Pause:/);
+});
+
+test('discovery simulator, interface, consent, report and proposal import have complete translations', async () => {
+  const { discoveryFields, fitChecks, fitStatuses, changeFields, discoveryQuestions, emptyDiscovery, buildDiscoveryReport } =
+    await loadContent('../lib/client-discovery.ts', projectImports);
+  const files = ['../components/client-discovery-builder.tsx',
+    '../app/business-launchpad/client-discovery/page.tsx', '../app/business-launchpad/client-discovery-lab/page.tsx'];
+  const strings = new Set([
+    ...discoveryFields.map((f) => f.label), ...fitChecks.map((f) => f.label),
+    ...fitStatuses.map((f) => f.label), ...changeFields.map((f) => f.label),
+    ...discoveryQuestions.flatMap((f) => [f.question, f.answer]),
+    'Reload before editing. Save explicitly to this device project; account snapshots include discovery only after separate consent and upload.',
+    'This public lab keeps edits in page memory only. Reloading clears them. To retain discovery, open an existing service project in the workspace.',
+    'Continue scoping, not approval to accept work.', 'Pause: resolve missing evidence, fit concerns and unknowns before accepting work.',
+    'Discovery edits are not saved.', 'Invalid saved discovery draft.',
+    'Open client discovery and scoping', 'Start from saved discovery',
+    'Save discovery in this project before importing it.',
+    'Replace this proposal form with saved discovery? Fees, costs and generated text will be cleared. Unknowns, fit decisions and proposed changes stay in discovery; review both records. Nothing is saved automatically.',
+    'Saved discovery copied into the proposal form. Review, regenerate and save explicitly; no approval or money was filled in.',
+    'Saved discovery briefs, fit evidence and proposed changes are also included in account upload consent. Review these texts before uploading.',
+    'I agree to upload this saved project, including costs, test evidence, workbook revisions, reviews, copied review text, case studies and discovery drafts, to my private account when I press Upload.'
+  ]);
+  for (const file of files) {
+    const source = await readFile(new URL(file, import.meta.url), 'utf8');
+    for (const match of source.matchAll(/(?:tr\(|new Error\(|setNotice\()'([^']+)'|<Tr>([^<{]+)<\/Tr>|<Tr>\{'([^']+)'\}<\/Tr>/g)) {
+      strings.add(match[1] ?? match[2] ?? match[3]);
+    }
+  }
+  for (const locale of ['fr', 'de', 'es']) {
+    const book = JSON.parse(await readFile(new URL(`../content/translations/ui-${locale}.json`, import.meta.url), 'utf8'));
+    for (const text of strings) assert.ok(book[text], `${locale}: missing discovery phrase "${text}"`);
+    buildDiscoveryReport(emptyDiscovery(), (text) => {
+      assert.ok(book[text], `${locale}: missing report "${text}"`); return book[text];
+    });
+  }
+  const privatePage = await readFile(new URL(files[1], import.meta.url), 'utf8');
+  assert.match(privatePage, /index: false/);
+  const sitemap = await readFile(new URL('../app/sitemap.ts', import.meta.url), 'utf8');
+  assert.match(sitemap, /client-discovery-lab/);
+  assert.doesNotMatch(sitemap, /['"]\/business-launchpad\/client-discovery['"]/);
+});
+
+test('discovery lessons and multilingual intent use stable progress IDs', async () => {
+  const { clientDiscoverySteps } = await loadContent('../lib/client-discovery-tutorial.ts');
+  assert.deepEqual(clientDiscoverySteps.map((step) => step.id), [
+    'ask-before-offering', 'define-small-scope', 'check-project-fit',
+    'confirm-access-review', 'control-scope-changes', 'prepare-proposal-handoff'
+  ]);
+  const { matchGoals } = await loadContent('../lib/idea-planner.ts');
+  for (const idea of ['client discovery project scoping', 'découverte client cadrage de projet',
+    'kundengespräch projektumfang', 'descubrimiento de clientes alcance del proyecto']) {
+    assert.equal(matchGoals(idea)[0].goalId, 'scope-freelance-project', idea);
+  }
+});
 test('case study validation, brief starter and part persistence preserve private project parts', async () => {
   const { emptyCaseStudy, readCaseStudy, caseStudyFromBrief } = await loadContent('../lib/case-study.ts', projectImports);
   const { newPilotProject, readPilotProject, saveProject, loadProject, saveProjectPart, deleteProject } = await loadContent('../lib/pilot-projects.ts', projectImports);

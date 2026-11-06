@@ -11,6 +11,7 @@ const repoDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../.
 test('practical AI paths have recommendations, kits and catalog translations', async () => {
   const catalog = await readAndValidateCatalog(repoDir);
   const additions = [
+    { id: 'freelance-client-discovery', goal: 'scope-freelance-project', kit: 'freelance-client-discovery-kit', tools: ['google-sheets'] },
     { id: 'ai-small-business', goal: 'ai-small-business', kit: 'ai-small-business-kit', tools: ['tally', 'hubspot-breeze'] },
     { id: 'ai-video-creation', goal: 'create-content', kit: 'ai-video-creation-kit', tools: ['runway'] },
     { id: 'ai-video-business', goal: 'create-business-videos', kit: 'ai-video-business-kit', tools: ['canva', 'runway', 'chatgpt'] },
@@ -35,7 +36,7 @@ test('practical AI paths have recommendations, kits and catalog translations', a
     const checklist = catalog.starterPackChecklists[addition.kit];
     assert.ok(checklist.length >= 5);
     const strings = [learningPath.title, learningPath.description, ...learningPath.steps, pack.title, pack.description];
-    if (['offer-content-services', 'offer-cad-services', 'validate-micro-saas', 'offer-education-services', 'create-business-videos'].includes(addition.goal)) {
+    if (['scope-freelance-project', 'offer-content-services', 'offer-cad-services', 'validate-micro-saas', 'offer-education-services', 'create-business-videos'].includes(addition.goal)) {
       assert.equal(checklist.length, 5);
       strings.push(goal.name, goal.description, goal.badge, recommendation.title, recommendation.summary,
         ...recommendation.steps, ...checklist);

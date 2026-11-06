@@ -1,4 +1,11 @@
 {
+  "freelance-client-discovery-kit": [
+    "Separate client facts from assumptions",
+    "Define deliverables and acceptance checks",
+    "Review skills, permissions and project fit",
+    "Propose controlled scope changes",
+    "Review discovery before importing scope into a proposal"
+  ],
   "ai-content-services-kit": [
     "Separate approved brief facts from unknown prices, delivery and dietary claims.",
     "Draft three 40-60-word posts and four checked FAQ answers.",

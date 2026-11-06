@@ -22,7 +22,8 @@ insert into public.goals (id, name, description, badge, position) values
   ('offer-cad-services', 'Offer AI + CAD concept services', 'Prepare non-functional concept views with checked dimensions, licensing boundaries and review evidence.', 'Design', 18),
   ('validate-micro-saas', 'Validate a micro-SaaS idea', 'Investigate a recurring problem, test a local prototype and review demand before building subscriptions.', 'Business', 19),
   ('offer-education-services', 'Offer AI education services', 'Design an original adult workshop with a checked answer key, accessible materials and a bounded offer.', 'Education', 20),
-  ('create-business-videos', 'Create AI videos for business', 'Create short-form business videos with checked scripts, captions, asset permissions and a clear handover.', 'Business', 21)
+  ('create-business-videos', 'Create AI videos for business', 'Create short-form business videos with checked scripts, captions, asset permissions and a clear handover.', 'Business', 21),
+  ('scope-freelance-project', 'Scope a freelance project', 'Understand a client''s problem, check project fit and prepare a bounded scope without inventing agreement.', 'Business', 22)
 on conflict (id) do update set name = excluded.name, description = excluded.description, badge = excluded.badge, position = excluded.position;
 
 insert into public.tools (id, name, category, skill, description, badge, url, position) values
@@ -102,7 +103,8 @@ insert into public.starter_packs (id, title, description, level, file_path, posi
   ('ai-cad-services-kit', 'AI + CAD Concept Services Kit', 'Concept-only dimensions, revision checks, licensing boundaries and a traceable handover worksheet.', 'Beginner', 'downloads/ai-cad-services-kit.md', 25),
   ('micro-saas-validation-kit', 'Micro-SaaS Validation Kit', 'Problem evidence, a local prototype specification, five boundary tests and a validation decision worksheet.', 'Beginner', 'downloads/micro-saas-validation-kit.md', 26),
   ('ai-education-services-kit', 'AI Education Services Kit', 'An adult workshop brief, original lesson plan, checked rubric and accessible delivery checklist.', 'Beginner', 'downloads/ai-education-services-kit.md', 27),
-  ('ai-video-business-kit', 'AI Video Creation for Business Kit', 'Three short-form video briefs, script and caption worksheets, seven evidence checks and a private service handover.', 'Beginner', 'downloads/ai-video-business-kit.md', 28)
+  ('ai-video-business-kit', 'AI Video Creation for Business Kit', 'Three short-form video briefs, script and caption worksheets, seven evidence checks and a private service handover.', 'Beginner', 'downloads/ai-video-business-kit.md', 28),
+  ('freelance-client-discovery-kit', 'Freelance Client Discovery & Project Scoping Kit', 'Neutral discovery questions, a project-fit checklist, bounded scope and proposed change worksheets for fictional practice.', 'Beginner', 'downloads/freelance-client-discovery-kit.md', 29)
 on conflict (id) do update set title = excluded.title, description = excluded.description, level = excluded.level, file_path = excluded.file_path, position = excluded.position;
 
 insert into public.paths (id, title, level, description, badge, goal_id, steps, position) values
@@ -136,10 +138,12 @@ insert into public.paths (id, title, level, description, badge, goal_id, steps, 
   ('ai-cad-services', 'AI + CAD Concept Services', 'Beginner', 'Prepare a non-functional display-card concept with consistent dimensions, versioned views and clear exclusions.', 'Design', 'offer-cad-services', array['Define concept-only boundaries', 'Sketch and check dimensions', 'Model or document a paper alternative', 'Review revisions and hand over concept evidence']::text[], 27),
   ('micro-saas-validation', 'Micro-SaaS Validation', 'Beginner', 'Validate a narrow problem with a local-only formatter prototype, boundary tests and honest user evidence.', 'Business', 'validate-micro-saas', array['Gather problem evidence', 'Specify and prototype a tiny service', 'Test boundaries and cost assumptions', 'Observe use and decide before launch']::text[], 28),
   ('ai-education-services', 'AI Education Services', 'Beginner', 'Prepare an original adult workshop with source-checked materials, a practice rubric and accessible delivery.', 'Education', 'offer-education-services', array['Define an adult learning objective', 'Create original materials and a checked key', 'Rehearse and review accessibility', 'Scope the workshop and improve from evidence']::text[], 29),
-  ('ai-video-business', 'AI Video Creation for Business', 'Beginner', 'Learn to create short-form videos with AI support: plan three business videos, write scripts, edit captions and review a private practice package.', 'Business', 'create-business-videos', array['Plan short-form business videos', 'Write AI-assisted video scripts and storyboards', 'Edit videos and check captions', 'Review permissions, revisions and handover']::text[], 30)
+  ('ai-video-business', 'AI Video Creation for Business', 'Beginner', 'Learn to create short-form videos with AI support: plan three business videos, write scripts, edit captions and review a private practice package.', 'Business', 'create-business-videos', array['Plan short-form business videos', 'Write AI-assisted video scripts and storyboards', 'Edit videos and check captions', 'Review permissions, revisions and handover']::text[], 30),
+  ('freelance-client-discovery', 'Freelance Client Discovery & Project Scoping', 'Beginner', 'Practise client discovery questions, project-fit checks, bounded scope and proposed changes before preparing a service proposal.', 'Business', 'scope-freelance-project', array['Separate client facts from assumptions', 'Define deliverables and acceptance checks', 'Review skills, permissions and project fit', 'Propose controlled scope changes']::text[], 31)
 on conflict (id) do update set title = excluded.title, level = excluded.level, description = excluded.description, badge = excluded.badge, goal_id = excluded.goal_id, steps = excluded.steps, position = excluded.position;
 
 insert into public.recommendations (goal_id, title, summary, steps) values
+  ('scope-freelance-project', 'Freelance Client Discovery & Project Scoping', 'Ask neutral questions, check evidence and define a bounded scope before drafting an offer. Practice does not approve real work.', array['Separate client facts from assumptions', 'Define deliverables and acceptance checks', 'Review skills, permissions and project fit', 'Propose controlled scope changes']::text[]),
   ('offer-content-services', 'AI Content Services', 'Create a fictional client content package, check claims and permissions, manage revisions and plan delivery.', array['Agree on a content brief', 'Draft and verify a content package', 'Manage one revision round', 'Scope, cost and deliver the service']::text[]),
   ('offer-cad-services', 'AI + CAD Concept Services', 'Prepare a non-functional display-card concept with consistent dimensions, versioned views and clear exclusions.', array['Define concept-only boundaries', 'Sketch and check dimensions', 'Model or document a paper alternative', 'Review revisions and hand over concept evidence']::text[]),
   ('validate-micro-saas', 'Micro-SaaS Validation', 'Validate a narrow problem with a local-only formatter prototype, boundary tests and honest user evidence.', array['Gather problem evidence', 'Specify and prototype a tiny service', 'Test boundaries and cost assumptions', 'Observe use and decide before launch']::text[]),
@@ -166,6 +170,7 @@ on conflict (goal_id) do update set title = excluded.title, summary = excluded.s
 
 delete from public.recommendation_tools;
 insert into public.recommendation_tools (goal_id, tool_id, position) values
+  ('scope-freelance-project', 'google-sheets', 0),
   ('offer-content-services', 'chatgpt', 0),
   ('offer-content-services', 'claude', 1),
   ('offer-content-services', 'canva', 2),
@@ -288,6 +293,7 @@ on conflict (goal_id, tool_id) do update set position = excluded.position;
 
 delete from public.recommendation_starters;
 insert into public.recommendation_starters (goal_id, pack_id, position) values
+  ('scope-freelance-project', 'freelance-client-discovery-kit', 0),
   ('offer-content-services', 'ai-content-services-kit', 0),
   ('offer-content-services', 'ai-small-business-kit', 1),
   ('offer-cad-services', 'ai-cad-services-kit', 0),

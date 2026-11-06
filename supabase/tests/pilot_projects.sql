@@ -39,6 +39,26 @@ end $$;
 select public._test_pilot_error(
   $q$select public.save_pilot_project('aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa', public._test_pilot_document('aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa'), 1)$q$,
   'Account project changed');
+-- Optional discovery JSON is retained by the existing owner-private RPC.
+do $$
+declare
+  _id uuid := 'eeeeeeee-eeee-4eee-8eee-eeeeeeeeeeee';
+  _discovery jsonb := '{
+    "version":1,
+    "brief":{"problem":"Fictional source","unknowns":"Budget unknown","scope":"One CSV","exclusions":"No live sync","acceptance":"Compare cells","reviewer":"Owner role","timeline":"","dataHandling":"Invented rows only"},
+    "fit":{"skill":"unknown","scope":"yes","access":"no","review":"unknown","capacity":"unknown","safety":"yes"},
+    "fitEvidence":"Pending evidence",
+    "change":{"baseline":"v1 CSV","request":"Daily live sync","impact":"Unknown costs","acceptance":"","reviewer":""}
+  }'::jsonb;
+begin
+  assert public.save_pilot_project(_id,
+    public._test_pilot_document(_id) || jsonb_build_object('discovery', _discovery), 0) = 1;
+  assert (select document->'discovery' from public.pilot_projects where id = _id) = _discovery;
+  assert public.save_pilot_project(_id, public._test_pilot_document(_id), 1) = 2;
+  assert not (select document ? 'discovery' from public.pilot_projects where id = _id);
+  perform public.delete_pilot_project(_id, 2);
+end $$;
+
 -- Optional case-study JSON is retained by the existing owner-private RPC.
 do $$
 declare

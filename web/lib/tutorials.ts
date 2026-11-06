@@ -22,6 +22,7 @@ import { websiteChallengeId, websiteChallengeSteps } from '@/lib/website-challen
 import { automationServicesSteps } from '@/lib/automation-services-tutorial';
 import { contentServicesSteps, cadServicesSteps, microSaasSteps, educationServicesSteps } from '@/lib/business-services-tutorials';
 import { videoBusinessSteps } from '@/lib/video-business-tutorial';
+import { clientDiscoverySteps } from '@/lib/client-discovery-tutorial';
 
 export type TutorialInfo = {
   pathId: string;
@@ -37,6 +38,14 @@ export type TutorialInfo = {
 
 // Older tutorials keep their original URLs. New ones live under /tutorials/<pathId>.
 export const tutorials: TutorialInfo[] = [
+  {
+    pathId: 'freelance-client-discovery',
+    href: '/tutorials/freelance-client-discovery',
+    title: 'Freelance Client Discovery & Project Scoping',
+    intro: 'Practise neutral questions, evidence-backed project fit, bounded scope and proposed changes with a fictional client. Six lessons prepare you for the existing proposal workflow, without live outreach or acceptance guarantees.',
+    time: '75 minutes',
+    steps: clientDiscoverySteps
+  },
   {
     pathId: 'ai-video-business',
     href: '/tutorials/ai-video-business',

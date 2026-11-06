@@ -8,6 +8,7 @@ import { emptyProposalInputs, type ProposalDraft } from '@/lib/pilot-proposal';
 import { emptyPilotResults, type PilotResults } from '@/lib/pilot-results';
 import { serviceJourneyDefinition, serviceJourneyTests } from '@/lib/service-project-journeys';
 import { workbookLinkState } from '@/lib/evidence-workbook';
+import { discoveryProposalSeed } from '@/lib/client-discovery';
 
 type Props = { projectId: string; dirty: boolean; onDirty: () => void } & (
   { kind: 'proposal'; value: ProposalDraft; onLoad: (value: ProposalDraft) => void }
@@ -25,11 +26,21 @@ export function PilotProjectTool(props: Props) {
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
 
-  const act = (action: 'save' | 'load' | 'delete' | 'seed' | 'plans') => {
+  const act = (action: 'save' | 'load' | 'delete' | 'seed' | 'plans' | 'discovery') => {
     setError('');
     setNotice('');
     void withProjectLock(() => {
       const current = loadProject(localStorage, projectId);
+      if (action === 'discovery') {
+        if (expected === null || props.kind !== 'proposal') throw new Error('Reload the project draft before saving.');
+        if (!current.project.discovery) throw new Error('Save discovery in this project before importing it.');
+        if (!window.confirm(tr('Replace this proposal form with saved discovery? Fees, costs and generated text will be cleared. Unknowns, fit decisions and proposed changes stay in discovery; review both records. Nothing is saved automatically.'))) return;
+        props.onLoad(discoveryProposalSeed(current.project.discovery, current.project.title));
+        props.onDirty();
+        setSaved(current);
+        setNotice('Saved discovery copied into the proposal form. Review, regenerate and save explicitly; no approval or money was filled in.');
+        return;
+      }
       if (action === 'plans') {
         if (expected === null) throw new Error('Reload the project draft before saving.');
         if (props.kind !== 'results') return;
@@ -89,8 +100,13 @@ export function PilotProjectTool(props: Props) {
         <button type="button" className="btn btn-primary" disabled={expected === null} onClick={() => act('save')}>{tr('Save project draft on device')}</button>
         <button type="button" className="btn btn-secondary" disabled={!ready} onClick={() => act('load')}>{tr('Reload project draft')}</button>
         <button type="button" className="btn btn-secondary" disabled={!saved} onClick={() => act('seed')}>{tr('Start from project brief')}</button>
+        {props.kind === 'proposal' && <button type="button" className="btn btn-secondary" disabled={expected === null}
+          onClick={() => act('discovery')}>{tr('Start from saved discovery')}</button>}
         <button type="button" className="btn btn-secondary" disabled={expected === null} onClick={() => act('delete')}>{tr('Remove project draft')}</button>
       </div>
+      <Link className="btn btn-secondary" href={`/business-launchpad/client-discovery${query}`} onNavigate={(event) => {
+        if (props.dirty && !window.confirm(tr('Leave this page without saving the current project draft?'))) event.preventDefault();
+      }}>{tr('Open client discovery and scoping')}</Link>
       {props.kind === 'results' && definition && <div>
         <p>{tr(definition.boundary)}</p>
         <p>{tr('Load required plans only after reloading the project draft. This replaces test cases in the current form, not notes, metrics or the decision. Nothing is saved automatically; existing project evidence changes only when you explicitly save.')}</p>
