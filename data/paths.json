@@ -348,9 +348,9 @@
   },
   {
     "id": "ai-spreadsheets",
-    "title": "AI Spreadsheets and Everyday Data",
+    "title": "Excel Data Cleaning & PDF-to-Excel Services",
     "level": "Beginner",
-    "description": "Clean a practice table, verify formulas and create an honest chart in Excel or Google Sheets with optional AI support.",
+    "description": "Practise Excel data cleaning, PDF-to-Excel source checks and business reports with fictional data, explicit exceptions and human review.",
     "badge": "Data",
     "steps": [
       "Import and preserve a practice table",

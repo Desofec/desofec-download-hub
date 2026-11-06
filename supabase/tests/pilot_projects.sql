@@ -1,4 +1,4 @@
--- Isolated database only, after migrations 0011 and 0012.
+-- Isolated database only, after migrations 0011, 0012 and 0013.
 -- Fixtures and helper functions are rolled back; never run against live data.
 begin;
 insert into auth.users (id) values
@@ -161,6 +161,16 @@ end $$;
 
 -- Optional automation metadata is retained by the unchanged JSON snapshot RPC.
 select set_config('request.jwt.claim.sub', '44444444-4444-4444-8444-444444444444', true);
+do $$
+declare _id uuid := 'dddddddd-dddd-4ddd-8ddd-dddddddddddd';
+begin
+  assert public.save_pilot_project(_id,
+    public._test_pilot_document(_id) || '{"pathId":"ai-spreadsheets"}'::jsonb, 0) = 1;
+  assert (select document->>'pathId' from public.pilot_projects where id = _id) = 'ai-spreadsheets';
+  assert public.save_pilot_project(_id,
+    public._test_pilot_document(_id) || '{"pathId":"ai-spreadsheets","title":"Rechecked workbook"}'::jsonb, 1) = 2;
+  perform public.delete_pilot_project(_id, 2);
+end $$;
 do $$
 declare
   _id uuid := 'cccccccc-cccc-4ccc-8ccc-cccccccccccc';

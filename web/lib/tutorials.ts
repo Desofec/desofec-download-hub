@@ -68,10 +68,11 @@ export const tutorials: TutorialInfo[] = [
   {
     pathId: 'ai-spreadsheets',
     href: '/tutorials/ai-spreadsheets',
-    title: 'Make a checked spreadsheet with AI support',
-    intro: 'Practise importing, checking, calculating and charting five fictional orders in Excel or Google Sheets. AI features are optional; no paid AI plan is required.',
-    time: '45 minutes',
-    steps: spreadsheetSteps
+    title: 'Excel Data Cleaning & PDF-to-Excel Services',
+    intro: 'Learn checked formulas with five fictional orders, then practise data cleaning, PDF transcription checking and business reports with a private service project. Allow about two hours for the worksheets; external file checks and feedback take additional time. AI and paid tools are optional.',
+    time: '120 minutes',
+    steps: spreadsheetSteps,
+    serviceKitId: 'ai-spreadsheets-kit'
   },
   {
     pathId: 'ai-small-business',

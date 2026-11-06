@@ -10,6 +10,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const tutorialPages = tutorials.map((tutorial) => tutorial.href);
 
   return [
+    { url: new URL('/business-launchpad/spreadsheet-lab', siteUrl).toString() },
     ...[...publicPages, ...tutorialPages].map((path) => ({ url: new URL(path, siteUrl).toString() })),
     ...paths.map((path) => ({
       url: new URL(`/paths/${encodeURIComponent(path.id)}`, siteUrl).toString()

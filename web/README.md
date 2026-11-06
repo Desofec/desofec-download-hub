@@ -23,7 +23,7 @@ and starter pack downloads; the offline page appears when a page has not been ca
 ## Connect Supabase
 
 1. Create a Supabase project.
-2. In the SQL editor, run the migrations in order through `0012_video_business_projects.sql`, including `0011_pilot_projects.sql` for owner-private snapshots, then run `supabase/seed.sql`.
+2. In the SQL editor, run the migrations in order through `0013_spreadsheet_projects.sql`, including `0011_pilot_projects.sql` for owner-private snapshots, then run `supabase/seed.sql`.
    The migrations are safe to re-run; the seed upserts. Apply the video migration and regenerated seed before deploying the business-video path.
 3. Copy `.env.example` to `.env.local` and fill in the project URL and anon key
    (Project settings → API):
@@ -78,6 +78,25 @@ development URLs there too if you test sign-in locally.
 
 ## AI Business Launchpad
 
+### Excel data cleaning and PDF-to-Excel services
+
+The existing `ai-spreadsheets` path now supports private service projects and
+`/business-launchpad/spreadsheet-lab`. Its six lesson IDs, four path progress indexes,
+original five-order exercise, goal and kit IDs stay unchanged. Complete three exercises in
+order within one project: seven-row data cleaning, five-row PDF transcription checking
+and an incomplete EUR 21 report with one unresolved quantity. The lab offers a real fictional
+one-page PDF, CSV exports, explicit exceptions, editable transcription checks and a
+zero-baseline chart with a text table. It uses no uploads, model or OCR engine and saves
+nothing automatically. CSV is data, not an XLSX workbook; external workbook checks require
+actual user observations. Raw data and missing-versus-zero evidence are never silently discarded.
+
+SHEET-1..7 plans, workbook starters, Review Centre self-checks, proposals and private handovers
+reuse the existing project infrastructure. Unavailable real owner approval stays blocked.
+Apply **0013 after 0012**, then the regenerated seed before deployment. The migration expands
+only the RPC allowlist, preserves ownership/quotas/CAS and is repeatable; an unexpected prior
+function definition fails explicitly rather than silently proceeding. French, German and
+Spanish cover catalog/workflow UI; the extended lessons and downloads remain English.
+
 ### Small-business workflow automation
 
 The existing `/paths/ai-automation-services` path is now **AI Workflow Automation for Small
@@ -102,14 +121,14 @@ deployment; it updates existing records without new catalog IDs or ordering chan
 
 `/business-launchpad/first-project` recommends AI Content Services for a first no-code, fictional
 practice package. Goal selection links to the existing workspace with a preselected path; it does not
-create a project or upload anything. All six service goals have six-stage guided journeys and private
+create a project or upload anything. All seven service paths have six-stage guided journeys and private
 portfolios, with service-specific instructions, evidence and explicit scope boundaries.
 
 Service projects (including existing ones and loaded account snapshots) show six sequential milestones
 derived from **saved** project data: learn, practise, draft, test, review and handover. They reuse the
 existing checklist and progress keys; automation scenario metadata is optional and backward-compatible. Learn/practise/handover are self-recorded
 work, not proof of tutorial completion or file inspection. Draft requires a current generated proposal
-and seven scope/review fields; automation, micro-SaaS and education additionally require data handling,
+and seven scope/review fields; automation, spreadsheets, micro-SaaS and education additionally require data handling,
 and education requires a timeline. Content retains its four-distinct-named-case rule. Other services
 require exactly one evidenced case for every bracketed service code, not just an arbitrary test count.
 Each requires input, expected and actual evidence, a non-pending outcome, and the evidence checklist.
@@ -127,6 +146,7 @@ milestones and the handover item; no milestone grants publication permission or 
 | Micro-SaaS | SAAS-1 through SAAS-8: exact output, blank/40/41/markup/invalid status, observed demand, costs/launch gaps | Local toy; manual work cannot establish browser passes; no subscriptions |
 | Education | EDU-1 through EDU-5: facts/key, rehearsal timing, accessible original materials, adult trial, independent review | Consenting-adult practice; no learner records or qualification claims |
 | Business video | VIDEO-1 through VIDEO-7: facts, three measured exports, captions, permissions, revisions, costs, owner approval | Fictional 15-30-second 1080 x 1920 videos; no posting or automatic file inspection |
+| Spreadsheets | SHEET-1 through SHEET-7: raw/duplicates, dates/blanks, PDF source cells, formulas, report/chart, reopened exports, owner approval | Fictional source checks; no OCR engine, financial certification or confidential uploads |
 
 After **Reload project draft**, the results tool offers **Load required service test plans** for these
 non-content services. Replacement requires confirmation, changes only current test cases, and never fills in

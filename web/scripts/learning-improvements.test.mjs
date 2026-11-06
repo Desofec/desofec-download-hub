@@ -40,6 +40,116 @@ function memoryStorage() {
 const projectId = '11111111-1111-4111-8111-111111111111';
 
 const workbookTime = '2026-11-06T01:30:00.000Z';
+test('spreadsheet cleaning preserves raw rows, flags unresolved dates/quantities and rejects conflicting IDs', async () => {
+  const { cleanSpreadsheet, messySpreadsheet, spreadsheetSource } = await loadContent('../lib/spreadsheet-practice.ts');
+  const before = JSON.stringify(messySpreadsheet);
+  const clean = cleanSpreadsheet(messySpreadsheet);
+  assert.equal(clean.rawCount, 7);
+  assert.equal(clean.rows.length, 6);
+  assert.equal(clean.duplicates, 1);
+  assert.deepEqual(clean.issues, [{ id: 'A5', field: 'quantity' }, { id: 'A6', field: 'date' }]);
+  assert.deepEqual(clean.rows.slice(0, 5), spreadsheetSource);
+  assert.equal(clean.rows[5].date, '01/02/2030', 'no guessed locale');
+  assert.equal(clean.rows[3].quantity, '0', 'known zero retained');
+  assert.equal(clean.rows[4].quantity, '', 'unknown not filled');
+  assert.equal(JSON.stringify(messySpreadsheet), before);
+  assert.throws(() => cleanSpreadsheet([...spreadsheetSource, { ...spreadsheetSource[0], quantity: '99' }]), /Conflicting order ID/);
+  assert.throws(() => cleanSpreadsheet([{ ...spreadsheetSource[0], id: '=formula' }]), /Invalid practice/);
+  for (const [field, value] of [['quantity', '-1'], ['quantity', '1.5'], ['price', '1.234'], ['price', 'NaN'], ['date', '2030-02-30']]) {
+    assert.equal(cleanSpreadsheet([{ ...spreadsheetSource[0], [field]: value }]).issues.length, 1, value);
+  }
+  clean.rows[0].quantity = '99';
+  assert.equal(messySpreadsheet[0].quantity, '2', 'working copies do not mutate raw input');
+});
+
+test('PDF practice compares every source cell, keeps a blank distinct from zero and requires a complete source', async () => {
+  const { comparePdfRows, extractedPdfRows, spreadsheetSource } = await loadContent('../lib/spreadsheet-practice.ts');
+  assert.deepEqual(comparePdfRows(extractedPdfRows), [
+    { row: 2, id: 'A2', field: 'quantity' }, { row: 5, id: 'A5', field: 'quantity' }
+  ]);
+  assert.deepEqual(comparePdfRows(spreadsheetSource), []);
+  assert.throws(() => comparePdfRows(spreadsheetSource.slice(1)), /exactly five/);
+  const wrong = spreadsheetSource.map((row) => ({ ...row }));
+  wrong[0].item = 'Pen';
+  wrong[1].id = 'A1';
+  wrong[2].date = '2030-01-10';
+  wrong[3].price = '7';
+  assert.equal(comparePdfRows(wrong).length, 4, 'matching subtotal alone is insufficient');
+});
+
+test('spreadsheet report reconciles exact cents, inclusive dates and unknowns without fabricated complete totals', async () => {
+  const { spreadsheetReport, spreadsheetSource, messySpreadsheet } = await loadContent('../lib/spreadsheet-practice.ts');
+  const result = spreadsheetReport(spreadsheetSource);
+  assert.equal(result.knownCents, 2100);
+  assert.equal(result.unresolved, 1);
+  assert.equal(result.excluded, 0);
+  assert.deepEqual(result.groups, {
+    Notebook: { knownCents: 1500, unresolved: 0 },
+    Pen: { knownCents: 600, unresolved: 0 }, Folder: { knownCents: 0, unresolved: 1 }
+  });
+  assert.equal(spreadsheetReport(messySpreadsheet).unresolved, 2);
+  const outside = [...spreadsheetSource, { ...spreadsheetSource[0], id: 'A6', date: '2030-01-14' }];
+  assert.equal(spreadsheetReport(outside).excluded, 1);
+  assert.equal(spreadsheetReport(outside).knownCents, 2100);
+  const invalid = [{ ...spreadsheetSource[0], quantity: 'x' }];
+  assert.equal(spreadsheetReport(invalid).unresolved, 1);
+  assert.equal(spreadsheetReport(invalid).knownCents, 0);
+  assert.throws(() => spreadsheetReport([{ ...spreadsheetSource[0], quantity: String(Number.MAX_SAFE_INTEGER) }]), /safe calculation/);
+});
+
+test('spreadsheet CSV exports preserve blanks/quotes and neutralise formula-like text; PDF bytes have valid offsets', async () => {
+  const { spreadsheetCsv, spreadsheetSource, practicePdf } = await loadContent('../lib/spreadsheet-practice.ts');
+  const csv = spreadsheetCsv(spreadsheetSource);
+  assert.match(csv, /"A4","Pen","2030-01-13","0","2"/);
+  assert.match(csv, /"A5","Folder","2030-01-13","","4"/);
+  assert.ok(csv.endsWith('\r\n'));
+  for (const value of ['=1+1', '+1', '-1', '@SUM(A1)', '  =1', '\t=1', '\r=1']) {
+    assert.ok(spreadsheetCsv([{ ...spreadsheetSource[0], item: value }]).includes(`"'${value}"`), value);
+  }
+  assert.match(spreadsheetCsv([{ ...spreadsheetSource[0], item: 'A,"B"\nC' }]), /"A,""B""\nC"/);
+  const pdf = practicePdf();
+  assert.equal(Buffer.byteLength(pdf), pdf.length, 'ASCII offsets are byte offsets');
+  assert.ok(pdf.startsWith('%PDF-1.4'));
+  const offset = Number(pdf.match(/startxref\n(\d+)/)[1]);
+  assert.equal(pdf.slice(offset, offset + 4), 'xref');
+  const entries = pdf.slice(offset).match(/\d{10} 00000 n/g);
+  entries.forEach((entry, index) => assert.ok(pdf.slice(Number(entry.slice(0, 10))).startsWith(`${index + 1} 0 obj`)));
+  const stream = pdf.match(/\/Length (\d+) >>\nstream\n([\s\S]*?)\nendstream/);
+  assert.equal(Number(stream[1]), stream[2].length);
+  assert.match(pdf, /A5 quantity is BLANK, not zero/);
+});
+
+test('spreadsheet lessons retain stable progress and new lab controls have translated interface', async () => {
+  const { spreadsheetSteps } = await loadContent('../lib/spreadsheets-tutorial.ts');
+  assert.deepEqual(spreadsheetSteps.map((step) => step.id), [
+    'import-sample', 'check-cells', 'verified-formula', 'reconcile-summary', 'chart-honestly', 'spreadsheet-handoff'
+  ]);
+  assert.match(spreadsheetSteps[0].code, /A5,Folder,,4/);
+  const source = await readFile(new URL('../components/spreadsheet-practice-lab.tsx', import.meta.url), 'utf8');
+  const ast = ts.createSourceFile('lab.tsx', source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
+  const strings = new Set();
+  for (const label of ['Order', 'Item', 'Quantity', 'Date UTC', 'Unit price (EUR)']) strings.add(label);
+  const visit = (node) => {
+    if (ts.isCallExpression(node) && node.expression.getText(ast) === 'tr') {
+      const gather = (child) => {
+        if (ts.isStringLiteral(child) && /^[A-Z]/.test(child.text)) strings.add(child.text);
+        else ts.forEachChild(child, gather);
+      };
+      node.arguments.forEach(gather);
+    }
+    ts.forEachChild(node, visit);
+  };
+  visit(ast);
+  for (const locale of ['fr', 'de', 'es']) {
+    const book = JSON.parse(await readFile(new URL(`../content/translations/ui-${locale}.json`, import.meta.url), 'utf8'));
+    for (const text of strings) assert.ok(book[text], `${locale}: missing spreadsheet lab phrase "${text}"`);
+  }
+  const { matchGoals } = await loadContent('../lib/idea-planner.ts');
+  for (const text of ['excel data cleaning', 'PDF-to-Excel', 'nettoyage excel', 'pdf zu excel', 'pdf a excel']) {
+    assert.equal(matchGoals(text)[0]?.goalId, 'analyze-data', text);
+  }
+});
+
 test('enquiry simulation preserves the original six events, supplied human review, atomic failures and off switch', async () => {
   const { enquiryExamples, processEnquiry } = await loadContent('../lib/automation-practice.ts');
   const controls = { enabled: true, failWrite: false };
@@ -268,7 +378,7 @@ test('content reviews strictly validate checks, copied source identity, limits a
   assert.equal(replaced.reviews.length, 2);
   assert.equal(replaced.reviews[1].itemId, 'item-2');
   assert.equal(replaced.reviews[1].checks[0].status, 'needs-work');
-  for (const pathId of ['ai-content-services', 'ai-automation-services', 'ai-cad-services', 'micro-saas-validation', 'ai-education-services', 'ai-video-business']) {
+  for (const pathId of ['ai-content-services', 'ai-automation-services', 'ai-cad-services', 'micro-saas-validation', 'ai-education-services', 'ai-video-business', 'ai-spreadsheets']) {
     const serviceProject = newPilotProject(projectId, pathId, pathId);
     serviceProject.workbook = appendWorkbookRevision({ version: 1, items: [] }, null, 'Service draft', 'SELF_REVIEW_SERVICE_CANARY', workbookTime);
     const serviceChecks = emptyReviewChecks(pathId);
@@ -725,7 +835,7 @@ test('service journeys define distinct required plans without invented evidence 
   const { serviceJourneys, serviceJourneyTests, serviceProjectJourney, serviceJourneyCoverage } =
     await loadContent('../lib/service-project-journeys.ts', journeyImports);
   const { readPilotProject } = await loadContent('../lib/pilot-projects.ts', projectImports);
-  const counts = { 'ai-automation-services': 9, 'ai-cad-services': 5, 'micro-saas-validation': 8, 'ai-education-services': 5, 'ai-video-business': 7 };
+  const counts = { 'ai-automation-services': 9, 'ai-cad-services': 5, 'micro-saas-validation': 8, 'ai-education-services': 5, 'ai-video-business': 7, 'ai-spreadsheets': 7 };
   const allCodes = new Set();
   for (const [pathId, definition] of Object.entries(serviceJourneys)) {
     const project = await contentProjectFixture();

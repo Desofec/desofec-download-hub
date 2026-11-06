@@ -19,6 +19,27 @@ const automationChecks: Check[] = starterPilotTests((text) => text).map((test, i
 }));
 
 export const serviceJourneys: Record<Exclude<ServicePathId, 'ai-content-services'>, ServiceJourney> = {
+  'ai-spreadsheets': {
+    title: 'Your guided spreadsheet services project',
+    heading: 'PRACTICE PORTFOLIO - FICTIONAL SPREADSHEETS, NOT FINANCIAL CERTIFICATION',
+    exercise: 'Exercise: clean seven raw rows, reconcile five PDF source rows and report EUR 21 known subtotal with one unresolved quantity. Keep the original five-order lesson unchanged.',
+    boundary: 'Fictional practice only. No confidential uploads, automatic OCR, financial advice or verified client approval. CSV is not an XLSX workbook; reopen and check files yourself.',
+    practiceTitle: '2. Practise cleaning, PDF checks and reports',
+    learn: 'Read the six spreadsheet lessons and the extended service kit. Save source, UTC date rules, blank-versus-zero policy and reviewer in the brief.',
+    practise: 'Use the spreadsheet lab and kit. Keep seven raw rows, six unique cleaned rows and two unresolved fields. Correct A2 and A5 transcription mistakes against the PDF. Reconcile the original five orders to EUR 21 with A5 unknown.',
+    draft: 'Prepare a current proposal for data cleaning, source-checked PDF transcription and a bounded report. Include exclusions, acceptance checks, data handling, reviewer and handover. Never promise perfect OCR or financial certification.',
+    handover: 'Keep Raw, Working, Summary and Notes; source PDF, transcription, exception log and reopened exports. Include formula locale, missing values and owner review. Missing actual approval stays blocked.',
+    proposalFields: ['dataHandling'],
+    checks: [
+      { code: 'SHEET-1', label: 'Raw preservation and duplicate checks', input: 'Clean seven fictional raw rows using the kit rules.', expected: 'Raw unchanged; six unique rows; one identical duplicate removed. A conflicting repeated ID raises an error, never silently chosen.' },
+      { code: 'SHEET-2', label: 'Dates, blanks and known zero', input: 'Inspect A1 unambiguous date, A5 blank quantity and A6 ambiguous date.', expected: 'A1 becomes 2030-01-07; A5 stays missing and A6 stays unresolved. A4 zero retained. No inferred date locale or guessed value.' },
+      { code: 'SHEET-3', label: 'PDF source and transcription checks', input: 'Compare all five rows with the one-page fictional source PDF.', expected: 'Correct A2 quantity from 8 to 3 and clear A5 invented zero. All source cells match; A5 remains unknown. Supplied extraction is not an OCR engine.' },
+      { code: 'SHEET-4', label: 'Formula and subtotal reconciliation', input: 'Calculate the original five order values in Excel or Sheets and compare by hand.', expected: '10, 6, 5, 0, REVIEW; known subtotal EUR 21 and one unresolved row. Notebook 15, Pen 6, Folder unresolved, not zero.' },
+      { code: 'SHEET-5', label: 'Report and chart limitations', input: 'Review a summary and a chart with a text table alternative.', expected: 'Inclusive UTC week, zero baseline, currency and unresolved note visible. No claimed trends or complete revenue from five fictional orders.' },
+      { code: 'SHEET-6', label: 'Reopened spreadsheet handover', input: 'Reopen downloaded CSV and the saved workbook; inspect Raw, Working, Summary and Notes.', expected: 'Check cell types, formulas, locale and missing values in the actual files. CSV has no workbook formulas or sheets; external reopen checks stay unverified until performed.' },
+      { code: 'SHEET-7', label: 'Spreadsheet owner approval', input: 'Check real source permissions, authorised owner review and unresolved issues.', expected: 'Unavailable real approval stays blocked. Practice comparisons and self-review never certify accounting, client work or confidential-data handling.' }
+    ]
+  },
   'ai-video-business': {
     title: 'Your guided business video project',
     heading: 'PRACTICE PORTFOLIO - FICTIONAL BUSINESS VIDEOS, NOT PUBLICATION APPROVAL',

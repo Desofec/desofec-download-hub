@@ -5,6 +5,13 @@ import { automationScenarioLabels, type AutomationScenario } from '@/lib/automat
 
 type ReviewDefinition = { id: string; label: string; instruction: string };
 export const serviceReviewChecks = {
+  'ai-spreadsheets': [
+    { id: 'source', label: 'Source preservation and corrections', instruction: 'Compare raw and working copies, PDF source cells and correction notes. A supplied extraction is not verified OCR; keep source permissions and unknowns explicit.' },
+    { id: 'values', label: 'Dates, blanks and known zero', instruction: 'Check unambiguous UTC dates, duplicate IDs and exceptions. A5 missing is not A4 zero; A6 ambiguous date must not be guessed.' },
+    { id: 'totals', label: 'Formula and subtotal reconciliation', instruction: 'Reconcile 10 + 6 + 5 + 0 = EUR 21 with one unresolved quantity. Check formula locale and label the total incomplete; do not certify real accounting.' },
+    { id: 'export', label: 'Reopened spreadsheet handover', instruction: 'Record actual CSV and workbook reopen checks, numeric types, formulas and source preservation. A text-only self-review cannot inspect external files.' },
+    { id: 'approval', label: 'Spreadsheet owner approval', instruction: 'Missing real owner review stays blocked. Review permission, retention and unresolved values before any manual sharing; no client approval is granted here.' }
+  ],
   'ai-video-business': [
     { id: 'facts', label: 'Video scripts and business facts', instruction: 'Compare scripts and captions with the supplied fictional facts. Remove unsupported prices, delivery, allergens and results.' },
     { id: 'exports', label: 'Three measured video exports', instruction: 'Record duration and resolution for all three reopened exports: 15-30 seconds inclusive, 1080 x 1920. Text or storyboards cannot verify external videos.' },
@@ -70,7 +77,8 @@ export type ReviewCheckId = typeof contentReviewChecks[number]['id']
   | typeof serviceReviewChecks['ai-cad-services'][number]['id']
   | typeof serviceReviewChecks['micro-saas-validation'][number]['id']
   | typeof serviceReviewChecks['ai-education-services'][number]['id']
-  | typeof serviceReviewChecks['ai-video-business'][number]['id'];
+  | typeof serviceReviewChecks['ai-video-business'][number]['id']
+  | typeof serviceReviewChecks['ai-spreadsheets'][number]['id'];
 export const reviewStatuses = ['pending', 'checked', 'needs-work', 'blocked'] as const;
 export const reviewStatusLabels = {
   pending: 'Not reviewed', checked: 'Self-checked', 'needs-work': 'Needs correction', blocked: 'Blocked'
