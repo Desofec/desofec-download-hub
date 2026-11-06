@@ -457,6 +457,16 @@ h3 {
   padding: 0;
 }
 
+.ai-updates .path-card {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.ai-updates dd {
+  margin: 4px 0 16px;
+  white-space: pre-wrap;
+}
+
 .journey-stages > li,
 .journey-portfolio {
   min-width: 0;

@@ -20,6 +20,17 @@ The app is installable on supported browsers. Use the browser's **Install app** 
 when available, or its menu option. The service worker caches visited pages, app assets,
 and starter pack downloads; the offline page appears when a page has not been cached yet.
 
+## Reviewed AI updates
+
+`/ai-updates` reads reviewed editions from `content/ai-digests.json`. Drafts are
+never rendered publicly; publication requires a source review, publication date,
+nonempty stories and a merged/deployed change. Source links, limitations and a
+fictional practice activity accompany each story. The first entry is an empty
+draft awaiting source verification. No twice-weekly scheduler, AI API, automatic
+publication or digest emails are enabled. See
+[`docs/ai-digest-editorial.md`](../docs/ai-digest-editorial.md) for owner review,
+corrections and future automation instructions. No Supabase setup is needed.
+
 ## Connect Supabase
 
 1. Create a Supabase project.
