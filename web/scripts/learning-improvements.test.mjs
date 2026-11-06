@@ -40,7 +40,7 @@ const projectId = '11111111-1111-4111-8111-111111111111';
 
 const workbookTime = '2026-11-06T01:30:00.000Z';
 test('content reviews strictly validate checks, copied source identity, limits and evidence without changing milestones', async () => {
-  const { saveTextReview, readProjectReviewCentre, emptyReviewChecks, textReviewState } = await loadContent('../lib/project-review.ts', projectImports);
+  const { saveTextReview, readProjectReviewCentre, emptyReviewChecks, checksForService, textReviewState } = await loadContent('../lib/project-review.ts', projectImports);
   const { newPilotProject, readPilotProject } = await loadContent('../lib/pilot-projects.ts', projectImports);
   const { appendWorkbookRevision } = await loadContent('../lib/evidence-workbook.ts');
   const project = newPilotProject(projectId, 'ai-content-services', 'Private review');
@@ -54,7 +54,7 @@ test('content reviews strictly validate checks, copied source identity, limits a
   const centre = saveTextReview(project, 'item-1', source, checks, workbookTime);
   assert.throws(() => saveTextReview(project, 'item-1', source, checks.map((check, index) => index === 0 ? { ...check, notes: ' ' } : check), workbookTime), /Add observations/);
   assert.throws(() => saveTextReview(project, 'item-1', source, checks.map((check, index) => index === 0 ? { ...check, task: ' ' } : check), workbookTime), /Add a correction task/);
-  assert.throws(() => saveTextReview(project, 'item-1', source, checks.map((check, index) => index === 0 ? { ...check, done: true } : check), workbookTime), /Record a task and correction evidence/);
+  assert.throws(() => saveTextReview(project, 'item-1', source, checks.map((check, index) => index === 0 ? { ...check, done: true } : check), workbookTime), /task and correction evidence/);
   assert.throws(() => saveTextReview(project, 'item-1', source, checks.map((check, index) => index === 1 ? { ...check, resolution: 'Evidence without task' } : check), workbookTime), /Add a correction task before/);
   assert.equal(JSON.stringify(project), before);
   project.reviewCentre = centre;
@@ -86,8 +86,8 @@ test('content reviews strictly validate checks, copied source identity, limits a
     assert.throws(() => readProjectReviewCentre(copy), /Invalid saved/);
   }
   assert.throws(() => readPilotProject(JSON.stringify({ ...project, reviewCentre: null })), /Invalid saved/);
-  assert.throws(() => readPilotProject(JSON.stringify({ ...project, pathId: 'ai-cad-services' })), /Invalid project/);
-  assert.throws(() => saveTextReview({ ...project, pathId: 'ai-cad-services' }, 'item-1', source, checks, workbookTime), /only/);
+  assert.throws(() => readPilotProject(JSON.stringify({ ...project, pathId: 'ai-cad-services' })), /Invalid saved project review/);
+  assert.throws(() => saveTextReview({ ...project, pathId: 'ai-cad-services' }, 'item-1', source, checks, workbookTime), /Invalid saved project review/);
   project.workbook = appendWorkbookRevision(project.workbook, 'item-1', 'v2', 'REVIEW_SOURCE_TWO', workbookTime);
   assert.match(textReviewState(project, centre.reviews[0]), /Newer text/);
   assert.equal(centre.reviews[0].checks[0].done, false);
@@ -95,14 +95,29 @@ test('content reviews strictly validate checks, copied source identity, limits a
   project.workbook.items = [];
   assert.match(textReviewState(project, centre.reviews[0]), /removed or replaced/);
   assert.throws(() => saveTextReview(project, 'item-1', source, checks, workbookTime), /changed or was removed/);
-  project.workbook = appendWorkbookRevision(project.workbook, null, 'New item with reused ID', 'REPLACEMENT', workbookTime);
+  project.workbook = appendWorkbookRevision(project.workbook, null, source.title, source.body, workbookTime, ['item-1']);
+  assert.equal(project.workbook.items[0].id, 'item-2', 'archived feedback reserves the old item identifier');
   assert.match(textReviewState(project, centre.reviews[0]), /removed or replaced/);
   assert.equal(centre.reviews[0].source.body, 'REVIEW_SOURCE_ONE');
+  assert.throws(() => appendWorkbookRevision(project.workbook, null, 'No free ID', 'Text', workbookTime,
+    ['item-1', 'item-2', 'item-3', 'item-4', 'item-5', 'item-6', 'item-7', 'item-8']), /identifiers are retained/);
   assert.throws(() => saveTextReview(project, 'item-1', source, checks, workbookTime), /changed or was removed/);
   checks[0] = { ...checks[0], done: true, resolution: 'Price removed in a separately saved draft; review pending' };
-  const replaced = saveTextReview(project, 'item-1', project.workbook.items[0].revisions[0], checks, workbookTime);
-  assert.equal(replaced.reviews.length, 1);
-  assert.equal(replaced.reviews[0].checks[0].status, 'needs-work');
+  const replaced = saveTextReview(project, 'item-2', project.workbook.items[0].revisions[0], checks, workbookTime);
+  assert.equal(replaced.reviews.length, 2);
+  assert.equal(replaced.reviews[1].itemId, 'item-2');
+  assert.equal(replaced.reviews[1].checks[0].status, 'needs-work');
+  for (const pathId of ['ai-content-services', 'ai-automation-services', 'ai-cad-services', 'micro-saas-validation', 'ai-education-services']) {
+    const serviceProject = newPilotProject(projectId, pathId, pathId);
+    serviceProject.workbook = appendWorkbookRevision({ version: 1, items: [] }, null, 'Service draft', 'SELF_REVIEW_SERVICE_CANARY', workbookTime);
+    const serviceChecks = emptyReviewChecks(pathId);
+    const serviceReview = saveTextReview(serviceProject, 'item-1', serviceProject.workbook.items[0].revisions[0], serviceChecks, workbookTime);
+    serviceProject.reviewCentre = serviceReview;
+    assert.deepEqual(serviceReview.reviews[0].checks.map((check) => check.id), checksForService(pathId).map((check) => check.id));
+    assert.deepEqual(readPilotProject(JSON.stringify(serviceProject)), serviceProject);
+    const { buildReviewHandover } = await loadContent('../lib/project-review.ts', projectImports);
+    assert.match(buildReviewHandover(serviceProject, ['item-1'], (text) => text), /SELF_REVIEW_SERVICE_CANARY/);
+  }
 });
 
 test('review saves merge their own part, retain copied text in snapshots and reject stale or deleted-project writes', async () => {

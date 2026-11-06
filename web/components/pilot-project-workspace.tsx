@@ -193,8 +193,8 @@ function Workspace({ paths, projectId, initialPath }: WorkspaceProps) {
           <p>{tr('Recorded tests:')} {summary?.total ?? 0} · {tr('Not run or missing evidence:')} {summary?.pending ?? 0}</p>
           <p>{tr('Keep practice text and explicit revision history in the private workbook. Workbook drafts and links never mark tests or milestones complete.')}</p>
           <div className="cta-row">
-            {saved.pathId === 'ai-content-services' && <Link className="btn btn-secondary" href={`/business-launchpad/review-centre${query}`}
-              onNavigate={(event) => { if (dirty && !window.confirm(tr('Discard unsaved brief and checklist changes?'))) event.preventDefault(); }}>{tr('Open project review centre')}</Link>}
+            <Link className="btn btn-secondary" href={`/business-launchpad/review-centre${query}`}
+              onNavigate={(event) => { if (dirty && !window.confirm(tr('Discard unsaved brief and checklist changes?'))) event.preventDefault(); }}>{tr('Open project review centre')}</Link>
             <Link className="btn btn-primary" href={`/business-launchpad/evidence-workbook${query}`}
               onNavigate={(event) => { if (dirty && !window.confirm(tr('Discard unsaved brief and checklist changes?'))) event.preventDefault(); }}>{tr('Open private evidence workbook')}</Link>
             <Link className="btn btn-primary" href={`/business-launchpad/proposal-builder${query}`}
@@ -208,7 +208,7 @@ function Workspace({ paths, projectId, initialPath }: WorkspaceProps) {
               setNotice('Summary download requested. Only the saved project was included; review before sharing.');
             })}>{tr('Download saved project summary')}</button>
             <button type="button" className="btn btn-secondary" onClick={() => attempt(() => {
-              if (!window.confirm(tr('Delete this device project, workbook revisions, saved proposal and results? Account copies, standalone drafts, learning progress and downloads remain.'))) return;
+              if (!window.confirm(tr('Delete this device project, workbook revisions, saved reviews, proposal and results? Account copies, standalone drafts, learning progress and downloads remain.'))) return;
               deleteProject(localStorage, saved.id, selected.revision);
               refresh();
               window.history.replaceState(null, '', '/business-launchpad/projects');

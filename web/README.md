@@ -168,17 +168,20 @@ app versions do not understand workbook fields and must not be used to edit work
 
 ### Guided Project Review Centre
 
-`/business-launchpad/review-centre?project=<uuid>` is private/noindex and initially supports
-AI Content Services only. Reload saved project and reviews, select a workbook item/revision,
-then record five manual checks: facts, copy, accessibility/permissions, corrections and
-publication boundaries. Every non-pending check needs observations; a correction status needs
-a task. Marking a task addressed requires written evidence, and never changes its review status,
-test outcome or project milestone.
+`/business-launchpad/review-centre?project=<uuid>` is private/noindex and supports all five
+service paths with distinct manual review checks. Reload saved project and reviews, select a
+workbook item/revision, then record observations for service-specific risk areas: content claims,
+automation event/failure safety, CAD dimensions/exports, prototype boundaries or education facts,
+timing and privacy. Every non-pending check needs observations; a correction status needs a task.
+Marking a task addressed requires written evidence, and never changes its review status, test
+outcome or project milestone.
 
 The optional `reviewCentre` project part stores at most eight reviews, one per text item.
 Each pins a full copy of its reviewed revision so deleting/reusing a workbook ID cannot silently
 reattach feedback. Newer or missing/replaced text is explicitly flagged. Reviewing another
 revision starts with pending checks; replacing an item's saved review requires confirmation.
+An archived review reserves its deleted workbook item ID until that review is deleted, preventing
+an identical new draft from accidentally appearing to be the archived source.
 Review saves compare only their own part, validate the selected source against current storage,
 preserve unrelated parts and reject deleted projects. The existing UTF-8 project size bound applies.
 

@@ -5,7 +5,7 @@ import { useTr } from '@/components/tr';
 import { loadProject, saveProjectPart, withProjectLock, type StoredProject } from '@/lib/pilot-projects';
 import { downloadPilotText } from '@/lib/pilot-download';
 import {
-  buildReviewHandover, contentReviewChecks, emptyReviewChecks, emptyReviewCentre,
+  buildReviewHandover, checksForService, emptyReviewChecks, emptyReviewCentre,
   reviewStatuses, reviewStatusLabels, saveTextReview, textReviewState, type ReviewCheck
 } from '@/lib/project-review';
 
@@ -26,13 +26,13 @@ export function ProjectReviewCentre({ projectId }: { projectId?: string }) {
   const [notice, setNotice] = useState('');
   const working = useRef(false);
   const query = projectId === undefined ? '' : `?project=${encodeURIComponent(projectId)}`;
-  const supported = saved?.project.pathId === 'ai-content-services';
+  const definitions = saved ? checksForService(saved.project.pathId) : [];
   const items = saved?.project.workbook?.items ?? [];
   const item = items.find((entry) => entry.id === itemId);
   const source = item?.revisions.find((entry) => entry.number === number);
   const centre = saved?.project.reviewCentre ?? emptyReviewCentre;
   const expected = JSON.stringify(saved?.project.reviewCentre ?? null);
-  const pack = supported && selected.length ? buildReviewHandover(saved.project, selected, tr) : '';
+  const pack = saved && selected.length ? buildReviewHandover(saved.project, selected, tr) : '';
 
   useEffect(() => {
     if (!dirty) return;
@@ -47,7 +47,7 @@ export function ProjectReviewCentre({ projectId }: { projectId?: string }) {
     setSaved(record);
     setItemId(text ? id : '');
     setNumber(revision);
-    setChecks(review && JSON.stringify(review.source) === JSON.stringify(text) ? review.checks : emptyReviewChecks());
+    setChecks(review && JSON.stringify(review.source) === JSON.stringify(text) ? review.checks : emptyReviewChecks(record.project.pathId));
     setDirty(false);
     setSelected([]);
     setConsent(false);
@@ -90,12 +90,11 @@ export function ProjectReviewCentre({ projectId }: { projectId?: string }) {
             setNotice('Saved project and reviews reloaded.');
           })}>{tr('Reload saved project and reviews')}</button>
         </div>
-        {projectId === undefined && <p role="alert">{tr('Open an AI Content Services project in the workspace, then choose Open project review centre.')}</p>}
-        {saved && !supported && <p role="alert">{tr('The Review Centre currently supports AI Content Services projects only.')}</p>}
+        {projectId === undefined && <p role="alert">{tr('Open a saved service project in the workspace, then choose Open project review centre.')}</p>}
         <p role="status">{tr(busy ? 'Working...' : notice || (dirty ? 'Review edits are not saved. The handover preview uses saved reviews only.' : 'No automatic saving. Save explicitly if you want to return later.'))}</p>
         {error && <p role="alert" className="proposal-error">{tr(error)}</p>}
       </div>
-      {supported && <>
+      {saved && <>
         <h2>{saved.project.title}</h2>
         {!items.length && <p>{tr('Save practice text in the workbook first, then reload this review centre.')}</p>}
         <div className="form-group">
@@ -134,13 +133,13 @@ export function ProjectReviewCentre({ projectId }: { projectId?: string }) {
           <pre className="project-portfolio-preview" tabIndex={0} data-review-source>{source.body}</pre>
           <p>{tr('For every non-pending check, add observations. Needs correction also requires a task. Mark a task addressed only with written correction evidence; this does not change the review status or any test outcome.')}</p>
           {checks.map((check, index) => <fieldset key={check.id} disabled={busy}>
-            <legend>{tr(contentReviewChecks[index].label)}</legend>
-            <p>{tr(contentReviewChecks[index].instruction)}</p>
+            <legend>{tr(definitions[index].label)}</legend>
+            <p>{tr(definitions[index].instruction)}</p>
             <div className="form-group">
               <label htmlFor={`review-${check.id}-status`}>{tr('Self-review status')}</label>
               <select id={`review-${check.id}-status`} value={check.status} onChange={(event) => {
                 const status = reviewStatuses.find((status) => status === event.target.value);
-                if (status) edit(index, { status });
+                if (status) edit(index, { status, ...(status === 'needs-work' ? {} : { done: false }) });
               }}>{reviewStatuses.map((status) => <option key={status} value={status}>{tr(reviewStatusLabels[status])}</option>)}</select>
             </div>
             {(['notes', 'task', 'resolution'] as const).map((key) => <div className="form-group" key={key}>
@@ -150,7 +149,8 @@ export function ProjectReviewCentre({ projectId }: { projectId?: string }) {
                 onChange={(event) => edit(index, { [key]: event.target.value })} />
             </div>)}
             <label className="project-check">
-              <input type="checkbox" checked={check.done} onChange={(event) => edit(index, { done: event.target.checked })} />
+              <input type="checkbox" checked={check.done} disabled={check.status !== 'needs-work' || !check.task.trim() || !check.resolution.trim()}
+                onChange={(event) => edit(index, { done: event.target.checked })} />
               <span>{tr('I recorded this correction as addressed, with evidence above. This is my statement, not verification.')}</span>
             </label>
           </fieldset>)}
@@ -164,7 +164,7 @@ export function ProjectReviewCentre({ projectId }: { projectId?: string }) {
             <p>{tr(textReviewState(saved.project, review))}</p>
             <p>{tr('Review saved at')}: {review.savedAt}</p>
             {review.checks.map((check, index) => <div key={check.id}>
-              <strong>{tr(contentReviewChecks[index].label)}: {tr(reviewStatusLabels[check.status])}</strong>
+              <strong>{tr(definitions[index]?.label ?? check.id)}: {tr(reviewStatusLabels[check.status])}</strong>
               <p className="project-portfolio-preview">{check.notes || tr('[TO CONFIRM]')}</p>
               {check.task.trim() && <>
                 <p className="project-portfolio-preview">{tr('Correction task')}: {check.task}</p>

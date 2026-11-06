@@ -59,7 +59,8 @@ export function readEvidenceWorkbook(value: unknown): EvidenceWorkbook {
 }
 
 export function appendWorkbookRevision(
-  workbook: EvidenceWorkbook, itemId: string | null, title: string, body: string, savedAt: string
+  workbook: EvidenceWorkbook, itemId: string | null, title: string, body: string, savedAt: string,
+  reservedItemIds: readonly string[] = []
 ): EvidenceWorkbook {
   const valid = readEvidenceWorkbook(workbook);
   if (!title.trim() || !body.trim()) throw new Error('Add a title and practice text before saving a revision.');
@@ -70,8 +71,10 @@ export function appendWorkbookRevision(
   if (item && item.revisions.length >= workbookRevisionLimit) throw new Error('Revision limit reached. Export this item and start a separate item; old revisions are never removed automatically.');
   const latest = item?.revisions.at(-1);
   if (latest?.title === title.trim() && latest.body === body) throw new Error('This revision is unchanged. Edit the title or text before saving another.');
+  const reserved = new Set(reservedItemIds);
   const id = item?.id ?? Array.from({ length: workbookItemLimit }, (_, index) => `item-${index + 1}`)
-    .find((candidate) => !valid.items.some((item) => item.id === candidate))!;
+    .find((candidate) => !reserved.has(candidate) && !valid.items.some((item) => item.id === candidate));
+  if (!id) throw new Error('All workbook item identifiers are retained by saved reviews. Delete an archived review before adding another item.');
   const revision: WorkbookRevision = { number: (item?.revisions.length ?? 0) + 1, title: title.trim(), body, savedAt };
   return readEvidenceWorkbook({
     version: 1,
