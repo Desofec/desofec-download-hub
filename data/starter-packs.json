@@ -194,5 +194,12 @@
     "description": "An adult workshop brief, original lesson plan, checked rubric and accessible delivery checklist.",
     "level": "Beginner",
     "file": "downloads/ai-education-services-kit.md"
+  },
+  {
+    "id": "ai-video-business-kit",
+    "title": "AI Video Creation for Business Kit",
+    "description": "Three short-form video briefs, script and caption worksheets, seven evidence checks and a private service handover.",
+    "level": "Beginner",
+    "file": "downloads/ai-video-business-kit.md"
   }
 ]

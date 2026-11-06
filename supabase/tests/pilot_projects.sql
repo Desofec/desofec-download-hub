@@ -1,4 +1,4 @@
--- Isolated database only, after 0011_pilot_projects.sql.
+-- Isolated database only, after migrations 0011 and 0012.
 -- Fixtures and helper functions are rolled back; never run against live data.
 begin;
 insert into auth.users (id) values
@@ -113,6 +113,30 @@ begin
       )))), 2) = 3;
   assert (select document->'reviewCentre'->'reviews'->0->'source'->>'body'
     from public.pilot_projects where id = _id) = 'Original practice text';
+end $$;
+
+-- The video track retains text-only reviews under the same owner/version rules.
+do $$
+declare
+  _id uuid := 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa';
+  _document jsonb;
+begin
+  select document into _document from public.pilot_projects where id = _id;
+  _document := _document || '{"pathId":"ai-video-business"}'::jsonb;
+  _document := jsonb_set(_document, '{reviewCentre,reviews,0,checks}', (
+    select jsonb_agg(jsonb_build_object(
+      'id', id, 'status', 'pending', 'notes', '', 'task', '', 'resolution', '', 'done', false
+    ) order by position)
+    from unnest(array['facts', 'exports', 'captions', 'rights', 'revision', 'costs', 'approval'])
+      with ordinality as checks(id, position)
+  ));
+  assert public.save_pilot_project(_id, _document, 3) = 4;
+  assert (select document->>'pathId' from public.pilot_projects where id = _id) = 'ai-video-business';
+  assert (select document->'reviewCentre'->'reviews'->0->'source'->>'body'
+    from public.pilot_projects where id = _id) = 'Original practice text';
+  perform public._test_pilot_error(format(
+    'select public.save_pilot_project(%L, %L::jsonb, 3)', _id, _document),
+    'Account project changed');
 end $$;
 
 select set_config('request.jwt.claim.sub', '33333333-3333-4333-8333-333333333333', true);

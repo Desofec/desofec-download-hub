@@ -124,5 +124,11 @@
     "name": "Offer AI education services",
     "description": "Design an original adult workshop with a checked answer key, accessible materials and a bounded offer.",
     "badge": "Education"
+  },
+  {
+    "id": "create-business-videos",
+    "name": "Create AI videos for business",
+    "description": "Create short-form business videos with checked scripts, captions, asset permissions and a clear handover.",
+    "badge": "Business"
   }
 ]

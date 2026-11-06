@@ -21,7 +21,8 @@ insert into public.goals (id, name, description, badge, position) values
   ('offer-content-services', 'Offer AI content services', 'Prepare a checked content package, manage revisions and scope an honest client service.', 'Business', 17),
   ('offer-cad-services', 'Offer AI + CAD concept services', 'Prepare non-functional concept views with checked dimensions, licensing boundaries and review evidence.', 'Design', 18),
   ('validate-micro-saas', 'Validate a micro-SaaS idea', 'Investigate a recurring problem, test a local prototype and review demand before building subscriptions.', 'Business', 19),
-  ('offer-education-services', 'Offer AI education services', 'Design an original adult workshop with a checked answer key, accessible materials and a bounded offer.', 'Education', 20)
+  ('offer-education-services', 'Offer AI education services', 'Design an original adult workshop with a checked answer key, accessible materials and a bounded offer.', 'Education', 20),
+  ('create-business-videos', 'Create AI videos for business', 'Create short-form business videos with checked scripts, captions, asset permissions and a clear handover.', 'Business', 21)
 on conflict (id) do update set name = excluded.name, description = excluded.description, badge = excluded.badge, position = excluded.position;
 
 insert into public.tools (id, name, category, skill, description, badge, url, position) values
@@ -100,7 +101,8 @@ insert into public.starter_packs (id, title, description, level, file_path, posi
   ('ai-content-services-kit', 'AI Content Services Kit', 'A fictional bakery brief, claim ledger, revision log and content-service handover worksheet.', 'Beginner', 'downloads/ai-content-services-kit.md', 24),
   ('ai-cad-services-kit', 'AI + CAD Concept Services Kit', 'Concept-only dimensions, revision checks, licensing boundaries and a traceable handover worksheet.', 'Beginner', 'downloads/ai-cad-services-kit.md', 25),
   ('micro-saas-validation-kit', 'Micro-SaaS Validation Kit', 'Problem evidence, a local prototype specification, five boundary tests and a validation decision worksheet.', 'Beginner', 'downloads/micro-saas-validation-kit.md', 26),
-  ('ai-education-services-kit', 'AI Education Services Kit', 'An adult workshop brief, original lesson plan, checked rubric and accessible delivery checklist.', 'Beginner', 'downloads/ai-education-services-kit.md', 27)
+  ('ai-education-services-kit', 'AI Education Services Kit', 'An adult workshop brief, original lesson plan, checked rubric and accessible delivery checklist.', 'Beginner', 'downloads/ai-education-services-kit.md', 27),
+  ('ai-video-business-kit', 'AI Video Creation for Business Kit', 'Three short-form video briefs, script and caption worksheets, seven evidence checks and a private service handover.', 'Beginner', 'downloads/ai-video-business-kit.md', 28)
 on conflict (id) do update set title = excluded.title, description = excluded.description, level = excluded.level, file_path = excluded.file_path, position = excluded.position;
 
 insert into public.paths (id, title, level, description, badge, goal_id, steps, position) values
@@ -133,7 +135,8 @@ insert into public.paths (id, title, level, description, badge, goal_id, steps, 
   ('ai-content-services', 'AI Content Services', 'Beginner', 'Create a fictional client content package, check claims and permissions, manage revisions and plan delivery.', 'Business', 'offer-content-services', array['Agree on a content brief', 'Draft and verify a content package', 'Manage one revision round', 'Scope, cost and deliver the service']::text[], 26),
   ('ai-cad-services', 'AI + CAD Concept Services', 'Beginner', 'Prepare a non-functional display-card concept with consistent dimensions, versioned views and clear exclusions.', 'Design', 'offer-cad-services', array['Define concept-only boundaries', 'Sketch and check dimensions', 'Model or document a paper alternative', 'Review revisions and hand over concept evidence']::text[], 27),
   ('micro-saas-validation', 'Micro-SaaS Validation', 'Beginner', 'Validate a narrow problem with a local-only formatter prototype, boundary tests and honest user evidence.', 'Business', 'validate-micro-saas', array['Gather problem evidence', 'Specify and prototype a tiny service', 'Test boundaries and cost assumptions', 'Observe use and decide before launch']::text[], 28),
-  ('ai-education-services', 'AI Education Services', 'Beginner', 'Prepare an original adult workshop with source-checked materials, a practice rubric and accessible delivery.', 'Education', 'offer-education-services', array['Define an adult learning objective', 'Create original materials and a checked key', 'Rehearse and review accessibility', 'Scope the workshop and improve from evidence']::text[], 29)
+  ('ai-education-services', 'AI Education Services', 'Beginner', 'Prepare an original adult workshop with source-checked materials, a practice rubric and accessible delivery.', 'Education', 'offer-education-services', array['Define an adult learning objective', 'Create original materials and a checked key', 'Rehearse and review accessibility', 'Scope the workshop and improve from evidence']::text[], 29),
+  ('ai-video-business', 'AI Video Creation for Business', 'Beginner', 'Learn to create short-form videos with AI support: plan three business videos, write scripts, edit captions and review a private practice package.', 'Business', 'create-business-videos', array['Plan short-form business videos', 'Write AI-assisted video scripts and storyboards', 'Edit videos and check captions', 'Review permissions, revisions and handover']::text[], 30)
 on conflict (id) do update set title = excluded.title, level = excluded.level, description = excluded.description, badge = excluded.badge, goal_id = excluded.goal_id, steps = excluded.steps, position = excluded.position;
 
 insert into public.recommendations (goal_id, title, summary, steps) values
@@ -157,6 +160,7 @@ insert into public.recommendations (goal_id, title, summary, steps) values
   ('research-ai', 'Research Prompting Path', 'Use AI to narrow research questions, organize evidence and draft synthesis, while verifying original sources and every citation yourself.', array['Focus a research question', 'Find real sources', 'Compare evidence and limitations', 'Verify and cite the final brief']::text[]),
   ('ai-education', 'AI for Teachers and Students Path', 'Use AI for lesson planning, tutoring and practice without sharing personal student data or handing over human judgement and learning.', array['Set privacy and course rules', 'Plan a lesson or study with a tutor', 'Create and review practice', 'Reflect on and disclose AI use']::text[]),
   ('ai-small-business', 'Small Business Content Path', 'Start with real customer evidence, draft useful content and check every claim before sharing.', array['Define an offer and research customer needs', 'Draft a truthful product description', 'Create a checked FAQ', 'Plan, review and measure a small campaign']::text[]),
+  ('create-business-videos', 'Create Short-Form Videos with AI for Business', 'Plan three fictional business videos, write scripts and captions, check finished exports and prepare an honest service offer. AI generation is optional; no views, sales or client approval are promised.', array['Plan short-form business videos', 'Write AI-assisted video scripts and storyboards', 'Edit videos and check captions', 'Review permissions, revisions and handover']::text[]),
   ('ai-career', 'Career Skills Path', 'Use real experience to prepare applications and interview practice, then plan a manageable skill-building project.', array['Match a role to real evidence', 'Tailor a resume and cover letter', 'Practise interview answers', 'Track applications and choose a learning goal']::text[])
 on conflict (goal_id) do update set title = excluded.title, summary = excluded.summary, steps = excluded.steps;
 
@@ -273,6 +277,9 @@ insert into public.recommendation_tools (goal_id, tool_id, position) values
   ('ai-small-business', 'tally', 2),
   ('ai-small-business', 'canva', 3),
   ('ai-small-business', 'hubspot-breeze', 4),
+  ('create-business-videos', 'canva', 0),
+  ('create-business-videos', 'runway', 1),
+  ('create-business-videos', 'chatgpt', 2),
   ('ai-career', 'chatgpt', 0),
   ('ai-career', 'claude', 1),
   ('ai-career', 'teal', 2),
@@ -323,6 +330,8 @@ insert into public.recommendation_starters (goal_id, pack_id, position) values
   ('ai-education', 'ai-prompt-pack', 1),
   ('ai-small-business', 'ai-small-business-kit', 0),
   ('ai-small-business', 'ai-prompt-pack', 1),
+  ('create-business-videos', 'ai-video-business-kit', 0),
+  ('create-business-videos', 'ai-video-creation-kit', 1),
   ('ai-career', 'ai-career-skills-kit', 0),
   ('ai-career', 'ai-prompt-pack', 1)
 on conflict (goal_id, pack_id) do update set position = excluded.position;

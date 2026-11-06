@@ -8,7 +8,7 @@ export const projectLimit = 10;
 export const projectByteLimit = 1000000;
 export const servicePathIds = [
   'ai-automation-services', 'ai-content-services', 'ai-cad-services',
-  'micro-saas-validation', 'ai-education-services'
+  'micro-saas-validation', 'ai-education-services', 'ai-video-business'
 ] as const;
 export type ServicePathId = typeof servicePathIds[number];
 export const projectBriefFields = [

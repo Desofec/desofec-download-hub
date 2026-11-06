@@ -16,7 +16,12 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;
   const tutorial = hosted.find((entry) => entry.pathId === id);
-  return tutorial ? { title: tutorial.title, description: tutorial.intro } : { title: 'Tutorial' };
+  return tutorial ? {
+    title: tutorial.title, description: tutorial.intro,
+    alternates: { canonical: tutorial.href },
+    openGraph: { title: tutorial.title, description: tutorial.intro, url: tutorial.href },
+    twitter: { card: 'summary_large_image', title: tutorial.title, description: tutorial.intro }
+  } : { title: 'Tutorial' };
 }
 
 export default async function TutorialPage({ params }: { params: Promise<{ id: string }> }) {
@@ -40,6 +45,11 @@ export default async function TutorialPage({ params }: { params: Promise<{ id: s
           title={tutorial.title}
         />
         <div className="cta-row">
+          {id === 'ai-video-creation' && (
+            <Link className="btn btn-primary" href="/paths/ai-video-business">
+              <Tr>AI Video Creation for Business</Tr>
+            </Link>
+          )}
           {tutorial.serviceKitId && (
             <>
               <Link className="btn btn-secondary" href={`/business-launchpad/projects?path=${encodeURIComponent(tutorial.pathId)}`}>

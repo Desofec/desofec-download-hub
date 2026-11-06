@@ -107,7 +107,7 @@ test('content reviews strictly validate checks, copied source identity, limits a
   assert.equal(replaced.reviews.length, 2);
   assert.equal(replaced.reviews[1].itemId, 'item-2');
   assert.equal(replaced.reviews[1].checks[0].status, 'needs-work');
-  for (const pathId of ['ai-content-services', 'ai-automation-services', 'ai-cad-services', 'micro-saas-validation', 'ai-education-services']) {
+  for (const pathId of ['ai-content-services', 'ai-automation-services', 'ai-cad-services', 'micro-saas-validation', 'ai-education-services', 'ai-video-business']) {
     const serviceProject = newPilotProject(projectId, pathId, pathId);
     serviceProject.workbook = appendWorkbookRevision({ version: 1, items: [] }, null, 'Service draft', 'SELF_REVIEW_SERVICE_CANARY', workbookTime);
     const serviceChecks = emptyReviewChecks(pathId);
@@ -560,11 +560,11 @@ test('guided portfolio uses unchanged project serialization and has translated i
   }
 });
 
-test('four service journeys define distinct required plans without invented evidence or changed schemas', async () => {
+test('service journeys define distinct required plans without invented evidence or changed schemas', async () => {
   const { serviceJourneys, serviceJourneyTests, serviceProjectJourney, serviceJourneyCoverage } =
     await loadContent('../lib/service-project-journeys.ts', journeyImports);
   const { readPilotProject } = await loadContent('../lib/pilot-projects.ts', projectImports);
-  const counts = { 'ai-automation-services': 9, 'ai-cad-services': 5, 'micro-saas-validation': 8, 'ai-education-services': 5 };
+  const counts = { 'ai-automation-services': 9, 'ai-cad-services': 5, 'micro-saas-validation': 8, 'ai-education-services': 5, 'ai-video-business': 7 };
   const allCodes = new Set();
   for (const [pathId, definition] of Object.entries(serviceJourneys)) {
     const project = await contentProjectFixture();
@@ -718,7 +718,7 @@ test('service portfolios preserve decisions, missing coverage, privacy and optio
   assert.deepEqual(serviceProjectJourney(content), contentJourney(content), 'existing content behavior is unchanged');
 });
 
-test('project schema supports five tracks, validates all nested drafts and rejects malformed data', async () => {
+test('project schema supports all service tracks, validates all nested drafts and rejects malformed data', async () => {
   const { newPilotProject, readPilotProject, servicePathIds } = await loadContent('../lib/pilot-projects.ts', projectImports);
   for (const id of servicePathIds) {
     const project = newPilotProject(projectId, id, ' Fictional pilot ');
@@ -908,6 +908,7 @@ test('service intents select their distinct recommendations in four languages', 
   const { matchGoals } = await loadContent('../lib/idea-planner.ts');
   for (const [goal, ideas] of [
     ['offer-content-services', ['content agency', 'agence de contenu', 'content-agentur', 'agencia de contenido']],
+    ['create-business-videos', ['AI video editing', 'vidéo entreprise', 'ki-video', 'video empresarial']],
     ['offer-cad-services', ['cad service', 'service cao', 'cad-dienstleistung', 'servicio cad']],
     ['validate-micro-saas', ['validate micro-saas', 'valider saas', 'saas validieren', 'validar saas']],
     ['offer-education-services', ['adult workshop', 'atelier pour adultes', 'ki-schulung', 'taller para adultos']]
@@ -915,6 +916,44 @@ test('service intents select their distinct recommendations in four languages', 
     for (const idea of ideas) assert.equal(matchGoals(idea)[0]?.goalId, goal, idea);
   }
   assert.equal(matchGoals('automation agency')[0]?.goalId, 'start-ai-business');
+});
+
+test('business video lessons and evidence plans keep measurable exports, honest alternatives and publication boundaries', async () => {
+  const { videoBusinessSteps } = await loadContent('../lib/video-business-tutorial.ts');
+  const { workbookStarters } = await loadContent('../lib/evidence-workbook.ts');
+  const { serviceJourneys, serviceJourneyTests } = await loadContent('../lib/service-project-journeys.ts', journeyImports);
+  const { checksForService } = await loadContent('../lib/project-review.ts', projectImports);
+  assert.equal(videoBusinessSteps.length, 6);
+  assert.equal(new Set(videoBusinessSteps.map((step) => step.id)).size, 6);
+  for (const step of videoBusinessSteps) {
+    assert.ok(step.id.startsWith('video-business-'));
+    assert.ok(step.title && step.file && step.code && step.check && step.aiPrompt);
+    assert.equal(step.explanation.length, 2);
+  }
+  const copy = JSON.stringify(videoBusinessSteps);
+  assert.match(copy, /15-30 seconds inclusive/);
+  assert.match(copy, /1080 x 1920/);
+  assert.match(copy, /storyboard alone is not a finished video/i);
+  assert.match(copy, /EUR 100/);
+  assert.match(copy, /not a market rate/i);
+  assert.match(copy, /caption[s]? word by word/);
+  assert.match(copy, /owner approval stays blocked/);
+  const plans = serviceJourneyTests('ai-video-business', (text) => text);
+  assert.deepEqual(plans.map((test) => test.name.match(/\[(.*?)\]/)[1]),
+    Array.from({ length: 7 }, (_, index) => `VIDEO-${index + 1}`));
+  assert.match(plans[1].expected, /15-30 seconds inclusive and 1080 x 1920/);
+  assert.match(plans[1].expected, /cannot establish an export pass/);
+  assert.match(plans[6].expected, /blocked, never assumed passed/);
+  assert.deepEqual(serviceJourneys['ai-video-business'].proposalFields, ['dataHandling', 'timeline']);
+  assert.equal(checksForService('ai-video-business').length, 7);
+  assert.match(workbookStarters['ai-video-business'].text, /Storyboards are not finished videos/);
+  for (const locale of ['fr', 'de', 'es']) {
+    const book = JSON.parse(await readFile(new URL(`../content/translations/ui-${locale}.json`, import.meta.url), 'utf8'));
+    for (const text of Object.values(workbookStarters['ai-video-business'])) assert.ok(book[text], `${locale}: missing video starter`);
+    for (const { label, instruction } of checksForService('ai-video-business')) {
+      assert.ok(book[label] && book[instruction], `${locale}: missing video review ${label}`);
+    }
+  }
 });
 
 test('all three practical tutorials have complete translations without changing progress IDs', async () => {

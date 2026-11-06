@@ -2,6 +2,7 @@ export type GoalMatch = { goalId: string; score: number };
 
 // Keywords per goal in English, French, German and Spanish. Matching is local and needs no AI service.
 const keywords: Record<string, string[]> = {
+  'create-business-videos': ['business video', 'ai video', 'short-form video', 'short form video', 'video script', 'video editing', 'video captions', 'vidéo entreprise', 'vidéo ia', 'montage vidéo', 'unternehmensvideo', 'ki-video', 'videobearbeitung', 'video empresarial', 'vídeo ia', 'edición de vídeo'],
   'offer-content-services': ['content service', 'content agency', 'sell content', 'agence de contenu', 'service de contenu', 'content-agentur', 'content-dienstleistung', 'agencia de contenido', 'servicio de contenido'],
   'offer-cad-services': ['cad service', 'cad concept', 'service cao', 'concept cao', 'cad-dienstleistung', 'cad-konzept', 'servicio cad', 'concepto cad'],
   'validate-micro-saas': ['micro-saas', 'micro saas', 'validate saas', 'valider saas', 'saas validieren', 'validar saas'],

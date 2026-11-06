@@ -368,6 +368,18 @@
       "Plan, review and measure a small campaign"
     ]
   },
+  "create-business-videos": {
+    "title": "Create Short-Form Videos with AI for Business",
+    "summary": "Plan three fictional business videos, write scripts and captions, check finished exports and prepare an honest service offer. AI generation is optional; no views, sales or client approval are promised.",
+    "tools": ["canva", "runway", "chatgpt"],
+    "starters": ["ai-video-business-kit", "ai-video-creation-kit"],
+    "steps": [
+      "Plan short-form business videos",
+      "Write AI-assisted video scripts and storyboards",
+      "Edit videos and check captions",
+      "Review permissions, revisions and handover"
+    ]
+  },
   "ai-career": {
     "title": "Career Skills Path",
     "summary": "Use real experience to prepare applications and interview practice, then plan a manageable skill-building project.",

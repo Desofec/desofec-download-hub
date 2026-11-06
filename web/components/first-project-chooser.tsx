@@ -10,6 +10,7 @@ import type { ServicePathId } from '@/lib/pilot-projects';
 
 const choices: { id: ServicePathId; label: string }[] = [
   { id: 'ai-content-services', label: 'Create a writing/content service package (Recommended)' },
+  { id: 'ai-video-business', label: 'Create short-form AI videos for business' },
   { id: 'ai-automation-services', label: 'Explore an administrative automation service' },
   { id: 'ai-cad-services', label: 'Prepare a concept-only CAD service' },
   { id: 'micro-saas-validation', label: 'Validate a small software idea' },

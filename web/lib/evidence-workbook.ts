@@ -108,6 +108,10 @@ export function workbookLinkState(item: WorkbookItem, link: WorkbookTestLink, te
 }
 
 export const workbookStarters: Record<ServicePathId, { title: string; text: string }> = {
+  'ai-video-business': {
+    title: 'Business video scripts, captions and review ledger',
+    text: 'FICTIONAL PRACTICE - NOT APPROVED FOR PUBLICATION.\n\nThree topics: visit / products / counter collection.\n\nFor each: script / timed storyboard / caption text / asset permissions.\n\nActual export duration (15-30 seconds) / resolution (1080 x 1920) / phone and sound-off checks:\n\nv1 / v2 changes / reopened exports / unknown price excluded:\n\nTool terms / actual time / vendor costs / unknowns:\n\nOwner approval: BLOCKED without real evidence. Storyboards are not finished videos.'
+  },
   'ai-content-services': {
     title: 'Content drafts and claim ledger',
     text: 'Fictional practice only - not approved for publication.\n\nPost 1 (40-60 words):\n\nPost 2 (40-60 words):\n\nPost 3 (40-60 words):\n\nFour FAQ answers (flag unknown allergens/prices):\n\nClaim / source fact / unknown:\n\nAsset permission and text alternative:\n\nRevision request / change / remaining review:'
