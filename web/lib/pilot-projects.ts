@@ -4,6 +4,7 @@ import { readEvidenceWorkbook, type EvidenceWorkbook } from '@/lib/evidence-work
 import { readProjectReviewCentre, type ProjectReviewCentre } from '@/lib/project-review';
 import { automationScenarioLabels, isAutomationScenario, type AutomationScenario } from '@/lib/automation-projects';
 import { readCaseStudy, type CaseStudy } from '@/lib/case-study';
+import { readDiscovery, type DiscoveryDraft } from '@/lib/client-discovery';
 
 export const projectStoragePrefix = 'desofec:pilot-project:v1:';
 export const projectLimit = 10;
@@ -39,6 +40,7 @@ export type PilotProject = {
   workbook?: EvidenceWorkbook;
   reviewCentre?: ProjectReviewCentre;
   caseStudy?: CaseStudy;
+  discovery?: DiscoveryDraft;
 };
 export type StoredProject = {
   project: PilotProject;
@@ -90,7 +92,8 @@ export function readPilotProject(raw: string): PilotProject {
     results: value.results === null ? null : readPilotResults(JSON.stringify(value.results)),
     ...('workbook' in value ? { workbook: readEvidenceWorkbook(value.workbook) } : {}),
     ...('reviewCentre' in value ? { reviewCentre: readProjectReviewCentre(value.reviewCentre, value.pathId as ServicePathId) } : {}),
-    ...('caseStudy' in value ? { caseStudy: readCaseStudy(value.caseStudy) } : {})
+    ...('caseStudy' in value ? { caseStudy: readCaseStudy(value.caseStudy) } : {}),
+    ...('discovery' in value ? { discovery: readDiscovery(value.discovery) } : {})
   };
 }
 
@@ -156,7 +159,7 @@ export function deleteProject(storage: Storage, id: string, expectedRevision: nu
   storage.removeItem(projectStoragePrefix + id);
 }
 
-export function saveProjectPart<K extends 'proposal' | 'results' | 'workbook' | 'reviewCentre' | 'caseStudy'>(
+export function saveProjectPart<K extends 'proposal' | 'results' | 'workbook' | 'reviewCentre' | 'caseStudy' | 'discovery'>(
   storage: Storage, id: string, key: K, value: PilotProject[K], expectedPart: string
 ) {
   const saved = loadProject(storage, id);

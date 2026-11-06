@@ -130,5 +130,11 @@
     "name": "Create AI videos for business",
     "description": "Create short-form business videos with checked scripts, captions, asset permissions and a clear handover.",
     "badge": "Business"
+  },
+  {
+    "id": "scope-freelance-project",
+    "name": "Scope a freelance project",
+    "description": "Understand a client's problem, check project fit and prepare a bounded scope without inventing agreement.",
+    "badge": "Business"
   }
 ]

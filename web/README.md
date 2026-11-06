@@ -267,6 +267,35 @@ Migration 0011 retains optional review JSON; business-video account projects add
 Account upload consent explicitly includes copied review text. Reload all tabs after deployment;
 older app versions must not edit review-bearing projects because they do not retain this field.
 
+### Freelance client discovery and project scoping
+
+The `freelance-client-discovery` learning path has six stable tutorial tasks and a separate
+five-item kit checklist. It is shared preparation for the seven service project types, not
+an eighth project type. The public `/business-launchpad/client-discovery-lab` uses fixed fictional
+answers and temporary React state only; no AI conversation, outreach, storage write or upload.
+The private/noindex `/business-launchpad/client-discovery?project=<uuid>` requires explicit reload.
+
+Optional `discovery` JSON stores eight brief fields, six tri-state fit checks, evidence notes
+and five proposed-change fields, each text capped at 2,000 characters. Legacy projects omit it.
+Part saves preserve other project fields and reject stale edits/deleted projects under the
+existing Web Lock. No fit choice completes milestones or test evidence. Any No/Unknown,
+missing brief text or empty evidence keeps fit paused; even a complete self-check only permits
+continuing scoping, not accepting work. Changes always remain proposed, not accepted.
+
+The proposal tool's **Start from saved discovery** requires reload and replacement confirmation.
+It reads current saved discovery and copies scope fields only, leaves all money blank and clears
+generated text/source. It does not save or apply proposed changes. Unknowns and fit decisions
+remain in discovery and must be reviewed alongside the proposal. Explicit proposal saves retain
+existing part-level conflict checks. Discovery exports require sensitive-data acknowledgement
+and reject changed discovery; unrelated costs, results, proposals, workbook and reviews are omitted.
+
+Run the regenerated seed for the new goal/path/kit. No new SQL migration is required: account RPCs
+already retain optional project JSON. Existing spreadsheet projects still require migration 0013.
+Account consent covers discovery. Device/account/downloaded copies and imported proposal text
+must be deleted separately. Reload old tabs after deployment; older app versions cannot retain
+the new field when editing snapshots. Lessons and worksheet are English; lab/interface and catalog
+have French, German and Spanish translations.
+
 ### Freelance portfolio and case study builder
 
 The public `/business-launchpad/freelance-portfolio` landing page explains the workflow.

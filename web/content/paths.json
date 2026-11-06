@@ -424,5 +424,19 @@
       "Review permissions, revisions and handover"
     ],
     "goal": "create-business-videos"
+  },
+  {
+    "id": "freelance-client-discovery",
+    "title": "Freelance Client Discovery & Project Scoping",
+    "level": "Beginner",
+    "description": "Practise client discovery questions, project-fit checks, bounded scope and proposed changes before preparing a service proposal.",
+    "badge": "Business",
+    "steps": [
+      "Separate client facts from assumptions",
+      "Define deliverables and acceptance checks",
+      "Review skills, permissions and project fit",
+      "Propose controlled scope changes"
+    ],
+    "goal": "scope-freelance-project"
   }
 ]

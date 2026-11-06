@@ -1,4 +1,16 @@
 {
+  "scope-freelance-project": {
+    "title": "Freelance Client Discovery & Project Scoping",
+    "summary": "Ask neutral questions, check evidence and define a bounded scope before drafting an offer. Practice does not approve real work.",
+    "tools": ["google-sheets"],
+    "starters": ["freelance-client-discovery-kit"],
+    "steps": [
+      "Separate client facts from assumptions",
+      "Define deliverables and acceptance checks",
+      "Review skills, permissions and project fit",
+      "Propose controlled scope changes"
+    ]
+  },
   "offer-content-services": {
     "title": "AI Content Services",
     "summary": "Create a fictional client content package, check claims and permissions, manage revisions and plan delivery.",
