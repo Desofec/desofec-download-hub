@@ -41,6 +41,7 @@ export default async function BusinessLaunchpadPage() {
             <Link className="btn btn-primary" href="/paths/ai-automation-services"><Tr>AI Workflow Automation for Small Business</Tr></Link>
             <Link className="btn btn-secondary" href="/business-launchpad/automation-lab"><Tr>Open the no-send automation practice lab</Tr></Link>
             <Link className="btn btn-primary" href="/business-launchpad/first-project"><Tr>Complete your first practice project</Tr></Link>
+            <Link className="btn btn-secondary" href="/business-launchpad/feedback-guide"><Tr>Open practice feedback guide</Tr></Link>
             <Link className="btn btn-primary" href="/business-launchpad/projects"><Tr>Open the Pilot Project Workspace</Tr></Link>
             <Link className="btn btn-primary" href="/tutorials/ai-automation-services"><Tr>Start the automation service tutorial</Tr></Link>
             <Link className="btn btn-secondary" href="/starter-packs/ai-automation-services-kit"><Tr>Open the pilot kit</Tr></Link>

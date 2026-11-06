@@ -31,6 +31,17 @@ publication or digest emails are enabled. See
 [`docs/ai-digest-editorial.md`](../docs/ai-digest-editorial.md) for owner review,
 corrections and future automation instructions. No Supabase setup is needed.
 
+## Practice project feedback guide
+
+`/business-launchpad/feedback-guide` helps learners draft a bounded request and
+turn actual feedback into a revision plan, linking back to the existing project
+workspace and review centre. It does not store, send, upload or automatically
+apply text. The request and revision plan have separate previews and downloads;
+neither claims client approval or independent verification. The blank worksheet
+is maintained in `downloads/practice-feedback-worksheet.md` and copied to
+`web/public/downloads` by `npm run sync-content`. No migration or seed update
+is required. Edits are lost on reload/navigation; downloaded copies are separate.
+
 ## Connect Supabase
 
 1. Create a Supabase project.

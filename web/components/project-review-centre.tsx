@@ -80,6 +80,7 @@ export function ProjectReviewCentre({ projectId }: { projectId?: string }) {
         <p>{tr('Self-review only. Record your own observations; the app does not inspect external files, verify quality or grant client approval. Use fictional or anonymised practice material.')}</p>
         <p>{tr('Save explicitly. Each text item keeps one saved review; replacing it requires confirmation. Reviews retain a copy of the reviewed text even if the workbook item is deleted. Account upload includes reviews and copied text only after workspace consent.')}</p>
         <div className="cta-row">
+          <a className="btn btn-secondary" href="/business-launchpad/feedback-guide" onClick={(event) => { if (!discard()) event.preventDefault(); }}>{tr('Open practice feedback guide')}</a>
           <a className="btn btn-secondary" href={`/business-launchpad/projects${query}`}>{tr('Back to project')}</a>
           <a className="btn btn-secondary" href={`/business-launchpad/evidence-workbook${query}`}>{tr('Open private evidence workbook')}</a>
           <a className="btn btn-secondary" href={`/business-launchpad/results-tracker${query}`}>{tr('Track pilot tests and results')}</a>

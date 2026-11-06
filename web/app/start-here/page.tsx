@@ -38,6 +38,7 @@ export default async function StartHerePage() {
       <li><h2><Tr>3. Explain your work</Tr></h2><p><Tr>Save a case study, select evidence and inspect every included section before exporting. Downloads remain private files until you choose to share them manually.</Tr></p></li>
     </ol>
     <ProjectCompletionDashboard />
+    <p><Link className="text-link" href="/business-launchpad/feedback-guide"><Tr>Open practice feedback guide</Tr></Link></p>
     <details className="journey-portfolio">
       <summary><Tr>Recommended-path lesson and kit checkmarks</Tr></summary>
       <p><Tr>These are your existing learning checkmarks, separate from the project dashboard. Signed-in learning progress follows existing sync rules; private project snapshots still require explicit loading and upload consent.</Tr></p>
