@@ -267,6 +267,23 @@ Migration 0011 retains optional review JSON; business-video account projects add
 Account upload consent explicitly includes copied review text. Reload all tabs after deployment;
 older app versions must not edit review-bearing projects because they do not retain this field.
 
+### Start Here and project completion dashboard
+
+`/start-here` recommends the existing fictional content-service journey, with alternatives via
+the first-project chooser. Home and header primary entry points lead here; `/onboarding` remains
+available for other learning goals. The same read-only device-project dashboard appears on
+`/my-progress`. It reuses `serviceProjectJourney`, not a new completion scheme or saved state.
+Six sequential milestone counts describe recorded practice, not verified skills. Failed, blocked,
+pending and stop/revise decisions remain visible even when all milestones are recorded.
+Case-study text status does not imply evidence verification or sharing approval.
+
+Project reads happen only after client hydration and never upload or load cloud snapshots.
+Refresh explicitly, or on browser focus/pageshow/cross-tab storage changes. Storage errors are
+shown rather than treated as zero projects. Account snapshots are explicitly loaded in the workspace.
+No new storage keys, project fields, analytics events, migration or seed are required.
+The collapsed lesson/kit panel reuses `ProgressDashboard` and its existing signed-in progress rules,
+separate from private-project milestones. Existing progress IDs, records and learning routes remain.
+
 ### Freelance client discovery and project scoping
 
 The `freelance-client-discovery` learning path has six stable tutorial tasks and a separate

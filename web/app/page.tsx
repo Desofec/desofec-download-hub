@@ -46,14 +46,14 @@ export default async function HomePage() {
       <section className="hero hero-aurora">
         <div className="container hero-grid">
           <div className="hero-copy">
-            <span className="eyebrow"><Tr>Guided AI discovery for beginners</Tr></span>
-            <h1><Tr>Learn the right tools. Build with confidence. Launch with clarity.</Tr></h1>
+            <span className="eyebrow"><Tr>Practical learning for beginners</Tr></span>
+            <h1><Tr>Learn a service. Finish a practice project. Build an honest portfolio.</Tr></h1>
             <p>
-              <Tr>Desofec AI Studio helps you discover the tools, learning paths, and starter resources that match your goals — without the confusion of too many choices.</Tr>
+              <Tr>Follow a clear route from beginner lessons to a fictional work sample, recorded evidence and a private case study. No client or income promises.</Tr>
             </p>
             <div className="cta-row">
-              <Link className="btn btn-primary" href="/onboarding">
-                <Tr>Start my path</Tr>
+              <Link className="btn btn-primary" href="/start-here">
+                <Tr>Start here</Tr>
               </Link>
               <Link className="btn btn-secondary" href="/tools">
                 <Tr>Explore tools</Tr>
