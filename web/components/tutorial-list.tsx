@@ -5,12 +5,14 @@ import { useMemo, useState } from 'react';
 import { Tr, useTr } from '@/components/tr';
 import { useLanguage } from '@/components/language';
 import { getTutorialTranslation } from '@/lib/tutorial-translations';
+import { matchesTutorialFilters, tutorialTopics, type TutorialTopic } from '@/lib/tutorial-directory';
 
 export type TutorialCardData = {
   pathId: string;
   href: string;
   title: string;
   intro: string;
+  topics: TutorialTopic[];
   time: string;
   stepCount: number;
   badge?: string;
@@ -23,21 +25,47 @@ export function TutorialList({ items }: { items: TutorialCardData[] }) {
   const language = useLanguage();
   const [query, setQuery] = useState('');
   const [level, setLevel] = useState('All');
+  const [topic, setTopic] = useState<TutorialTopic | 'all'>('all');
 
   const levels = useMemo(() => ['All', ...Array.from(new Set(items.flatMap((item) => item.level ?? [])))], [items]);
 
   const visible = useMemo(() => {
-    const needle = query.trim().toLowerCase();
     return items.filter((item) => {
-      if (level !== 'All' && item.level !== level) return false;
-      if (!needle) return true;
-      return [item.title, item.intro, item.pathTitle, item.badge].some((field) => field?.toLowerCase().includes(needle));
+      const translation = getTutorialTranslation(item.pathId, language);
+      return matchesTutorialFilters({
+        topics: item.topics,
+        level: item.level,
+        searchText: [
+          item.title, item.intro, item.pathTitle ?? '', item.badge ?? '',
+          translation?.title ?? '', translation?.intro ?? '', tr(item.intro),
+          tr(item.pathTitle ?? ''), tr(item.badge ?? ''),
+          ...item.topics.flatMap((id) => {
+            const label = tutorialTopics.find((entry) => entry.id === id)!.label;
+            return [label, tr(label)];
+          })
+        ]
+      }, query, topic, level);
     });
-  }, [items, query, level]);
+  }, [items, query, topic, level, language, tr]);
 
   return (
     <div>
+      <p><Tr>Filter by topic, level or a search word. Some lesson descriptions remain in English; the filters follow your language.</Tr></p>
       <div className="tutorial-filters">
+        <div className="form-group">
+          <label htmlFor="tutorial-topic"><Tr>Choose a topic</Tr></label>
+          <select id="tutorial-topic" value={topic} onChange={(event) => {
+            const selected = event.target.value;
+            if (selected === 'all') setTopic('all');
+            else {
+              const entry = tutorialTopics.find((candidate) => candidate.id === selected);
+              if (entry) setTopic(entry.id);
+            }
+          }}>
+            <option value="all">{tr('All topics')}</option>
+            {tutorialTopics.map((entry) => <option key={entry.id} value={entry.id}>{tr(entry.label)}</option>)}
+          </select>
+        </div>
         <label className="sr-only" htmlFor="tutorial-search">
           <Tr>Search tutorials</Tr>
         </label>
@@ -63,6 +91,10 @@ export function TutorialList({ items }: { items: TutorialCardData[] }) {
             </button>
           ))}
         </div>
+        <button type="button" className="btn btn-secondary" disabled={!query && topic === 'all' && level === 'All'}
+          onClick={() => { setQuery(''); setTopic('all'); setLevel('All'); }}>
+          <Tr>Clear tutorial filters</Tr>
+        </button>
       </div>
       <p className="planner-note" aria-live="polite">
         <Tr values={{ shown: visible.length, total: items.length }}>{'{shown} of {total} tutorials'}</Tr>
@@ -86,6 +118,7 @@ export function TutorialList({ items }: { items: TutorialCardData[] }) {
               </span>
             </div>
             <h3>{getTutorialTranslation(tutorial.pathId, language)?.title ?? tutorial.title}</h3>
+            <p>{getTutorialTranslation(tutorial.pathId, language)?.intro || tr(tutorial.intro)}</p>
             <p>
               <Tr values={{ count: tutorial.stepCount }}>{'{count} steps'}</Tr>
               {tutorial.pathTitle && (
