@@ -41,6 +41,7 @@ export type TutorialInfo = {
   feedbackEnabled?: boolean;
   starterPackId?: string;
   toolId?: string;
+  practiceHref?: string;
 };
 
 // Older tutorials keep their original URLs. New ones live under /tutorials/<pathId>.
@@ -66,6 +67,7 @@ export const tutorials: TutorialInfo[] = [
     intro: 'Explore a platform-neutral retail model with factual product drafts, checked costs, inventory planning and customer support. Use fictional data and optional AI; no store, payments or purchases are activated.',
     time: '120 minutes',
     steps: onlineRetailSteps,
+    practiceHref: '/business-launchpad/commerce-lab?track=retail',
     starterPackId: 'ai-commerce-services-kit'
   },
   {
@@ -75,6 +77,7 @@ export const tutorials: TutorialInfo[] = [
     intro: 'Practise a multi-vendor model with seller onboarding, checked catalog drafts, commission reconciliation and moderated support. This is a spreadsheet/paper prototype, not a live marketplace or payment system.',
     time: '120 minutes',
     steps: marketplaceSteps,
+    practiceHref: '/business-launchpad/commerce-lab?track=marketplace',
     starterPackId: 'ai-commerce-services-kit'
   },
   {
@@ -84,6 +87,7 @@ export const tutorials: TutorialInfo[] = [
     intro: 'Explore storage and fulfillment services through fictional receiving, stock reservations, dispatch/return records and cost reports. AI helps explain and draft; no goods, addresses or shipments are processed.',
     time: '120 minutes',
     steps: logisticsSteps,
+    practiceHref: '/business-launchpad/commerce-lab?track=logistics',
     starterPackId: 'ai-commerce-services-kit'
   },
   {
