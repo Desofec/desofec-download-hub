@@ -7,7 +7,18 @@ import { Tr } from '@/components/tr';
 
 export const metadata: Metadata = {
   title: 'Step-by-step tutorials',
-  description: 'Hands-on beginner tutorials for AI, coding, no-code, automation, ML and design, one for every learning path.'
+  description: 'Follow hands-on beginner tutorials for AI, coding, no-code, automation, machine learning and design, with examples and checks.',
+  alternates: { canonical: '/tutorials' },
+  openGraph: {
+    title: 'Step-by-Step AI and Digital Skills Tutorials',
+    description: 'Follow beginner tutorials with practical examples and checks for AI, coding, no-code, automation and design.',
+    url: '/tutorials'
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Step-by-Step AI and Digital Skills Tutorials',
+    description: 'Follow beginner tutorials with practical examples and checks for AI, coding, no-code, automation and design.'
+  }
 };
 
 export default async function TutorialsPage() {

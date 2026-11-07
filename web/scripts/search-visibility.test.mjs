@@ -60,11 +60,39 @@ test('homepage displays learning paths rather than the separate goal count', asy
   assert.match(home, /catalog\.paths\.length/);
   assert.match(home, /<Tr>learning paths<\/Tr>/);
   assert.doesNotMatch(home, /catalog\.goals\.length/);
+  assert.match(home, /alternates: \{ canonical: '\/' \}/);
+  assert.match(home, /openGraph: \{ type: 'website', locale: 'en_US', url: '\/'/);
   const paths = JSON.parse(await readFile(new URL('../content/paths.json', import.meta.url), 'utf8'));
   const goals = JSON.parse(await readFile(new URL('../content/goals.json', import.meta.url), 'utf8'));
   assert.ok(paths.length >= 32);
   assert.ok(goals.length >= 23);
   assert.ok(paths.length > goals.length, 'learning paths and goals are distinct counts');
+});
+
+test('SEO metadata uses page-specific canonical and social URLs instead of inheriting the homepage URL', async () => {
+  const layout = await readFile(new URL('../app/layout.tsx', import.meta.url), 'utf8');
+  assert.doesNotMatch(layout, /alternates:\s*\{\s*canonical:/, 'a root canonical would be inherited by child routes');
+  assert.doesNotMatch(layout, /openGraph:\s*\{[\s\S]*?url:\s*'\/'/, 'the homepage URL must not be inherited as every page social URL');
+  for (const [file, canonical] of [
+    ['../app/tools/page.tsx', '/tools'],
+    ['../app/paths/page.tsx', '/paths'],
+    ['../app/starter-packs/page.tsx', '/starter-packs'],
+    ['../app/tutorials/page.tsx', '/tutorials'],
+    ['../app/business-launchpad/page.tsx', '/business-launchpad'],
+    ['../app/start-here/page.tsx', '/start-here']
+  ]) {
+    const source = await readFile(new URL(file, import.meta.url), 'utf8');
+    assert.ok(source.includes(`canonical: '${canonical}'`), `${file}: canonical`);
+    assert.match(source, /openGraph:\s*\{/);
+    assert.match(source, /twitter:\s*\{/);
+  }
+  for (const file of ['../app/tools/[id]/page.tsx', '../app/starter-packs/[id]/page.tsx']) {
+    const source = await readFile(new URL(file, import.meta.url), 'utf8');
+    assert.match(source, /const canonical = `\/(?:tools|starter-packs)\/\$\{encodeURIComponent\(id\)\}`/);
+    assert.match(source, /alternates:\s*\{\s*canonical\s*\}/);
+    assert.match(source, /openGraph:\s*\{/);
+    assert.match(source, /twitter:\s*\{/);
+  }
 });
 
 test('search visibility tutorial translation covers every step and public UI labels', async () => {

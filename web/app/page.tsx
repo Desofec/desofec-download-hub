@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { GoalCard, PackCard, PathCard, ToolCard } from '@/components/cards';
 import { ContinueLearning } from '@/components/continue-learning';
@@ -7,6 +8,17 @@ import { getCatalog } from '@/lib/catalog';
 import { tutorialStorageKey, tutorials } from '@/lib/tutorials';
 import { Tr } from '@/components/tr';
 import { phrase } from '@/lib/phrase-mark';
+
+const title = 'Desofec AI Studio | Learn AI and digital skills by building';
+const description = 'Explore beginner-friendly learning paths, step-by-step tutorials, AI and digital tools, and practical starter packs for building real skills.';
+
+export const metadata: Metadata = {
+  title,
+  description,
+  alternates: { canonical: '/' },
+  openGraph: { type: 'website', locale: 'en_US', url: '/', siteName: 'Desofec AI Studio', title, description },
+  twitter: { card: 'summary_large_image', title, description }
+};
 
 const steps = [
   ['01', phrase('Choose a goal'), phrase('Pick what you want to do next, like building a site, learning AI, or automating work.')],

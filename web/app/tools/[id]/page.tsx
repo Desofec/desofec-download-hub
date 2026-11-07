@@ -16,7 +16,15 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;
   const tool = (await getCatalog()).tools.find((entry) => entry.id === id);
-  return tool ? { title: tool.name, description: tool.description } : { title: 'Tool' };
+  if (!tool) return { title: 'Tool' };
+  const canonical = `/tools/${encodeURIComponent(id)}`;
+  return {
+    title: tool.name,
+    description: tool.description,
+    alternates: { canonical },
+    openGraph: { title: `${tool.name}: Tool Guide`, description: tool.description, url: canonical },
+    twitter: { card: 'summary_large_image', title: `${tool.name}: Tool Guide`, description: tool.description }
+  };
 }
 
 export default async function ToolDetailPage({ params }: { params: Promise<{ id: string }> }) {

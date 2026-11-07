@@ -5,7 +5,18 @@ import { Tr } from '@/components/tr';
 
 export const metadata: Metadata = {
   title: 'Starter packs',
-  description: 'Download starter packs and practical resource bundles for AI, no-code, coding, and productivity.'
+  description: 'Browse practical starter packs, prompts and checklists for beginner AI, coding, design, no-code and productivity projects.',
+  alternates: { canonical: '/starter-packs' },
+  openGraph: {
+    title: 'Practical AI and Digital Skills Starter Packs',
+    description: 'Browse beginner-friendly prompts, checklists and resource packs for AI, coding, design and no-code projects.',
+    url: '/starter-packs'
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Practical AI and Digital Skills Starter Packs',
+    description: 'Browse beginner-friendly prompts, checklists and resource packs for AI, coding, design and no-code projects.'
+  }
 };
 
 export default async function StarterPacksPage() {

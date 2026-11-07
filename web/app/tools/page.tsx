@@ -6,7 +6,18 @@ import { Tr } from '@/components/tr';
 
 export const metadata: Metadata = {
   title: 'Tools',
-  description: 'Explore beginner-friendly AI, coding, automation, and productivity tools.'
+  description: 'Compare beginner-friendly AI, coding, design, automation and productivity tools, then explore related learning paths and tutorials.',
+  alternates: { canonical: '/tools' },
+  openGraph: {
+    title: 'Beginner-Friendly AI and Digital Tools',
+    description: 'Compare tools for AI, coding, design, automation and productivity, with related guides and learning paths.',
+    url: '/tools'
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Beginner-Friendly AI and Digital Tools',
+    description: 'Compare tools for AI, coding, design, automation and productivity, with related guides and learning paths.'
+  }
 };
 
 export default async function ToolsPage() {

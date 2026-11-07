@@ -1018,6 +1018,7 @@ test('start here and dashboard have translated states, safe routes and no new pr
     const source = await readFile(new URL(file, import.meta.url), 'utf8');
     const ast = ts.createSourceFile(file, source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
     const visit = (node) => {
+      if (ts.isVariableDeclaration(node) && ts.isIdentifier(node.name) && node.name.text === 'metadata') return;
       if (ts.isStringLiteral(node) && /^[A-Z]/.test(node.text)) strings.add(node.text);
       if (ts.isJsxText(node) && node.parent.openingElement?.tagName.getText(ast) === 'Tr' && node.text.trim()) strings.add(node.text.trim());
       ts.forEachChild(node, visit);

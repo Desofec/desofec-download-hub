@@ -5,7 +5,18 @@ import { Tr } from '@/components/tr';
 
 export const metadata: Metadata = {
   title: 'Learning paths',
-  description: 'Explore beginner-friendly learning paths for AI, coding, no-code, and automation.'
+  description: 'Choose a beginner-friendly learning path for AI, coding, design, no-code or automation, with clear steps and practical projects.',
+  alternates: { canonical: '/paths' },
+  openGraph: {
+    title: 'Beginner-Friendly AI and Digital Skills Learning Paths',
+    description: 'Choose step-by-step paths for learning AI, coding, design, no-code and automation through practical projects.',
+    url: '/paths'
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Beginner-Friendly AI and Digital Skills Learning Paths',
+    description: 'Choose step-by-step paths for learning AI, coding, design, no-code and automation through practical projects.'
+  }
 };
 
 export default async function PathsPage() {

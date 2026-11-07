@@ -14,7 +14,15 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;
   const pack = (await getCatalog()).starterPacks.find((entry) => entry.id === id);
-  return pack ? { title: pack.title, description: pack.description } : { title: 'Starter pack' };
+  if (!pack) return { title: 'Starter pack' };
+  const canonical = `/starter-packs/${encodeURIComponent(id)}`;
+  return {
+    title: pack.title,
+    description: pack.description,
+    alternates: { canonical },
+    openGraph: { title: pack.title, description: pack.description, url: canonical },
+    twitter: { card: 'summary_large_image', title: pack.title, description: pack.description }
+  };
 }
 
 export default async function StarterPackDetailPage({ params }: { params: Promise<{ id: string }> }) {
