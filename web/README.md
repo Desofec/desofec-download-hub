@@ -111,6 +111,29 @@ development URLs there too if you test sign-in locally.
 
 ## AI Business Launchpad
 
+### AI-powered commerce and logistics learning
+
+Three platform-neutral paths share the `build-ai-commerce` goal:
+`ai-online-retail`, `ai-marketplace-model` and `ai-logistics-services`.
+Each has six lessons and links to the downloadable `ai-commerce-services-kit`.
+They teach retail, multi-vendor marketplace and logistics business models, not
+Amazon account setup. AI is optional and assists drafts, explanations and review;
+fictional worksheets supply independently checkable costs, inventory, commission,
+reservation and exception exercises. No storefront, payments, seller onboarding,
+warehouse operation, shipment, model API or external integration is activated.
+These courses do not claim to be supported Pilot Project Workspace types.
+
+Lessons/downloads are English with the existing English-content notice; catalog
+titles, descriptions, learning steps and kit checklists support French, German
+and Spanish. Tutorial, path and kit progress reuse existing tracking.
+Run `npm run sync-content` after changing the source catalog or download.
+For Supabase deployments, apply the **regenerated `supabase/seed.sql` before
+deploying** so all three paths, their goal and kit exist, including for lesson
+feedback validation. No new schema migration is required. Redeploy/refresh the
+hour-cached catalog after seeding; bundled-only deployments need no SQL.
+The catalog now contains 35 paths and still 45 tools: courses and worksheets
+are not counted as additional software tools.
+
 ### Excel data cleaning and PDF-to-Excel services
 
 The existing `ai-spreadsheets` path now supports private service projects and

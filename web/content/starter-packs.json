@@ -208,5 +208,12 @@
     "description": "Neutral discovery questions, a project-fit checklist, bounded scope and proposed change worksheets for fictional practice.",
     "level": "Beginner",
     "file": "downloads/freelance-client-discovery-kit.md"
+  },
+  {
+    "id": "ai-commerce-services-kit",
+    "title": "AI-Powered Commerce and Logistics Kit",
+    "description": "Three fictional practice tracks for online retail, marketplace operations and logistics, with AI prompts, checked results and handover worksheets.",
+    "level": "Beginner",
+    "file": "downloads/ai-commerce-services-kit.md"
   }
 ]

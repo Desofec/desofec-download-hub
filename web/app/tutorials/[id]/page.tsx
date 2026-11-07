@@ -46,6 +46,11 @@ export default async function TutorialPage({ params }: { params: Promise<{ id: s
           feedbackEnabled={tutorial.feedbackEnabled}
         />
         <div className="cta-row">
+          {tutorial.starterPackId && (
+            <Link className="btn btn-secondary" href={`/starter-packs/${tutorial.starterPackId}`}>
+              <Tr>Open the service kit</Tr>
+            </Link>
+          )}
           {id === 'freelance-client-discovery' && <>
             <Link className="btn btn-primary" href="/business-launchpad/client-discovery-lab"><Tr>Open client discovery and scoping</Tr></Link>
             <Link className="btn btn-secondary" href="/starter-packs/freelance-client-discovery-kit"><Tr>Open the service kit</Tr></Link>

@@ -1,4 +1,17 @@
 {
+  "build-ai-commerce": {
+    "title": "AI-Powered Commerce and Logistics",
+    "summary": "Choose online retail, a multi-vendor marketplace or logistics services. Practise with fictional data, checked calculations and human review before considering a live business.",
+    "tools": ["google-sheets", "chatgpt", "claude"],
+    "starters": ["ai-commerce-services-kit"],
+    "steps": [
+      "Choose a model and gather actual customer evidence",
+      "Check platform, access and responsibility requirements",
+      "Practise AI-assisted drafts and deterministic calculations",
+      "Review exceptions, costs and human approval",
+      "Deliver a labelled prototype before planning live operations"
+    ]
+  },
   "scope-freelance-project": {
     "title": "Freelance Client Discovery & Project Scoping",
     "summary": "Ask neutral questions, check evidence and define a bounded scope before drafting an offer. Practice does not approve real work.",
