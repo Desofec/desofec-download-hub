@@ -5,6 +5,24 @@ import { automationScenarioLabels, type AutomationScenario } from '@/lib/automat
 
 type ReviewDefinition = { id: string; label: string; instruction: string };
 export const serviceReviewChecks = {
+  'ai-online-retail': [
+    { id: 'facts', label: 'Retail facts and unknowns', instruction: 'Compare copy with fictional notebook facts. Remove unsupported claims and preserve unknown supplier, identifiers, price and demand.' },
+    { id: 'totals', label: 'Retail arithmetic and incomplete data', instruction: 'Check 5/25%, inventory 26/11 and weekly 250/20/230. Blank values stay unresolved; periods differ and contribution is not profit.' },
+    { id: 'revision', label: 'Retail revisions and reopened evidence', instruction: 'Keep source, actual lab observations, v1/v2 and reopened-file evidence. Text self-review does not inspect files or verify external software.' },
+    { id: 'approval', label: 'Retail owner approval boundary', instruction: 'Missing actual owner review stays blocked. Self-checked copy and worksheets do not approve publishing, purchases or a live store.' }
+  ],
+  'ai-marketplace-model': [
+    { id: 'facts', label: 'Seller roles and supported catalog', instruction: 'Preserve seller/SKU identity and supported facts. Unknown verification, image rights and payment eligibility remain unresolved.' },
+    { id: 'totals', label: 'Marketplace ledger and exceptions', instruction: 'Check 230/70/160/16/144 and allocations 90/54; duplicate IDs error, blanks remain unresolved, commission rounds per order. No actual payouts.' },
+    { id: 'revision', label: 'Marketplace moderation and revisions', instruction: 'Record actual catalog/ledger observations, versioned corrections and human escalation/appeal. No automatic penalties or invented refunds.' },
+    { id: 'approval', label: 'Marketplace approval and funds boundary', instruction: 'Missing seller/operator and payment review remains blocked. A text prototype does not establish legal or live-payment readiness.' }
+  ],
+  'ai-logistics-services': [
+    { id: 'source', label: 'Receiving source and quarantine', instruction: 'Check usable 28/20, quarantine 2 and receipt reconciliation. Discrepancies/missing counts block reservations; text is not inspection evidence.' },
+    { id: 'totals', label: 'Reservation and cost reconciliation', instruction: 'Check available 23/13, reserved 5/7, held L2 and duplicate rejection; cost scenario 2/25% and 80/60/20 is separate and hypothetical.' },
+    { id: 'revision', label: 'Dispatch, returns and record trace', instruction: 'Keep source/requests, actual edited observations and runbook revisions. Return R1 remains quarantined, zero added to available; no shipments or refunds.' },
+    { id: 'approval', label: 'Logistics client and operational boundary', instruction: 'Missing client approval, physical inspection and operational requirements stay blocked. Self-review cannot approve real stock release or shipping.' }
+  ],
   'ai-spreadsheets': [
     { id: 'source', label: 'Source preservation and corrections', instruction: 'Compare raw and working copies, PDF source cells and correction notes. A supplied extraction is not verified OCR; keep source permissions and unknowns explicit.' },
     { id: 'values', label: 'Dates, blanks and known zero', instruction: 'Check unambiguous UTC dates, duplicate IDs and exceptions. A5 missing is not A4 zero; A6 ambiguous date must not be guessed.' },

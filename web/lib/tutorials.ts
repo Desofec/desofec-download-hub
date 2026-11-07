@@ -68,7 +68,7 @@ export const tutorials: TutorialInfo[] = [
     time: '120 minutes',
     steps: onlineRetailSteps,
     practiceHref: '/business-launchpad/commerce-lab?track=retail',
-    starterPackId: 'ai-commerce-services-kit'
+    serviceKitId: 'ai-commerce-services-kit'
   },
   {
     pathId: 'ai-marketplace-model',
@@ -78,7 +78,7 @@ export const tutorials: TutorialInfo[] = [
     time: '120 minutes',
     steps: marketplaceSteps,
     practiceHref: '/business-launchpad/commerce-lab?track=marketplace',
-    starterPackId: 'ai-commerce-services-kit'
+    serviceKitId: 'ai-commerce-services-kit'
   },
   {
     pathId: 'ai-logistics-services',
@@ -88,7 +88,7 @@ export const tutorials: TutorialInfo[] = [
     time: '120 minutes',
     steps: logisticsSteps,
     practiceHref: '/business-launchpad/commerce-lab?track=logistics',
-    starterPackId: 'ai-commerce-services-kit'
+    serviceKitId: 'ai-commerce-services-kit'
   },
   {
     pathId: 'search-visibility',

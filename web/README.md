@@ -56,7 +56,7 @@ is required. Edits are lost on reload/navigation; downloaded copies are separate
 ## Connect Supabase
 
 1. Create a Supabase project.
-2. In the SQL editor, run the migrations in order through `0013_spreadsheet_projects.sql`, including `0011_pilot_projects.sql` for owner-private snapshots, then run `supabase/seed.sql`.
+2. In the SQL editor, run the migrations in order through `0014_commerce_projects.sql`, including `0011_pilot_projects.sql` for owner-private snapshots, then run `supabase/seed.sql`.
    The migrations are safe to re-run; the seed upserts. Apply the video migration and regenerated seed before deploying the business-video path.
 3. Copy `.env.example` to `.env.local` and fill in the project URL and anon key
    (Project settings → API):
@@ -121,7 +121,8 @@ Amazon account setup. AI is optional and assists drafts, explanations and review
 fictional worksheets supply independently checkable costs, inventory, commission,
 reservation and exception exercises. No storefront, payments, seller onboarding,
 warehouse operation, shipment, model API or external integration is activated.
-These courses do not claim to be supported Pilot Project Workspace types.
+These courses support the Pilot Project Workspace with service-specific guided
+journeys, test plans, workbook starters, review checklists and case-study exports.
 
 Lessons/downloads are English with the existing English-content notice; catalog
 titles, descriptions, learning steps and kit checklists support French, German
@@ -129,7 +130,10 @@ and Spanish. Tutorial, path and kit progress reuse existing tracking.
 Run `npm run sync-content` after changing the source catalog or download.
 For Supabase deployments, apply the **regenerated `supabase/seed.sql` before
 deploying** so all three paths, their goal and kit exist, including for lesson
-feedback validation. No new schema migration is required. Redeploy/refresh the
+feedback validation. For commerce account snapshots, apply migration **0014 after
+0013 before deploying**; it extends only the existing RPC allowlist and preserves
+ownership, quotas and conflict checks. No seed change is needed for the guided
+project extension if the commerce catalog is already seeded. Redeploy/refresh the
 hour-cached catalog after seeding; bundled-only deployments need no SQL.
 The catalog contains 35 paths and 51 tools: courses and worksheets
 are not counted as additional software tools.
@@ -152,8 +156,21 @@ an optional AI review prompt. No account saving, uploads, model calls, connector
 real stock changes, payments, labels, messages or shipments occur. Source/working
 tables, outputs and validation are English with an explicit notice; navigation and
 notices support French, German and Spanish. No migration/seed update is required,
-and the catalog remains at 51 tools and 35 paths. This is not a supported project
-workspace type or owner-approval mechanism.
+and the catalog remains at 51 tools and 35 paths. The lab does not grant owner
+approval.
+
+The three commerce tracks can now create device projects through the existing
+workspace. Save the brief/checklist explicitly; use the shared kit and linked lab,
+then download selected fictional observations and manually save the text in the
+project evidence workbook. The lab neither loads nor modifies project records and
+does not upload files or auto-fill tests. Each service supplies five required,
+distinct bracket-coded test plans including missing/duplicate data and unavailable
+approval. Recorded failures/blocks remain visible in reviews, portfolios and case
+studies; journey completion is a self-recorded practice milestone, not a passing
+grade or real business approval. Project-specific instructions/checks/starters are
+English with a notice; navigation follows the selected language. Existing save,
+revision, quota, consent, deletion and optional owner-private snapshot behavior is
+reused. Apply `0014_commerce_projects.sql` before enabling new account snapshots.
 
 ### Commerce tool guides
 

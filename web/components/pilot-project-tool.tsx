@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useState, useSyncExternalStore } from 'react';
 import { useTr } from '@/components/tr';
-import { loadProject, projectProposalSeed, projectResultsSeed, saveProjectPart, withProjectLock, type ServicePathId, type StoredProject } from '@/lib/pilot-projects';
+import { commerceProjectTrack, loadProject, projectProposalSeed, projectResultsSeed, saveProjectPart, withProjectLock, type ServicePathId, type StoredProject } from '@/lib/pilot-projects';
 import { emptyProposalInputs, type ProposalDraft } from '@/lib/pilot-proposal';
 import { emptyPilotResults, type PilotResults } from '@/lib/pilot-results';
 import { serviceJourneyDefinition, serviceJourneyTests } from '@/lib/service-project-journeys';
@@ -86,6 +86,7 @@ export function PilotProjectTool(props: Props) {
   return (
     <div className="proposal-controls project-tool-context">
       <h2>{tr('Project workspace')}: {saved?.project.title ?? tr('Load the project draft before editing.')}</h2>
+      {saved && commerceProjectTrack(saved.project.pathId) && <p>{tr('Commerce project instructions, workbook starters and required checks are English. Navigation follows your language. Save selected fictional lab observations manually; no files are uploaded or evidence automatically approved.')}</p>}
       <p>{tr('This form belongs to one device project. Save explicitly. Standalone drafts, learning progress and account snapshots stay separate.')}</p>
       <p>{tr('Use fictional or anonymised details only. Account upload happens only from the workspace after your consent; nothing is sent to AI or clients.')}</p>
       <div className="cta-row">

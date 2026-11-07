@@ -3,6 +3,7 @@ import { Suspense } from 'react';
 import { CommercePracticeLab } from '@/components/commerce-practice-lab';
 import { Tr } from '@/components/tr';
 import { commerceTrack } from '@/lib/commerce-practice';
+import { isProjectId } from '@/lib/pilot-projects';
 
 export const metadata: Metadata = {
   title: 'Commerce and Logistics Practice Lab',
@@ -11,12 +12,13 @@ export const metadata: Metadata = {
   openGraph: { title: 'Commerce and Logistics Practice Lab', url: '/business-launchpad/commerce-lab' }
 };
 
-type Query = Promise<{ track?: string | string[] }>;
+type Query = Promise<{ track?: string | string[]; project?: string | string[] }>;
 
 async function Lab({ searchParams }: { searchParams: Query }) {
   const params = await searchParams;
   const track = commerceTrack(typeof params.track === 'string' ? params.track : undefined);
-  return <CommercePracticeLab key={track} initialTrack={track} />;
+  const projectId = typeof params.project === 'string' && isProjectId(params.project) ? params.project : undefined;
+  return <CommercePracticeLab key={`${track}:${projectId ?? ''}`} initialTrack={track} projectId={projectId} />;
 }
 
 export default function CommerceLabPage({ searchParams }: { searchParams: Query }) {

@@ -1,4 +1,4 @@
-import { projectProposalReady, type PilotProject } from '@/lib/pilot-projects';
+import { projectKitId, projectProposalReady, type PilotProject } from '@/lib/pilot-projects';
 import { effectiveTestStatus, resultTestSummary, testHasEvidence } from '@/lib/pilot-results';
 
 export const firstContentPath = 'ai-content-services';
@@ -89,7 +89,7 @@ export function contentJourney(project: PilotProject) {
 export function projectJourneyHref(project: PilotProject, destination: typeof contentJourneyStages[number]['destination']) {
   switch (destination) {
     case 'tutorial': return `/tutorials/${project.pathId}`;
-    case 'kit': return `/starter-packs/${project.pathId}-kit`;
+    case 'kit': return `/starter-packs/${projectKitId(project.pathId)}`;
     case 'proposal': return `/business-launchpad/proposal-builder?project=${encodeURIComponent(project.id)}`;
     case 'results': return `/business-launchpad/results-tracker?project=${encodeURIComponent(project.id)}`;
     case 'brief': return '#project-brief-form';

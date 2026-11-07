@@ -1,4 +1,4 @@
--- Isolated database only, after migrations 0011, 0012 and 0013.
+-- Isolated database only, after migrations 0011 through 0014.
 -- Fixtures and helper functions are rolled back; never run against live data.
 begin;
 insert into auth.users (id) values
@@ -29,6 +29,30 @@ select public._test_pilot_error(
   'Sign in');
 
 select set_config('request.jwt.claim.sub', '33333333-3333-4333-8333-333333333333', true);
+-- All three commerce snapshots preserve nested observation text and CAS behavior.
+do $$
+declare
+  _id uuid := 'cccccccc-cccc-4ccc-8ccc-cccccccccccc';
+  _path text;
+  _document jsonb;
+begin
+  foreach _path in array array['ai-online-retail', 'ai-marketplace-model', 'ai-logistics-services'] loop
+    _document := public._test_pilot_document(_id) || jsonb_build_object(
+      'pathId', _path,
+      'workbook', jsonb_build_object('version', 1, 'items', jsonb_build_array(
+        jsonb_build_object('id', 'item-1', 'revisions', jsonb_build_array(
+          jsonb_build_object('number', 1, 'title', 'Fictional observation', 'body', 'Owner approval BLOCKED', 'savedAt', '2026-11-07T00:00:00.000Z')
+        ), 'links', '[]'::jsonb)
+      ))
+    );
+    assert public.save_pilot_project(_id, _document, 0) = 1;
+    assert (select document from public.pilot_projects where id = _id) = _document;
+    assert public.save_pilot_project(_id, _document, 1) = 2;
+    perform public._test_pilot_error(format(
+      'select public.save_pilot_project(%L,%L::jsonb,1)', _id, _document), 'Account project changed');
+    perform public.delete_pilot_project(_id, 2);
+  end loop;
+end $$;
 do $$
 declare _id uuid := 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa';
 begin
