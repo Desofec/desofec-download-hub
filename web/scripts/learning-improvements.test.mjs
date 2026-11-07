@@ -21,6 +21,7 @@ async function loadContent(relativePath, imports = {}) {
 }
 
 const projectImports = {
+  '@/lib/commerce-pilot-plan': '../lib/commerce-pilot-plan.ts',
   '@/lib/commerce-readiness': '../lib/commerce-readiness.ts',
   '@/lib/client-discovery': '../lib/client-discovery.ts',
   '@/lib/case-study': '../lib/case-study.ts',
@@ -1417,6 +1418,66 @@ test('commerce readiness distinguishes sourced observations, scenario costs and 
   assert.throws(() => readCommerceReadiness(invalid, 'ai-online-retail'), /Invalid commerce readiness/);
 });
 
+test('commerce pilot plans enforce bounded dates, budgets, roles and measurable stop rules', async () => {
+  const {
+    emptyCommercePilotPlan, readCommercePilotPlan, commercePilotPlanCoverage, buildCommercePilotPlanReport,
+    commercePilotRoles
+  } = await loadContent('../lib/commerce-pilot-plan.ts', projectImports);
+  const { newPilotProject, saveProject, loadProject, saveProjectPart, readPilotProject } = await loadContent('../lib/pilot-projects.ts', projectImports);
+  for (const path of ['ai-online-retail', 'ai-marketplace-model', 'ai-logistics-services']) {
+    const plan = emptyCommercePilotPlan(path);
+    assert.deepEqual(Object.keys(plan.roles), commercePilotRoles[path]);
+    Object.assign(plan, {
+      question: 'Does a bounded product-interest page collect five qualified requests?',
+      hypothesis: 'At least five of twenty permitted participants request details; no purchase conversion is assumed.',
+      audience: 'Adults already consenting to a fictional product survey; exclude minors and sensitive data.',
+      sampleTarget: '20', method: 'Show a private mock listing, ask for a non-binding preference and stop at 20 responses.',
+      startDate: '2030-01-03', reviewDate: '2030-01-10', budgetCurrency: 'USD', budgetCap: '50',
+      success: { metric: 'Qualified non-binding requests out of 20 (survey count)', operator: 'at-least', threshold: '5' },
+      stop: { metric: 'Privacy concern, withdrawal or complaint count', operator: 'at-least', threshold: '1' },
+      status: 'review-required', exclusions: 'No live listing, sale, payment, stock, seller recruitment or shipment.'
+    });
+    for (const role of commercePilotRoles[path]) plan.roles[role] = {
+      owner: 'Authorized role', evidence: 'Written permission and review evidence before any activity'
+    };
+    const coverage = commercePilotPlanCoverage(plan, path);
+    assert.deepEqual(Object.values(coverage), [true, true, true, true, true, true, true]);
+    plan.stop = { ...plan.success };
+    assert.equal(commercePilotPlanCoverage(plan, path).thresholdsSet, false, 'success and stop rules cannot be identical');
+    plan.stop = { metric: 'Privacy concern, withdrawal or complaint count', operator: 'at-least', threshold: '1' };
+    const report = buildCommercePilotPlanReport(plan, path, (text) => text, 'continue-discovery');
+    assert.match(report, /NOT AUTHORIZATION TO EXECUTE/);
+    assert.match(report, /USD 50/);
+    assert.match(report, /At least 5/);
+    assert.match(report, /Continue discovery only/);
+    assert.match(report, /not execution approval/);
+    assert.match(report, /No participants are contacted/);
+    assert.equal(readCommercePilotPlan(plan, path).status, 'review-required');
+
+    const storage = memoryStorage();
+    saveProject(storage, newPilotProject(projectId, path, 'Fictional bounded experiment'), 0);
+    const saved = saveProjectPart(storage, projectId, 'commercePilotPlan', plan, 'null');
+    assert.deepEqual(loadProject(storage, projectId).project.commercePilotPlan, plan);
+    assert.equal(saved.project.commerceReadiness, undefined);
+    assert.throws(() => saveProjectPart(storage, projectId, 'commercePilotPlan', plan, 'null'), /project draft changed/i);
+
+    assert.throws(() => readCommercePilotPlan({ ...plan, reviewDate: '2030-01-02' }, path), /review date/i);
+    assert.throws(() => readCommercePilotPlan({ ...plan, budgetCurrency: 'US' }, path), /Invalid commerce pilot plan/i);
+    assert.throws(() => readCommercePilotPlan({ ...plan, budgetCap: '-1' }, path), /Invalid commerce pilot plan/i);
+    assert.throws(() => readCommercePilotPlan({ ...plan, sampleTarget: '1000000' }, path), /Invalid commerce pilot plan/i);
+    assert.throws(() => readCommercePilotPlan({ ...plan, success: { ...plan.success, threshold: '1.234' } }, path), /Invalid commerce pilot plan/i);
+    assert.throws(() => readCommercePilotPlan({ ...plan, roles: { ...plan.roles, [commercePilotRoles[path][0]]: null } }, path), /Invalid commerce pilot plan/i);
+    assert.throws(() => readPilotProject(JSON.stringify({
+      ...newPilotProject(projectId, 'ai-spreadsheets', 'Non-commerce'),
+      commercePilotPlan: plan
+    })), /only valid for commerce projects/i);
+  }
+  const blank = emptyCommercePilotPlan('ai-online-retail');
+  assert.ok(Object.values(commercePilotPlanCoverage(blank, 'ai-online-retail')).every((complete) => complete === false));
+  blank.startDate = '2030-02-31';
+  assert.throws(() => readCommercePilotPlan(blank, 'ai-online-retail'), /review date/i);
+});
+
 test('commerce English-only project content has translated notices on every editing surface', async () => {
   const notice = 'Commerce project instructions, workbook starters and required checks are English. Navigation follows your language. Save selected fictional lab observations manually; no files are uploaded or evidence automatically approved.';
   for (const file of ['first-project-chooser', 'service-project-journey', 'project-evidence-workbook', 'project-review-centre', 'pilot-project-tool']) {
@@ -1435,9 +1496,15 @@ test('commerce English-only project content has translated notices on every edit
     assert.ok(book[readinessNotice]);
     assert.ok(book['Commerce account upload failed. Check your connection and apply migration 0014 after 0013. If this project exists or changed on another device, refresh the account list and load its latest copy first.']);
     assert.ok(book['Commerce readiness snapshots also include customer evidence notes, provider comparisons, cost scenarios and operational role assignments. Review them before consenting to upload.']);
-    assert.ok(book['Commerce validation and launch readiness']);
+      assert.ok(book['Commerce pilot plan snapshots also include the proposed sample, budget cap, success and stop criteria, role assignments, evidence requirements and exclusions. Review them before consenting to upload.']);
+      assert.ok(book['I agree to upload this saved project, including costs, test evidence, workbook revisions, reviews, copied review text, case studies, discovery drafts, commerce readiness evidence and pilot planning, to my private account when I press Upload.']);
+      assert.ok(book['A bounded pilot plan is saved for this project. Review its cap, criteria, roles and review date separately; it never authorizes activity.']);
+      assert.ok(book['Commerce pilot plans are only valid for commerce projects.']);
+      assert.ok(book['Commerce validation and launch readiness']);
     assert.ok(book['Commerce Validation & Readiness']);
     assert.ok(book['Open a saved retail, marketplace or logistics project in the workspace before recording readiness.']);
+    assert.ok(book['Commerce Pilot Planner']);
+    assert.ok(book['Pilot planner labels, validation messages and report text are in English. Navigation follows your language.']);
   }
   const migration = await readFile(new URL('../../supabase/migrations/0014_commerce_projects.sql', import.meta.url), 'utf8');
   for (const path of ['ai-online-retail', 'ai-marketplace-model', 'ai-logistics-services']) assert.ok(migration.includes(path));

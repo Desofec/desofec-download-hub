@@ -264,6 +264,9 @@ export function CommerceReadinessBuilder({ projectId }: { projectId: string }) {
           downloadPilotText(report, 'private-commerce-readiness-review.txt');
           setNotice('Readiness report download requested. No public page or business approval was created.');
         })}>{tr('Download private readiness report (.txt)')}</button>
+        <Link className="btn btn-primary" href={`/business-launchpad/commerce-pilot-planner${query}`} onNavigate={(event) => {
+          if (!discard()) event.preventDefault();
+        }}>{tr('Design a bounded commerce pilot plan')}</Link>
       </section>}
     </>}
   </div>;

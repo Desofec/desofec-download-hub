@@ -183,6 +183,16 @@ includes its evidence, comparisons and scenario values. Form labels, validation
 messages and report text are English with a notice; app navigation follows the
 selected language.
 
+The optional commerce pilot planner records a bounded question/method and sample,
+proposed start/review dates, currency-specific maximum budget, measurable success
+and stop thresholds, role/evidence assignments and exclusions. It is a planning
+draft only: it does not execute activity, spend funds or approve launch. The
+validated plan is another optional field in the existing private project snapshot,
+covered by explicit account upload consent and the existing revision/quota limits;
+no migration, seed update, provider lookup or background sync is added. Planner
+labels, validation messages and report text are English with a notice; navigation
+follows the selected language.
+
 ### Commerce tool guides
 
 Six external tools support the commerce goal: Shopify (storefront), Sharetribe

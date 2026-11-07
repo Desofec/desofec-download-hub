@@ -41,6 +41,11 @@ export function ServiceProjectJourney({ saved, dirty }: { saved: StoredProject; 
           onNavigate={(event) => {
             if (dirty && !window.confirm(tr('Discard unsaved brief and checklist changes?'))) event.preventDefault();
           }}>{tr(readiness ? 'Continue commerce readiness review' : 'Start commerce validation and readiness')}</Link>
+        {project.commercePilotPlan && <p>{tr('A bounded pilot plan is saved for this project. Review its cap, criteria, roles and review date separately; it never authorizes activity.')}</p>}
+        <Link className="btn btn-secondary" href={`/business-launchpad/commerce-pilot-planner?project=${encodeURIComponent(project.id)}`}
+          onNavigate={(event) => {
+            if (dirty && !window.confirm(tr('Discard unsaved brief and checklist changes?'))) event.preventDefault();
+          }}>{tr(project.commercePilotPlan ? 'Review saved commerce pilot plan' : 'Design a bounded commerce pilot plan')}</Link>
       </section>}
       <Link className="btn btn-secondary" href={`/business-launchpad/client-discovery?project=${encodeURIComponent(project.id)}`}
         onNavigate={(event) => {
