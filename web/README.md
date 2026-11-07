@@ -131,8 +131,31 @@ For Supabase deployments, apply the **regenerated `supabase/seed.sql` before
 deploying** so all three paths, their goal and kit exist, including for lesson
 feedback validation. No new schema migration is required. Redeploy/refresh the
 hour-cached catalog after seeding; bundled-only deployments need no SQL.
-The catalog now contains 35 paths and still 45 tools: courses and worksheets
+The catalog contains 35 paths and 51 tools: courses and worksheets
 are not counted as additional software tools.
+
+### Commerce tool guides
+
+Six external tools support the commerce goal: Shopify (storefront), Sharetribe
+(marketplace), Zoho Inventory (stock records), Shippo (shipping), Zendesk (support)
+and Looker Studio (reporting). Tool detail pages link to three-step guides at
+`/tutorials/<tool-id>-guide`, and each guide links back to its tool and the shared
+commerce kit. They reuse local/account tutorial progress and appear in the tutorial
+index/sitemap. Feedback is disabled for these non-path IDs. No new learning path,
+connector, vendor account, model API or live workflow is created.
+
+Each English guide includes provider references, setup/eligibility checks, a
+document/spreadsheet-only alternative, an optional AI prompt, fictional checked
+outputs, cost omissions and approval boundaries. Catalog descriptions/categories
+and guide navigation support French, German and Spanish; the existing notice
+identifies English-only lessons. External sites could not be resolved during
+implementation, so these additions have **no description-review stamp**; references
+are starting points, not verified live links, fee quotes or endorsements.
+Check current provider documentation before registration, spending or actual use.
+
+Apply the regenerated `supabase/seed.sql` before deploying to a Supabase-backed
+site, then refresh/redeploy the hour-cached catalog so the count becomes 51.
+Bundled-only deployments require no SQL; no schema migration is needed.
 
 ### Excel data cleaning and PDF-to-Excel services
 

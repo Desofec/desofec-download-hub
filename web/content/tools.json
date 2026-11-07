@@ -403,5 +403,59 @@
     "skill": "Beginner",
     "description": "Create collaborative spreadsheets with formulas and charts, with optional Gemini features on eligible plans.",
     "badge": "Spreadsheets"
+  },
+  {
+    "id": "shopify",
+    "url": "https://www.shopify.com/",
+    "name": "Shopify",
+    "category": "Commerce",
+    "skill": "Beginner",
+    "description": "Explore a hosted online storefront for product listings and orders; verify current plans, payment eligibility and fulfillment responsibilities.",
+    "badge": "Storefront"
+  },
+  {
+    "id": "sharetribe",
+    "url": "https://www.sharetribe.com/",
+    "name": "Sharetribe",
+    "category": "Commerce",
+    "skill": "Intermediate",
+    "description": "Explore a marketplace platform for independent sellers and buyers; check supported transaction models, country eligibility and payment requirements.",
+    "badge": "Marketplace"
+  },
+  {
+    "id": "zoho-inventory",
+    "url": "https://www.zoho.com/inventory/",
+    "name": "Zoho Inventory",
+    "category": "Commerce",
+    "skill": "Intermediate",
+    "description": "Explore inventory and order records for a small business; check current stock, warehouse and integration capabilities before adopting.",
+    "badge": "Inventory"
+  },
+  {
+    "id": "shippo",
+    "url": "https://goshippo.com/",
+    "name": "Shippo",
+    "category": "Commerce",
+    "skill": "Intermediate",
+    "description": "Explore shipping software for carrier and label workflows; verify supported countries, services, charges and return requirements.",
+    "badge": "Shipping"
+  },
+  {
+    "id": "zendesk",
+    "url": "https://www.zendesk.com/",
+    "name": "Zendesk",
+    "category": "Commerce",
+    "skill": "Intermediate",
+    "description": "Explore customer-support ticket workflows with optional AI features; check plan availability, data handling and human-review controls.",
+    "badge": "Support"
+  },
+  {
+    "id": "looker-studio",
+    "url": "https://cloud.google.com/looker-studio",
+    "name": "Looker Studio",
+    "category": "Data",
+    "skill": "Beginner",
+    "description": "Explore dashboards and business reports from approved data sources; verify connectors, sharing permissions and any associated costs.",
+    "badge": "Reporting"
   }
 ]

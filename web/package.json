@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test:content": "node --test scripts/content-catalog.test.mjs scripts/learning-improvements.test.mjs scripts/ai-digests.test.mjs scripts/feedback-guide.test.mjs scripts/search-visibility.test.mjs scripts/commerce-services.test.mjs",
+    "test:content": "node --test scripts/content-catalog.test.mjs scripts/learning-improvements.test.mjs scripts/ai-digests.test.mjs scripts/feedback-guide.test.mjs scripts/search-visibility.test.mjs scripts/commerce-services.test.mjs scripts/commerce-tools.test.mjs",
     "validate-content": "node scripts/validate-content.mjs",
     "sync-content": "node scripts/sync-content.mjs"
   },

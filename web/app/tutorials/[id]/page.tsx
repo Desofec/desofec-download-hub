@@ -46,6 +46,11 @@ export default async function TutorialPage({ params }: { params: Promise<{ id: s
           feedbackEnabled={tutorial.feedbackEnabled}
         />
         <div className="cta-row">
+          {tutorial.toolId && (
+            <Link className="btn btn-secondary" href={`/tools/${tutorial.toolId}`}>
+              <Tr>View tool details</Tr>
+            </Link>
+          )}
           {tutorial.starterPackId && (
             <Link className="btn btn-secondary" href={`/starter-packs/${tutorial.starterPackId}`}>
               <Tr>Open the service kit</Tr>
