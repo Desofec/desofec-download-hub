@@ -23,6 +23,7 @@ import { automationServicesSteps } from '@/lib/automation-services-tutorial';
 import { contentServicesSteps, cadServicesSteps, microSaasSteps, educationServicesSteps } from '@/lib/business-services-tutorials';
 import { videoBusinessSteps } from '@/lib/video-business-tutorial';
 import { clientDiscoverySteps } from '@/lib/client-discovery-tutorial';
+import { searchVisibilitySteps } from '@/lib/search-visibility-tutorial';
 
 export type TutorialInfo = {
   pathId: string;
@@ -34,10 +35,24 @@ export type TutorialInfo = {
   badge?: string;
   level?: string;
   serviceKitId?: string;
+  backHref?: string;
+  feedbackEnabled?: boolean;
 };
 
 // Older tutorials keep their original URLs. New ones live under /tutorials/<pathId>.
 export const tutorials: TutorialInfo[] = [
+  {
+    pathId: 'search-visibility',
+    href: '/tutorials/search-visibility',
+    title: 'Configure Google Search and Bing Webmaster Tools',
+    intro: 'Choose one canonical website address, submit your sitemap and check indexing in Google Search Console and Bing Webmaster Tools. Learn what Microsoft Edge is—and why it is not Bing’s webmaster service.',
+    time: '35 minutes',
+    steps: searchVisibilitySteps,
+    badge: 'Website guide',
+    level: 'Beginner',
+    backHref: '/tutorials',
+    feedbackEnabled: false
+  },
   {
     pathId: 'freelance-client-discovery',
     href: '/tutorials/freelance-client-discovery',

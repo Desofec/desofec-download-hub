@@ -7,6 +7,7 @@ export type TutorialStep = {
   code?: string;
   check: string;
   aiPrompt: string;
+  resources?: { label: string; url: string }[];
 };
 
 const htmlCode = `<!DOCTYPE html>
