@@ -136,5 +136,11 @@
     "name": "Scope a freelance project",
     "description": "Understand a client's problem, check project fit and prepare a bounded scope without inventing agreement.",
     "badge": "Business"
+  },
+  {
+    "id": "build-ai-commerce",
+    "name": "Explore AI-powered commerce and logistics",
+    "description": "Learn online retail, multi-vendor marketplace and logistics business models through checked, fictional AI-assisted exercises.",
+    "badge": "Business"
   }
 ]

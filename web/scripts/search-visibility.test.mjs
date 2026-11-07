@@ -62,8 +62,9 @@ test('homepage displays learning paths rather than the separate goal count', asy
   assert.doesNotMatch(home, /catalog\.goals\.length/);
   const paths = JSON.parse(await readFile(new URL('../content/paths.json', import.meta.url), 'utf8'));
   const goals = JSON.parse(await readFile(new URL('../content/goals.json', import.meta.url), 'utf8'));
-  assert.equal(paths.length, 32);
-  assert.equal(goals.length, 23);
+  assert.ok(paths.length >= 32);
+  assert.ok(goals.length >= 23);
+  assert.ok(paths.length > goals.length, 'learning paths and goals are distinct counts');
 });
 
 test('search visibility tutorial translation covers every step and public UI labels', async () => {

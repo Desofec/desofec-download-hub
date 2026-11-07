@@ -24,6 +24,7 @@ import { contentServicesSteps, cadServicesSteps, microSaasSteps, educationServic
 import { videoBusinessSteps } from '@/lib/video-business-tutorial';
 import { clientDiscoverySteps } from '@/lib/client-discovery-tutorial';
 import { searchVisibilitySteps } from '@/lib/search-visibility-tutorial';
+import { onlineRetailSteps, marketplaceSteps, logisticsSteps } from '@/lib/commerce-services-tutorials';
 
 export type TutorialInfo = {
   pathId: string;
@@ -37,10 +38,38 @@ export type TutorialInfo = {
   serviceKitId?: string;
   backHref?: string;
   feedbackEnabled?: boolean;
+  starterPackId?: string;
 };
 
 // Older tutorials keep their original URLs. New ones live under /tutorials/<pathId>.
 export const tutorials: TutorialInfo[] = [
+  {
+    pathId: 'ai-online-retail',
+    href: '/tutorials/ai-online-retail',
+    title: 'AI-Powered Online Retail',
+    intro: 'Explore a platform-neutral retail model with factual product drafts, checked costs, inventory planning and customer support. Use fictional data and optional AI; no store, payments or purchases are activated.',
+    time: '120 minutes',
+    steps: onlineRetailSteps,
+    starterPackId: 'ai-commerce-services-kit'
+  },
+  {
+    pathId: 'ai-marketplace-model',
+    href: '/tutorials/ai-marketplace-model',
+    title: 'AI-Powered Marketplace Business Model',
+    intro: 'Practise a multi-vendor model with seller onboarding, checked catalog drafts, commission reconciliation and moderated support. This is a spreadsheet/paper prototype, not a live marketplace or payment system.',
+    time: '120 minutes',
+    steps: marketplaceSteps,
+    starterPackId: 'ai-commerce-services-kit'
+  },
+  {
+    pathId: 'ai-logistics-services',
+    href: '/tutorials/ai-logistics-services',
+    title: 'AI-Powered Logistics Services',
+    intro: 'Explore storage and fulfillment services through fictional receiving, stock reservations, dispatch/return records and cost reports. AI helps explain and draft; no goods, addresses or shipments are processed.',
+    time: '120 minutes',
+    steps: logisticsSteps,
+    starterPackId: 'ai-commerce-services-kit'
+  },
   {
     pathId: 'search-visibility',
     href: '/tutorials/search-visibility',

@@ -23,7 +23,8 @@ insert into public.goals (id, name, description, badge, position) values
   ('validate-micro-saas', 'Validate a micro-SaaS idea', 'Investigate a recurring problem, test a local prototype and review demand before building subscriptions.', 'Business', 19),
   ('offer-education-services', 'Offer AI education services', 'Design an original adult workshop with a checked answer key, accessible materials and a bounded offer.', 'Education', 20),
   ('create-business-videos', 'Create AI videos for business', 'Create short-form business videos with checked scripts, captions, asset permissions and a clear handover.', 'Business', 21),
-  ('scope-freelance-project', 'Scope a freelance project', 'Understand a client''s problem, check project fit and prepare a bounded scope without inventing agreement.', 'Business', 22)
+  ('scope-freelance-project', 'Scope a freelance project', 'Understand a client''s problem, check project fit and prepare a bounded scope without inventing agreement.', 'Business', 22),
+  ('build-ai-commerce', 'Explore AI-powered commerce and logistics', 'Learn online retail, multi-vendor marketplace and logistics business models through checked, fictional AI-assisted exercises.', 'Business', 23)
 on conflict (id) do update set name = excluded.name, description = excluded.description, badge = excluded.badge, position = excluded.position;
 
 insert into public.tools (id, name, category, skill, description, badge, url, position) values
@@ -104,7 +105,8 @@ insert into public.starter_packs (id, title, description, level, file_path, posi
   ('micro-saas-validation-kit', 'Micro-SaaS Validation Kit', 'Problem evidence, a local prototype specification, five boundary tests and a validation decision worksheet.', 'Beginner', 'downloads/micro-saas-validation-kit.md', 26),
   ('ai-education-services-kit', 'AI Education Services Kit', 'An adult workshop brief, original lesson plan, checked rubric and accessible delivery checklist.', 'Beginner', 'downloads/ai-education-services-kit.md', 27),
   ('ai-video-business-kit', 'AI Video Creation for Business Kit', 'Three short-form video briefs, script and caption worksheets, seven evidence checks and a private service handover.', 'Beginner', 'downloads/ai-video-business-kit.md', 28),
-  ('freelance-client-discovery-kit', 'Freelance Client Discovery & Project Scoping Kit', 'Neutral discovery questions, a project-fit checklist, bounded scope and proposed change worksheets for fictional practice.', 'Beginner', 'downloads/freelance-client-discovery-kit.md', 29)
+  ('freelance-client-discovery-kit', 'Freelance Client Discovery & Project Scoping Kit', 'Neutral discovery questions, a project-fit checklist, bounded scope and proposed change worksheets for fictional practice.', 'Beginner', 'downloads/freelance-client-discovery-kit.md', 29),
+  ('ai-commerce-services-kit', 'AI-Powered Commerce and Logistics Kit', 'Three fictional practice tracks for online retail, marketplace operations and logistics, with AI prompts, checked results and handover worksheets.', 'Beginner', 'downloads/ai-commerce-services-kit.md', 30)
 on conflict (id) do update set title = excluded.title, description = excluded.description, level = excluded.level, file_path = excluded.file_path, position = excluded.position;
 
 insert into public.paths (id, title, level, description, badge, goal_id, steps, position) values
@@ -139,10 +141,14 @@ insert into public.paths (id, title, level, description, badge, goal_id, steps, 
   ('micro-saas-validation', 'Micro-SaaS Validation', 'Beginner', 'Validate a narrow problem with a local-only formatter prototype, boundary tests and honest user evidence.', 'Business', 'validate-micro-saas', array['Gather problem evidence', 'Specify and prototype a tiny service', 'Test boundaries and cost assumptions', 'Observe use and decide before launch']::text[], 28),
   ('ai-education-services', 'AI Education Services', 'Beginner', 'Prepare an original adult workshop with source-checked materials, a practice rubric and accessible delivery.', 'Education', 'offer-education-services', array['Define an adult learning objective', 'Create original materials and a checked key', 'Rehearse and review accessibility', 'Scope the workshop and improve from evidence']::text[], 29),
   ('ai-video-business', 'AI Video Creation for Business', 'Beginner', 'Learn to create short-form videos with AI support: plan three business videos, write scripts, edit captions and review a private practice package.', 'Business', 'create-business-videos', array['Plan short-form business videos', 'Write AI-assisted video scripts and storyboards', 'Edit videos and check captions', 'Review permissions, revisions and handover']::text[], 30),
-  ('freelance-client-discovery', 'Freelance Client Discovery & Project Scoping', 'Beginner', 'Practise client discovery questions, project-fit checks, bounded scope and proposed changes before preparing a service proposal.', 'Business', 'scope-freelance-project', array['Separate client facts from assumptions', 'Define deliverables and acceptance checks', 'Review skills, permissions and project fit', 'Propose controlled scope changes']::text[], 31)
+  ('freelance-client-discovery', 'Freelance Client Discovery & Project Scoping', 'Beginner', 'Practise client discovery questions, project-fit checks, bounded scope and proposed changes before preparing a service proposal.', 'Business', 'scope-freelance-project', array['Separate client facts from assumptions', 'Define deliverables and acceptance checks', 'Review skills, permissions and project fit', 'Propose controlled scope changes']::text[], 31),
+  ('ai-online-retail', 'AI-Powered Online Retail', 'Beginner', 'Explore online retail with AI-assisted product drafts, checked costs, inventory planning and customer support using fictional data.', 'Business', 'build-ai-commerce', array['Define a retail model and validate customer needs', 'Compare fulfillment and check contribution', 'Draft factual product copy with AI', 'Check inventory and customer reports', 'Prepare a reviewed retail-support handover']::text[], 32),
+  ('ai-marketplace-model', 'AI-Powered Marketplace Business Model', 'Beginner', 'Prototype a multi-vendor marketplace with seller checklists, AI-assisted catalog review, commission reconciliation and human-moderated support.', 'Business', 'build-ai-commerce', array['Define operator, seller and buyer responsibilities', 'Plan seller onboarding and platform checks', 'Review catalog facts and matching', 'Reconcile orders, refunds and commission', 'Prepare moderated support and prototype handover']::text[], 33),
+  ('ai-logistics-services', 'AI-Powered Logistics Services', 'Beginner', 'Practise receiving, inventory reservations, dispatch and returns records, and AI-assisted exception reports without live shipments.', 'Business', 'build-ai-commerce', array['Define logistics scope and custody', 'Reconcile receiving and usable stock', 'Simulate picking and stock reservations', 'Review dispatch evidence and returns', 'Check service costs and handover']::text[], 34)
 on conflict (id) do update set title = excluded.title, level = excluded.level, description = excluded.description, badge = excluded.badge, goal_id = excluded.goal_id, steps = excluded.steps, position = excluded.position;
 
 insert into public.recommendations (goal_id, title, summary, steps) values
+  ('build-ai-commerce', 'AI-Powered Commerce and Logistics', 'Choose online retail, a multi-vendor marketplace or logistics services. Practise with fictional data, checked calculations and human review before considering a live business.', array['Choose a model and gather actual customer evidence', 'Check platform, access and responsibility requirements', 'Practise AI-assisted drafts and deterministic calculations', 'Review exceptions, costs and human approval', 'Deliver a labelled prototype before planning live operations']::text[]),
   ('scope-freelance-project', 'Freelance Client Discovery & Project Scoping', 'Ask neutral questions, check evidence and define a bounded scope before drafting an offer. Practice does not approve real work.', array['Separate client facts from assumptions', 'Define deliverables and acceptance checks', 'Review skills, permissions and project fit', 'Propose controlled scope changes']::text[]),
   ('offer-content-services', 'AI Content Services', 'Create a fictional client content package, check claims and permissions, manage revisions and plan delivery.', array['Agree on a content brief', 'Draft and verify a content package', 'Manage one revision round', 'Scope, cost and deliver the service']::text[]),
   ('offer-cad-services', 'AI + CAD Concept Services', 'Prepare a non-functional display-card concept with consistent dimensions, versioned views and clear exclusions.', array['Define concept-only boundaries', 'Sketch and check dimensions', 'Model or document a paper alternative', 'Review revisions and hand over concept evidence']::text[]),
@@ -170,6 +176,9 @@ on conflict (goal_id) do update set title = excluded.title, summary = excluded.s
 
 delete from public.recommendation_tools;
 insert into public.recommendation_tools (goal_id, tool_id, position) values
+  ('build-ai-commerce', 'google-sheets', 0),
+  ('build-ai-commerce', 'chatgpt', 1),
+  ('build-ai-commerce', 'claude', 2),
   ('scope-freelance-project', 'google-sheets', 0),
   ('offer-content-services', 'chatgpt', 0),
   ('offer-content-services', 'claude', 1),
@@ -293,6 +302,7 @@ on conflict (goal_id, tool_id) do update set position = excluded.position;
 
 delete from public.recommendation_starters;
 insert into public.recommendation_starters (goal_id, pack_id, position) values
+  ('build-ai-commerce', 'ai-commerce-services-kit', 0),
   ('scope-freelance-project', 'freelance-client-discovery-kit', 0),
   ('offer-content-services', 'ai-content-services-kit', 0),
   ('offer-content-services', 'ai-small-business-kit', 1),

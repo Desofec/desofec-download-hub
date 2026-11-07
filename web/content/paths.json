@@ -438,5 +438,38 @@
       "Propose controlled scope changes"
     ],
     "goal": "scope-freelance-project"
+  },
+  {
+    "id": "ai-online-retail",
+    "title": "AI-Powered Online Retail",
+    "level": "Beginner",
+    "description": "Explore online retail with AI-assisted product drafts, checked costs, inventory planning and customer support using fictional data.",
+    "badge": "Business",
+    "steps": [
+      "Define a retail model and validate customer needs",
+      "Compare fulfillment and check contribution",
+      "Draft factual product copy with AI",
+      "Check inventory and customer reports",
+      "Prepare a reviewed retail-support handover"
+    ],
+    "goal": "build-ai-commerce"
+  },
+  {
+    "id": "ai-marketplace-model",
+    "title": "AI-Powered Marketplace Business Model",
+    "level": "Beginner",
+    "description": "Prototype a multi-vendor marketplace with seller checklists, AI-assisted catalog review, commission reconciliation and human-moderated support.",
+    "badge": "Business",
+    "steps": ["Define operator, seller and buyer responsibilities", "Plan seller onboarding and platform checks", "Review catalog facts and matching", "Reconcile orders, refunds and commission", "Prepare moderated support and prototype handover"],
+    "goal": "build-ai-commerce"
+  },
+  {
+    "id": "ai-logistics-services",
+    "title": "AI-Powered Logistics Services",
+    "level": "Beginner",
+    "description": "Practise receiving, inventory reservations, dispatch and returns records, and AI-assisted exception reports without live shipments.",
+    "badge": "Business",
+    "steps": ["Define logistics scope and custody", "Reconcile receiving and usable stock", "Simulate picking and stock reservations", "Review dispatch evidence and returns", "Check service costs and handover"],
+    "goal": "build-ai-commerce"
   }
 ]
