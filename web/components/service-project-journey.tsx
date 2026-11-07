@@ -7,6 +7,7 @@ import { downloadPilotText } from '@/lib/pilot-download';
 import { projectJourneyHref } from '@/lib/first-content-project';
 import { buildServicePortfolio, serviceJourneyCoverage, serviceJourneyDefinition, serviceProjectJourney } from '@/lib/service-project-journeys';
 import { commerceProjectTrack, type StoredProject } from '@/lib/pilot-projects';
+import { commerceReadinessCoverage, type CommercePathId } from '@/lib/commerce-readiness';
 
 export function ServiceProjectJourney({ saved, dirty }: { saved: StoredProject; dirty: boolean }) {
   const tr = useTr();
@@ -14,6 +15,9 @@ export function ServiceProjectJourney({ saved, dirty }: { saved: StoredProject; 
   const definition = serviceJourneyDefinition(project.pathId, project.automationScenario);
   const journey = serviceProjectJourney(project);
   const coverage = serviceJourneyCoverage(project);
+  const commerceTrack = commerceProjectTrack(project.pathId);
+  const readiness = commerceTrack && project.commerceReadiness
+    ? commerceReadinessCoverage(project.commerceReadiness, project.pathId as CommercePathId) : null;
   const portfolio = buildServicePortfolio(project, tr);
   const [reviewed, setReviewed] = useState(false);
   const [notice, setNotice] = useState('');
@@ -24,6 +28,20 @@ export function ServiceProjectJourney({ saved, dirty }: { saved: StoredProject; 
       <p>{tr('Learn → practise → draft → test → review → hand over. These milestones use saved project records and self-recorded checklist items, not independent checks of your files. Lesson and kit progress stay separate.')}</p>
       {definition && <p className="path-card">{tr(definition.boundary)}</p>}
       {commerceProjectTrack(project.pathId) && <p>{tr('Commerce project instructions, workbook starters and required checks are English. Navigation follows your language. Save selected fictional lab observations manually; no files are uploaded or evidence automatically approved.')}</p>}
+      {commerceTrack && <section className="path-card" aria-labelledby="commerce-readiness-stage">
+        <h4 id="commerce-readiness-stage">{tr('Commerce validation and launch readiness')}</h4>
+        <p>{tr('Record real demand evidence, compare two current provider options, calculate a bounded cost scenario, and assign operational responsibilities before deciding what to test next. This checklist never approves launch.')}</p>
+        {readiness && <ul className="journey-checks" aria-label={tr('Readiness evidence coverage')}>
+          <li>{tr('Demand evidence recorded')}: {tr(readiness.demandRecorded ? 'Recorded' : 'Missing or unresolved')}</li>
+          <li>{tr('Two sourced options compared')}: {tr(readiness.optionsCompared ? 'Recorded' : 'Missing or unresolved')}</li>
+          <li>{tr('Cost scenario calculated')}: {tr(readiness.economicsCalculated ? 'Recorded' : 'Missing or unresolved')}</li>
+          <li>{tr('Responsibility roles reviewed')}: {tr(readiness.responsibilitiesReviewed ? 'Recorded' : 'Missing or unresolved')}</li>
+        </ul>}
+        <Link className="btn btn-secondary" href={`/business-launchpad/commerce-readiness?project=${encodeURIComponent(project.id)}`}
+          onNavigate={(event) => {
+            if (dirty && !window.confirm(tr('Discard unsaved brief and checklist changes?'))) event.preventDefault();
+          }}>{tr(readiness ? 'Continue commerce readiness review' : 'Start commerce validation and readiness')}</Link>
+      </section>}
       <Link className="btn btn-secondary" href={`/business-launchpad/client-discovery?project=${encodeURIComponent(project.id)}`}
         onNavigate={(event) => {
           if (dirty && !window.confirm(tr('Discard unsaved brief and checklist changes?'))) event.preventDefault();

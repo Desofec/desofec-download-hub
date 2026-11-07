@@ -172,6 +172,17 @@ English with a notice; navigation follows the selected language. Existing save,
 revision, quota, consent, deletion and optional owner-private snapshot behavior is
 reused. Apply `0014_commerce_projects.sql` before enabling new account snapshots.
 
+Commerce projects also include an optional validation/readiness worksheet for
+demand observations, two sourced provider comparisons, a bounded per-order
+contribution/break-even scenario, role-based operational checks and an explicit
+human decision/next test. It is not a forecast, professional compliance review,
+provider endorsement or launch approval. The worksheet saves as an optional,
+validated field in the existing project snapshot; it introduces no table,
+migration, background sync or external lookup. Explicit account-upload consent
+includes its evidence, comparisons and scenario values. Form labels, validation
+messages and report text are English with a notice; app navigation follows the
+selected language.
+
 ### Commerce tool guides
 
 Six external tools support the commerce goal: Shopify (storefront), Sharetribe
