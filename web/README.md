@@ -18,6 +18,12 @@ supported. Email addresses still use `@desofec.com`, not `@www.desofec.com`.
 Submit `https://www.desofec.com/sitemap.xml` in Search Console after deployment.
 These settings help consolidate URLs but do not guarantee Google indexing.
 
+The homepage highlights four editorially selected practice tutorials with
+translated learning outcomes. These are not popularity or search-ranking claims.
+Its hero focuses on starting, browsing tutorials and resuming learning; tool,
+website-challenge, launchpad and AI-update links remain in the discovery section.
+Tutorial links reuse the existing registry and create no new progress records.
+
 ## Run locally
 
 ```bash

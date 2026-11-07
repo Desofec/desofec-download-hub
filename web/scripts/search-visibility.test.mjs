@@ -107,3 +107,31 @@ test('search visibility tutorial translation covers every step and public UI lab
     for (const text of ['learning paths', 'Official guidance', 'Browse all tutorials']) assert.ok(book[text], `${locale}: ${text}`);
   }
 });
+
+test('homepage discovery offers translated practice outcomes and registered tutorials', async () => {
+  const home = await readFile(new URL('../app/page.tsx', import.meta.url), 'utf8');
+  const registry = await readFile(new URL('../lib/tutorials.ts', import.meta.url), 'utf8');
+  assert.match(home, /aria-labelledby="featured-lessons"/);
+  assert.match(home, /tutorials\.find\(\(entry\) => entry\.pathId === lesson\.id\)/);
+  assert.match(home, /throw new Error\(`Missing featured homepage tutorial/);
+  for (const id of ['ai-content-services', 'ai-automation-services', 'ai-spreadsheets', 'ai-video-business']) {
+    assert.ok(home.includes(`id: '${id}'`));
+    assert.ok(registry.includes(`pathId: '${id}'`));
+  }
+  const phrases = [...home.matchAll(/(?:title|outcome): phrase\('([^']+)'\)/g)].map((match) => match[1]);
+  phrases.push(
+    'Learn by practising', 'Choose one useful skill to practise',
+    'Start with a guided lesson, try the examples, and check what you made. These are learning routes, not promises of clients or income.',
+    'Not sure where to begin? Follow the recommended fictional content project at your own pace.'
+  );
+  assert.equal(phrases.length, 12);
+  for (const locale of ['fr', 'de', 'es']) {
+    const book = JSON.parse(await readFile(new URL(`../content/translations/ui-${locale}.json`, import.meta.url), 'utf8'));
+    for (const text of phrases) assert.ok(book[text], `${locale}: ${text}`);
+  }
+  const hero = home.slice(home.indexOf('<section className="hero'), home.indexOf('<ContinueLearning'));
+  assert.equal((hero.match(/<Link /g) ?? []).length, 3);
+  assert.match(hero, /href="\/start-here"/);
+  assert.match(hero, /href="\/tutorials"/);
+  assert.match(hero, /href="\/my-progress"/);
+});

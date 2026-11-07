@@ -33,6 +33,13 @@ const highlights = [
   [phrase('Build with support'), phrase('Use starter packs, prompts, and workflow ideas to take action quickly.')]
 ];
 
+const featuredLessons = [
+  { id: 'ai-content-services', title: phrase('Create a practice content package'), outcome: phrase('Draft posts and FAQ answers from fictional facts, check claims, and prepare an honest work sample.') },
+  { id: 'ai-automation-services', title: phrase('Practise small-business automation'), outcome: phrase('Explore enquiry tracking, reminders or reports with fictional data and a no-send practice lab.') },
+  { id: 'ai-spreadsheets', title: phrase('Clean spreadsheets and check reports'), outcome: phrase('Practise data cleaning, PDF transcription checks and formulas with fictional orders.') },
+  { id: 'ai-video-business', title: phrase('Plan short business videos'), outcome: phrase('Work through scripts, storyboards, captions and permissions before editing a fictional video project.') }
+];
+
 const faqs = [
   ['Is Desofec AI Studio free?', 'Yes. Browsing tools, paths, tutorials and starter packs is free. Signing in only adds progress sync across your devices.'],
   ['Do I need coding experience?', 'No. Every path and tutorial is written for complete beginners, with plain-language steps you can follow at your own pace.'],
@@ -67,23 +74,11 @@ export default async function HomePage() {
               <Link className="btn btn-primary" href="/start-here">
                 <Tr>Start here</Tr>
               </Link>
-              <Link className="btn btn-secondary" href="/tools">
-                <Tr>Explore tools</Tr>
+              <Link className="btn btn-secondary" href="/tutorials">
+                <Tr>Browse all tutorials</Tr>
               </Link>
               <Link className="text-link" href="/my-progress">
                 <Tr>Choose your next lesson</Tr>
-              </Link>
-              <Link className="text-link" href="/challenges/first-website">
-                <Tr>Open the 7-day website challenge</Tr>
-              </Link>
-              <Link className="text-link" href="/business-launchpad">
-                <Tr>Open the AI Business Launchpad</Tr>
-              </Link>
-              <Link className="text-link" href="/paths/ai-video-business">
-                <Tr>AI Video Creation for Business</Tr>
-              </Link>
-              <Link className="text-link" href="/ai-updates">
-                <Tr>Explore reviewed AI updates</Tr>
               </Link>
             </div>
             <ul className="mini-stats" aria-label="Project stats">
@@ -131,6 +126,37 @@ export default async function HomePage() {
           storageKey: tutorialStorageKey(tutorial.pathId)
         }))}
       />
+
+      <section className="section muted-section" aria-labelledby="featured-lessons">
+        <div className="container">
+          <div className="section-head split-head">
+            <div>
+              <span className="eyebrow"><Tr>Learn by practising</Tr></span>
+              <h2 id="featured-lessons"><Tr>Choose one useful skill to practise</Tr></h2>
+              <p><Tr>Start with a guided lesson, try the examples, and check what you made. These are learning routes, not promises of clients or income.</Tr></p>
+            </div>
+            <Link className="text-link" href="/tutorials"><Tr>Browse all tutorials</Tr></Link>
+          </div>
+          <div className="results-grid">
+            {featuredLessons.map((lesson) => {
+              const tutorial = tutorials.find((entry) => entry.pathId === lesson.id);
+              if (!tutorial) throw new Error(`Missing featured homepage tutorial: ${lesson.id}`);
+              return <article className="result-card" key={lesson.id}>
+                <h3><Link href={tutorial.href}><Tr>{lesson.title}</Tr></Link></h3>
+                <p><Tr>{lesson.outcome}</Tr></p>
+              </article>;
+            })}
+          </div>
+          <p><Tr>Not sure where to begin? Follow the recommended fictional content project at your own pace.</Tr></p>
+          <div className="cta-row">
+            <Link className="btn btn-primary" href="/start-here"><Tr>Start here</Tr></Link>
+            <Link className="btn btn-secondary" href="/tools"><Tr>Explore tools</Tr></Link>
+            <Link className="btn btn-secondary" href="/challenges/first-website"><Tr>Open the 7-day website challenge</Tr></Link>
+            <Link className="text-link" href="/business-launchpad"><Tr>Open the AI Business Launchpad</Tr></Link>
+            <Link className="text-link" href="/ai-updates"><Tr>Explore reviewed AI updates</Tr></Link>
+          </div>
+        </div>
+      </section>
 
       <section className="section">
         <div className="container">
