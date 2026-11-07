@@ -21,6 +21,7 @@ async function loadContent(relativePath, imports = {}) {
 }
 
 const projectImports = {
+  '@/lib/commerce-readiness': '../lib/commerce-readiness.ts',
   '@/lib/client-discovery': '../lib/client-discovery.ts',
   '@/lib/case-study': '../lib/case-study.ts',
   '@/lib/automation-projects': '../lib/automation-projects.ts',
@@ -1349,17 +1350,94 @@ test('commerce projects share safe persistence, kit routing, workbook and review
   assert.equal(projectKitId('ai-content-services'), 'ai-content-services-kit');
 });
 
+test('commerce readiness distinguishes sourced observations, scenario costs and human decisions', async () => {
+  const {
+    emptyCommerceReadiness, readCommerceReadiness, commerceEconomics, commerceReadinessCoverage,
+    buildCommerceReadinessReport, commerceResponsibilities
+  } = await loadContent('../lib/commerce-readiness.ts');
+  const { newPilotProject, saveProject, loadProject, saveProjectPart } = await loadContent('../lib/pilot-projects.ts', projectImports);
+  for (const path of ['ai-online-retail', 'ai-marketplace-model', 'ai-logistics-services']) {
+    const readiness = emptyCommerceReadiness(path);
+    assert.equal(commerceReadinessCoverage(readiness, path).demandRecorded, false);
+    assert.equal(commerceReadinessCoverage(readiness, path).economicsCalculated, false);
+    readiness.demand = {
+      method: 'customer-conversations', date: '2030-01-02', sample: '3 fictional interviews',
+      source: 'Permissioned notes, no personal data', finding: 'One requested an example',
+      limitations: 'Small convenience sample; no purchase evidence', nextTest: 'Ask a broader sample'
+    };
+    for (const [index, slot] of ['option-1', 'option-2'].entries()) {
+      readiness.options[slot] = {
+        name: `Option ${index + 1}`, country: 'XX / USD eligibility to verify',
+        source: 'Official provider fee page', checkedAt: '2030-01-02',
+        eligibility: 'Not confirmed', fees: '3 USD/order, verify current terms', limitations: 'Country account not tested'
+      };
+    }
+    readiness.economics = {
+      currency: 'USD', price: '20', productCost: '6', platformFees: '3', fulfillment: '4',
+      returnsSupport: '1', otherVariable: '1', fixedMonthly: '100', scenarioOrders: '40'
+    };
+    for (const id of commerceResponsibilities[path]) {
+      readiness.responsibilities[id] = { owner: 'Operator role', status: 'proposed', evidence: 'Needs local confirmation' };
+    }
+    readiness.decision = { choice: 'continue-discovery', rationale: 'No verified demand or provider eligibility.', nextStep: 'Verify one assumption.' };
+    const metrics = commerceEconomics(readiness);
+    assert.equal(metrics.contribution, 500);
+    assert.equal(metrics.breakEvenOrders, 20);
+    assert.equal(metrics.scenarioBalance, 10000);
+    const coverage = commerceReadinessCoverage(readiness, path);
+    assert.deepEqual([
+      coverage.demandRecorded, coverage.optionsCompared, coverage.economicsCalculated, coverage.responsibilitiesReviewed
+    ], [true, true, true, true]);
+    const report = buildCommerceReadinessReport(readiness, path, (text) => text);
+    assert.match(report, /NOT LAUNCH APPROVAL/);
+    assert.match(report, /Not confirmed/);
+    assert.match(report, /Continue discovery only/);
+    assert.match(report, /not a profit estimate/);
+    assert.equal(readCommerceReadiness(readiness, path).decision.choice, 'continue-discovery');
+    readiness.options['option-2'].name = 'Option 1';
+    assert.equal(commerceReadinessCoverage(readiness, path).optionsCompared, false, 'duplicate options are not a comparison');
+    assert.throws(() => readCommerceReadiness(readiness, 'ai-spreadsheets'), /Invalid commerce readiness/);
+    assert.throws(() => readCommerceReadiness({ ...readiness, economics: { ...readiness.economics, price: '-1' } }, path), /Invalid commerce readiness/);
+    assert.throws(() => readCommerceReadiness({ ...readiness, economics: { ...readiness.economics, currency: 'US' } }, path), /Invalid commerce readiness/);
+    assert.throws(() => readCommerceReadiness({ ...readiness, options: { ...readiness.options, 'option-1': { ...readiness.options['option-1'], fees: 'x'.repeat(1201) } } }, path), /Invalid commerce readiness/);
+    const storage = memoryStorage();
+    const project = newPilotProject(projectId, path, 'Fictional readiness practice');
+    saveProject(storage, project, 0);
+    const saved = saveProjectPart(storage, projectId, 'commerceReadiness', readiness, 'null');
+    assert.deepEqual(loadProject(storage, projectId).project.commerceReadiness, readiness);
+    assert.equal(saved.project.brief.objective, '');
+    assert.throws(() => saveProjectPart(storage, projectId, 'commerceReadiness', readiness, 'null'), /project draft changed/i);
+    const latest = loadProject(storage, projectId);
+    const unrelated = saveProject(storage, { ...latest.project, brief: { objective: 'Changed', scope: '', review: '' } }, latest.revision);
+    assert.deepEqual(unrelated.project.commerceReadiness, readiness);
+  }
+  const invalid = emptyCommerceReadiness('ai-online-retail');
+  invalid.economics = { ...invalid.economics, price: '9999999' };
+  assert.equal(commerceEconomics(invalid), null);
+  assert.throws(() => readCommerceReadiness(invalid, 'ai-online-retail'), /Invalid commerce readiness/);
+});
+
 test('commerce English-only project content has translated notices on every editing surface', async () => {
   const notice = 'Commerce project instructions, workbook starters and required checks are English. Navigation follows your language. Save selected fictional lab observations manually; no files are uploaded or evidence automatically approved.';
   for (const file of ['first-project-chooser', 'service-project-journey', 'project-evidence-workbook', 'project-review-centre', 'pilot-project-tool']) {
     const source = await readFile(new URL(`../components/${file}.tsx`, import.meta.url), 'utf8');
     assert.ok(source.includes(`tr('${notice}')`), file);
-    assert.match(source, /commerceProjectTrack/);
+    if (file !== 'commerce-readiness-builder') assert.match(source, /commerceProjectTrack/);
   }
+  const readinessNotice = 'Commerce readiness form labels, validation messages and report text are in English. Navigation follows your language.';
+  const readinessComponent = await readFile(new URL('../components/commerce-readiness-builder.tsx', import.meta.url), 'utf8');
+  const readinessPage = await readFile(new URL('../app/business-launchpad/commerce-readiness/page.tsx', import.meta.url), 'utf8');
+  assert.ok(readinessComponent.includes(`tr('${readinessNotice}')`));
+  assert.ok(readinessPage.includes(`<Tr>${readinessNotice}</Tr>`));
   for (const locale of ['fr', 'de', 'es']) {
     const book = JSON.parse(await readFile(new URL(`../content/translations/ui-${locale}.json`, import.meta.url), 'utf8'));
     assert.ok(book[notice]);
+    assert.ok(book[readinessNotice]);
     assert.ok(book['Commerce account upload failed. Check your connection and apply migration 0014 after 0013. If this project exists or changed on another device, refresh the account list and load its latest copy first.']);
+    assert.ok(book['Commerce readiness snapshots also include customer evidence notes, provider comparisons, cost scenarios and operational role assignments. Review them before consenting to upload.']);
+    assert.ok(book['Commerce validation and launch readiness']);
+    assert.ok(book['Commerce Validation & Readiness']);
+    assert.ok(book['Open a saved retail, marketplace or logistics project in the workspace before recording readiness.']);
   }
   const migration = await readFile(new URL('../../supabase/migrations/0014_commerce_projects.sql', import.meta.url), 'utf8');
   for (const path of ['ai-online-retail', 'ai-marketplace-model', 'ai-logistics-services']) assert.ok(migration.includes(path));

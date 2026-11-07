@@ -5,6 +5,7 @@ import { readProjectReviewCentre, type ProjectReviewCentre } from '@/lib/project
 import { automationScenarioLabels, isAutomationScenario, type AutomationScenario } from '@/lib/automation-projects';
 import { readCaseStudy, type CaseStudy } from '@/lib/case-study';
 import { readDiscovery, type DiscoveryDraft } from '@/lib/client-discovery';
+import { readCommerceReadiness, type CommercePathId, type CommerceReadiness } from '@/lib/commerce-readiness';
 
 export const projectStoragePrefix = 'desofec:pilot-project:v1:';
 export const projectLimit = 10;
@@ -51,6 +52,7 @@ export type PilotProject = {
   reviewCentre?: ProjectReviewCentre;
   caseStudy?: CaseStudy;
   discovery?: DiscoveryDraft;
+  commerceReadiness?: CommerceReadiness;
 };
 export type StoredProject = {
   project: PilotProject;
@@ -93,6 +95,9 @@ export function readPilotProject(raw: string): PilotProject {
   for (const { key } of projectBriefFields) {
     if (typeof brief[key] !== 'string' || brief[key].length > 2000) throw new Error('Invalid project data.');
   }
+  if ('commerceReadiness' in value && !commerceProjectTrack(value.pathId as ServicePathId)) {
+    throw new Error('Commerce readiness is only valid for commerce projects.');
+  }
   return {
     version: 1, id: value.id, pathId: value.pathId as ServicePathId, title: value.title,
     ...(isAutomationScenario(value.automationScenario) ? { automationScenario: value.automationScenario } : {}),
@@ -103,7 +108,9 @@ export function readPilotProject(raw: string): PilotProject {
     ...('workbook' in value ? { workbook: readEvidenceWorkbook(value.workbook) } : {}),
     ...('reviewCentre' in value ? { reviewCentre: readProjectReviewCentre(value.reviewCentre, value.pathId as ServicePathId) } : {}),
     ...('caseStudy' in value ? { caseStudy: readCaseStudy(value.caseStudy) } : {}),
-    ...('discovery' in value ? { discovery: readDiscovery(value.discovery) } : {})
+    ...('discovery' in value ? { discovery: readDiscovery(value.discovery) } : {}),
+    ...('commerceReadiness' in value
+      ? { commerceReadiness: readCommerceReadiness(value.commerceReadiness, value.pathId as CommercePathId) } : {})
   };
 }
 
@@ -169,7 +176,7 @@ export function deleteProject(storage: Storage, id: string, expectedRevision: nu
   storage.removeItem(projectStoragePrefix + id);
 }
 
-export function saveProjectPart<K extends 'proposal' | 'results' | 'workbook' | 'reviewCentre' | 'caseStudy' | 'discovery'>(
+export function saveProjectPart<K extends 'proposal' | 'results' | 'workbook' | 'reviewCentre' | 'caseStudy' | 'discovery' | 'commerceReadiness'>(
   storage: Storage, id: string, key: K, value: PilotProject[K], expectedPart: string
 ) {
   const saved = loadProject(storage, id);
