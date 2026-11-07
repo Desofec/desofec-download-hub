@@ -24,6 +24,27 @@ Start with one track. Record the country, target customer, responsibilities and 
 discovery evidence. No interviews means **demand UNVALIDATED**. A worksheet or mock-up
 is not a live store, payment system, warehouse or carrier integration.
 
+## Optional tools and practical guides
+
+Choose tools for your track; you do not need all six, a paid account or an integration.
+Each guide provides a document/spreadsheet alternative, an optional AI prompt, checked
+practice outputs, costs to investigate and approval boundaries.
+
+| Tool | Role | Guide |
+|---|---|---|
+| Shopify | Hosted online storefront | https://www.desofec.com/tutorials/shopify-guide |
+| Sharetribe | Multi-vendor marketplace exploration | https://www.desofec.com/tutorials/sharetribe-guide |
+| Zoho Inventory | Stock and order records | https://www.desofec.com/tutorials/zoho-inventory-guide |
+| Shippo | Shipping and dispatch planning | https://www.desofec.com/tutorials/shippo-guide |
+| Zendesk | Human-reviewed customer support | https://www.desofec.com/tutorials/zendesk-guide |
+| Looker Studio | Reconciled reports and dashboards | https://www.desofec.com/tutorials/looker-studio-guide |
+
+Provider documentation and pricing references are linked in each guide. External sites
+could not be resolved during implementation; these are starting points, not live-verified
+references or endorsements. Check current country eligibility, features, plans, renewal,
+add-on/usage fees and data policies before registration or spending. No fixed vendor prices
+are quoted. Optional AI is not assumed included in a provider plan.
+
 ## Shared setup and AI rules
 
 1. Create a private practice folder with Brief, Source, Working, Checks and Handover.

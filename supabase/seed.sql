@@ -72,7 +72,13 @@ insert into public.tools (id, name, category, skill, description, badge, url, po
   ('runway', 'Runway', 'Design', 'Intermediate', 'Generate and edit video with AI using text or image references, then review the result before sharing.', 'Video', 'https://runwayml.com/', 41),
   ('teal', 'Teal', 'AI', 'Beginner', 'Build and tailor resumes to job descriptions and track applications; check every claim yourself.', 'Career', 'https://www.tealhq.com/tools/resume-builder', 42),
   ('excel-copilot', 'Copilot in Excel', 'Data', 'Beginner', 'Use AI support for Excel formulas, tables and data analysis; availability depends on your plan and settings.', 'Spreadsheets', 'https://support.microsoft.com/en-gb/excel/copilot/get-started-with-copilot-in-excel', 43),
-  ('google-sheets', 'Google Sheets', 'Data', 'Beginner', 'Create collaborative spreadsheets with formulas and charts, with optional Gemini features on eligible plans.', 'Spreadsheets', 'https://workspace.google.com/products/sheets/', 44)
+  ('google-sheets', 'Google Sheets', 'Data', 'Beginner', 'Create collaborative spreadsheets with formulas and charts, with optional Gemini features on eligible plans.', 'Spreadsheets', 'https://workspace.google.com/products/sheets/', 44),
+  ('shopify', 'Shopify', 'Commerce', 'Beginner', 'Explore a hosted online storefront for product listings and orders; verify current plans, payment eligibility and fulfillment responsibilities.', 'Storefront', 'https://www.shopify.com/', 45),
+  ('sharetribe', 'Sharetribe', 'Commerce', 'Intermediate', 'Explore a marketplace platform for independent sellers and buyers; check supported transaction models, country eligibility and payment requirements.', 'Marketplace', 'https://www.sharetribe.com/', 46),
+  ('zoho-inventory', 'Zoho Inventory', 'Commerce', 'Intermediate', 'Explore inventory and order records for a small business; check current stock, warehouse and integration capabilities before adopting.', 'Inventory', 'https://www.zoho.com/inventory/', 47),
+  ('shippo', 'Shippo', 'Commerce', 'Intermediate', 'Explore shipping software for carrier and label workflows; verify supported countries, services, charges and return requirements.', 'Shipping', 'https://goshippo.com/', 48),
+  ('zendesk', 'Zendesk', 'Commerce', 'Intermediate', 'Explore customer-support ticket workflows with optional AI features; check plan availability, data handling and human-review controls.', 'Support', 'https://www.zendesk.com/', 49),
+  ('looker-studio', 'Looker Studio', 'Data', 'Beginner', 'Explore dashboards and business reports from approved data sources; verify connectors, sharing permissions and any associated costs.', 'Reporting', 'https://cloud.google.com/looker-studio', 50)
 on conflict (id) do update set name = excluded.name, category = excluded.category, skill = excluded.skill, description = excluded.description, badge = excluded.badge, url = excluded.url, position = excluded.position;
 
 insert into public.starter_packs (id, title, description, level, file_path, position) values
@@ -179,6 +185,12 @@ insert into public.recommendation_tools (goal_id, tool_id, position) values
   ('build-ai-commerce', 'google-sheets', 0),
   ('build-ai-commerce', 'chatgpt', 1),
   ('build-ai-commerce', 'claude', 2),
+  ('build-ai-commerce', 'shopify', 3),
+  ('build-ai-commerce', 'sharetribe', 4),
+  ('build-ai-commerce', 'zoho-inventory', 5),
+  ('build-ai-commerce', 'shippo', 6),
+  ('build-ai-commerce', 'zendesk', 7),
+  ('build-ai-commerce', 'looker-studio', 8),
   ('scope-freelance-project', 'google-sheets', 0),
   ('offer-content-services', 'chatgpt', 0),
   ('offer-content-services', 'claude', 1),

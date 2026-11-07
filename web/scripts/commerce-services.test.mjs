@@ -158,7 +158,9 @@ test('tutorial routes and kit links do not claim unsupported project-workspace i
     assert.ok(registry.includes(`href: '/tutorials/${id}'`));
     assert.ok(kit.includes(`/tutorials/${id}`));
   }
-  assert.equal((registry.match(/starterPackId: 'ai-commerce-services-kit'/g) ?? []).length, 3);
+  for (const [id] of tracks) {
+    assert.match(registry, new RegExp(`pathId: '${id}'[\\s\\S]*?starterPackId: 'ai-commerce-services-kit'`));
+  }
   const page = await readFile(new URL('../app/tutorials/[id]/page.tsx', import.meta.url), 'utf8');
   assert.match(page, /tutorial\.starterPackId/);
   assert.match(page, /\/starter-packs\/\$\{tutorial\.starterPackId\}/);

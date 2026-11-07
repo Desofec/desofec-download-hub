@@ -25,6 +25,7 @@ import { videoBusinessSteps } from '@/lib/video-business-tutorial';
 import { clientDiscoverySteps } from '@/lib/client-discovery-tutorial';
 import { searchVisibilitySteps } from '@/lib/search-visibility-tutorial';
 import { onlineRetailSteps, marketplaceSteps, logisticsSteps } from '@/lib/commerce-services-tutorials';
+import { commerceToolGuides } from '@/lib/commerce-tool-guides';
 
 export type TutorialInfo = {
   pathId: string;
@@ -39,10 +40,25 @@ export type TutorialInfo = {
   backHref?: string;
   feedbackEnabled?: boolean;
   starterPackId?: string;
+  toolId?: string;
 };
 
 // Older tutorials keep their original URLs. New ones live under /tutorials/<pathId>.
 export const tutorials: TutorialInfo[] = [
+  ...commerceToolGuides.map((guide): TutorialInfo => ({
+    pathId: `${guide.toolId}-guide`,
+    href: `/tutorials/${guide.toolId}-guide`,
+    title: guide.title,
+    intro: guide.intro,
+    time: '45 minutes',
+    steps: guide.steps,
+    badge: 'Tool guide',
+    level: 'Beginner',
+    backHref: '/tutorials',
+    feedbackEnabled: false,
+    starterPackId: 'ai-commerce-services-kit',
+    toolId: guide.toolId
+  })),
   {
     pathId: 'ai-online-retail',
     href: '/tutorials/ai-online-retail',

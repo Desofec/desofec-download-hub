@@ -6,6 +6,7 @@ import { FavoriteToolButton } from '@/components/favorite-tool-button';
 import { getCatalog } from '@/lib/catalog';
 import { Tr } from '@/components/tr';
 import { ToolFreshness } from '@/components/tool-freshness';
+import { tutorials } from '@/lib/tutorials';
 
 export async function generateStaticParams() {
   const { tools } = await getCatalog();
@@ -23,6 +24,7 @@ export default async function ToolDetailPage({ params }: { params: Promise<{ id:
   const catalog = await getCatalog();
   const tool = catalog.tools.find((entry) => entry.id === id);
   if (!tool) notFound();
+  const guide = tutorials.find((entry) => entry.toolId === tool.id);
 
   const goalIds = Object.entries(catalog.recommendations)
     .filter(([, recommendation]) => recommendation.tools.includes(tool.id))
@@ -53,6 +55,9 @@ export default async function ToolDetailPage({ params }: { params: Promise<{ id:
             <FavoriteToolButton toolId={tool.id} />
           </div>
           <div className="cta-row">
+            {guide && <Link className="btn btn-secondary" href={guide.href}>
+              <Tr>Learn step by step: tutorial</Tr>
+            </Link>}
             <a
               className="btn btn-primary"
               href={tool.url}

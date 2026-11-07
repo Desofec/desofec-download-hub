@@ -2,7 +2,7 @@
   "build-ai-commerce": {
     "title": "AI-Powered Commerce and Logistics",
     "summary": "Choose online retail, a multi-vendor marketplace or logistics services. Practise with fictional data, checked calculations and human review before considering a live business.",
-    "tools": ["google-sheets", "chatgpt", "claude"],
+    "tools": ["google-sheets", "chatgpt", "claude", "shopify", "sharetribe", "zoho-inventory", "shippo", "zendesk", "looker-studio"],
     "starters": ["ai-commerce-services-kit"],
     "steps": [
       "Choose a model and gather actual customer evidence",
