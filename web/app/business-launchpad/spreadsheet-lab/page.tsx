@@ -4,7 +4,7 @@ import { Tr } from '@/components/tr';
 
 const title = 'Excel Data Cleaning & PDF-to-Excel Services: Practice Lab';
 const description = 'Practise Excel data cleaning, PDF-to-Excel checking and business reports with fictional source data, downloadable PDF and CSV, and explicit missing-value checks.';
-const canonical = 'https://desofec.com/business-launchpad/spreadsheet-lab';
+const canonical = 'https://www.desofec.com/business-launchpad/spreadsheet-lab';
 export const metadata: Metadata = {
   title, description, alternates: { canonical },
   openGraph: { title, description, url: canonical, type: 'website' },

@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   },
   description:
     'Discover beginner-friendly AI tools, learning paths, and starter packs that match your goals.',
-  metadataBase: new URL('https://desofec.com'),
+  metadataBase: new URL('https://www.desofec.com'),
   verification: { google: 'B2vpNP_7gnCgWXYh1vZetOdmDsBKX6b-vBuU02sJmNA' },
   alternates: { canonical: './' },
   keywords: ['AI tools for beginners', 'learn AI', 'AI tutorials', 'AI learning paths', 'AI starter packs'],
@@ -48,17 +48,17 @@ const jsonLd = {
   '@graph': [
     {
       '@type': 'WebSite',
-      '@id': 'https://desofec.com/#website',
-      url: 'https://desofec.com',
+      '@id': 'https://www.desofec.com/#website',
+      url: 'https://www.desofec.com',
       name: 'Desofec AI Studio',
       description: 'Beginner-friendly AI tools, learning paths, tutorials and starter packs.',
       inLanguage: ['en', 'fr', 'de', 'es']
     },
     {
       '@type': 'Organization',
-      '@id': 'https://desofec.com/#org',
+      '@id': 'https://www.desofec.com/#org',
       name: 'Desofec AI Studio',
-      url: 'https://desofec.com'
+      url: 'https://www.desofec.com'
     }
   ]
 };

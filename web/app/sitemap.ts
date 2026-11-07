@@ -2,7 +2,7 @@ import type { MetadataRoute } from 'next';
 import { getCatalog } from '@/lib/catalog';
 import { tutorials } from '@/lib/tutorials';
 
-const siteUrl = 'https://desofec.com';
+const siteUrl = 'https://www.desofec.com';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const { goals, paths, tools, starterPacks } = await getCatalog();
