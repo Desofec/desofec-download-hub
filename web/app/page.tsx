@@ -76,8 +76,8 @@ export default async function HomePage() {
             </div>
             <ul className="mini-stats" aria-label="Project stats">
               <li>
-                <strong>{catalog.goals.length}</strong>
-                <span><Tr>goal paths</Tr></span>
+                <strong>{catalog.paths.length}</strong>
+                <span><Tr>learning paths</Tr></span>
               </li>
               <li>
                 <strong>{catalog.tools.length}</strong>

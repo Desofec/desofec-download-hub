@@ -53,12 +53,14 @@ export function TutorialSteps({
   steps: sourceSteps,
   storageKey,
   syncId,
-  title
+  title,
+  feedbackEnabled = true
 }: {
   steps: TutorialStep[];
   storageKey: string;
   syncId: string;
   title: string;
+  feedbackEnabled?: boolean;
 }) {
   const t = useT();
   const language = useLanguage();
@@ -143,6 +145,13 @@ export function TutorialSteps({
             {step.explanation.map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
             ))}
+            {step.resources && step.resources.length > 0 && <p className="tutorial-resources">
+              <strong><Tr>Official guidance</Tr>:</strong>{' '}
+              {step.resources.map((resource, resourceIndex) => <span key={resource.url}>
+                {resourceIndex > 0 ? ' · ' : ''}
+                <a href={resource.url} target="_blank" rel="noopener noreferrer">{resource.label}</a>
+              </span>)}
+            </p>}
             {step.code && (
               <div className="tutorial-code">
                 <div className="tutorial-code-head">
@@ -191,7 +200,7 @@ export function TutorialSteps({
           </div>
         </section>
       )}
-      <LessonFeedback lessonId={syncId} />
+      {feedbackEnabled && <LessonFeedback lessonId={syncId} />}
     </div>
   );
 }

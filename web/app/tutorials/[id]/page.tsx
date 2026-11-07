@@ -43,6 +43,7 @@ export default async function TutorialPage({ params }: { params: Promise<{ id: s
           storageKey={tutorialStorageKey(tutorial.pathId)}
           syncId={tutorial.pathId}
           title={tutorial.title}
+          feedbackEnabled={tutorial.feedbackEnabled}
         />
         <div className="cta-row">
           {id === 'freelance-client-discovery' && <>
@@ -77,8 +78,8 @@ export default async function TutorialPage({ params }: { params: Promise<{ id: s
               </Link>
             </>
           )}
-          <Link className="btn btn-secondary" href={`/paths/${tutorial.pathId}`}>
-            <TutorialLabel k="tutorial.back" />
+          <Link className="btn btn-secondary" href={tutorial.backHref ?? `/paths/${tutorial.pathId}`}>
+            {tutorial.backHref ? <Tr>Browse all tutorials</Tr> : <TutorialLabel k="tutorial.back" />}
           </Link>
         </div>
       </div>

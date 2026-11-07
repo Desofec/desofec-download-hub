@@ -6,6 +6,9 @@ import { webNocodeTranslations } from '@/lib/translations/web-nocode';
 import { practicalFrench } from '@/lib/translations/practical-fr';
 import { practicalGerman } from '@/lib/translations/practical-de';
 import { practicalSpanish } from '@/lib/translations/practical-es';
+import { searchVisibilityResources } from '@/lib/search-visibility-tutorial';
+
+const { googleProperty, googleSitemap, googleRecrawl, bingGettingStarted } = searchVisibilityResources;
 
 export type StepTranslation = {
   title: string;
@@ -13,6 +16,7 @@ export type StepTranslation = {
   code?: string;
   check: string;
   aiPrompt: string;
+  resources?: { label: string; url: string }[];
 };
 
 export type TutorialTranslation = {
@@ -23,6 +27,152 @@ export type TutorialTranslation = {
 
 // Keyed by tutorial id (the learning path id), then language. English lives in the tutorial source files.
 const baseTranslations: Record<string, Partial<Record<Exclude<LanguageCode, 'en'>, TutorialTranslation>>> = {
+  'search-visibility': {
+    fr: {
+      title: 'Configurer Google Search et Bing Webmaster Tools',
+      intro: 'Choisissez une adresse canonique, envoyez votre sitemap et vérifiez l’indexation dans Google Search Console et Bing Webmaster Tools. Microsoft Edge est un navigateur, pas le service webmaster de Bing.',
+      steps: {
+        'choose-canonical-origin': {
+          title: 'Choisir une seule adresse publique',
+          explanation: ['Choisissez un seul nom d’hôte HTTPS canonique, par exemple https://www.example.com. Vérifiez les versions avec et sans www pour l’accueil et une page interne. L’autre nom d’hôte doit rediriger dans un seul sens vers l’adresse canonique en conservant le chemin de la page.', 'Utilisez le même hôte canonique dans les métadonnées, le sitemap et les URL envoyées aux outils de recherche. Pour cette application, l’origine canonique configurée est https://www.desofec.com. Ne modifiez le DNS ou l’hébergement que si vous les contrôlez.'],
+          check: 'Vous avez choisi un hôte HTTPS, vérifié l’autre version et constaté le même hôte dans le canonical et le sitemap.',
+          aiPrompt: 'Aide-moi à vérifier un nom d’hôte canonique. Demande-moi de comparer les versions avec et sans www et la balise canonical. Ne demande aucun mot de passe, jeton de vérification ou accès DNS.',
+          resources: [{ label: 'Ajouter une propriété dans Search Console', url: googleProperty.url }]
+        },
+        'verify-google-property': {
+          title: 'Vérifier le site dans Google Search Console',
+          explanation: ['Connectez-vous à Search Console et ajoutez une propriété Domaine pour le domaine racine, par exemple example.com. Elle couvre les protocoles et sous-domaines. Google fournit un enregistrement DNS TXT ; ajoutez-le chez le fournisseur du domaine uniquement si vous contrôlez le DNS, puis cliquez sur Vérifier. Une propriété de préfixe d’URL est une autre option si vous ne pouvez vérifier que ce préfixe.', 'Si la propriété est déjà vérifiée, continuez à l’utiliser ; ne créez pas de doublons pour www et sans www. Ne partagez jamais de mot de passe ni de jeton.'],
+          check: 'Search Console affiche la bonne propriété et votre compte y a accès. Si elle est déjà vérifiée, notez-le et continuez.',
+          aiPrompt: 'Explique la vérification d’une propriété Domaine Search Console. Rappelle-moi d’utiliser exactement le TXT fourni par Google et de ne pas copier d’identifiants dans le chat.',
+          resources: [{ label: 'Ajouter une propriété dans Search Console', url: googleProperty.url }]
+        },
+        'submit-google-sitemap': {
+          title: 'Envoyer le sitemap canonique à Google',
+          explanation: ['Dans la propriété vérifiée, ouvrez Sitemaps. Envoyez l’URL complète du sitemap de l’hôte canonique, par exemple https://www.example.com/sitemap.xml. Vérifiez qu’il est récupéré et contient les pages publiques à découvrir.', 'Un sitemap aide Google à découvrir des URL sans imposer leur indexation. Gardez un sitemap actuel et corrigez les erreurs à leur source.'],
+          check: 'Le sitemap envoyé affiche un état de traitement réussi et son URL utilise l’hôte HTTPS canonique.',
+          aiPrompt: 'Aide-moi à interpréter l’état du rapport Sitemaps. Demande seulement le texte de l’état, jamais les accès au compte.',
+          resources: [{ label: 'Créer et envoyer un sitemap à Google', url: googleSitemap.url }]
+        },
+        'inspect-google-url': {
+          title: 'Tester et inspecter une page dans Google',
+          explanation: ['Collez l’URL canonique exacte dans l’inspection Search Console. Vérifiez l’état d’indexation et, si nécessaire, utilisez Tester l’URL publiée. Dans le résultat, confirmez que la récupération a réussi, que l’exploration et l’indexation sont autorisées et que le canonical déclaré correspond à l’URL choisie.', 'Si la page est disponible mais pas indexée, demandez une seule fois son indexation. Google indique que l’exploration peut prendre des jours ou des semaines et que la demande ne garantit pas l’inclusion ; répéter une demande ne l’accélère pas.'],
+          check: 'Vous distinguez la disponibilité pour Google de l’indexation actuelle et votre page déclare le canonical attendu.',
+          aiPrompt: 'Explique cet état Search Console sans termes techniques : [texte non sensible]. Distingue disponibilité et indexation ; ne promets pas de résultats de recherche.',
+          resources: [{ label: 'Demander une nouvelle exploration Google', url: googleRecrawl.url }]
+        },
+        'set-up-bing-webmaster': {
+          title: 'Ajouter et vérifier le site dans Bing Webmaster Tools',
+          explanation: ['Bing Webmaster Tools sert à Bing Search ; Microsoft Edge est un navigateur. Ouvrez Bing Webmaster Tools et connectez-vous. Si Search Console est déjà vérifiée, utilisez l’importation proposée par Bing ; sinon ajoutez le site et choisissez une méthode de vérification affichée.', 'Ajoutez l’adresse canonique et le même sitemap, par exemple https://www.example.com/sitemap.xml. Utilisez les outils d’inspection ou d’envoi d’URL disponibles. Vérifiez les instructions Bing actuelles car les écrans peuvent changer.'],
+          check: 'Bing Webmaster Tools affiche le site vérifié et le sitemap canonique sans erreur non résolue.',
+          aiPrompt: 'Guide-moi dans la checklist officielle de Bing Webmaster Tools, écran par écran. Demande quelles options sont affichées. Ne demande aucun mot de passe ou jeton.',
+          resources: [{ label: 'Ouvrir Bing Webmaster Tools', url: searchVisibilityResources.bingPortal.url }, { label: 'Checklist Bing Webmaster Tools', url: bingGettingStarted.url }]
+        },
+        'monitor-indexing': {
+          title: 'Suivre les rapports et corriger la cause indiquée',
+          explanation: ['Consultez périodiquement les rapports Pages et Sitemaps de Google et les rapports du site dans Bing. Une URL non indexée peut être normale ; suivez le motif indiqué, comme redirection, exploration bloquée, canonical en double ou découverte en attente. Vérifiez redirections et canonicals avant une nouvelle demande.', 'Rédigez des pages utiles, originales, accessibles et claires pour les personnes. Aucun réglage ne garantit indexation, classement, visites ou citations par une IA.'],
+          check: 'Vous avez noté un problème réel ou l’absence de problème, trouvé sa cause et évité les demandes répétées pour une URL inchangée.',
+          aiPrompt: 'Aide-moi à comprendre ce problème Search Console ou Bing non sensible. Explique ce qu’il indique et une vérification sûre, sans promettre de classement.',
+          resources: [{ label: 'Ouvrir Bing Webmaster Tools', url: searchVisibilityResources.bingPortal.url }, { label: 'Checklist Bing Webmaster Tools', url: bingGettingStarted.url }, { label: 'Demander une nouvelle exploration Google', url: googleRecrawl.url }]
+        }
+      }
+    },
+    de: {
+      title: 'Google Suche und Bing Webmaster Tools einrichten',
+      intro: 'Wähle eine kanonische Website-Adresse, reiche die Sitemap ein und prüfe die Indexierung in Google Search Console und Bing Webmaster Tools. Microsoft Edge ist ein Browser, nicht Bings Webmaster-Dienst.',
+      steps: {
+        'choose-canonical-origin': {
+          title: 'Eine öffentliche Website-Adresse festlegen',
+          explanation: ['Wähle genau einen kanonischen HTTPS-Host, zum Beispiel https://www.example.com. Prüfe www und ohne www für Startseite und Unterseite. Der alternative Host sollte in eine Richtung zur kanonischen Adresse weiterleiten und den Seitenpfad erhalten.', 'Verwende denselben Host in Metadaten, Sitemap und eingereichten URLs. Für diese App ist https://www.desofec.com konfiguriert. Ändere DNS oder Hosting-Weiterleitungen nur, wenn du sie kontrollierst.'],
+          check: 'Du hast einen HTTPS-Host gewählt, die Weiterleitung geprüft und denselben Host in Canonical und Sitemap gefunden.',
+          aiPrompt: 'Hilf mir, einen kanonischen Website-Host zu prüfen. Bitte mich, www, ohne www und Canonical zu vergleichen. Frage nicht nach Passwörtern, Prüftoken oder DNS-Zugang.',
+          resources: [{ label: 'Property in Search Console hinzufügen', url: googleProperty.url }]
+        },
+        'verify-google-property': {
+          title: 'Website in Google Search Console bestätigen',
+          explanation: ['Melde dich in der Search Console an und füge eine Domain-Property für die Stammdomain hinzu, zum Beispiel example.com. Sie umfasst Protokolle und Subdomains. Google zeigt einen DNS-TXT-Eintrag an; füge ihn nur bei deinem DNS-Anbieter ein, wenn du den DNS kontrollierst, und wähle dann Bestätigen. Eine URL-Präfix-Property ist eine Alternative für einen einzelnen Präfix.', 'Ist die Property bereits bestätigt, nutze sie weiter und lege keine Duplikate für www und ohne www an. Teile niemals Passwörter oder Prüftoken.'],
+          check: 'Die richtige Property wird angezeigt und dein Konto hat Zugriff. Falls sie bereits bestätigt ist, notiere das und fahre fort.',
+          aiPrompt: 'Erkläre die Bestätigung einer Search-Console-Domain-Property. Erinnere mich, genau den Google-TXT-Wert zu verwenden und keine Zugangsdaten im Chat zu teilen.',
+          resources: [{ label: 'Property in Search Console hinzufügen', url: googleProperty.url }]
+        },
+        'submit-google-sitemap': {
+          title: 'Kanonische Sitemap bei Google einreichen',
+          explanation: ['Öffne in der bestätigten Property den Bereich Sitemaps. Reiche die vollständige Sitemap-Adresse des kanonischen Hosts ein, zum Beispiel https://www.example.com/sitemap.xml. Prüfe, ob sie abgerufen wurde und gewünschte öffentliche Seiten enthält.', 'Eine Sitemap hilft Google beim Entdecken, erzwingt aber keine Indexierung. Halte eine aktuelle Sitemap und behebe Fehler an ihrer Ursache.'],
+          check: 'Die Sitemap zeigt eine erfolgreiche Verarbeitung und verwendet den kanonischen HTTPS-Host.',
+          aiPrompt: 'Hilf mir, den Status im Search-Console-Sitemapbericht zu verstehen. Frage nur nach dem Statustext, nicht nach Kontozugängen.',
+          resources: [{ label: 'Sitemap bei Google erstellen und einreichen', url: googleSitemap.url }]
+        },
+        'inspect-google-url': {
+          title: 'Eine wichtige Seite bei Google testen',
+          explanation: ['Füge die genaue kanonische Seitenadresse in die Search-Console-Prüfung ein. Prüfe den Indexstatus und bei Bedarf Live-URL testen. Bestätige erfolgreichen Abruf, erlaubtes Crawling und Indexieren sowie das erwartete deklarierte Canonical.', 'Ist die Seite verfügbar, aber nicht indexiert, beantrage die Indexierung einmal. Google zufolge kann Crawling Tage oder Wochen dauern und die Anfrage garantiert keine Aufnahme; Wiederholungen beschleunigen es nicht.'],
+          check: 'Du unterscheidest Erreichbarkeit von Indexierung und die Seite nennt das erwartete Canonical.',
+          aiPrompt: 'Erkläre diesen Search-Console-Status einfach: [nicht vertraulicher Text]. Unterscheide Live-Erreichbarkeit von Indexierung und verspreche keine Suchergebnisse.',
+          resources: [{ label: 'Google erneut crawlen lassen', url: googleRecrawl.url }]
+        },
+        'set-up-bing-webmaster': {
+          title: 'Website in Bing Webmaster Tools hinzufügen',
+          explanation: ['Bing Webmaster Tools ist der Dienst für Bing Search; Microsoft Edge ist nur ein Browser. Melde dich bei Bing Webmaster Tools an. Wenn deine Website bereits in Search Console bestätigt ist, nutze Bings Importoption; andernfalls füge sie hinzu und schließe eine angezeigte Bestätigungsmethode ab.', 'Füge den kanonischen Host und dieselbe Sitemap ein, zum Beispiel https://www.example.com/sitemap.xml. Nutze verfügbare URL-Prüf- oder Einreichungsfunktionen. Prüfe aktuelle Bing-Anweisungen, da sich Menüs ändern können.'],
+          check: 'Bing Webmaster Tools listet die bestätigte Website und die kanonische Sitemap ohne offenen Fehler.',
+          aiPrompt: 'Führe mich Schritt für Schritt durch Bings offizielle Webmaster-Checkliste. Frage, welche Optionen ich sehe. Frage nicht nach Passwörtern oder Prüftoken.',
+          resources: [{ label: 'Bing Webmaster Tools öffnen', url: searchVisibilityResources.bingPortal.url }, { label: 'Bing Webmaster Tools Checkliste', url: bingGettingStarted.url }]
+        },
+        'monitor-indexing': {
+          title: 'Berichte beobachten und die Ursache beheben',
+          explanation: ['Prüfe regelmäßig die Google-Berichte Pages und Sitemaps sowie die Site-Berichte in Bing. Nicht indexierte URLs sind nicht immer ein Problem. Nutze den angezeigten Grund, etwa Weiterleitung, blockiertes Crawling, doppeltes Canonical oder noch nicht entdeckte URL. Prüfe Weiterleitungen und Canonicals vor neuen Anfragen.', 'Veröffentliche nützliche, eigene, zugängliche und verständliche Inhalte. Keine Einstellung garantiert Indexierung, Ranking, Besucher oder KI-Zitate.'],
+          check: 'Du hast ein echtes Problem oder keines notiert, die Ursache geprüft und unnötige Wiederholungsanfragen vermieden.',
+          aiPrompt: 'Hilf mir, diesen nicht vertraulichen Search-Console- oder Bing-Fehler zu verstehen. Nenne eine sichere Prüfung und verspreche kein Ranking.',
+          resources: [{ label: 'Bing Webmaster Tools öffnen', url: searchVisibilityResources.bingPortal.url }, { label: 'Bing Webmaster Tools Checkliste', url: bingGettingStarted.url }, { label: 'Google erneut crawlen lassen', url: googleRecrawl.url }]
+        }
+      }
+    },
+    es: {
+      title: 'Configurar Google Search y Bing Webmaster Tools',
+      intro: 'Elige una dirección canónica, envía tu sitemap y comprueba la indexación en Google Search Console y Bing Webmaster Tools. Microsoft Edge es un navegador, no el servicio para webmasters de Bing.',
+      steps: {
+        'choose-canonical-origin': {
+          title: 'Elige una única dirección pública',
+          explanation: ['Elige un único dominio HTTPS canónico, por ejemplo https://www.example.com. Comprueba las versiones con y sin www para la página principal y una página interna. El dominio alternativo debe redirigir en un solo sentido al canónico y conservar la ruta.', 'Usa el mismo dominio en metadatos, sitemap y URL enviadas a buscadores. Esta aplicación tiene configurado https://www.desofec.com. No cambies DNS ni redirecciones del alojamiento si no los controlas.'],
+          check: 'Has elegido un dominio HTTPS, comprobado la redirección y visto el mismo dominio canónico en la página y el sitemap.',
+          aiPrompt: 'Ayúdame a comprobar el dominio canónico de mi sitio. Pídeme comparar www, sin www y el canonical. No pidas contraseñas, tokens de verificación ni acceso DNS.',
+          resources: [{ label: 'Añadir una propiedad en Search Console', url: googleProperty.url }]
+        },
+        'verify-google-property': {
+          title: 'Verifica el sitio en Google Search Console',
+          explanation: ['Inicia sesión en Search Console y añade una propiedad de dominio para el dominio raíz, por ejemplo example.com. Incluye protocolos y subdominios. Google mostrará un registro DNS TXT; añádelo en el proveedor del dominio solo si controlas DNS y pulsa Verificar. Una propiedad de prefijo de URL es una alternativa para un único prefijo.', 'Si ya verificaste la propiedad, sigue usándola; no crees duplicados para www y sin www. Nunca compartas contraseñas ni tokens.'],
+          check: 'Search Console muestra la propiedad correcta y tu cuenta tiene acceso. Si ya está verificada, anótalo y continúa.',
+          aiPrompt: 'Explícame cómo verificar una propiedad de dominio de Search Console. Recuérdame usar exactamente el TXT que muestra Google y no compartir credenciales en el chat.',
+          resources: [{ label: 'Añadir una propiedad en Search Console', url: googleProperty.url }]
+        },
+        'submit-google-sitemap': {
+          title: 'Envía el sitemap canónico a Google',
+          explanation: ['En la propiedad verificada, abre Sitemaps y envía la URL completa del sitemap del dominio canónico, por ejemplo https://www.example.com/sitemap.xml. Comprueba que se ha procesado e incluye las páginas públicas que quieres que Google descubra.', 'El sitemap ayuda a descubrir URL, pero no obliga a indexarlas. Mantén un sitemap actualizado y corrige los errores desde su origen.'],
+          check: 'El sitemap muestra procesamiento correcto y usa el dominio HTTPS canónico.',
+          aiPrompt: 'Ayúdame a entender el estado del informe de Sitemaps. Pide solo el texto del estado, nunca credenciales.',
+          resources: [{ label: 'Crear y enviar un sitemap a Google', url: googleSitemap.url }]
+        },
+        'inspect-google-url': {
+          title: 'Prueba e inspecciona una página en Google',
+          explanation: ['Pega la URL canónica exacta en la inspección de Search Console. Comprueba el estado de indexación y, si hace falta, prueba la URL publicada. Confirma que la obtención funciona, que rastreo e indexación están permitidos y que el canonical declarado coincide con la URL elegida.', 'Si está disponible pero no indexada, solicita la indexación una vez. Google indica que el rastreo puede tardar días o semanas y la solicitud no garantiza inclusión; repetirla no acelera el proceso.'],
+          check: 'Distingues disponibilidad para Google de indexación actual y la página declara el canonical esperado.',
+          aiPrompt: 'Explícame este estado de Search Console en lenguaje sencillo: [texto no sensible]. Distingue disponibilidad en vivo de indexación y no prometas resultados.',
+          resources: [{ label: 'Solicitar a Google que vuelva a rastrear', url: googleRecrawl.url }]
+        },
+        'set-up-bing-webmaster': {
+          title: 'Añade y verifica tu sitio en Bing Webmaster Tools',
+          explanation: ['Bing Webmaster Tools es el servicio para Bing Search; Microsoft Edge es solo un navegador. Inicia sesión en Bing Webmaster Tools. Si Search Console ya está verificada, usa la opción de importación de Bing; si no, añade el sitio y completa uno de los métodos de verificación disponibles.', 'Añade el dominio canónico y el mismo sitemap, por ejemplo https://www.example.com/sitemap.xml. Usa las herramientas disponibles para inspeccionar o enviar URL. Consulta las instrucciones actuales de Bing porque los menús pueden cambiar.'],
+          check: 'Bing Webmaster Tools muestra el sitio verificado y el sitemap canónico sin errores pendientes.',
+          aiPrompt: 'Guíame por la lista oficial de inicio de Bing Webmaster Tools, una pantalla cada vez. Pregunta qué opciones veo. No pidas contraseñas ni tokens.',
+          resources: [{ label: 'Abrir Bing Webmaster Tools', url: searchVisibilityResources.bingPortal.url }, { label: 'Lista de inicio de Bing Webmaster Tools', url: bingGettingStarted.url }]
+        },
+        'monitor-indexing': {
+          title: 'Revisa los informes y corrige la causa indicada',
+          explanation: ['Consulta periódicamente los informes Pages y Sitemaps de Google y los informes del sitio en Bing. Que una URL no esté indexada puede ser normal; utiliza la causa indicada, como redirección, rastreo bloqueado, canonical duplicado o descubrimiento pendiente. Revisa redirecciones y canonicals antes de volver a solicitar rastreo.', 'Publica contenido útil, original, accesible y claro para las personas. Ninguna configuración garantiza indexación, posición, visitas ni menciones de IA.'],
+          check: 'Has anotado un problema real o que no hay ninguno, identificado su causa y evitado repetir solicitudes sin cambios.',
+          aiPrompt: 'Ayúdame a entender este problema no sensible de Search Console o Bing. Explica lo que indica y una comprobación segura, sin prometer posiciones.',
+          resources: [{ label: 'Abrir Bing Webmaster Tools', url: searchVisibilityResources.bingPortal.url }, { label: 'Lista de inicio de Bing Webmaster Tools', url: bingGettingStarted.url }, { label: 'Solicitar a Google que vuelva a rastrear', url: googleRecrawl.url }]
+        }
+      }
+    }
+  },
   'ai-beginner': {
     fr: {
       title: 'Vos premiers pas avec l’IA',
