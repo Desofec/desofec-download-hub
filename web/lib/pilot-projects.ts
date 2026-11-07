@@ -6,6 +6,7 @@ import { automationScenarioLabels, isAutomationScenario, type AutomationScenario
 import { readCaseStudy, type CaseStudy } from '@/lib/case-study';
 import { readDiscovery, type DiscoveryDraft } from '@/lib/client-discovery';
 import { readCommerceReadiness, type CommercePathId, type CommerceReadiness } from '@/lib/commerce-readiness';
+import { readCommercePilotPlan, type CommercePilotPlan } from '@/lib/commerce-pilot-plan';
 
 export const projectStoragePrefix = 'desofec:pilot-project:v1:';
 export const projectLimit = 10;
@@ -53,6 +54,7 @@ export type PilotProject = {
   caseStudy?: CaseStudy;
   discovery?: DiscoveryDraft;
   commerceReadiness?: CommerceReadiness;
+  commercePilotPlan?: CommercePilotPlan;
 };
 export type StoredProject = {
   project: PilotProject;
@@ -98,6 +100,9 @@ export function readPilotProject(raw: string): PilotProject {
   if ('commerceReadiness' in value && !commerceProjectTrack(value.pathId as ServicePathId)) {
     throw new Error('Commerce readiness is only valid for commerce projects.');
   }
+  if ('commercePilotPlan' in value && !commerceProjectTrack(value.pathId as ServicePathId)) {
+    throw new Error('Commerce pilot plans are only valid for commerce projects.');
+  }
   return {
     version: 1, id: value.id, pathId: value.pathId as ServicePathId, title: value.title,
     ...(isAutomationScenario(value.automationScenario) ? { automationScenario: value.automationScenario } : {}),
@@ -110,7 +115,9 @@ export function readPilotProject(raw: string): PilotProject {
     ...('caseStudy' in value ? { caseStudy: readCaseStudy(value.caseStudy) } : {}),
     ...('discovery' in value ? { discovery: readDiscovery(value.discovery) } : {}),
     ...('commerceReadiness' in value
-      ? { commerceReadiness: readCommerceReadiness(value.commerceReadiness, value.pathId as CommercePathId) } : {})
+      ? { commerceReadiness: readCommerceReadiness(value.commerceReadiness, value.pathId as CommercePathId) } : {}),
+    ...('commercePilotPlan' in value
+      ? { commercePilotPlan: readCommercePilotPlan(value.commercePilotPlan, value.pathId as CommercePathId) } : {})
   };
 }
 
@@ -176,7 +183,7 @@ export function deleteProject(storage: Storage, id: string, expectedRevision: nu
   storage.removeItem(projectStoragePrefix + id);
 }
 
-export function saveProjectPart<K extends 'proposal' | 'results' | 'workbook' | 'reviewCentre' | 'caseStudy' | 'discovery' | 'commerceReadiness'>(
+export function saveProjectPart<K extends 'proposal' | 'results' | 'workbook' | 'reviewCentre' | 'caseStudy' | 'discovery' | 'commerceReadiness' | 'commercePilotPlan'>(
   storage: Storage, id: string, key: K, value: PilotProject[K], expectedPart: string
 ) {
   const saved = loadProject(storage, id);
