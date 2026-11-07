@@ -57,11 +57,12 @@ export function PilotProjectAccount({ userId, selected, dirty, onChanged }: {
       <p>{tr('Saved discovery briefs, fit evidence and proposed changes are also included in account upload consent. Review these texts before uploading.')}</p>
       {selected && commerceProjectTrack(selected.project.pathId) && <p>{tr('Commerce readiness snapshots also include customer evidence notes, provider comparisons, cost scenarios and operational role assignments. Review them before consenting to upload.')}</p>}
       {selected && commerceProjectTrack(selected.project.pathId) && <p>{tr('Commerce pilot plan snapshots also include the proposed sample, budget cap, success and stop criteria, role assignments, evidence requirements and exclusions. Review them before consenting to upload.')}</p>}
+      {selected && commerceProjectTrack(selected.project.pathId) && <p>{tr('Commerce pilot results reviews also include aggregate observations, actual spend, learning notes and a human-recorded decision. Review them for personal data before consenting to upload.')}</p>}
       <p>{tr('There is no background sync or merging. Upload and load explicitly on each device. Version conflicts block overwrites. Delete account and device copies separately; downloaded files remain.')}</p>
       {!userId ? <Link className="btn btn-secondary" href="/account">{tr('Sign in to use private account snapshots.')}</Link> : <>
         <label className="project-check">
           <input type="checkbox" checked={consent} onChange={(event) => setConsentFor(event.target.checked ? selected?.project.id ?? null : null)} disabled={!selected} />
-          <span>{tr('I agree to upload this saved project, including costs, test evidence, workbook revisions, reviews, copied review text, case studies, discovery drafts, commerce readiness evidence and pilot planning, to my private account when I press Upload.')}</span>
+          <span>{tr('I agree to upload this saved project, including costs, test evidence, workbook revisions, reviews, copied review text, case studies, discovery drafts, commerce readiness evidence, pilot planning and aggregate results reviews, to my private account when I press Upload.')}</span>
         </label>
         <p>{tr('Save brief and checklist changes before uploading. Only saved device data is uploaded.')}</p>
         <div className="cta-row">

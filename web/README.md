@@ -193,6 +193,17 @@ no migration, seed update, provider lookup or background sync is added. Planner
 labels, validation messages and report text are English with a notice; navigation
 follows the selected language.
 
+The optional commerce pilot results and learning review records aggregate sample
+counts, observed success/stop values, actual spend, evidence limits, unexpected
+findings and a human-recorded stop/revise/explore decision. Comparisons only
+evaluate the entered aggregate values against the saved plan thresholds; they
+never choose the decision or authorize further activity. A changed plan marks an
+existing review as stale and requires an explicit new review. The validated review
+is an optional field in the same private project snapshot and is disclosed in
+account-upload consent; it collects no participant-level records and requires no
+migration or seed update. Review labels, validation messages and report text are
+English with a notice; navigation follows the selected language.
+
 ### Commerce tool guides
 
 Six external tools support the commerce goal: Shopify (storefront), Sharetribe
