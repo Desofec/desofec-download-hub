@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { TutorialList } from '@/components/tutorial-list';
 import { getCatalog } from '@/lib/catalog';
 import { tutorials } from '@/lib/tutorials';
+import { tutorialTopicIds } from '@/lib/tutorial-directory';
 import { Tr } from '@/components/tr';
 
 export const metadata: Metadata = {
@@ -45,7 +46,8 @@ export default async function TutorialsPage() {
               pathId: tutorial.pathId,
               href: tutorial.href,
               title: tutorial.title,
-              intro: tutorial.intro,
+              intro: tutorial.intro || path?.description || '',
+              topics: tutorialTopicIds(tutorial.pathId),
               time: tutorial.time,
               stepCount: tutorial.steps.length,
               badge: path?.badge ?? tutorial.badge,

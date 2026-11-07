@@ -135,3 +135,49 @@ test('homepage discovery offers translated practice outcomes and registered tuto
   assert.match(hero, /href="\/tutorials"/);
   assert.match(hero, /href="\/my-progress"/);
 });
+
+test('tutorial topics cover every registered lesson and combine query, level and topic filters', async () => {
+  const directorySource = await readFile(new URL('../lib/tutorial-directory.ts', import.meta.url), 'utf8');
+  const directoryOutput = ts.transpileModule(directorySource, {
+    compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2020 }
+  }).outputText;
+  const { tutorialTopics, tutorialTopicIds, matchesTutorialFilters } = await import(
+    `data:text/javascript;base64,${Buffer.from(directoryOutput).toString('base64')}`
+  );
+  const registry = await readFile(new URL('../lib/tutorials.ts', import.meta.url), 'utf8');
+  const guides = await readFile(new URL('../lib/commerce-tool-guides.ts', import.meta.url), 'utf8');
+  const ids = [
+    ...[...registry.matchAll(/pathId: '([^']+)'/g)].map((match) => match[1]),
+    ...[...guides.matchAll(/toolId: '([^']+)'/g)].map((match) => `${match[1]}-guide`),
+    'first-website-challenge'
+  ];
+  for (const id of ids) {
+    const topics = tutorialTopicIds(id);
+    assert.ok(topics.length > 0, id);
+    assert.equal(new Set(topics).size, topics.length, id);
+    assert.ok(topics.every((topic) => tutorialTopics.some((entry) => entry.id === topic)), id);
+  }
+  assert.throws(() => tutorialTopicIds('unknown'), /Missing tutorial directory topic/);
+  const item = {
+    topics: tutorialTopicIds('ai-spreadsheets'), level: 'Beginner',
+    searchText: ['Spreadsheets', 'Feuilles de calcul', 'Données', 'Clean fictional orders']
+  };
+  assert.equal(matchesTutorialFilters(item, '  FEUILLES  ', 'data', 'Beginner'), true);
+  assert.equal(matchesTutorialFilters(item, 'orders', 'business', 'All'), true);
+  assert.equal(matchesTutorialFilters(item, 'Spreadsheets', 'coding', 'All'), false);
+  assert.equal(matchesTutorialFilters(item, '', 'all', 'Advanced'), false);
+  assert.equal(matchesTutorialFilters(item, 'missing', 'all', 'All'), false);
+  assert.equal(matchesTutorialFilters(item, '', 'all', 'All'), true);
+  for (const locale of ['fr', 'de', 'es']) {
+    const book = JSON.parse(await readFile(new URL(`../content/translations/ui-${locale}.json`, import.meta.url), 'utf8'));
+    for (const phrase of [
+      ...tutorialTopics.map((topic) => topic.label), 'Choose a topic', 'All topics', 'Clear tutorial filters',
+      'Filter by topic, level or a search word. Some lesson descriptions remain in English; the filters follow your language.'
+    ]) assert.ok(book[phrase], `${locale}: ${phrase}`);
+  }
+  const component = await readFile(new URL('../components/tutorial-list.tsx', import.meta.url), 'utf8');
+  assert.match(component, /translation\?\.title/);
+  assert.match(component, /translation\?\.intro/);
+  assert.match(component, /setQuery\(''\); setTopic\('all'\); setLevel\('All'\)/);
+  assert.doesNotMatch(component, /localStorage|saveProject|tutorialStorageKey/);
+});
