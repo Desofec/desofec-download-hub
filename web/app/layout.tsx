@@ -15,26 +15,10 @@ export const metadata: Metadata = {
     template: '%s | Desofec AI Studio'
   },
   description:
-    'Discover beginner-friendly AI tools, learning paths, and starter packs that match your goals.',
+    'Explore beginner-friendly learning paths, AI and digital tools, step-by-step tutorials, and practical starter packs for building real skills.',
   metadataBase: new URL('https://www.desofec.com'),
   verification: { google: 'B2vpNP_7gnCgWXYh1vZetOdmDsBKX6b-vBuU02sJmNA' },
-  alternates: { canonical: './' },
   keywords: ['AI tools for beginners', 'learn AI', 'AI tutorials', 'AI learning paths', 'AI starter packs'],
-  openGraph: {
-    type: 'website',
-    locale: 'en_US',
-    url: '/',
-    siteName: 'Desofec AI Studio',
-    title: 'Desofec AI Studio | Learn the right tools',
-    description:
-      'Discover beginner-friendly AI tools, learning paths, and starter packs that match your goals.'
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Desofec AI Studio | Learn the right tools',
-    description:
-      'Discover beginner-friendly AI tools, learning paths, and starter packs that match your goals.'
-  },
   applicationName: 'Desofec AI Studio',
   appleWebApp: {
     capable: true,

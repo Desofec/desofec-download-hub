@@ -9,7 +9,17 @@ import { tutorialStorageKey, tutorials } from '@/lib/tutorials';
 export const metadata: Metadata = {
   title: 'Start Here: Build Your First Practice Portfolio',
   description: 'Learn a practical service, complete a guided fictional project and build an honest portfolio. Start with one beginner-friendly content exercise.',
-  alternates: { canonical: '/start-here' }
+  alternates: { canonical: '/start-here' },
+  openGraph: {
+    title: 'Start Here: Build Your First Practice Portfolio',
+    description: 'Learn a practical service, complete a guided fictional project and build an honest portfolio.',
+    url: '/start-here'
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Start Here: Build Your First Practice Portfolio',
+    description: 'Learn a practical service, complete a guided fictional project and build an honest portfolio.'
+  }
 };
 
 export default async function StartHerePage() {

@@ -9,7 +9,18 @@ import { tutorials } from '@/lib/tutorials';
 
 export const metadata: Metadata = {
   title: 'AI Business Launchpad',
-  description: 'Learn AI video creation for business, automation, content, CAD concepts, micro-SaaS validation and adult education with guided practice projects.'
+  description: 'Explore beginner-friendly digital service paths, practical tool guides and private practice projects for building a small business skill set.',
+  alternates: { canonical: '/business-launchpad' },
+  openGraph: {
+    title: 'AI Business Launchpad: Learn and Practise Digital Services',
+    description: 'Explore beginner-friendly service paths, practical tool guides and private practice projects.',
+    url: '/business-launchpad'
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'AI Business Launchpad: Learn and Practise Digital Services',
+    description: 'Explore beginner-friendly service paths, practical tool guides and private practice projects.'
+  }
 };
 
 const stages = [
