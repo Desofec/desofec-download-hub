@@ -7,6 +7,17 @@ paths, starter packs, recommendations) from Supabase when configured, and falls 
 The original static site files in the repository root are no longer deployed. GitHub Pages now publishes only
 `legacy-redirect/`, which sends visitors of the old `github.io` address to https://www.desofec.com.
 
+The canonical production origin is `https://www.desofec.com`. Metadata, structured
+data, sitemap URLs and the robots sitemap declaration use this origin. In Vercel,
+keep `www.desofec.com` serving the production app and configure `desofec.com` to
+redirect to it, preserving paths and queries; never redirect both domains to each
+other. Domain/DNS settings are managed outside this repository.
+Set the production `NEXT_PUBLIC_SITE_URL` to `https://www.desofec.com` and redeploy
+so newsletter links use the same origin; explicit local/preview overrides remain
+supported. Email addresses still use `@desofec.com`, not `@www.desofec.com`.
+Submit `https://www.desofec.com/sitemap.xml` in Search Console after deployment.
+These settings help consolidate URLs but do not guarantee Google indexing.
+
 ## Run locally
 
 ```bash

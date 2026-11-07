@@ -4,7 +4,7 @@ import { Tr } from '@/components/tr';
 
 const title = 'AI Workflow Automation for Small Business: Practice Lab';
 const description = 'Practise customer enquiry tracking, appointment reminder automation and automated weekly business reports with fictional data, duplicate checks and safe retries. No messages sent.';
-const canonical = 'https://desofec.com/business-launchpad/automation-lab';
+const canonical = 'https://www.desofec.com/business-launchpad/automation-lab';
 export const metadata: Metadata = {
   title, description, alternates: { canonical },
   openGraph: { title, description, url: canonical, type: 'website' },

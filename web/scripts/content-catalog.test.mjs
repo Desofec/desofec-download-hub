@@ -8,6 +8,26 @@ import { readAndValidateCatalog } from './content-catalog.mjs';
 
 const repoDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 
+test('production metadata, crawler discovery and newsletter defaults use the www origin', async () => {
+  const files = {
+    'app/layout.tsx': 5,
+    'app/robots.ts': 1,
+    'app/sitemap.ts': 1,
+    'app/business-launchpad/automation-lab/page.tsx': 1,
+    'app/business-launchpad/spreadsheet-lab/page.tsx': 1,
+    'app/actions.ts': 1,
+    '.env.example': 1
+  };
+  for (const [file, count] of Object.entries(files)) {
+    const source = await readFile(path.join(repoDir, 'web', file), 'utf8');
+    assert.doesNotMatch(source, /https:\/\/desofec\.com(?:[/'"]|$)/, file);
+    assert.equal((source.match(/https:\/\/www\.desofec\.com/g) ?? []).length, count, file);
+  }
+  const actions = await readFile(path.join(repoDir, 'web/app/actions.ts'), 'utf8');
+  assert.match(actions, /process\.env\.NEXT_PUBLIC_SITE_URL \|\| 'https:\/\/www\.desofec\.com'/);
+  assert.match(actions, /noreply@desofec\.com/);
+});
+
 test('practical AI paths have recommendations, kits and catalog translations', async () => {
   const catalog = await readAndValidateCatalog(repoDir);
   const additions = [

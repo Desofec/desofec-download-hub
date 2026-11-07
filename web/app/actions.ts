@@ -21,7 +21,7 @@ function hashToken(token: string) {
 }
 
 function getSiteUrl() {
-  return (process.env.NEXT_PUBLIC_SITE_URL || 'https://desofec.com').replace(/\/+$/, '');
+  return (process.env.NEXT_PUBLIC_SITE_URL || 'https://www.desofec.com').replace(/\/+$/, '');
 }
 
 async function sendNewsletterEmail(email: string, confirmationToken: string, unsubscribeToken: string) {
