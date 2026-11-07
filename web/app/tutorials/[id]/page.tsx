@@ -46,6 +46,9 @@ export default async function TutorialPage({ params }: { params: Promise<{ id: s
           feedbackEnabled={tutorial.feedbackEnabled}
         />
         <div className="cta-row">
+          {tutorial.practiceHref && <Link className="btn btn-primary" href={tutorial.practiceHref}>
+            <Tr>Open commerce practice lab</Tr>
+          </Link>}
           {tutorial.toolId && (
             <Link className="btn btn-secondary" href={`/tools/${tutorial.toolId}`}>
               <Tr>View tool details</Tr>

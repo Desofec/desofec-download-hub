@@ -134,6 +134,27 @@ hour-cached catalog after seeding; bundled-only deployments need no SQL.
 The catalog contains 35 paths and 51 tools: courses and worksheets
 are not counted as additional software tools.
 
+### Interactive commerce practice lab
+
+`/business-launchpad/commerce-lab` offers retail, marketplace and logistics tracks.
+The three commerce paths/tutorials link to the matching `?track=` view; the launchpad
+and sitemap include the lab. Invalid/repeated track query values use retail.
+Editable fictional tables calculate retail contribution, inventory flags and weekly
+amounts; exact catalog fact checks and per-order rounded commissions; receipt
+reconciliation, sequential whole-order reservations, quarantined returns and a
+separate hypothetical logistics cost scenario. Blank inputs remain unresolved,
+malformed values and duplicate IDs produce explicit errors, and receipt discrepancies
+block the reservation run. Changing receiving or requests invalidates linked results.
+
+Results and edits are in-memory only, cleared on reload. Downloaded UTF-8 text includes
+source inputs, linked requests, calculated tables, unresolved issues, limitations and
+an optional AI review prompt. No account saving, uploads, model calls, connector,
+real stock changes, payments, labels, messages or shipments occur. Source/working
+tables, outputs and validation are English with an explicit notice; navigation and
+notices support French, German and Spanish. No migration/seed update is required,
+and the catalog remains at 51 tools and 35 paths. This is not a supported project
+workspace type or owner-approval mechanism.
+
 ### Commerce tool guides
 
 Six external tools support the commerce goal: Shopify (storefront), Sharetribe

@@ -20,6 +20,15 @@ Tutorials:
 - https://www.desofec.com/tutorials/ai-marketplace-model
 - https://www.desofec.com/tutorials/ai-logistics-services
 
+Interactive practice: https://www.desofec.com/business-launchpad/commerce-lab
+
+Choose a retail, marketplace or logistics track, edit fictional tables and calculate.
+Blank values stay unresolved; invalid values and duplicate identifiers need correction.
+Receipt discrepancies block reservations, and changing linked inputs clears old results.
+Download your source/result worksheet explicitly: edits and results disappear on reload.
+The lab calls no AI, connects no accounts and performs no live business actions.
+Use its optional AI prompt only with fictional or approved non-confidential material.
+
 Start with one track. Record the country, target customer, responsibilities and actual
 discovery evidence. No interviews means **demand UNVALIDATED**. A worksheet or mock-up
 is not a live store, payment system, warehouse or carrier integration.
