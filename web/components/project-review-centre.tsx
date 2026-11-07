@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { useTr } from '@/components/tr';
-import { loadProject, saveProjectPart, withProjectLock, type StoredProject } from '@/lib/pilot-projects';
+import { commerceProjectTrack, loadProject, saveProjectPart, withProjectLock, type StoredProject } from '@/lib/pilot-projects';
 import { downloadPilotText } from '@/lib/pilot-download';
 import {
   buildReviewHandover, checksForService, emptyReviewChecks, emptyReviewCentre,
@@ -97,6 +97,7 @@ export function ProjectReviewCentre({ projectId }: { projectId?: string }) {
       </div>
       {saved && <>
         <h2>{saved.project.title}</h2>
+        {commerceProjectTrack(saved.project.pathId) && <p>{tr('Commerce project instructions, workbook starters and required checks are English. Navigation follows your language. Save selected fictional lab observations manually; no files are uploaded or evidence automatically approved.')}</p>}
         {!items.length && <p>{tr('Save practice text in the workbook first, then reload this review centre.')}</p>}
         <div className="form-group">
           <label htmlFor="review-item">{tr('Saved text item')}</label>

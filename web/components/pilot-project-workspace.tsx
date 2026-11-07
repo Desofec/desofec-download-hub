@@ -9,7 +9,7 @@ import { serviceProjectJourney } from '@/lib/service-project-journeys';
 import { useTr } from '@/components/tr';
 import { downloadPilotText } from '@/lib/pilot-download';
 import {
-  buildProjectSummary, deleteProject, listProjects, loadProject, newPilotProject, projectBriefFields,
+  buildProjectSummary, commerceProjectTrack, deleteProject, listProjects, loadProject, newPilotProject, projectBriefFields, projectKitId,
   projectMilestones, projectProposalReady, saveProject, withProjectLock,
   type PilotProject, type ServicePathId, type StoredProject
 } from '@/lib/pilot-projects';
@@ -207,6 +207,11 @@ function Workspace({ paths, projectId, initialPath }: WorkspaceProps) {
           <p>{tr('Recorded tests:')} {summary?.total ?? 0} · {tr('Not run or missing evidence:')} {summary?.pending ?? 0}</p>
           <p>{tr('Keep practice text and explicit revision history in the private workbook. Workbook drafts and links never mark tests or milestones complete.')}</p>
           <div className="cta-row">
+            {commerceProjectTrack(saved.pathId) && <Link className="btn btn-primary"
+              href={`/business-launchpad/commerce-lab?track=${commerceProjectTrack(saved.pathId)}&project=${encodeURIComponent(saved.id)}`}
+              onNavigate={(event) => { if (dirty && !window.confirm(tr('Discard unsaved brief and checklist changes?'))) event.preventDefault(); }}>
+              {tr('Open commerce practice lab')}
+            </Link>}
             <Link className="btn btn-secondary" href={`/business-launchpad/review-centre${query}`}
               onNavigate={(event) => { if (dirty && !window.confirm(tr('Discard unsaved brief and checklist changes?'))) event.preventDefault(); }}>{tr('Open project review centre')}</Link>
             <Link className="btn btn-primary" href={`/business-launchpad/evidence-workbook${query}`}
@@ -216,7 +221,7 @@ function Workspace({ paths, projectId, initialPath }: WorkspaceProps) {
             <Link className="btn btn-secondary" href={`/business-launchpad/results-tracker${query}`}
               onNavigate={(event) => { if (dirty && !window.confirm(tr('Discard unsaved brief and checklist changes?'))) event.preventDefault(); }}>{tr('Track pilot tests and results')}</Link>
             <Link className="btn btn-secondary" href={`/tutorials/${saved.pathId}`}>{tr('Start the tutorial')}</Link>
-            <Link className="btn btn-secondary" href={`/starter-packs/${saved.pathId}-kit`}>{tr('Open the service kit')}</Link>
+            <Link className="btn btn-secondary" href={`/starter-packs/${projectKitId(saved.pathId)}`}>{tr('Open the service kit')}</Link>
             <button type="button" className="btn btn-secondary" onClick={() => attempt(() => {
               downloadPilotText(buildProjectSummary(saved, tr), 'pilot-project-summary.txt');
               setNotice('Summary download requested. Only the saved project was included; review before sharing.');

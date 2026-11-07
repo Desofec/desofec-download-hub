@@ -29,6 +29,20 @@ Download your source/result worksheet explicitly: edits and results disappear on
 The lab calls no AI, connects no accounts and performs no live business actions.
 Use its optional AI prompt only with fictional or approved non-confidential material.
 
+## Guided private project journey
+
+Create one device project for your chosen track at
+https://www.desofec.com/business-launchpad/projects and explicitly save its brief.
+Use the lab link in the saved project, download selected observations, then reload
+the project evidence workbook and manually save fictional source, output and
+exception text as a versioned draft. No file upload or automatic test pass occurs.
+Save a bounded proposal and load the required service test plans in the results
+tracker; record actual observations for each bracketed code. Missing real approval
+is BLOCKED. Review revisions and unresolved issues, then export a clearly labelled
+fictional practice portfolio or case study. Device storage is not encrypted; anyone
+using the browser profile can see it. Account snapshots are optional and require
+sign-in, explicit consent and the current database migration; no background upload.
+
 Start with one track. Record the country, target customer, responsibilities and actual
 discovery evidence. No interviews means **demand UNVALIDATED**. A worksheet or mock-up
 is not a live store, payment system, warehouse or carrier integration.

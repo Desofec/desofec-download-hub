@@ -6,7 +6,7 @@ import { useTr } from '@/components/tr';
 import { downloadPilotText } from '@/lib/pilot-download';
 import { projectJourneyHref } from '@/lib/first-content-project';
 import { buildServicePortfolio, serviceJourneyCoverage, serviceJourneyDefinition, serviceProjectJourney } from '@/lib/service-project-journeys';
-import type { StoredProject } from '@/lib/pilot-projects';
+import { commerceProjectTrack, type StoredProject } from '@/lib/pilot-projects';
 
 export function ServiceProjectJourney({ saved, dirty }: { saved: StoredProject; dirty: boolean }) {
   const tr = useTr();
@@ -23,6 +23,7 @@ export function ServiceProjectJourney({ saved, dirty }: { saved: StoredProject; 
       <h3 id="guided-service-heading">{tr(definition?.title ?? 'Your first content-service project')}</h3>
       <p>{tr('Learn → practise → draft → test → review → hand over. These milestones use saved project records and self-recorded checklist items, not independent checks of your files. Lesson and kit progress stay separate.')}</p>
       {definition && <p className="path-card">{tr(definition.boundary)}</p>}
+      {commerceProjectTrack(project.pathId) && <p>{tr('Commerce project instructions, workbook starters and required checks are English. Navigation follows your language. Save selected fictional lab observations manually; no files are uploaded or evidence automatically approved.')}</p>}
       <Link className="btn btn-secondary" href={`/business-launchpad/client-discovery?project=${encodeURIComponent(project.id)}`}
         onNavigate={(event) => {
           if (dirty && !window.confirm(tr('Discard unsaved brief and checklist changes?'))) event.preventDefault();

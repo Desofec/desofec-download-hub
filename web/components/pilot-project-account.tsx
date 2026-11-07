@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { useTr } from '@/components/tr';
 import { getSupabaseBrowserClient } from '@/lib/supabase-browser';
-import { isProjectId, loadProject, projectStoragePrefix, readPilotProject, saveProject, withProjectLock, type PilotProject, type StoredProject } from '@/lib/pilot-projects';
+import { commerceProjectTrack, isProjectId, loadProject, projectStoragePrefix, readPilotProject, saveProject, withProjectLock, type PilotProject, type StoredProject } from '@/lib/pilot-projects';
 
 type CloudProject = { id: string; version: number; project: PilotProject };
 
@@ -72,7 +72,9 @@ export function PilotProjectAccount({ userId, selected, dirty, onChanged }: {
               const { data, error } = await client.rpc('save_pilot_project', {
                 _id: current.project.id, _document: current.project, _expected_version: version
               }).setHeader('Authorization', authorization);
-              if (error) throw new Error('Account upload failed. Check your connection and migration 0011. If this project exists or changed on another device, refresh the account list and load its latest copy first.');
+              if (error) throw new Error(commerceProjectTrack(current.project.pathId)
+                ? 'Commerce account upload failed. Check your connection and apply migration 0014 after 0013. If this project exists or changed on another device, refresh the account list and load its latest copy first.'
+                : 'Account upload failed. Check your connection and migration 0011. If this project exists or changed on another device, refresh the account list and load its latest copy first.');
               if (!Number.isSafeInteger(data) || data < 1) throw new Error('Invalid account response. Refresh the account list to check whether the upload completed.');
               if (!active.current) return;
               try {

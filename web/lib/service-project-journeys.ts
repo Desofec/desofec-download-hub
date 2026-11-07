@@ -19,6 +19,63 @@ const automationChecks: Check[] = starterPilotTests((text) => text).map((test, i
 }));
 
 export const serviceJourneys: Record<Exclude<ServicePathId, 'ai-content-services'>, ServiceJourney> = {
+  'ai-online-retail': {
+    title: 'Your guided online retail project',
+    heading: 'PRACTICE PORTFOLIO - FICTIONAL ONLINE RETAIL, NOT A LIVE STORE',
+    exercise: 'Exercise: one factual notebook listing, two inventory rows and a weekly report. Cost, inventory and report worksheets use separate fictional scenarios.',
+    boundary: 'Private practice only. No purchases, payments, store publication or actual customer approval. Lab calculations are limited checks, not validated forecasts, profit or permission to launch.',
+    practiceTitle: '2. Practise retail copy and worksheets',
+    learn: 'Read lesson 1. Save the fictional notebook facts, unknown supplier/demand, country and channel requirements in the brief. Define one listing, two inventory rows and one report; exclude live trading and record the reviewer.',
+    practise: 'Use the commerce lab retail track and shared kit. Draft one title, three bullets and a description with a claim ledger. Download the edited worksheet results and paste selected fictional inputs, observed outputs and unresolved issues into the private workbook; saving them does not verify files or mark tests passed.',
+    draft: 'Prepare and save a current proposal for a bounded retail-support practice package with one revision. Include exclusions, acceptance checks, human review, data handling and handover. Separate internal costs from proposed fees; no publication, purchases or income promises.',
+    handover: 'Keep listing v1/v2, claim ledger, cost assumptions, inventory source/working rows, weekly report, downloaded observations and reopened-file checks. Save a reasoned decision and label every portfolio/case study fictional. Real owner approval remains blocked.',
+    proposalFields: ['dataHandling'],
+    checks: [
+      { code: 'RETAIL-1', label: 'Retail facts and listing claims', input: 'Compare the notebook title, three bullets and description with the fictional brief.', expected: 'Two A5 notebooks, 80 ruled pages each, paper cover only. Waterproof/recycled claims removed; identifiers, supplier and approvals unknown.' },
+      { code: 'RETAIL-2', label: 'Retail contribution and cost limits', input: 'Run the sample retail cost worksheet and independently recalculate.', expected: '20-6-3-4-1-1 = USD 5; 25% contribution/price. Not vendor fees, net profit or actual revenue; omitted costs visible.' },
+      { code: 'RETAIL-3', label: 'Inventory and missing-value checks', input: 'Run both sample inventory rows, then blank a lead time and record both observations.', expected: 'NB-A daily 2, threshold 26, position 18, cover 9, REVIEW; PN-B threshold 11, HOLD. Missing lead time unresolved, not zero or purchase approval.' },
+      { code: 'RETAIL-4', label: 'Weekly reconciliation and incomplete source', input: 'Run weekly rows and repeat with a blank refund amount.', expected: '250 gross, 20 refunds, 230 after refunds; not profit/growth. Missing refund produces an incomplete known subtotal, not a complete total.' },
+      { code: 'RETAIL-5', label: 'Retail reopened evidence and approval', input: 'Reopen actual downloaded worksheets and draft files; record source, revision and missing owner review.', expected: 'Inputs and outputs traceable, separate periods labelled, files actually reopened. Unavailable real owner approval BLOCKED; no live store or trading.' }
+    ]
+  },
+  'ai-marketplace-model': {
+    title: 'Your guided marketplace prototype project',
+    heading: 'PRACTICE PORTFOLIO - FICTIONAL MARKETPLACE, NOT LIVE SELLERS OR PAYMENTS',
+    exercise: 'Exercise: two fictional seller listings, three orders, commission reconciliation and a reviewed support runbook. Spreadsheet records are not live marketplace software.',
+    boundary: 'Private prototype only. Seller/operator responsibility, demand and payment eligibility remain unvalidated. No real onboarding, funds, automatic moderation or actual client approval.',
+    practiceTitle: '2. Practise catalog and marketplace records',
+    learn: 'Read lesson 1 and save operator, seller and buyer roles, unknown demand and responsibility questions. Scope two listings, three order records and one support case; exclude live sellers, payments and legal certification.',
+    practise: 'Use the marketplace lab and shared kit. Preserve seller/SKU IDs and a claim ledger, reconcile commission and test unsupported claims, duplicates and missing refunds. Download results and manually save selected fictional inputs, actual observations and limitations in the private workbook; they never become automatic test evidence.',
+    draft: 'Save a proposal for a small marketplace operations prototype with one revision, explicit roles, exclusions, acceptance, data handling, reviewer and handover. Leave provider fees and eligibility unresolved; no live payment or seller-approval promises.',
+    handover: 'Keep model canvas, seller checklist, catalog source/working copy, ledger, support escalation runbook and actual reopened-file observations. Preserve unresolved seller/operator review and payment questions. Export only a labelled fictional practice portfolio/case study.',
+    proposalFields: ['dataHandling'],
+    checks: [
+      { code: 'MARKET-1', label: 'Seller roles and catalog evidence', input: 'Compare S1/N1 and S2/P1 facts and test an unsupported claim in the catalog lab.', expected: 'Seller/SKU identity preserved; exact fictional facts match. Changed/unsupported claims REVIEW REQUIRED; no seller verification or publishing approval.' },
+      { code: 'MARKET-2', label: 'Order and commission reconciliation', input: 'Run the three-order sample and independently check per-order and seller totals.', expected: '230 gross - 70 refunds = 160 retained = 16 commission + 144 allocation; S1 90 and S2 54. Not payouts, provider pricing or profit.' },
+      { code: 'MARKET-3', label: 'Duplicate, blank and rounding cases', input: 'Test repeated O2, blank refund, and a USD 0.05 order with no refund.', expected: 'Duplicate produces error; missing refund stays incomplete; 10% of 0.05 rounds to 0.01 commission and 0.04 allocation. Preserve source observations.' },
+      { code: 'MARKET-4', label: 'Moderated support and appeal boundaries', input: 'Review one fictional damaged-parcel acknowledgement and escalation runbook.', expected: 'Outcome unknown; evidence, authorised reviewer and appeal route stated. No automatic refunds, blame, penalties or invented delivery dates.' },
+      { code: 'MARKET-5', label: 'Marketplace handover and approval', input: 'Reopen the catalog, ledger and runbook and check actual owner/seller/payment approval.', expected: 'Method and revision evidence recorded. Missing approval BLOCKED; prototype and worksheet allocations never imply live platform/payment readiness.' }
+    ]
+  },
+  'ai-logistics-services': {
+    title: 'Your guided logistics records project',
+    heading: 'PRACTICE PORTFOLIO - FICTIONAL LOGISTICS, NOT PHYSICAL FULFILLMENT',
+    exercise: 'Exercise: two receiving rows, three reservation requests, one quarantined return and a separate hypothetical cost scenario. No physical inspection or shipment occurs.',
+    boundary: 'Records-only practice. No actual stock custody, inspection, release, carrier integration, shipment or refund. Real client approval and operational requirements stay unvalidated/blocked.',
+    practiceTitle: '2. Practise receiving and reservation records',
+    learn: 'Read lesson 1. Save the client-owned stationery scope, responsibilities, unknown demand and facility/insurance requirements. Exclude real goods, hazardous products, shipments, refunds and operational certification.',
+    practise: 'Use the logistics lab and shared kit. Reconcile receipts, reserve whole orders sequentially, test discrepancies/duplicates and keep returned units quarantined. Download worksheet observations including linked requests; manually preserve selected fictional source, outputs and unresolved issues in the private workbook without claiming inspections.',
+    draft: 'Save a bounded records-support proposal with one revision, exclusions, acceptance checks, data handling, custody boundaries, reviewer and handover. Do not offer physical logistics beyond competence or invent insurance, carrier approval or fees.',
+    handover: 'Preserve receipt source, reservation requests/results, discrepancy log, dispatch/return runbook, separate cost scenario and actual reopened-file observations. Keep physical-operation and approval checks blocked. Export a clearly labelled fictional portfolio/case study, not a logistics certification.',
+    proposalFields: ['dataHandling'],
+    checks: [
+      { code: 'LOG-1', label: 'Receipt counts and quarantine', input: 'Run NB-A and PN-B receipt sample; then change a count or leave it blank.', expected: 'NB-A 30 = 28 usable + 2 quarantined; PN-B 20 usable. Discrepant/missing counts block the reservation run; damaged stock never available.' },
+      { code: 'LOG-2', label: 'Sequential reservation and duplicate checks', input: 'Run L1/L2/L3, change one request, and test a repeated order ID.', expected: 'Available NB-A 23/PN-B 13; reserved 5/7; L2 HOLD shortage 2, reserves nothing. Changes clear old result; duplicate errors, not another pick.' },
+      { code: 'LOG-3', label: 'Dispatch and quarantined return', input: 'Review R1 and the dispatch/return runbook against the simulation.', expected: 'One earlier-order NB-A return quarantined pending inspection; zero added to available, balances unchanged. No actual picks, tracking, delivery or refund approval.' },
+      { code: 'LOG-4', label: 'Separate hypothetical cost scenario', input: 'Run and independently check the 10-order cost scenario, separately from reservations.', expected: '8-3-1-2 = USD 2/order, 25%; hypothetical fees 80, allowances 60, contribution 20. Not actual revenue/profit; shipping/insurance/taxes omitted.' },
+      { code: 'LOG-5', label: 'Logistics reopened handover and approval', input: 'Reopen receiving/request exports and runbook and record missing actual client review.', expected: 'Source and requests traceable with exceptions and method. Missing client approval BLOCKED; no physical fulfillment or qualified operational approval claimed.' }
+    ]
+  },
   'ai-spreadsheets': {
     title: 'Your guided spreadsheet services project',
     heading: 'PRACTICE PORTFOLIO - FICTIONAL SPREADSHEETS, NOT FINANCIAL CERTIFICATION',

@@ -16,7 +16,7 @@ const trackTitles: Record<CommerceTrack, string> = {
   retail: 'AI-Powered Online Retail', marketplace: 'AI-Powered Marketplace Business Model', logistics: 'AI-Powered Logistics Services'
 };
 
-export function CommercePracticeLab({ initialTrack }: { initialTrack: CommerceTrack }) {
+export function CommercePracticeLab({ initialTrack, projectId }: { initialTrack: CommerceTrack; projectId?: string }) {
   const tr = useTr();
   const [track, setTrack] = useState(initialTrack);
   const [inputs, setInputs] = useState<Record<string, PracticeRow[]>>(() => Object.fromEntries(commerceExercises.map((exercise) => [exercise.id, sampleCommerceRows(exercise.id)])));
@@ -61,10 +61,17 @@ export function CommercePracticeLab({ initialTrack }: { initialTrack: CommerceTr
         onClick={() => { setTrack(name); setNotice(''); }}>{tr(trackTitles[name])}</button>)}
     </div>
     <div className="cta-row">
+      <Link className="btn btn-primary" href={projectId ? `/business-launchpad/projects?project=${encodeURIComponent(projectId)}` : `/business-launchpad/projects?path=${trackPaths[track]}`}>
+        {tr(projectId ? 'Return to saved practice project' : 'Start a practice project')}
+      </Link>
+      {projectId && <Link className="btn btn-secondary" href={`/business-launchpad/evidence-workbook?project=${encodeURIComponent(projectId)}`}>
+        {tr('Open private evidence workbook')}
+      </Link>}
       <Link className="btn btn-secondary" href={`/tutorials/${trackPaths[track]}`}>{tr('Start the tutorial')}</Link>
       <Link className="btn btn-secondary" href={`/paths/${trackPaths[track]}`}>{tr('View path')}</Link>
       <Link className="btn btn-secondary" href="/starter-packs/ai-commerce-services-kit">{tr('Open the service kit')}</Link>
     </div>
+    {projectId && <p>{tr('This lab does not load or change the linked project. Download selected fictional results, then reload the project workbook and explicitly save your observations there. Existing evidence and tests remain unchanged.')}</p>}
     <p>{tr('Blank values remain unknown. Invalid values and duplicate identifiers require correction. Editing an input clears its previous result; linked receiving and order inputs clear the reservation result together.')}</p>
     {commerceExercises.filter((exercise) => exercise.track === track).map((exercise) => {
       const id = exercise.id, rows = inputs[id], result = results[id];

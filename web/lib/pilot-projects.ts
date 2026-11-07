@@ -11,9 +11,19 @@ export const projectLimit = 10;
 export const projectByteLimit = 1000000;
 export const servicePathIds = [
   'ai-automation-services', 'ai-content-services', 'ai-cad-services',
-  'micro-saas-validation', 'ai-education-services', 'ai-video-business', 'ai-spreadsheets'
+  'micro-saas-validation', 'ai-education-services', 'ai-video-business', 'ai-spreadsheets',
+  'ai-online-retail', 'ai-marketplace-model', 'ai-logistics-services'
 ] as const;
 export type ServicePathId = typeof servicePathIds[number];
+const commerceTracks: Partial<Record<ServicePathId, 'retail' | 'marketplace' | 'logistics'>> = {
+  'ai-online-retail': 'retail', 'ai-marketplace-model': 'marketplace', 'ai-logistics-services': 'logistics'
+};
+export function commerceProjectTrack(pathId: ServicePathId) {
+  return commerceTracks[pathId] ?? null;
+}
+export function projectKitId(pathId: ServicePathId) {
+  return commerceProjectTrack(pathId) ? 'ai-commerce-services-kit' : `${pathId}-kit`;
+}
 export const projectBriefFields = [
   { key: 'objective', label: 'Practice objective and evidence' },
   { key: 'scope', label: 'Deliverables and exclusions' },

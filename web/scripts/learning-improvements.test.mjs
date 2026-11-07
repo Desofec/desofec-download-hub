@@ -723,6 +723,7 @@ test('review instructions, statuses, errors, consent and private route have comp
     const source = await readFile(new URL(file, import.meta.url), 'utf8');
     const ast = ts.createSourceFile(file, source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
     const visit = (node) => {
+      if (ts.isPropertyAssignment(node) && ['ai-online-retail', 'ai-marketplace-model', 'ai-logistics-services'].includes(node.name.text)) return;
       if (ts.isStringLiteral(node) && /^[A-Z]/.test(node.text)) strings.add(node.text);
       if (ts.isJsxText(node) && node.parent.openingElement?.tagName.getText(ast) === 'Tr' && node.text.trim()) strings.add(node.text.trim());
       ts.forEachChild(node, visit);
@@ -905,6 +906,7 @@ test('workbook interface, starters, errors and privacy consent have three transl
     const source = await readFile(new URL(file, import.meta.url), 'utf8');
     const ast = ts.createSourceFile(file, source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
     const visit = (node) => {
+      if (ts.isPropertyAssignment(node) && ['ai-online-retail', 'ai-marketplace-model', 'ai-logistics-services'].includes(node.name.text)) return;
       if (ts.isStringLiteral(node) && /^[A-Z]/.test(node.text)) strings.add(node.text);
       if (ts.isJsxText(node) && node.parent.openingElement?.tagName.getText(ast) === 'Tr' && node.text.trim()) strings.add(node.text.trim());
       ts.forEachChild(node, visit);
@@ -1142,7 +1144,8 @@ test('guided portfolio uses unchanged project serialization and has translated i
   }
   for (const locale of ['fr', 'de', 'es']) {
     const book = JSON.parse(await readFile(new URL(`../content/translations/ui-${locale}.json`, import.meta.url), 'utf8'));
-    for (const text of strings) assert.ok(book[text], `${locale}: missing guided phrase "${text}"`);
+    const catalog = JSON.parse(await readFile(new URL(`../content/translations/catalog-${locale}.json`, import.meta.url), 'utf8'));
+    for (const text of strings) assert.ok(book[text] || catalog[text], `${locale}: missing guided phrase "${text}"`);
     const report = buildContentPortfolio(saved.project, (text) => book[text] ?? text);
     assert.ok(report.startsWith(book['PRACTICE PORTFOLIO - FICTIONAL CONTENT SERVICE, NOT CLIENT WORK']));
     assert.doesNotMatch(report, /Recorded decision:|Practice record assembled - self-recorded/);
@@ -1153,7 +1156,8 @@ test('service journeys define distinct required plans without invented evidence 
   const { serviceJourneys, serviceJourneyTests, serviceProjectJourney, serviceJourneyCoverage } =
     await loadContent('../lib/service-project-journeys.ts', journeyImports);
   const { readPilotProject } = await loadContent('../lib/pilot-projects.ts', projectImports);
-  const counts = { 'ai-automation-services': 9, 'ai-cad-services': 5, 'micro-saas-validation': 8, 'ai-education-services': 5, 'ai-video-business': 7, 'ai-spreadsheets': 7 };
+  const counts = { 'ai-automation-services': 9, 'ai-cad-services': 5, 'micro-saas-validation': 8, 'ai-education-services': 5, 'ai-video-business': 7, 'ai-spreadsheets': 7,
+    'ai-online-retail': 5, 'ai-marketplace-model': 5, 'ai-logistics-services': 5 };
   const allCodes = new Set();
   for (const [pathId, definition] of Object.entries(serviceJourneys)) {
     const project = await contentProjectFixture();
@@ -1292,6 +1296,7 @@ test('service portfolios preserve decisions, missing coverage, privacy and optio
     assert.match(report, /Incomplete practice draft/);
     assert.ok(report.includes(`[ ] [${definition.checks[0].code}]`));
     for (const locale of ['fr', 'de', 'es']) {
+      if (['ai-online-retail', 'ai-marketplace-model', 'ai-logistics-services'].includes(pathId)) continue;
       const book = JSON.parse(await readFile(new URL(`../content/translations/ui-${locale}.json`, import.meta.url), 'utf8'));
       const tr = (text) => { assert.ok(book[text], `${locale}: missing service phrase "${text}"`); return book[text]; };
       for (const field of ['title', 'heading', 'exercise', 'boundary', 'practiceTitle', 'learn', 'practise', 'draft', 'handover']) tr(definition[field]);
@@ -1305,6 +1310,61 @@ test('service portfolios preserve decisions, missing coverage, privacy and optio
   const { buildContentPortfolio, contentJourney } = await loadContent('../lib/first-content-project.ts', journeyImports);
   assert.equal(buildServicePortfolio(content, (text) => text), buildContentPortfolio(content, (text) => text));
   assert.deepEqual(serviceProjectJourney(content), contentJourney(content), 'existing content behavior is unchanged');
+});
+
+test('commerce projects share safe persistence, kit routing, workbook and review surfaces', async () => {
+  const { newPilotProject, saveProject, loadProject, saveProjectPart, projectKitId, commerceProjectTrack } = await loadContent('../lib/pilot-projects.ts', projectImports);
+  const { projectJourneyHref } = await loadContent('../lib/first-content-project.ts', journeyImports);
+  const { workbookStarters, appendWorkbookRevision } = await loadContent('../lib/evidence-workbook.ts');
+  const { emptyReviewChecks, saveTextReview } = await loadContent('../lib/project-review.ts', projectImports);
+  const { serviceJourneyTests, serviceProjectJourney, buildServicePortfolio } = await loadContent('../lib/service-project-journeys.ts', journeyImports);
+  for (const [path, track] of [['ai-online-retail', 'retail'], ['ai-marketplace-model', 'marketplace'], ['ai-logistics-services', 'logistics']]) {
+    const storage = memoryStorage();
+    const project = newPilotProject(projectId, path, `Fictional ${track}`);
+    saveProject(storage, project, 0);
+    assert.equal(projectKitId(path), 'ai-commerce-services-kit');
+    assert.equal(commerceProjectTrack(path), track);
+    assert.equal(projectJourneyHref(project, 'kit'), '/starter-packs/ai-commerce-services-kit');
+    const starter = workbookStarters[path];
+    assert.match(starter.text, /FICTIONAL/);
+    const workbook = appendWorkbookRevision({ version: 1, items: [] }, null, starter.title, starter.text, workbookTime);
+    let saved = saveProjectPart(storage, projectId, 'workbook', workbook, 'null');
+    assert.deepEqual(saved.project.completed, []);
+    assert.equal(saved.project.results, null);
+    assert.throws(() => saveProjectPart(storage, projectId, 'workbook', workbook, 'null'), /draft changed/);
+    const checks = emptyReviewChecks(path);
+    assert.equal(checks.length, 4);
+    assert.ok(checks.some((check) => check.id === 'approval'));
+    const review = saveTextReview(saved.project, 'item-1', workbook.items[0].revisions[0], checks, workbookTime);
+    saved = saveProjectPart(storage, projectId, 'reviewCentre', review, 'null');
+    assert.deepEqual(loadProject(storage, projectId).project.reviewCentre, review);
+    assert.equal(serviceJourneyTests(path, (s) => s).length, 5);
+    assert.equal(serviceProjectJourney(saved.project).ready, false);
+    const portfolio = buildServicePortfolio(saved.project, (s) => s);
+    assert.match(portfolio, /FICTIONAL/);
+    assert.match(portfolio, /Incomplete practice draft/);
+    assert.match(portfolio, /No client approval/);
+    assert.match(workbook.items[0].revisions[0].body, /blocked|BLOCKED/);
+  }
+  assert.equal(projectKitId('ai-content-services'), 'ai-content-services-kit');
+});
+
+test('commerce English-only project content has translated notices on every editing surface', async () => {
+  const notice = 'Commerce project instructions, workbook starters and required checks are English. Navigation follows your language. Save selected fictional lab observations manually; no files are uploaded or evidence automatically approved.';
+  for (const file of ['first-project-chooser', 'service-project-journey', 'project-evidence-workbook', 'project-review-centre', 'pilot-project-tool']) {
+    const source = await readFile(new URL(`../components/${file}.tsx`, import.meta.url), 'utf8');
+    assert.ok(source.includes(`tr('${notice}')`), file);
+    assert.match(source, /commerceProjectTrack/);
+  }
+  for (const locale of ['fr', 'de', 'es']) {
+    const book = JSON.parse(await readFile(new URL(`../content/translations/ui-${locale}.json`, import.meta.url), 'utf8'));
+    assert.ok(book[notice]);
+    assert.ok(book['Commerce account upload failed. Check your connection and apply migration 0014 after 0013. If this project exists or changed on another device, refresh the account list and load its latest copy first.']);
+  }
+  const migration = await readFile(new URL('../../supabase/migrations/0014_commerce_projects.sql', import.meta.url), 'utf8');
+  for (const path of ['ai-online-retail', 'ai-marketplace-model', 'ai-logistics-services']) assert.ok(migration.includes(path));
+  assert.match(migration, /Unexpected save_pilot_project definition/);
+  assert.match(migration, /from public, anon/);
 });
 
 test('project schema supports all service tracks, validates all nested drafts and rejects malformed data', async () => {

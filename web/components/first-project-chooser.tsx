@@ -6,7 +6,7 @@ import { useTr } from '@/components/tr';
 import type { LearningPath } from '@/lib/types';
 import { firstContentPath } from '@/lib/first-content-project';
 import { serviceJourneyDefinition } from '@/lib/service-project-journeys';
-import type { ServicePathId } from '@/lib/pilot-projects';
+import { commerceProjectTrack, type ServicePathId } from '@/lib/pilot-projects';
 
 const choices: { id: ServicePathId; label: string }[] = [
   { id: 'ai-content-services', label: 'Create a writing/content service package (Recommended)' },
@@ -15,7 +15,10 @@ const choices: { id: ServicePathId; label: string }[] = [
   { id: 'ai-automation-services', label: 'Explore an administrative automation service' },
   { id: 'ai-cad-services', label: 'Prepare a concept-only CAD service' },
   { id: 'micro-saas-validation', label: 'Validate a small software idea' },
-  { id: 'ai-education-services', label: 'Prepare an adult workshop service' }
+  { id: 'ai-education-services', label: 'Prepare an adult workshop service' },
+  { id: 'ai-online-retail', label: 'AI-Powered Online Retail' },
+  { id: 'ai-marketplace-model', label: 'AI-Powered Marketplace Business Model' },
+  { id: 'ai-logistics-services', label: 'AI-Powered Logistics Services' }
 ];
 const subscribeHydration = () => () => {};
 
@@ -40,6 +43,7 @@ export function FirstProjectChooser({ paths }: { paths: LearningPath[] }) {
       </fieldset>
       {path && <section className="path-card" aria-labelledby="first-project-recommendation" aria-live="polite">
         <h2 id="first-project-recommendation">{tr(path.title)}</h2>
+        {commerceProjectTrack(selected) && <p>{tr('Commerce project instructions, workbook starters and required checks are English. Navigation follows your language. Save selected fictional lab observations manually; no files are uploaded or evidence automatically approved.')}</p>}
         <p>{tr(path.description)}</p>
         <p>{tr(guided
           ? 'Recommended first journey: no coding or paid AI required. Six guided milestones lead to a private practice-portfolio preview.'

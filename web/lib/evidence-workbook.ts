@@ -108,6 +108,18 @@ export function workbookLinkState(item: WorkbookItem, link: WorkbookTestLink, te
 }
 
 export const workbookStarters: Record<ServicePathId, { title: string; text: string }> = {
+  'ai-online-retail': {
+    title: 'Retail listing and lab observation ledger',
+    text: 'FICTIONAL RETAIL PRACTICE - NOT A LIVE STORE.\n\nBrief facts / unknowns / listing title, three bullets and description:\n\nClaim ledger / v1-v2:\n\nRetail lab source inputs / actual outputs / exceptions:\n\nCost 5/25%; inventory 26/11 and 9-day cover; weekly 250/20/230 (separate periods):\n\nMissing-value test and actual observation:\n\nDownloaded file name / reopened check / revision:\n\nNo supplier verification, profit or live trading.\nReal owner approval: BLOCKED without evidence.'
+  },
+  'ai-marketplace-model': {
+    title: 'Marketplace catalog and ledger observations',
+    text: 'FICTIONAL MARKETPLACE PROTOTYPE - NO LIVE SELLERS OR PAYMENTS.\n\nOperator/seller/buyer roles and unknowns:\n\nS1/N1 and S2/P1 source facts / claim ledger:\n\nActual lab inputs / outputs / unsupported claim observation:\n\nOrders 230/70/160/16/144; allocations 90/54:\n\nDuplicate / missing refund / 0.05 rounding observations:\n\nSupport escalation and appeal runbook:\n\nDownloaded/reopened files and revisions:\n\nDemand UNVALIDATED; real operator/seller approval BLOCKED.'
+  },
+  'ai-logistics-services': {
+    title: 'Logistics source, requests and exception ledger',
+    text: 'FICTIONAL LOGISTICS RECORDS - NOT PHYSICAL FULFILLMENT.\n\nReceiving source / usable 28/20 / quarantine 2:\n\nLinked L1/L2/L3 requests / actual outputs / available 23/13 / reserved 5/7:\n\nDiscrepancy/missing count / changed request / duplicate observations:\n\nR1 quarantine / zero added stock / no dispatch evidence:\n\nSeparate hypothetical cost 2/25%; 80/60/20:\n\nDownloaded inputs/results / reopened files / revision log:\n\nNo actual inspection, shipment or refund.\nReal client approval BLOCKED.'
+  },
   'ai-spreadsheets': {
     title: 'Spreadsheet source checks and exception ledger',
     text: 'FICTIONAL SPREADSHEET PRACTICE.\n\nRaw: seven rows / cleaned: six unique / one duplicate:\n\nA5 missing quantity / A6 ambiguous date / A4 known zero:\n\nPDF source page / five rows / A2 and A5 corrections:\n\nFormula locale / 10 + 6 + 5 + 0 = EUR 21 / one unresolved:\n\nSummary / chart baseline / text alternative / unresolved note:\n\nReopened CSV and workbook / types / formulas / Raw preserved:\n\nReal owner approval: BLOCKED without evidence.'

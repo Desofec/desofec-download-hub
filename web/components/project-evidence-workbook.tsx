@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { useTr } from '@/components/tr';
 import { downloadPilotText } from '@/lib/pilot-download';
-import { loadProject, saveProjectPart, withProjectLock, type StoredProject } from '@/lib/pilot-projects';
+import { commerceProjectTrack, loadProject, saveProjectPart, withProjectLock, type StoredProject } from '@/lib/pilot-projects';
 import { automationProjects } from '@/lib/automation-projects';
 import {
   appendWorkbookRevision, buildWorkbookExport, setWorkbookTestLink, workbookItemLimit,
@@ -112,6 +112,7 @@ export function ProjectEvidenceWorkbook({ projectId }: { projectId?: string }) {
 
       {saved && <>
         <h2>{saved.project.title}</h2>
+        {commerceProjectTrack(saved.project.pathId) && <p>{tr('Commerce project instructions, workbook starters and required checks are English. Navigation follows your language. Save selected fictional lab observations manually; no files are uploaded or evidence automatically approved.')}</p>}
         <p>{tr('Saved reviews keep a separate copy of reviewed text. Deleting workbook text does not delete those copies; remove saved reviews separately in the Review Centre.')}</p>
         <p>{tr('Up to eight text items, five saved revisions per item and 8,000 characters per revision. No silent pruning: export or remove an item when a limit is reached.')}</p>
         {workbook.items.length >= workbookItemLimit && <p role="status">{tr('Workbook item limit reached. Export or remove a saved item before adding another.')}</p>}

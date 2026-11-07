@@ -151,7 +151,7 @@ test('all three paths, their goal, kit and recommendations are synced and transl
   assert.ok(seed.includes("'build-ai-commerce'"));
 });
 
-test('tutorial routes and kit links do not claim unsupported project-workspace integration', async () => {
+test('tutorial routes share the commerce kit and support guided projects', async () => {
   const registry = await readFile(new URL('../lib/tutorials.ts', import.meta.url), 'utf8');
   for (const [id] of tracks) {
     assert.ok(registry.includes(`pathId: '${id}'`));
@@ -159,7 +159,7 @@ test('tutorial routes and kit links do not claim unsupported project-workspace i
     assert.ok(kit.includes(`/tutorials/${id}`));
   }
   for (const [id] of tracks) {
-    assert.match(registry, new RegExp(`pathId: '${id}'[\\s\\S]*?starterPackId: 'ai-commerce-services-kit'`));
+    assert.match(registry, new RegExp(`pathId: '${id}'[\\s\\S]*?serviceKitId: 'ai-commerce-services-kit'`));
   }
   const page = await readFile(new URL('../app/tutorials/[id]/page.tsx', import.meta.url), 'utf8');
   assert.match(page, /tutorial\.starterPackId/);
