@@ -7,6 +7,7 @@ import { readCaseStudy, type CaseStudy } from '@/lib/case-study';
 import { readDiscovery, type DiscoveryDraft } from '@/lib/client-discovery';
 import { readCommerceReadiness, type CommercePathId, type CommerceReadiness } from '@/lib/commerce-readiness';
 import { readCommercePilotPlan, type CommercePilotPlan } from '@/lib/commerce-pilot-plan';
+import { readCommercePilotReview, type CommercePilotReview } from '@/lib/commerce-pilot-review';
 
 export const projectStoragePrefix = 'desofec:pilot-project:v1:';
 export const projectLimit = 10;
@@ -55,6 +56,7 @@ export type PilotProject = {
   discovery?: DiscoveryDraft;
   commerceReadiness?: CommerceReadiness;
   commercePilotPlan?: CommercePilotPlan;
+  commercePilotReview?: CommercePilotReview;
 };
 export type StoredProject = {
   project: PilotProject;
@@ -103,6 +105,9 @@ export function readPilotProject(raw: string): PilotProject {
   if ('commercePilotPlan' in value && !commerceProjectTrack(value.pathId as ServicePathId)) {
     throw new Error('Commerce pilot plans are only valid for commerce projects.');
   }
+  if ('commercePilotReview' in value && !commerceProjectTrack(value.pathId as ServicePathId)) {
+    throw new Error('Commerce pilot reviews are only valid for commerce projects.');
+  }
   return {
     version: 1, id: value.id, pathId: value.pathId as ServicePathId, title: value.title,
     ...(isAutomationScenario(value.automationScenario) ? { automationScenario: value.automationScenario } : {}),
@@ -117,7 +122,9 @@ export function readPilotProject(raw: string): PilotProject {
     ...('commerceReadiness' in value
       ? { commerceReadiness: readCommerceReadiness(value.commerceReadiness, value.pathId as CommercePathId) } : {}),
     ...('commercePilotPlan' in value
-      ? { commercePilotPlan: readCommercePilotPlan(value.commercePilotPlan, value.pathId as CommercePathId) } : {})
+      ? { commercePilotPlan: readCommercePilotPlan(value.commercePilotPlan, value.pathId as CommercePathId) } : {}),
+    ...('commercePilotReview' in value
+      ? { commercePilotReview: readCommercePilotReview(value.commercePilotReview, value.pathId as CommercePathId) } : {})
   };
 }
 
@@ -183,7 +190,7 @@ export function deleteProject(storage: Storage, id: string, expectedRevision: nu
   storage.removeItem(projectStoragePrefix + id);
 }
 
-export function saveProjectPart<K extends 'proposal' | 'results' | 'workbook' | 'reviewCentre' | 'caseStudy' | 'discovery' | 'commerceReadiness' | 'commercePilotPlan'>(
+export function saveProjectPart<K extends 'proposal' | 'results' | 'workbook' | 'reviewCentre' | 'caseStudy' | 'discovery' | 'commerceReadiness' | 'commercePilotPlan' | 'commercePilotReview'>(
   storage: Storage, id: string, key: K, value: PilotProject[K], expectedPart: string
 ) {
   const saved = loadProject(storage, id);
