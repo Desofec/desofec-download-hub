@@ -181,3 +181,40 @@ test('tutorial topics cover every registered lesson and combine query, level and
   assert.match(component, /setQuery\(''\); setTopic\('all'\); setLevel\('All'\)/);
   assert.doesNotMatch(component, /localStorage|saveProject|tutorialStorageKey/);
 });
+
+test('tutorial cards translate fallback headings and include them in search', async () => {
+  const component = await readFile(new URL('../components/tutorial-list.tsx', import.meta.url), 'utf8');
+  assert.match(component, /getTutorialTranslation\(tutorial\.pathId, language\)\?\.title \?\? tr\(tutorial\.title\)/);
+  assert.match(component, /translation\?\.title \?\? '', tr\(item\.title\)/);
+  const fallbackIds = new Set([
+    'ai-automation-services', 'origin-data-analysis', 'auto-data-analysis',
+    'advanced-measurement-analysis', 'data-visualization', 'research-with-ai',
+    'ai-for-education', 'advanced-web-dev-ai', 'ai-workflows-agents', 'ai-website-builder',
+    'ai-content-services', 'ai-cad-services', 'micro-saas-validation', 'ai-education-services'
+  ]);
+  const titles = [];
+  for (const file of ['../lib/tutorials.ts', '../lib/commerce-tool-guides.ts']) {
+    const source = await readFile(new URL(file, import.meta.url), 'utf8');
+    const ast = ts.createSourceFile(file, source, ts.ScriptTarget.Latest, true);
+    const visit = (node) => {
+      if (ts.isObjectLiteralExpression(node)) {
+        const properties = new Map(node.properties.filter(ts.isPropertyAssignment)
+          .map(property => [property.name.getText(ast), property.initializer]));
+        const id = properties.get('pathId') ?? properties.get('toolId');
+        const title = properties.get('title');
+        if (id && ts.isStringLiteral(id) && title && ts.isStringLiteral(title)
+          && (file.endsWith('commerce-tool-guides.ts') || fallbackIds.has(id.text))) titles.push(title.text);
+      }
+      ts.forEachChild(node, visit);
+    };
+    visit(ast);
+  }
+  assert.equal(titles.length, 20);
+  for (const locale of ['fr', 'de', 'es']) {
+    const book = JSON.parse(await readFile(new URL(`../content/translations/ui-${locale}.json`, import.meta.url), 'utf8'));
+    for (const title of titles) {
+      assert.ok(book[title], `${locale}: ${title}`);
+      assert.notEqual(book[title], title);
+    }
+  }
+});

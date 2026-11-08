@@ -37,7 +37,7 @@ export function TutorialList({ items }: { items: TutorialCardData[] }) {
         level: item.level,
         searchText: [
           item.title, item.intro, item.pathTitle ?? '', item.badge ?? '',
-          translation?.title ?? '', translation?.intro ?? '', tr(item.intro),
+          translation?.title ?? '', tr(item.title), translation?.intro ?? '', tr(item.intro),
           tr(item.pathTitle ?? ''), tr(item.badge ?? ''),
           ...item.topics.flatMap((id) => {
             const label = tutorialTopics.find((entry) => entry.id === id)!.label;
@@ -117,7 +117,7 @@ export function TutorialList({ items }: { items: TutorialCardData[] }) {
                 <Tr values={{ minutes: Number.parseInt(tutorial.time, 10) }}>{'{minutes} minutes'}</Tr>
               </span>
             </div>
-            <h3>{getTutorialTranslation(tutorial.pathId, language)?.title ?? tutorial.title}</h3>
+            <h3>{getTutorialTranslation(tutorial.pathId, language)?.title ?? tr(tutorial.title)}</h3>
             <p>{getTutorialTranslation(tutorial.pathId, language)?.intro || tr(tutorial.intro)}</p>
             <p>
               <Tr values={{ count: tutorial.stepCount }}>{'{count} steps'}</Tr>

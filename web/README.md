@@ -31,6 +31,9 @@ titles, descriptions and topic labels. Cards show the existing lesson introducti
 are disclosed. Topic assignments live in `lib/tutorial-directory.ts`; new tutorial
 IDs must be assigned at least one topic. Filters are temporary and do not modify
 progress or persist queries.
+Card headings use full tutorial translations when available and the UI phrase book
+otherwise; fallback title translations are also included in search. Translating a
+directory heading does not imply that its lesson body is translated.
 
 ## Run locally
 
