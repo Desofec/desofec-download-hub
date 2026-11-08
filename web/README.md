@@ -120,6 +120,9 @@ Supabase-backed catalog edits need a separately reviewed targeted update and cac
 refresh. A deployment does not sync bundled JSON into the database. Review labels are
 withheld when a database tool's name, URL or description does not match the reviewed
 record, rather than presenting stale copy as checked.
+Legacy description translation keys are retained alongside revised keys so an
+older Supabase record does not lose its existing French/German/Spanish translation.
+This preserves compatibility; it does not update or verify the database wording.
 
 After the release prerequisites in the pull request are resolved, merge once to the
 configured production branch and wait for the normal Vercel deployment. Do not also
