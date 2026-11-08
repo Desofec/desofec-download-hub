@@ -268,7 +268,7 @@ Spanish cover catalog/workflow UI; the extended lessons and downloads remain Eng
 
 The existing `/paths/ai-automation-services` path is now **AI Workflow Automation for Small
 Business**. Its URLs, six lesson IDs, pack progress indexes and original AUTO-1..9 enquiry
-exercise remain unchanged. The English tutorial/download add appointment reminders and weekly
+exercise remain unchanged. The tutorial and English download include appointment reminders and weekly
 reports, and `/business-launchpad/automation-lab` offers three temporary, rules-only simulations.
 The lab has no model, external connector, storage, automatic project evidence or message dispatch.
 Download observations explicitly. Fixed UTC appointments do not simulate timezone/DST services.
@@ -574,8 +574,16 @@ function recognises the new lesson IDs once the paths are seeded.
 `/business-launchpad` starts with `/tutorials/ai-automation-services`: six lessons covering discovery,
 bounded scope, a six-event fictional enquiry demo, costs, a draft offer and handover. The practice workflow
 prepares drafts for human review and never requires real customer data, paid tools or automatic sending.
-The hub, catalog and checklist UI are translated; the tutorial and Markdown download are currently English
-and visibly labelled. Costs are illustrative, not market prices or earnings promises.
+The tutorial has complete French, German and Spanish translations in
+`lib/translations/automation-services.ts`: all six lessons, worksheet labels/text, checks and
+optional AI prompts. Column identifiers (`event_id`, `message`, `status`, `draft`, `reviewer`),
+status codes (`QUEUED`, `REVIEW`, `INVALID`, `DUPLICATE`) and AUTO/APPT/REPORT plan codes
+stay unchanged to match the lab and saved projects; their meaning is explained in each language.
+The hub, catalog and checklist UI are translated. The Markdown kit, lab sample data/results and
+private workbook evidence content remain English with their existing notices; the lesson
+translation does not translate these separate surfaces. Costs are illustrative, not market
+prices or earnings promises. Step IDs, storage keys, progress and no-send behavior are unchanged.
+No migration or seed update is needed for this translation.
 
 The hub checklist shares `ai-automation-services-kit` progress with its starter-pack page. The tutorial
 uses the existing independent `tutorial` progress type; no client notes or cost worksheets are submitted.

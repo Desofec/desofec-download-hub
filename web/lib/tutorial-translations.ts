@@ -7,6 +7,7 @@ import { practicalFrench } from '@/lib/translations/practical-fr';
 import { practicalGerman } from '@/lib/translations/practical-de';
 import { practicalSpanish } from '@/lib/translations/practical-es';
 import { contentServicesTranslations } from '@/lib/translations/content-services';
+import { automationServicesTranslations } from '@/lib/translations/automation-services';
 import { searchVisibilityResources } from '@/lib/search-visibility-tutorial';
 
 const { googleProperty, googleSitemap, googleRecrawl, bingGettingStarted } = searchVisibilityResources;
@@ -470,6 +471,7 @@ export function getTutorialTranslation(tutorialId: string, language: LanguageCod
 
 export const tutorialTranslations: Record<string, Partial<Record<Exclude<LanguageCode, 'en'>, TutorialTranslation>>> = {
   ...contentServicesTranslations,
+  ...automationServicesTranslations,
   ...baseTranslations,
   ...taskTrackerTranslations,
   ...codingTranslations,
