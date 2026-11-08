@@ -206,12 +206,16 @@ export function ContinueLearning({ paths, packs, checklists, tutorials = NO_TUTO
       return [{ ...item, completed: Math.min(completed.length, item.total), lastActivity }];
     });
 
-    return all.sort((a, b) => b.lastActivity - a.lastActivity);
+    // Unfinished work comes first; a finished item only appears when nothing else is in progress.
+    return all.sort(
+      (a, b) => Number(a.completed >= a.total) - Number(b.completed >= b.total) || b.lastActivity - a.lastActivity
+    );
   }, [checklists, localProgress, packs, paths, remoteRows, tutorials, userId]);
 
   if (!authReady || snapshot === null) return null;
 
   const item = candidates[0];
+  const finished = Boolean(item && item.completed >= item.total);
   const percent = item ? Math.round((item.completed / item.total) * 100) : 0;
   const itemTitle = item
     ? item.kind === 'tutorial'
@@ -224,10 +228,12 @@ export function ContinueLearning({ paths, packs, checklists, tutorials = NO_TUTO
       <div className="container">
         <div className="continue-card">
           <div className="continue-copy">
-            <span className="eyebrow">{item ? tr('Pick up where you left off') : tr('Your next step')}</span>
+            <span className="eyebrow">{finished ? tr('Completed') : item ? tr('Pick up where you left off') : tr('Your next step')}</span>
             <h2>{item ? itemTitle : tr('Ready to start learning?')}</h2>
             <p>
-              {item
+              {finished
+                ? tr('You finished every step. Be proud of what you built.')
+                : item
                 ? tr('{done} of {total} steps complete · {percent}%', { done: item.completed, total: item.total, percent })
                 : userId
                   ? tr('Choose a learning path or starter pack and your progress will sync to your account.')
@@ -237,9 +243,12 @@ export function ContinueLearning({ paths, packs, checklists, tutorials = NO_TUTO
             {!userId && !item && <Link href="/account">{tr('Sign in to sync progress across devices')}</Link>}
           </div>
           <div className="continue-action">
-            <Link className="btn btn-primary" href={item?.href ?? '/paths'}>
-              {item ? tr('Continue learning') : tr('Explore learning paths')}
+            <Link className="btn btn-primary" href={finished ? '/paths' : item?.href ?? '/paths'}>
+              {finished ? tr('Explore learning paths') : item ? tr('Continue learning') : tr('Explore learning paths')}
             </Link>
+            {finished && item && <Link className="text-link" href={item.href}>
+                {tr('Review')}
+              </Link>}
             {item && <Link className="text-link" href="/my-progress">
                 {tr('View all progress')}
               </Link>}

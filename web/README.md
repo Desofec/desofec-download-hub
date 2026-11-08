@@ -46,8 +46,9 @@ npm run build && npm run start
 ```
 
 The app is installable on supported browsers. Use the browser's **Install app** button
-when available, or its menu option. The service worker caches visited pages, app assets,
-and starter pack downloads; the offline page appears when a page has not been cached yet.
+when available, or its menu option. The service worker caches visited pages and app assets
+and keeps offline copies of starter pack downloads (refreshed from the network when online);
+the offline page appears when a page has not been cached yet.
 
 ## Reviewed AI updates
 
@@ -379,6 +380,20 @@ the unchanged English download. The localized worksheets retain the 30-second,
 three-scene exercise, asset permission checks, accessibility review and current
 platform-format and AI-disclosure checks. This is separate from the AI Video Creation
 for Business path and its business-video kit.
+
+### Download language routing and freshness
+
+Every starter-pack download button — catalog cards on the home, starter-pack, path,
+results and tool pages, plus the kit detail page — uses `StarterPackDownload`, so the six
+translated kits (`ai-content-services-kit`, `ai-automation-services-kit`,
+`ai-spreadsheets-kit`, `ai-commerce-services-kit`, `ai-video-business-kit` and
+`ai-video-creation-kit`) download in the selected language. Other kits stay English and
+are labelled “(English)” on cards and “currently available in English only” on detail
+pages when another language is selected. The tools search matches both English and the
+translated text shown on cards, ignoring accents. The service worker fetches
+`/downloads/` files from the network first and falls back to the cached copy offline, so
+updated worksheets are not hidden by an old cache. `npm run test:content` includes
+`scripts/web-app-reliability.test.mjs` for these behaviours.
 
 ### Private Project Evidence Workbook
 

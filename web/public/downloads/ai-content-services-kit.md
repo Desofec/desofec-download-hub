@@ -1,7 +1,7 @@
 # AI Content Services Kit
 
 Desofec AI Studio. Educational practice, not a promise of clients, income or sales.
-Instructions are currently English. No paid AI is required. Use fictional/anonymised information only.
+This is the English edition; French, German and Spanish editions are available from the kit page. No paid AI is required. Use fictional/anonymised information only.
 
 ## 1. Approved brief
 Fictional client: Cedar Bakery. Open Tuesday-Saturday, 08:00-14:00.

@@ -42,7 +42,7 @@ export default async function BusinessLaunchpadPage() {
           <span className="eyebrow"><Tr>From learning to a small pilot</Tr></span>
           <h1><Tr>AI Business Launchpad</Tr></h1>
           <p><Tr>Choose a service learning path, including AI video creation for business. Build practice evidence before offering real work; no path promises clients or income.</Tr></p>
-          <p><Tr>No paid AI is required for the worksheets. Lessons and downloads are currently English; the surrounding interface follows your language. Interviews, feedback and tool setup take additional time.</Tr></p>
+          <p><Tr>No paid AI is required for the worksheets. Many lessons and kit downloads are available in French, German and Spanish; when a download is only available in English, its button or page says so. Interviews, feedback and tool setup take additional time.</Tr></p>
           <div className="cta-row">
             <Link className="btn btn-primary" href="/business-launchpad/commerce-lab"><Tr>Open commerce practice lab</Tr></Link>
             <Link className="btn btn-primary" href="/start-here"><Tr>Start here</Tr></Link>

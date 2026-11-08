@@ -181,6 +181,12 @@ button {
   transform: translateY(-1px);
 }
 
+.download-language-note {
+  margin-left: 0.35rem;
+  font-weight: 500;
+  opacity: 0.8;
+}
+
 .btn-primary {
   background: linear-gradient(135deg, var(--primary), var(--primary-strong));
   color: var(--on-primary);

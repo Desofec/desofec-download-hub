@@ -9,6 +9,10 @@ const localizedStarterPacks = new Set([
   'ai-video-creation-kit'
 ]);
 
+export function hasLocalizedStarterPack(packId: string) {
+  return localizedStarterPacks.has(packId);
+}
+
 export function starterPackDownloadFile(packId: string, file: string, language: LanguageCode) {
   if (language === 'en' || !localizedStarterPacks.has(packId)) return file;
   return file.replace(/\.md$/, `-${language}.md`);
