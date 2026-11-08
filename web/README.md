@@ -23,6 +23,12 @@ translated learning outcomes. These are not popularity or search-ranking claims.
 Its hero focuses on starting, browsing tutorials and resuming learning; tool,
 website-challenge, launchpad and AI-update links remain in the discovery section.
 Tutorial links reuse the existing registry and create no new progress records.
+The first six goals are visible initially; the remaining goals are available in an
+expandable section. The Business Launchpad prioritises starting, choosing a service
+and opening device projects, with the other existing links in an expandable section.
+The home continuation card links to device projects as well as learning progress.
+Tutorial certificates identify checklist completion as self-recorded, not an
+independently assessed or accredited qualification.
 
 The tutorial directory offers editorial topic groups, combined topic/level/search
 filters and a reset control. Search matches original and displayed translated
@@ -35,6 +41,8 @@ progress or persist queries.
 Card headings use full tutorial translations when available and the UI phrase book
 otherwise; fallback title translations are also included in search. Translating a
 directory heading does not imply that its lesson body is translated.
+The tools directory renders browsable tool links while its interactive search and
+comparison load; without JavaScript, those controls and saved-tool buttons are unavailable.
 
 ## Run locally
 
@@ -47,8 +55,14 @@ npm run build && npm run start
 
 The app is installable on supported browsers. Use the browser's **Install app** button
 when available, or its menu option. The service worker caches visited pages and app assets
-and keeps offline copies of starter pack downloads (refreshed from the network when online);
-the offline page appears when a page has not been cached yet.
+and keeps offline copies of starter pack downloads. Downloads revalidate through the network
+when online and use a cached copy if the network fails; an online error response is not
+replaced with a cached success. The existing cache is retained during this worker update.
+The offline page appears when a page has not been cached yet.
+
+The `Web checks` GitHub Actions workflow runs content tests, catalog validation, lint and
+the production build on pull requests using Node 22. It requires no Supabase credentials
+or deployment permissions; repository settings determine whether the check is required.
 
 ## Reviewed AI updates
 
@@ -392,8 +406,9 @@ are labelled “(English)” on cards and “currently available in English only
 pages when another language is selected. The tools search matches both English and the
 translated text shown on cards, ignoring accents. The service worker fetches
 `/downloads/` files from the network first and falls back to the cached copy offline, so
-updated worksheets are not hidden by an old cache. `npm run test:content` includes
-`scripts/web-app-reliability.test.mjs` for these behaviours.
+updated worksheets are revalidated rather than served directly from the service-worker
+cache. `npm run test:content` includes `scripts/web-app-reliability.test.mjs` and
+`scripts/service-worker.test.mjs` for these behaviours.
 
 ### Private Project Evidence Workbook
 
@@ -539,7 +554,7 @@ Reload old tabs after deployment; older app versions must not edit case-study-be
 
 ### Project storage and account snapshots
 
-`/business-launchpad/projects` creates up to ten device projects from the six service paths.
+`/business-launchpad/projects` creates up to ten device projects from the supported service paths.
 Each owns a brief, independent five-item project checklist, optional proposal/results drafts and a
 next-action prompt derived only from saved evidence. Project checklists do not complete tutorial or kit
 progress. The path is fixed at creation; start a separate project for another track.
@@ -549,6 +564,18 @@ The latter copies only context, never results/approvals or fees. Save explicitly
 and other projects are not overwritten. Changing a brief does not rewrite existing tool drafts.
 Summaries use saved data, omit financial fields/full drafts, and are internal practice records, not
 proof of customer approval, engineering readiness, accreditation or income. Review text before sharing.
+
+The workspace can explicitly download a versioned JSON backup of all saved device projects.
+It contains full saved drafts, costs, test results, workbook revisions and reviews, so it is
+private, unencrypted and must be stored securely. Unsaved changes, standalone tool drafts,
+learning progress, account snapshots and account metadata are not included. Selecting a file
+only validates and previews it; after confirmation, restore creates new device copies with new
+project IDs and no account association. Existing projects are never overwritten, and text
+links are not rewritten. Backup is refused if saved records contain fields this version cannot
+preserve. Imports fail before writing if the file is invalid, contains unsupported fields, or
+exceeds the ten-project device limit. Device writes use the existing Web Lock; if a
+write fails, new copies are rolled back when possible and any incomplete cleanup is reported.
+The project summary download remains a separate, deliberately limited export.
 
 **Deployment: apply `supabase/migrations/0011_pilot_projects.sql`, then
 `0012_video_business_projects.sql` and the regenerated `supabase/seed.sql` before deploying.**
@@ -735,6 +762,6 @@ including Supabase catalogs, so these labels require no database column or seed 
   device-only progress still works, but sign-in progress sync will report an error.
 - Email magic links require Supabase Authentication's email provider to be enabled and configured.
 
-- Unknown `/results/[goal]` and `/paths/[id]` URLs show the 404 page but return HTTP 200 (documented behavior with
-  Cache Components, where streaming starts before `notFound()` runs). The pages are marked `noindex`.
+- Unknown `/results/[goal]` and `/paths/[id]` URLs show a noindexed 404 page. Because streaming
+  can affect the HTTP status, verify the deployed response instead of assuming a fixed status.
 On iPhone/iPad, use Safari's **Share → Add to Home Screen**. PWA installation and service workers require HTTPS (Vercel provides it; localhost is also treated as secure during development).

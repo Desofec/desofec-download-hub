@@ -379,6 +379,20 @@ h3 {
   font-size: clamp(2rem, 3vw, 2.8rem);
 }
 
+.more-options {
+  margin-top: 20px;
+}
+
+.more-options > summary {
+  cursor: pointer;
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.more-options > .goal-grid {
+  margin-top: 18px;
+}
+
 .split-head {
   display: flex;
   justify-content: space-between;
@@ -409,6 +423,10 @@ h3 {
 .result-card {
   padding: 20px 18px;
   box-shadow: var(--shadow);
+}
+
+.tool-fallback {
+  padding-left: 1.25rem;
 }
 
 .service-path-entry {

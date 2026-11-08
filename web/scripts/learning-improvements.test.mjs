@@ -2141,6 +2141,198 @@ test('project persistence preserves standalone drafts, enforces quota and reject
   assert.throws(() => loadProject(storage, 'invalid'), /Invalid project link/);
 });
 
+test('project backups preserve saved evidence and restore independent device copies', async () => {
+  const { newPilotProject, saveProject, loadProject, listProjects, projectProposalSeed, projectResultsSeed } =
+    await loadContent('../lib/pilot-projects.ts', projectImports);
+  const { buildProjectBackup, readProjectBackup, restoreProjectBackup } = await loadContent('../lib/project-backup.ts', {
+    ...projectImports, '@/lib/pilot-projects': '../lib/pilot-projects.ts'
+  });
+  const storage = memoryStorage();
+  storage.setItem('desofec:pilot-proposal:v1', 'standalone draft');
+  const project = newPilotProject(projectId, 'ai-content-services', 'Fictional practice');
+  project.brief = { objective: 'Saved brief', scope: 'No publication', review: 'Owner approval blocked' };
+  project.completed = ['brief', 'evidence'];
+  project.proposal = projectProposalSeed(project);
+  project.proposal.inputs.setupRate = '123.45';
+  project.proposal.document = 'Private saved proposal';
+  project.results = projectResultsSeed(project);
+  project.results.decision = 'stop';
+  Object.assign(project.results.tests[0], {
+    status: 'fail', retestStatus: 'blocked', actual: 'Failure evidence', retest: 'Waiting for review'
+  });
+  project.workbook = {
+    version: 1,
+    items: [{ id: 'item-1', revisions: [
+      { number: 1, title: 'First draft', body: 'Original evidence', savedAt: '2026-01-01T10:00:00.000Z' },
+      { number: 2, title: 'Second draft', body: 'Revised evidence', savedAt: '2026-01-02T10:00:00.000Z' }
+    ], links: [] }]
+  };
+  const accountId = '22222222-2222-4222-8222-222222222222';
+  const saved = saveProject(storage, project, 0, { userId: accountId, version: 3 });
+  const backup = buildProjectBackup(storage);
+  assert.ok(backup.includes('Private saved proposal'));
+  assert.ok(backup.includes('123.45'));
+  assert.ok(backup.includes('Original evidence'));
+  assert.ok(!backup.includes(accountId), 'account identifiers and sync metadata are not exported');
+  assert.deepEqual(readProjectBackup(backup), [saved.project]);
+
+  const copyId = '33333333-3333-4333-8333-333333333333';
+  assert.deepEqual(restoreProjectBackup(storage, readProjectBackup(backup), () => copyId), [copyId]);
+  const copy = loadProject(storage, copyId);
+  assert.deepEqual(copy.project, { ...saved.project, id: copyId });
+  assert.equal(copy.cloud, null, 'restored copies are not linked to an account');
+  assert.equal(copy.revision, 1);
+  assert.deepEqual(loadProject(storage, projectId), saved, 'existing project and account metadata are unchanged');
+  assert.equal(listProjects(storage).length, 2);
+  assert.equal(storage.getItem('desofec:pilot-proposal:v1'), 'standalone draft');
+});
+
+test('project backups reject malformed, incompatible or lossy imports before saving', async () => {
+  const { newPilotProject, saveProject, listProjects } = await loadContent('../lib/pilot-projects.ts', projectImports);
+  const { buildProjectBackup, readProjectBackup, restoreProjectBackup, projectBackupByteLimit } =
+    await loadContent('../lib/project-backup.ts', {
+      ...projectImports, '@/lib/pilot-projects': '../lib/pilot-projects.ts'
+    });
+  const storage = memoryStorage();
+  assert.throws(() => buildProjectBackup(storage), /No device projects/);
+  const project = newPilotProject(projectId, 'ai-content-services', 'Saved project');
+  saveProject(storage, project, 0);
+  const backup = JSON.parse(buildProjectBackup(storage));
+  for (const bad of [
+    '{',
+    JSON.stringify({ ...backup, version: 2 }),
+    JSON.stringify({ ...backup, futureEvidence: 'do not discard' }),
+    JSON.stringify({ ...backup, projects: [] }),
+    JSON.stringify({ ...backup, projects: [project, project] }),
+    JSON.stringify({ ...backup, projects: [{ ...project, futureEvidence: 'do not discard' }] }),
+    JSON.stringify({ ...backup, projects: [{ ...project, brief: { ...project.brief, futureField: 'do not discard' } }] }),
+    JSON.stringify({ ...backup, projects: [{ ...project, completed: ['approved'] }] }),
+    ' '.repeat(projectBackupByteLimit + 1)
+  ]) assert.throws(() => readProjectBackup(bad));
+  assert.throws(() => restoreProjectBackup(storage, [project], () => projectId), /separate project copies/);
+  assert.throws(() => restoreProjectBackup(memoryStorage(), [project], () => projectId), /separate project copies/);
+  assert.equal(listProjects(storage).length, 1);
+
+  const other = newPilotProject('11111111-1111-4111-8111-000000000002', 'ai-cad-services', 'Second');
+  for (let index = 3; index <= 10; index++) {
+    const id = `11111111-1111-4111-8111-${String(index).padStart(12, '0')}`;
+    saveProject(storage, newPilotProject(id, 'ai-education-services', `Project ${index}`), 0);
+  }
+  assert.throws(() => restoreProjectBackup(storage, [project, other], () => '33333333-3333-4333-8333-333333333333'), /Not enough/);
+  assert.equal(listProjects(storage).length, 9);
+});
+
+test('project backup refuses to omit unsupported saved evidence', async () => {
+  const { newPilotProject, saveProject, projectStoragePrefix } = await loadContent('../lib/pilot-projects.ts', projectImports);
+  const { buildProjectBackup } = await loadContent('../lib/project-backup.ts', {
+    ...projectImports, '@/lib/pilot-projects': '../lib/pilot-projects.ts'
+  });
+  const storage = memoryStorage();
+  saveProject(storage, newPilotProject(projectId, 'ai-content-services', 'Saved project'), 0);
+  const key = projectStoragePrefix + projectId;
+  const saved = JSON.parse(storage.getItem(key));
+  for (const modified of [
+    { ...saved, futureMetadata: 'do not discard' },
+    { ...saved, project: { ...saved.project, futureEvidence: 'do not discard' } },
+    { ...saved, project: { ...saved.project, brief: { ...saved.project.brief, futureField: 'do not discard' } } }
+  ]) {
+    const original = JSON.stringify(modified);
+    storage.setItem(key, original);
+    assert.throws(() => buildProjectBackup(storage), /unsupported or incompatible data/);
+    assert.equal(storage.getItem(key), original, 'the saved project is never changed');
+  }
+});
+
+test('a complete ten-project backup round-trips every service track and optional saved section', async () => {
+  const { newPilotProject, saveProject, listProjects, servicePathIds, commerceProjectTrack } =
+    await loadContent('../lib/pilot-projects.ts', projectImports);
+  const { buildProjectBackup, readProjectBackup, restoreProjectBackup } = await loadContent('../lib/project-backup.ts', {
+    ...projectImports, '@/lib/pilot-projects': '../lib/pilot-projects.ts'
+  });
+  const { emptyCaseStudy } = await loadContent('../lib/case-study.ts', projectImports);
+  const { emptyDiscovery } = await loadContent('../lib/client-discovery.ts', projectImports);
+  const { emptyCommerceReadiness } = await loadContent('../lib/commerce-readiness.ts', projectImports);
+  const { emptyCommercePilotPlan } = await loadContent('../lib/commerce-pilot-plan.ts', projectImports);
+  const { emptyCommercePilotReview } = await loadContent('../lib/commerce-pilot-review.ts', projectImports);
+  const { appendWorkbookRevision } = await loadContent('../lib/evidence-workbook.ts');
+  const { emptyReviewChecks, saveTextReview } = await loadContent('../lib/project-review.ts', projectImports);
+  const source = memoryStorage();
+  for (const [index, path] of servicePathIds.entries()) {
+    const id = `11111111-1111-4111-8111-${String(index + 1).padStart(12, '0')}`;
+    const project = newPilotProject(id, path, `Fictional practice ${index + 1}`);
+    project.caseStudy = emptyCaseStudy();
+    project.discovery = emptyDiscovery();
+    project.workbook = appendWorkbookRevision({ version: 1, items: [] }, null, 'Draft', 'Private text', '2026-01-01T10:00:00.000Z');
+    project.reviewCentre = saveTextReview(project, 'item-1', project.workbook.items[0].revisions[0], emptyReviewChecks(path), '2026-01-01T10:00:00.000Z');
+    if (commerceProjectTrack(path)) {
+      project.commerceReadiness = emptyCommerceReadiness(path);
+      project.commercePilotPlan = emptyCommercePilotPlan(path);
+      project.commercePilotReview = emptyCommercePilotReview(project.commercePilotPlan);
+    }
+    saveProject(source, project, 0);
+  }
+  const savedProjects = listProjects(source).map(({ project }) => project);
+  const backup = readProjectBackup(buildProjectBackup(source));
+  assert.deepEqual(backup, savedProjects);
+  const destination = memoryStorage();
+  let next = 0;
+  const ids = restoreProjectBackup(destination, backup, () =>
+    `22222222-2222-4222-8222-${String(++next).padStart(12, '0')}`);
+  assert.equal(ids.length, 10);
+  const copies = listProjects(destination);
+  for (const [index, project] of backup.entries()) {
+    assert.deepEqual(copies.find((entry) => entry.project.id === ids[index]).project, { ...project, id: ids[index] });
+  }
+});
+
+test('a failed multi-project restore removes its new copies without touching existing projects', async () => {
+  const { newPilotProject, saveProject, loadProject, listProjects, projectStoragePrefix } =
+    await loadContent('../lib/pilot-projects.ts', projectImports);
+  const { restoreProjectBackup } = await loadContent('../lib/project-backup.ts', {
+    ...projectImports, '@/lib/pilot-projects': '../lib/pilot-projects.ts'
+  });
+  const storage = memoryStorage();
+  const existing = newPilotProject(projectId, 'ai-content-services', 'Existing project');
+  const saved = saveProject(storage, existing, 0);
+  const other = newPilotProject('11111111-1111-4111-8111-000000000002', 'ai-cad-services', 'Other project');
+  const firstCopy = '33333333-3333-4333-8333-333333333333';
+  const secondCopy = '44444444-4444-4444-8444-444444444444';
+  const originalSet = storage.setItem;
+  storage.setItem = (key, value) => {
+    if (key === projectStoragePrefix + secondCopy) throw new Error('Storage quota reached');
+    originalSet(key, value);
+  };
+  const ids = [firstCopy, secondCopy];
+  assert.throws(() => restoreProjectBackup(storage, [existing, other], () => ids.shift()), /No new copies were kept/);
+  assert.deepEqual(loadProject(storage, projectId), saved);
+  assert.equal(listProjects(storage).length, 1);
+  assert.equal(storage.getItem(projectStoragePrefix + firstCopy), null);
+});
+
+test('a restore reports when storage failure prevents cleanup of a new copy', async () => {
+  const { newPilotProject, saveProject, loadProject, projectStoragePrefix } =
+    await loadContent('../lib/pilot-projects.ts', projectImports);
+  const { restoreProjectBackup } = await loadContent('../lib/project-backup.ts', {
+    ...projectImports, '@/lib/pilot-projects': '../lib/pilot-projects.ts'
+  });
+  const storage = memoryStorage();
+  const existing = newPilotProject(projectId, 'ai-content-services', 'Existing project');
+  const saved = saveProject(storage, existing, 0);
+  const other = newPilotProject('11111111-1111-4111-8111-000000000002', 'ai-cad-services', 'Other project');
+  const firstCopy = '33333333-3333-4333-8333-333333333333';
+  const secondCopy = '44444444-4444-4444-8444-444444444444';
+  const originalSet = storage.setItem;
+  storage.setItem = (key, value) => {
+    if (key === projectStoragePrefix + secondCopy) throw new Error('Storage quota reached');
+    originalSet(key, value);
+  };
+  storage.removeItem = () => { throw new Error('Storage unavailable'); };
+  const ids = [firstCopy, secondCopy];
+  assert.throws(() => restoreProjectBackup(storage, [existing, other], () => ids.shift()), /some new copies could not be removed/);
+  assert.deepEqual(loadProject(storage, projectId), saved);
+  assert.ok(storage.getItem(projectStoragePrefix + firstCopy), 'partial copy remains visible for manual review');
+});
+
 test('project tool saves merge only their own field and block stale replacement or resurrection', async () => {
   const { newPilotProject, loadProject, saveProject, saveProjectPart, deleteProject, projectProposalSeed, projectResultsSeed } =
     await loadContent('../lib/pilot-projects.ts', projectImports);

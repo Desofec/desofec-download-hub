@@ -66,7 +66,7 @@ function readProgress(
       const timestamp = Number(localStorage.getItem(`desofec:activity:path:${path.id}`) ?? 0);
       saved[`path:${path.id}`] = {
         completed: Array.isArray(completed)
-          ? completed.filter((index) => Number.isInteger(index) && index >= 0 && index < path.steps.length)
+          ? [...new Set<number>(completed.filter((index) => Number.isInteger(index) && index >= 0 && index < path.steps.length))]
           : [],
         lastActivity: Number.isFinite(timestamp) ? timestamp : 0
       };
@@ -80,7 +80,7 @@ function readProgress(
       const timestamp = Number(localStorage.getItem(`desofec:activity:pack:${pack.id}`) ?? 0);
       const count = checklists[pack.id]?.length ?? 0;
       saved[`pack:${pack.id}`] = {
-        completed: completed.filter((index) => Number.isInteger(index) && index >= 0 && index < count),
+        completed: [...new Set(completed.filter((index) => Number.isInteger(index) && index >= 0 && index < count))],
         lastActivity: Number.isFinite(timestamp) ? timestamp : 0
       };
     }
@@ -176,9 +176,9 @@ export function ContinueLearning({ paths, packs, checklists, tutorials = NO_TUTO
     ].flatMap((item) => {
       const local = localProgress[item.key] ?? { completed: [], lastActivity: 0 };
       const remote = userId ? remoteByKey.get(item.key) : undefined;
-      const remoteSteps = (remote?.completed_steps ?? []).filter(
+      const remoteSteps = [...new Set((remote?.completed_steps ?? []).filter(
         (index) => Number.isInteger(index) && index >= 0 && index < item.total
-      );
+      ))];
       let completed = local.completed;
       if (remote) {
         const metaKey = `desofec:progress-sync:${userId}:${item.kind}:${item.key.slice(item.kind.length + 1)}`;
@@ -252,6 +252,9 @@ export function ContinueLearning({ paths, packs, checklists, tutorials = NO_TUTO
             {item && <Link className="text-link" href="/my-progress">
                 {tr('View all progress')}
               </Link>}
+            <Link className="text-link" href="/business-launchpad/projects">
+              {tr('Open existing projects')}
+            </Link>
           </div>
         </div>
       </div>

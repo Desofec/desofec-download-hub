@@ -108,10 +108,10 @@ test('tool search matches the translated text visitors see, ignoring accents', a
 
 test('service worker refreshes downloads online while keeping offline copies', async () => {
   const sw = await readWeb('public/sw.js');
-  assert.doesNotMatch(sw, /desofec-studio-v1'/, 'cache version bumped to purge stale downloads');
+  assert.match(sw, /desofec-studio-v1'/, 'existing offline copies remain available on upgrade');
   const downloadBlock = sw.slice(sw.indexOf("startsWith('/downloads/')"), sw.indexOf("startsWith('/_next/static/')"));
   assert.ok(downloadBlock.length > 0, 'downloads handled before cache-first static assets');
-  assert.match(downloadBlock, /fetch\(request\)[\s\S]*cache\.put[\s\S]*catch\([\s\S]*caches\.match\(request\)/);
+  assert.match(downloadBlock, /fetch\(request, \{ cache: 'no-cache' \}\)[\s\S]*cache\.put[\s\S]*catch\([\s\S]*caches\.match\(request\)/);
   assert.match(sw, /caches\.match\(OFFLINE_URL\)/, 'offline page fallback preserved');
   assert.match(sw, /key !== CACHE_NAME/, 'old caches are deleted on activation');
 });
@@ -121,4 +121,55 @@ test('continue-learning prefers unfinished work and never says continue at 100%'
   assert.match(source, /Number\(a\.completed >= a\.total\) - Number\(b\.completed >= b\.total\)/);
   assert.match(source, /finished \? tr\('Explore learning paths'\)/);
   assert.match(source, /finished \? '\/paths'/);
+});
+
+test('navigation reveals more choices without removing goals or project access', async () => {
+  const home = await readWeb('app/page.tsx');
+  assert.match(home, /catalog\.goals\.slice\(0, 6\)/);
+  assert.match(home, /<details className="more-options">[\s\S]*catalog\.goals\.slice\(6\)/);
+  const launchpad = await readWeb('app/business-launchpad/page.tsx');
+  assert.match(launchpad, /href="#launchpad-services"/);
+  assert.match(launchpad, /<details className="more-options">[\s\S]*\/business-launchpad\/commerce-lab/);
+  const continueCard = await readWeb('components/continue-learning.tsx');
+  assert.match(continueCard, /href="\/business-launchpad\/projects"/);
+});
+
+test('project backup instructions, errors and accessible labels are translated', async () => {
+  const component = await readWeb('components/project-backup.tsx');
+  const model = await readWeb('lib/project-backup.ts');
+  const phrases = new Set([
+    ...[...component.matchAll(/\btr\('([^']+)'/g)].map((match) => match[1]),
+    ...[...model.matchAll(/new Error\('([^']+)'\)/g)].map((match) => match[1]),
+    'Could not create the backup. Check browser storage and retry.',
+    'Could not read the backup file. Check the file and retry.',
+    'Could not restore the backup. Check browser storage and retry.',
+    'Learning resources', 'See more learning goals', 'More practice tools and resources',
+    'Search and comparison require JavaScript. You can browse the tools below while they load.',
+    'Tutorial progress', 'Open navigation menu', 'Close navigation menu',
+    'Main navigation', 'Footer links',
+    'This certificate reflects steps you marked complete. It is not independently assessed or an accredited qualification.',
+    'English, French, German and Spanish. Use the language switcher in the header. Some lessons and downloads remain in English.'
+  ]);
+  for (const locale of locales) {
+    const book = await readJson(`content/translations/ui-${locale}.json`);
+    for (const phrase of phrases) {
+      assert.ok(book[phrase] && book[phrase] !== phrase, `${locale}: missing translation for "${phrase}"`);
+      assert.doesNotMatch(book[phrase], /\p{L}\?\p{L}|\uFFFD/u, `${locale}: corrupted characters in "${phrase}"`);
+      const placeholders = (value) => [...value.matchAll(/\{[^}]+\}/g)].map((match) => match[0]).sort();
+      assert.deepEqual(placeholders(book[phrase]), placeholders(phrase), `${locale}: placeholders in "${phrase}"`);
+    }
+  }
+  assert.match(component, /nothing is uploaded or overwritten/i);
+  assert.match(component, /window\.confirm/);
+  assert.doesNotMatch(component, /fetch\(|supabase|upload.*\(/i);
+  const tutorial = await readWeb('components/tutorial-steps.tsx');
+  assert.match(tutorial, /not independently assessed or an accredited qualification/);
+  assert.match(tutorial, /aria-label=\{tr\('Tutorial progress'\)\}/);
+});
+
+test('tool directory has a link-based fallback while interactive filters load', async () => {
+  const page = await readWeb('app/tools/page.tsx');
+  assert.match(page, /<Suspense fallback=\{[\s\S]*tools\.map\([\s\S]*<Link href=\{`\/tools\//);
+  assert.match(page, /tool-fallback/);
+  assert.match(page, /Search and comparison require JavaScript/);
 });

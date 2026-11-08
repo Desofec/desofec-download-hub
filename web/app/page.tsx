@@ -43,7 +43,7 @@ const featuredLessons = [
 const faqs = [
   ['Is Desofec AI Studio free?', 'Yes. Browsing tools, paths, tutorials and starter packs is free. Signing in only adds progress sync across your devices.'],
   ['Do I need coding experience?', 'No. Every path and tutorial is written for complete beginners, with plain-language steps you can follow at your own pace.'],
-  ['Which languages are supported?', 'English, French, German and Spanish. Use the language switcher in the header. Translations are automatic and improving.'],
+  ['Which languages are supported?', 'English, French, German and Spanish. Use the language switcher in the header. Some lessons and downloads remain in English.'],
   ['Can I use it on my phone?', 'Yes. It works in any browser and can be installed like an app from your browser menu.']
 ].map(([q, a]) => [phrase(q), phrase(a)]);
 
@@ -78,10 +78,11 @@ export default async function HomePage() {
                 <Tr>Browse all tutorials</Tr>
               </Link>
               <Link className="text-link" href="/my-progress">
-                <Tr>Choose your next lesson</Tr>
+                <Tr>View all progress</Tr>
               </Link>
             </div>
-            <ul className="mini-stats" aria-label="Project stats">
+            <span className="sr-only" id="home-resources-label"><Tr>Learning resources</Tr></span>
+            <ul className="mini-stats" aria-labelledby="home-resources-label">
               <li>
                 <strong>{catalog.paths.length}</strong>
                 <span><Tr>learning paths</Tr></span>
@@ -167,10 +168,20 @@ export default async function HomePage() {
             </div>
           </div>
           <div className="goal-grid">
-            {catalog.goals.map((goal) => (
+            {catalog.goals.slice(0, 6).map((goal) => (
               <GoalCard key={goal.id} goal={goal} />
             ))}
           </div>
+          {catalog.goals.length > 6 && (
+            <details className="more-options">
+              <summary><Tr>See more learning goals</Tr></summary>
+              <div className="goal-grid">
+                {catalog.goals.slice(6).map((goal) => (
+                  <GoalCard key={goal.id} goal={goal} />
+                ))}
+              </div>
+            </details>
+          )}
         </div>
       </section>
 

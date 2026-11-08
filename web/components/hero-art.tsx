@@ -1,6 +1,6 @@
 export function HeroArt() {
   return (
-    <svg className="hero-art" viewBox="0 0 320 220" role="img" aria-label="A path connecting a goal, a tool and a finished project">
+    <svg className="hero-art" viewBox="0 0 320 220" aria-hidden="true">
       <defs>
         <linearGradient id="hero-line" x1="0" y1="0" x2="1" y2="0">
           <stop offset="0" stopColor="#7dd3fc" />

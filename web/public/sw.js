@@ -1,4 +1,4 @@
-const CACHE_NAME = 'desofec-studio-v2';
+const CACHE_NAME = 'desofec-studio-v1';
 const OFFLINE_URL = '/offline.html';
 const SHELL_URLS = [
   OFFLINE_URL,
@@ -55,9 +55,9 @@ self.addEventListener('fetch', (event) => {
   }
 
   if (url.pathname.startsWith('/downloads/')) {
-    // Download files can change at the same URL, so fetch fresh copies online and keep the cache for offline use.
+    // Revalidate mutable downloads online, retaining the existing cache for offline use.
     event.respondWith(
-      fetch(request)
+      fetch(request, { cache: 'no-cache' })
         .then((response) => {
           if (response.ok && response.type === 'basic') {
             const copy = response.clone();
