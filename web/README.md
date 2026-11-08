@@ -370,7 +370,6 @@ app tabs after deployment; older app versions cannot read business-video project
 lessons and downloadable kit are available in English, French, German and Spanish. Catalog, journey,
 workbook and review UI also support French, German and Spanish. Optional external tools may charge for
 credits, exports or licensed assets.
-
 ### AI Video Creation Kit translations
 
 The original `/tutorials/ai-video-creation` course already supports French, German and
