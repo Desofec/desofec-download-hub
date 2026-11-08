@@ -101,6 +101,15 @@ Newsletter delivery also depends on a verified sender and the canonical site URL
 A working public catalog does not prove email delivery, private account sync or the
 presence of every migration.
 
+The intended mail setup uses Zoho Mail for receiving business/support messages and
+for sending everyday business mail; Resend sends automated website messages.
+Verify the actual Zoho inboxes or aliases and their permitted From addresses before
+changing DNS. Root-domain MX records must reflect the chosen receiving service,
+not competing receivers. Preserve Zoho's sending authentication and Resend's
+verified sending-domain/return-path records; do not add a second SPF record at the
+same hostname. Check each provider's dashboard instructions and real delivery.
+These code changes do not configure mailboxes, DNS or provider accounts.
+
 Google sign-in uses Supabase Auth. In the Google OAuth client, the authorised callback
 is the project's Supabase `/auth/v1/callback` URL. In Supabase Auth, allow the app's
 `https://www.desofec.com/account` return URL; add preview/local URLs only when needed
@@ -115,6 +124,12 @@ submission in the owner's Google account. A tag alone does not prove ownership,
 indexing or traffic. Google Analytics/GA4 is another separate service; this app uses
 Vercel Web Analytics and does not install a Google Analytics tag. Do not add duplicate
 tracking merely to connect Search Console.
+
+For the canonical production property, Bing ownership verification uses the
+provider-issued public file `public/BingSiteAuth.xml`. Preserve its exact contents;
+if Bing issues a replacement, update the file and its search-visibility test together.
+Deploy the file before requesting verification in Bing. The file alone does not prove
+ownership, sitemap submission or indexing.
 
 Supabase-backed catalog edits need a separately reviewed targeted update and cache
 refresh. A deployment does not sync bundled JSON into the database. Review labels are
@@ -207,6 +222,13 @@ no public access; newsletter signup, confirmation, and unsubscribe use server-on
 them), and set `NEXT_PUBLIC_SITE_URL` to the deployed site URL. Resend must have a verified sending domain and
 `NEWSLETTER_FROM_EMAIL` must use that domain. New signups receive a confirmation email; only confirmed addresses
 are eligible for future newsletter sends. Existing addresses must confirm again before being treated as subscribed.
+Newsletter confirmations default to `Desofec AI Studio <noreply@desofec.com>` with
+`Reply-To: support@desofec.com`. The optional server-only `NEWSLETTER_REPLY_TO_EMAIL`
+overrides the reply destination with a bare email address. If explicitly set to an
+empty or invalid address, sending fails with a logged configuration error and a
+visitor-facing error instead of silently choosing another recipient.
+Verify that the reply destination actually receives mail. Reply-To does not
+authenticate the sender or replace the separate Supabase Auth SMTP configuration.
 Catalog reads are cached for an hour (`lib/catalog.ts`).
 
 ### Lesson feedback and the first-website challenge
