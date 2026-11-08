@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { createHash } from 'node:crypto';
+import { createHash, randomBytes } from 'node:crypto';
 import { access, readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { test } from 'node:test';
@@ -33,6 +33,115 @@ const { hasLocalizedStarterPack, starterPackDownloadFile } = await loadModule('.
 const { toolMatchesSearch } = await loadModule('../lib/tool-search.ts');
 const { redactAnalyticsEvent } = await loadModule('../lib/analytics-privacy.ts');
 const { withToolReviews } = await loadModule('../lib/tool-review.ts');
+
+test('newsletter confirmations route replies without changing consent or hiding delivery errors', async (t) => {
+  const output = ts.transpileModule(await readWeb('app/actions.ts'), {
+    compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020 }
+  }).outputText;
+
+  function fixture(replyTo, delivered = true) {
+    const requests = [];
+    const writes = [];
+    const errors = [];
+    const env = {
+      NEXT_PUBLIC_SUPABASE_URL: 'https://database.example.test',
+      SUPABASE_SERVICE_ROLE_KEY: 'test-service-role-key',
+      RESEND_API_KEY: 'test-resend-api-key'
+    };
+    if (replyTo !== undefined) env.NEWSLETTER_REPLY_TO_EMAIL = replyTo;
+    const client = {
+      from(table) {
+        assert.equal(table, 'subscribers');
+        const query = {
+          select: () => query,
+          eq: () => query,
+          maybeSingle: async () => ({ data: null, error: null }),
+          insert: async (row) => {
+            writes.push(row);
+            return { error: null };
+          },
+          update(row) {
+            writes.push(row);
+            return { eq: async () => ({ error: null }) };
+          }
+        };
+        return query;
+      }
+    };
+    const exported = {};
+    runInNewContext(output, {
+      exports: exported,
+      require(name) {
+        if (name === 'node:crypto') return { createHash, randomBytes };
+        if (name === '@supabase/supabase-js') return { createClient: () => client };
+        throw new Error(`Unexpected newsletter dependency: ${name}`);
+      },
+      process: { env },
+      console: { error: (...args) => errors.push(args) },
+      URL,
+      fetch: async (url, options) => {
+        assert.equal(url, 'https://api.resend.com/emails');
+        requests.push({ ...options, payload: JSON.parse(options.body) });
+        return { ok: delivered, status: delivered ? 200 : 422 };
+      }
+    });
+    const form = new FormData();
+    form.set('email', 'learner@example.test');
+    return {
+      subscribe: () => exported.subscribe({ status: 'idle', message: '' }, form),
+      requests,
+      writes,
+      errors
+    };
+  }
+
+  await t.test('default sender and support replies preserve confirmation-only consent', async () => {
+    const run = fixture();
+    assert.equal((await run.subscribe()).status, 'success');
+    assert.equal(run.requests.length, 1);
+    const payload = run.requests[0].payload;
+    assert.equal(payload.from, 'Desofec AI Studio <noreply@desofec.com>');
+    assert.equal(payload.reply_to, 'support@desofec.com');
+    assert.deepEqual(payload.to, ['learner@example.test']);
+    const confirmation = new URL(payload.text.match(/Confirm your subscription: (\S+)/)[1]);
+    assert.equal(confirmation.origin, 'https://www.desofec.com');
+    assert.equal(confirmation.pathname, '/newsletter/confirm');
+    const token = confirmation.searchParams.get('token');
+    assert.match(token, /^[a-f0-9]{64}$/);
+    assert.equal(run.writes[0].confirmed_at, null);
+    assert.equal(run.writes[0].confirmation_token_hash, createHash('sha256').update(token).digest('hex'));
+    assert.ok(run.writes[1].confirmation_sent_at);
+    assert.equal(run.errors.length, 0);
+  });
+
+  await t.test('a configured reply address is trimmed and used without replacing From', async () => {
+    const run = fixture(' team@example.test ');
+    assert.equal((await run.subscribe()).status, 'success');
+    assert.equal(run.requests[0].payload.reply_to, 'team@example.test');
+    assert.equal(run.requests[0].payload.from, 'Desofec AI Studio <noreply@desofec.com>');
+  });
+
+  await t.test('invalid explicit reply addresses fail visibly without sending or logging the value', async () => {
+    for (const replyTo of ['', '   ', 'sender@example@example.test', 'a'.repeat(245) + '@example.test']) {
+      const run = fixture(replyTo);
+      const result = await run.subscribe();
+      assert.equal(result.status, 'error');
+      assert.match(result.message, /could not send/);
+      assert.equal(run.requests.length, 0);
+      assert.equal(run.writes.length, 1, 'no confirmation-sent timestamp');
+      assert.equal(run.errors.length, 1);
+      assert.deepEqual(run.errors[0], ['Newsletter reply-to address is invalid.']);
+    }
+  });
+
+  await t.test('provider rejection is an error and does not mark confirmation as sent', async () => {
+    const run = fixture(undefined, false);
+    assert.equal((await run.subscribe()).status, 'error');
+    assert.equal(run.requests.length, 1);
+    assert.equal(run.writes.length, 1);
+    assert.deepEqual(run.errors[0], ['Newsletter confirmation email failed:', 422]);
+  });
+});
 
 test('every starter-pack download surface uses selected-language routing', async () => {
   const cards = await readWeb('components/cards.tsx');

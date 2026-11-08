@@ -28,6 +28,12 @@ async function sendNewsletterEmail(email: string, confirmationToken: string, uns
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) return false;
 
+  const replyTo = (process.env.NEWSLETTER_REPLY_TO_EMAIL ?? 'support@desofec.com').trim();
+  if (replyTo.length < 5 || replyTo.length > 254 || !EMAIL_PATTERN.test(replyTo)) {
+    console.error('Newsletter reply-to address is invalid.');
+    return false;
+  }
+
   const confirmationUrl = new URL('/newsletter/confirm', getSiteUrl());
   confirmationUrl.searchParams.set('token', confirmationToken);
   const unsubscribeUrl = new URL('/newsletter/unsubscribe', getSiteUrl());
@@ -42,6 +48,7 @@ async function sendNewsletterEmail(email: string, confirmationToken: string, uns
     body: JSON.stringify({
       from,
       to: [email],
+      reply_to: replyTo,
       subject: 'Confirm your Desofec AI Studio newsletter subscription',
       html: `<p>Thanks for signing up for Desofec AI Studio updates.</p><p><a href="${confirmationUrl}">Confirm my subscription</a></p><p>If you did not request this, you can <a href="${unsubscribeUrl}">cancel this request</a>.</p>`,
       text: `Thanks for signing up for Desofec AI Studio updates.\n\nConfirm your subscription: ${confirmationUrl}\n\nIf you did not request this, cancel this request: ${unsubscribeUrl}`
