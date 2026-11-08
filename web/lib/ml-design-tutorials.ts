@@ -76,7 +76,7 @@ export const designBasicsSteps: TutorialStep[] = [
     title: 'Sketch an idea and choose a tool',
     explanation: [
       'Start with a simple object you can describe in one sentence, such as a phone stand, a pen holder or a small box with a lid. Sketch it from the front and the side and write the key sizes in millimetres.',
-      'Pick a tool for the job. For flat visuals, use Canva or Figma. For 3D objects, beginners can start with a simple browser tool such as Tinkercad, then move to Fusion 360 when they need precise parts. Check each tool\u2019s current free or personal-use terms.'
+      'Pick a tool for the job. For flat visuals, use Canva or Figma. For 3D objects, beginners can start with a simple browser tool such as Tinkercad, then move to Autodesk Fusion (formerly Fusion 360) when they need precise parts. Check each tool\u2019s current free or personal-use terms.'
     ],
     check: 'You have a two-view sketch with sizes, and you chose one tool.',
     aiPrompt: 'Help me turn this idea into a list of measurements and a simple shape plan: [describe your object].'
@@ -98,7 +98,7 @@ export const designBasicsSteps: TutorialStep[] = [
     title: 'Go further: text-to-CAD and simulation',
     explanation: [
       'Some newer tools can create a 3D part from a text prompt, for example a "text-to-CAD" service such as Zoo. Describe the part clearly: shape, sizes in millimetres, holes and units. Always check the dimensions in the result before using it.',
-      'Professional CAD tools such as Fusion 360 and Onshape can also run simulations, for example to see where a part bends or breaks under a load. Beginners should start with a simple static stress test on one part. Features and free limits change, so read each tool\u2019s current documentation first.',
+      'Professional CAD tools such as Autodesk Fusion and Onshape can also run simulations, for example to see where a part bends or breaks under a load. Beginners should start with a simple static stress test on one part. Features and free limits change, so read each tool\u2019s current documentation first.',
       'Important: a simulation is only an estimate. For anything safety-related, such as something that carries weight or people, ask a qualified engineer to check it.'
     ],
     file: 'Text-to-CAD prompt',

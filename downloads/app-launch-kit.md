@@ -24,7 +24,7 @@ Tip: describe one small task at a time to an AI coding assistant such as GitHub 
 - Ask a friend to use it without instructions and watch quietly.
 
 ## 5. Publish
-- Deploy to a free host such as Vercel and share the link.
+- Choose hosting that permits your intended use, check current costs and terms, and share the link. Vercel's free Hobby plan is for non-commercial personal use.
 - Write down three improvements for the next version.
 
 ## Using AI well

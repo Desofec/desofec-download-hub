@@ -1,12 +1,13 @@
 import type { Metadata } from 'next';
-import { Analytics } from '@vercel/analytics/next';
 import { Suspense } from 'react';
 import { AuthProvider } from '@/components/auth-provider';
 import { BreakTimer } from '@/components/break-timer';
 import { FavoritesSync } from '@/components/favorites-sync';
 import { PwaControls } from '@/components/pwa-controls';
+import { PrivacyAnalytics } from '@/components/privacy-analytics';
 import { SiteFooter } from '@/components/site-footer';
 import { SiteHeader } from '@/components/site-header';
+import { Tr } from '@/components/tr';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -17,6 +18,7 @@ export const metadata: Metadata = {
   description:
     'Explore beginner-friendly learning paths, AI and digital tools, step-by-step tutorials, and practical starter packs for building real skills.',
   metadataBase: new URL('https://www.desofec.com'),
+  referrer: 'strict-origin',
   verification: { google: 'B2vpNP_7gnCgWXYh1vZetOdmDsBKX6b-vBuU02sJmNA' },
   keywords: ['AI tools for beginners', 'learn AI', 'AI tutorials', 'AI learning paths', 'AI starter packs'],
   applicationName: 'Desofec AI Studio',
@@ -58,7 +60,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
       <body>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         <a className="skip-link" href="#main-content">
-          Skip to content
+          <Tr>Skip to content</Tr>
         </a>
         <AuthProvider>
           <FavoritesSync />
@@ -66,11 +68,11 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
             <SiteHeader />
           </Suspense>
           <PwaControls />
-          <main id="main-content">{children}</main>
+          <main id="main-content" tabIndex={-1}>{children}</main>
           <SiteFooter />
           <BreakTimer />
         </AuthProvider>
-        <Analytics />
+        <PrivacyAnalytics />
       </body>
     </html>
   );

@@ -71,9 +71,9 @@ export default async function ToolDetailPage({ params }: { params: Promise<{ id:
               href={tool.url}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label={`Open ${tool.name} (opens in a new tab)`}
             >
               <Tr values={{ name: tool.name }}>{'Open {name}'}</Tr>
+              <span className="sr-only">{' '}<Tr>(opens in a new tab)</Tr></span>
             </a>
             <Link className="btn btn-secondary" href="/tools">
               <Tr>Back to all tools</Tr>

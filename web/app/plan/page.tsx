@@ -1,13 +1,13 @@
-import type { Metadata } from 'next';
+import { publicPageMetadata } from '@/lib/public-page-metadata';
 import { IdeaPlanner } from '@/components/idea-planner';
 import { getCatalog } from '@/lib/catalog';
 import { getTutorialForPath } from '@/lib/tutorials';
 import { Tr } from '@/components/tr';
 
-export const metadata: Metadata = {
+export const metadata = publicPageMetadata('/plan', {
   title: 'Describe your idea',
   description: 'Type or speak your idea and get a simple plan with the right learning path and tutorial.'
-};
+});
 
 export default async function PlanPage() {
   const { goals, paths } = await getCatalog();

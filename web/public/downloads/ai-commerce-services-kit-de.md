@@ -57,7 +57,7 @@ zu prüfende Kosten und Freigabegrenzen.
 | Zoho Inventory | Bestands- und Auftragsdaten | https://www.desofec.com/tutorials/zoho-inventory-guide |
 | Shippo | Versandplanung | https://www.desofec.com/tutorials/shippo-guide |
 | Zendesk | Kundenservice mit menschlicher Prüfung | https://www.desofec.com/tutorials/zendesk-guide |
-| Looker Studio | Abgestimmte Berichte und Dashboards | https://www.desofec.com/tutorials/looker-studio-guide |
+| Google Data Studio (früher Looker Studio) | Abgestimmte Berichte und Dashboards | https://www.desofec.com/tutorials/looker-studio-guide |
 
 Anbieterdokumentation und Preisreferenzen sind in jedem Leitfaden verlinkt. Externe Websites konnten bei der Umsetzung
 nicht aufgelöst werden; dies sind Ausgangspunkte, keine live geprüften Referenzen oder Empfehlungen.

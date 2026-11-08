@@ -1,13 +1,12 @@
-import type { Metadata } from 'next';
+import { publicPageMetadata } from '@/lib/public-page-metadata';
 import Link from 'next/link';
 import { Tr } from '@/components/tr';
 import { getPublishedAiDigests } from '@/lib/ai-digest-content';
 
-export const metadata: Metadata = {
+export const metadata = publicPageMetadata('/ai-updates', {
   title: 'AI Updates for Practical Learning',
-  description: 'Source-linked AI announcements with beginner relevance, limitations and a small practice activity. Only reviewed editions are published.',
-  alternates: { canonical: '/ai-updates' }
-};
+  description: 'Source-linked AI announcements with beginner relevance, limitations and a small practice activity. Only reviewed editions are published.'
+});
 
 export default function AiUpdatesPage() {
   const digests = getPublishedAiDigests();

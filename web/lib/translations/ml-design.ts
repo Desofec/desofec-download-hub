@@ -150,7 +150,7 @@ export const mlDesignTranslations: Record<string, Partial<Record<'fr' | 'de' | '
           title: 'Esquisser une idée et choisir un outil',
           explanation: [
             'Commencez par un objet simple que vous pouvez décrire en une phrase, comme un support de téléphone, un pot à crayons ou une petite boîte avec un couvercle. Dessinez-le de face et de côté, puis notez ses dimensions principales en millimètres.',
-            'Choisissez un outil adapté. Pour des visuels en 2D, utilisez Canva ou Figma. Pour les objets 3D, les débutants peuvent commencer avec un outil simple dans le navigateur, comme Tinkercad, puis passer à Fusion 360 lorsqu’ils ont besoin de pièces précises. Vérifiez les conditions d’utilisation gratuite ou personnelle actuellement proposées par chaque outil.'
+            'Choisissez un outil adapté. Pour des visuels en 2D, utilisez Canva ou Figma. Pour les objets 3D, les débutants peuvent commencer avec un outil simple dans le navigateur, comme Tinkercad, puis passer à Autodesk Fusion (anciennement Fusion 360) lorsqu’ils ont besoin de pièces précises. Vérifiez les conditions d’utilisation gratuite ou personnelle actuellement proposées par chaque outil.'
           ],
           check: 'Vous avez un croquis en deux vues avec des dimensions et vous avez choisi un outil.',
           aiPrompt: 'Aidez-moi à transformer cette idée en une liste de mesures et en un plan de forme simple : [décrivez votre objet].'
@@ -169,7 +169,7 @@ export const mlDesignTranslations: Record<string, Partial<Record<'fr' | 'de' | '
           title: 'Aller plus loin : texte vers CAO et simulation',
           explanation: [
             'Certains outils récents peuvent créer une pièce 3D à partir d’une requête textuelle, par exemple un service de conversion de texte en CAO comme Zoo. Décrivez clairement la pièce : sa forme, ses dimensions en millimètres, ses trous et ses unités. Vérifiez toujours les dimensions du résultat avant de l’utiliser.',
-            'Des outils de CAO professionnels comme Fusion 360 et Onshape peuvent aussi lancer des simulations, par exemple pour voir où une pièce se plie ou se casse sous une charge. Pour débuter, faites un test de contrainte statique simple sur une seule pièce. Les fonctionnalités et les limites des offres gratuites évoluent : consultez d’abord la documentation actuelle de chaque outil.',
+            'Des outils de CAO professionnels comme Autodesk Fusion et Onshape peuvent aussi lancer des simulations, par exemple pour voir où une pièce se plie ou se casse sous une charge. Pour débuter, faites un test de contrainte statique simple sur une seule pièce. Les fonctionnalités et les limites des offres gratuites évoluent : consultez d’abord la documentation actuelle de chaque outil.',
             'Important : une simulation n’est qu’une estimation. Pour tout ce qui touche à la sécurité, comme un objet qui supporte un poids ou des personnes, demandez à un ingénieur qualifié de vérifier le résultat.'
           ],
           code: 'Créez une équerre rectangulaire de 60 mm de long, 30 mm de large et 5 mm d’épaisseur, fabriquée d’une seule pièce, avec deux trous de 6 mm centrés à 10 mm de chaque extrémité. Les unités sont en millimètres.',
@@ -204,7 +204,7 @@ export const mlDesignTranslations: Record<string, Partial<Record<'fr' | 'de' | '
           title: 'Eine Idee skizzieren und ein Tool auswählen',
           explanation: [
             'Beginne mit einem einfachen Gegenstand, den du in einem Satz beschreiben kannst, zum Beispiel einem Handyhalter, einem Stiftehalter oder einer kleinen Schachtel mit Deckel. Skizziere ihn von vorne und von der Seite und notiere die wichtigsten Maße in Millimetern.',
-            'Wähle ein passendes Tool. Für flache Grafiken eignen sich Canva oder Figma. Für 3D-Objekte können Einsteiger mit einem einfachen Browser-Tool wie Tinkercad starten und später zu Fusion 360 wechseln, wenn sie präzise Teile brauchen. Prüfe die aktuellen Bedingungen für die kostenlose oder private Nutzung jedes Tools.'
+            'Wähle ein passendes Tool. Für flache Grafiken eignen sich Canva oder Figma. Für 3D-Objekte können Einsteiger mit einem einfachen Browser-Tool wie Tinkercad starten und später zu Autodesk Fusion (früher Fusion 360) wechseln, wenn sie präzise Teile brauchen. Prüfe die aktuellen Bedingungen für die kostenlose oder private Nutzung jedes Tools.'
           ],
           check: 'Du hast eine Skizze mit zwei Ansichten und Maßen erstellt und ein Tool ausgewählt.',
           aiPrompt: 'Hilf mir, diese Idee in eine Maßliste und einen einfachen Formplan umzuwandeln: [beschreibe deinen Gegenstand].'
@@ -223,7 +223,7 @@ export const mlDesignTranslations: Record<string, Partial<Record<'fr' | 'de' | '
           title: 'Weiterlernen: Text-zu-CAD und Simulation',
           explanation: [
             'Manche neueren Tools können aus einem Textprompt ein 3D-Teil erstellen, zum Beispiel ein Text-zu-CAD-Angebot wie Zoo. Beschreibe das Teil genau: Form, Maße in Millimetern, Löcher und Einheiten. Prüfe die Maße des Ergebnisses immer, bevor du es verwendest.',
-            'Professionelle CAD-Tools wie Fusion 360 und Onshape können auch Simulationen ausführen, zum Beispiel um zu sehen, wo sich ein Teil unter Belastung biegt oder bricht. Beginne als Einsteiger mit einem einfachen statischen Belastungstest an einem Teil. Funktionen und kostenlose Nutzungslimits ändern sich; lies deshalb zuerst die aktuelle Dokumentation des jeweiligen Tools.',
+            'Professionelle CAD-Tools wie Autodesk Fusion und Onshape können auch Simulationen ausführen, zum Beispiel um zu sehen, wo sich ein Teil unter Belastung biegt oder bricht. Beginne als Einsteiger mit einem einfachen statischen Belastungstest an einem Teil. Funktionen und kostenlose Nutzungslimits ändern sich; lies deshalb zuerst die aktuelle Dokumentation des jeweiligen Tools.',
             'Wichtig: Eine Simulation ist nur eine Schätzung. Bei allem, was die Sicherheit betrifft, etwa bei Gegenständen, die Gewicht oder Menschen tragen, sollte eine qualifizierte Ingenieurin oder ein qualifizierter Ingenieur das Ergebnis prüfen.'
           ],
           code: 'Erstelle einen rechteckigen Winkel mit 60 mm Länge, 30 mm Breite und 5 mm Dicke aus einem einzigen Stück. Er hat zwei 6-mm-Löcher, deren Mittelpunkte jeweils 10 mm vom Ende entfernt liegen. Die Einheiten sind Millimeter.',
@@ -258,7 +258,7 @@ export const mlDesignTranslations: Record<string, Partial<Record<'fr' | 'de' | '
           title: 'Haz un boceto y elige una herramienta',
           explanation: [
             'Empieza con un objeto sencillo que puedas describir en una frase, como un soporte para el móvil, un portalápices o una caja pequeña con tapa. Haz un boceto de frente y de lado, y anota las medidas principales en milímetros.',
-            'Elige una herramienta adecuada. Para imágenes planas, usa Canva o Figma. Para objetos 3D, puedes empezar con una herramienta sencilla en el navegador, como Tinkercad, y pasar a Fusion 360 cuando necesites piezas precisas. Comprueba las condiciones actuales de uso gratuito o personal de cada herramienta.'
+            'Elige una herramienta adecuada. Para imágenes planas, usa Canva o Figma. Para objetos 3D, puedes empezar con una herramienta sencilla en el navegador, como Tinkercad, y pasar a Autodesk Fusion (antes Fusion 360) cuando necesites piezas precisas. Comprueba las condiciones actuales de uso gratuito o personal de cada herramienta.'
           ],
           check: 'Tienes un boceto con dos vistas y medidas, y has elegido una herramienta.',
           aiPrompt: 'Ayúdame a convertir esta idea en una lista de medidas y un plan de formas sencillo: [describe tu objeto].'
@@ -277,7 +277,7 @@ export const mlDesignTranslations: Record<string, Partial<Record<'fr' | 'de' | '
           title: 'Ve más allá: texto a CAD y simulación',
           explanation: [
             'Algunas herramientas recientes pueden crear una pieza 3D a partir de un prompt de texto; por ejemplo, un servicio de texto a CAD como Zoo. Describe bien la pieza: su forma, las medidas en milímetros, los agujeros y las unidades. Comprueba siempre las dimensiones del resultado antes de usarlo.',
-            'Las herramientas CAD profesionales, como Fusion 360 y Onshape, también pueden ejecutar simulaciones para ver, por ejemplo, dónde se dobla o se rompe una pieza bajo una carga. Si estás empezando, haz una prueba sencilla de tensión estática con una sola pieza. Las funciones y los límites gratuitos cambian, así que consulta primero la documentación actual de cada herramienta.',
+            'Las herramientas CAD profesionales, como Autodesk Fusion y Onshape, también pueden ejecutar simulaciones para ver, por ejemplo, dónde se dobla o se rompe una pieza bajo una carga. Si estás empezando, haz una prueba sencilla de tensión estática con una sola pieza. Las funciones y los límites gratuitos cambian, así que consulta primero la documentación actual de cada herramienta.',
             'Importante: una simulación es solo una estimación. Para cualquier cosa relacionada con la seguridad, como un objeto que soporta peso o personas, pide a un ingeniero cualificado que la revise.'
           ],
           code: 'Crea un soporte angular rectangular de 60 mm de largo, 30 mm de ancho y 5 mm de grosor, fabricado en una sola pieza, con dos agujeros de 6 mm centrados a 10 mm de cada extremo. Las unidades son milímetros.',

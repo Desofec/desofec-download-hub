@@ -103,14 +103,15 @@ List the problems first, then suggest the smallest changes that fix them. Do not
   },
   {
     id: 'publish-for-free',
-    title: 'Publish it for free',
+    title: 'Choose hosting and publish',
     explanation: [
-      'A common free route is: put your files in a GitHub repository, then import that repository into a hosting service such as Vercel, which gives the site a live address. Whenever you change the files on GitHub, the hosting service can republish the site automatically.',
+      'Choose hosting that permits your intended use. For example, you can import a GitHub repository into Vercel, but its free Hobby plan is for non-commercial personal use. Check current eligibility, terms and costs before choosing a plan.',
       'Menu names and plans change, so follow the service\u2019s current instructions. After publishing, open the live address on your phone, ask a friend to test it and check that nothing private is visible.'
     ],
     file: 'Chat prompt',
     code: `I have an index.html file for my website.
-Give me step-by-step instructions to publish it for free using a GitHub repository and Vercel, for someone who has never used either.
+Explain a suitable publishing route using a GitHub repository and hosting, for someone who has never used either.
+Ask whether my site is personal or commercial and tell me to check the host's current plan terms and costs.
 Tell me what I should check before and after publishing, and what to do if the page shows an error.`,
     check: 'Your site opens at a live web address on your phone and shows your content.',
     aiPrompt: 'Explain what a domain name, hosting and DNS are in simple words, and how much a custom domain usually involves in ongoing cost.'

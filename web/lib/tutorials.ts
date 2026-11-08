@@ -299,7 +299,7 @@ export const tutorials: TutorialInfo[] = [
     href: '/tutorials/ai-website-builder',
     title: 'Build and publish a website with AI',
     intro:
-      'Write a short brief, let AI draft a one-page site, review and personalise it, then publish it for free with a live address.',
+      'Write a short brief, let AI draft a one-page site, review and personalise it, then choose suitable hosting and publish it.',
     time: '60 minutes',
     steps: aiWebsiteSteps
   },

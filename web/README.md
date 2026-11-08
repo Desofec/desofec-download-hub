@@ -29,6 +29,40 @@ and opening device projects, with the other existing links in an expandable sect
 The home continuation card links to device projects as well as learning progress.
 Tutorial certificates identify checklist completion as self-recorded, not an
 independently assessed or accredited qualification.
+The header uses a scrollable compact menu on tablets and smaller laptops; Escape
+closes it and returns keyboard focus to the menu button. On medium desktop widths,
+the duplicate header call to action is hidden while the Start here link remains.
+
+Privacy and Terms provide French, German and Spanish translations on their
+individual pages, with the original English available in an expandable section.
+The translations are AI-assisted and have not received native-speaker or legal
+review. Tests pin each translation to its English source: after editing English
+legal content, review all three translations against it and update their
+`sourceDigest` values. A matching digest does not replace human review. Legal
+links are underlined, and links and the English-original control use high-contrast
+text in every theme. Tool-page external links use their visible translated label
+as their accessible name and announce when they open a new tab. Text accents use
+a contrast-checked color separate from button backgrounds in lighter themes.
+
+The policies were cross-checked against the application's data flows, not certified
+for a jurisdiction. They describe persisted sign-in sessions, task storage, offline
+caches, unencrypted project backups, optional browser speech processing, shared
+workspace/study records, Google profile fields and authorised administrator access.
+Newsletter confirmation expiry and unsubscribe are not presented as record deletion;
+device deletion, account snapshots, exports and provider backups are separate.
+Terms distinguish fictional/self-recorded practice from accredited qualifications,
+verified client work, client approval and income promises. Operator details, lawful
+bases, provider retention, rights-request operations and applicable legal requirements
+still require the owner's verified facts and, where appropriate, qualified advice.
+
+`PrivacyAnalytics` filters the existing Vercel analytics integration: only public
+page-view events are allowed; all URL queries, fragments and credentials are removed,
+and account, newsletter, learning-workspace and personal project routes are excluded.
+Custom events are intentionally rejected. New private routes must be added to the
+filter and its regressions before release. `strict-origin` limits browser referrers
+to the origin; neither it nor analytics redaction removes requested URLs from hosting
+logs or makes account data end-to-end encrypted. Invalid analytics URLs are skipped
+with a diagnostic that does not include the input.
 
 The tutorial directory offers editorial topic groups, combined topic/level/search
 filters and a reset control. Search matches original and displayed translated
@@ -43,6 +77,71 @@ otherwise; fallback title translations are also included in search. Translating 
 directory heading does not imply that its lesson body is translated.
 The tools directory renders browsable tool links while its interactive search and
 comparison load; without JavaScript, those controls and saved-tool buttons are unavailable.
+
+Public practice and support pages use page-specific canonical, Open Graph and
+Twitter-card metadata, with the existing social image. Canonical URLs omit
+temporary project/query parameters; metadata does not expose saved project content.
+Account and progress pages request `noindex, follow` and stay out of the sitemap.
+They remain crawlable so search engines can read `noindex`; this is a discovery
+instruction, not an access-control or privacy guarantee.
+Contact guidance follows the selected language, explains what feedback is useful
+and warns against sending secrets or confidential details. Its email link opens
+the visitor's email app; the site does not send or save the message. The English-only
+first-app practice page is explicitly language-tagged and has a translated notice.
+
+## Launch and organic discovery
+
+### Service connections
+
+Vercel serves the Next.js app and builds the configured Git branches. Supabase is a
+separate catalog/account service: its public URL and anon key enable public catalog
+reads and browser authentication. The service-role key and Resend key belong only in
+Vercel's server environment; never put them in a browser variable or commit them.
+Newsletter delivery also depends on a verified sender and the canonical site URL.
+A working public catalog does not prove email delivery, private account sync or the
+presence of every migration.
+
+Google sign-in uses Supabase Auth. In the Google OAuth client, the authorised callback
+is the project's Supabase `/auth/v1/callback` URL. In Supabase Auth, allow the app's
+`https://www.desofec.com/account` return URL; add preview/local URLs only when needed
+for those environments. Test completion with a consenting account and confirm the
+return domain, sign-out and cross-device progress; an enabled provider or successful
+OAuth start does not establish that whole journey.
+
+Google Search Console is independent of Supabase and user sign-in. The site's Google
+verification meta tag supports a matching URL-prefix property, while a Domain property
+requires the owner's DNS verification. Check the actual verified property and sitemap
+submission in the owner's Google account. A tag alone does not prove ownership,
+indexing or traffic. Google Analytics/GA4 is another separate service; this app uses
+Vercel Web Analytics and does not install a Google Analytics tag. Do not add duplicate
+tracking merely to connect Search Console.
+
+Supabase-backed catalog edits need a separately reviewed targeted update and cache
+refresh. A deployment does not sync bundled JSON into the database. Review labels are
+withheld when a database tool's name, URL or description does not match the reviewed
+record, rather than presenting stale copy as checked.
+
+After the release prerequisites in the pull request are resolved, merge once to the
+configured production branch and wait for the normal Vercel deployment. Do not also
+promote a preview or manually redeploy: those create additional builds. Check the
+production domain, key beginner routes, selected-language downloads and contact link
+after deployment. Preview success does not establish signed-in production behavior,
+mailbox delivery, legal compliance or real-device accessibility.
+
+Using the owner's accounts, verify the production property in
+[Google Search Console](https://search.google.com/search-console) and
+[Bing Webmaster Tools](https://www.bing.com/webmasters/). Submit the existing sitemap
+and inspect the homepage, `/start-here` and relevant lesson URLs. The site includes
+the `/tutorials/search-visibility` guide; repeated indexing requests do not guarantee
+or accelerate inclusion. No account submission is performed by these code changes.
+
+Share a relevant lesson or the beginner starting route only in communities that
+permit it, disclose ownership and ask for actual feedback from consenting beginners.
+Do not invent testimonials, learning outcomes, client work, traffic or earnings.
+Use Search Console data and optional feedback to assess discovery and where visitors
+get stuck before adding tracking or buying ads. No social posting, ad spend or new
+tracking integration is included. Check that the hosting plan fits the site's actual
+use: [Vercel Hobby](https://vercel.com/docs/plans/hobby) is for non-commercial personal use.
 
 ## Run locally
 
@@ -89,8 +188,8 @@ is required. Edits are lost on reload/navigation; downloaded copies are separate
 ## Connect Supabase
 
 1. Create a Supabase project.
-2. In the SQL editor, run the migrations in order through `0014_commerce_projects.sql`, including `0011_pilot_projects.sql` for owner-private snapshots, then run `supabase/seed.sql`.
-   The migrations are safe to re-run; the seed upserts. Apply the video migration and regenerated seed before deploying the business-video path.
+2. For a new, empty development database, review and run the migrations in order through `0014_commerce_projects.sql`, including `0011_pilot_projects.sql` for owner-private snapshots, then populate the catalog using `supabase/seed.sql`.
+   **Do not apply the generated seed wholesale to an existing production database.** It includes whole-catalog operations and rebuilds recommendation rows; it is not a harmless general update. Later feature sections mentioning a seed describe catalog prerequisites, not permission to re-run it in production. For an existing database, review pending migrations and a targeted catalog update separately, preserve existing data, and refresh the hour-cached catalog. Do not assume every migration is safe to repeat.
 3. Copy `.env.example` to `.env.local` and fill in the project URL and anon key
    (Project settings → API):
 
@@ -162,9 +261,10 @@ support French, German and Spanish. The commerce kit download is available in En
 French, German and Spanish and follows the selected language. Tutorial, path and kit
 progress reuse existing tracking; translations do not alter saved project evidence.
 Run `npm run sync-content` after changing the source catalog or download.
-For Supabase deployments, apply the **regenerated `supabase/seed.sql` before
+For existing Supabase deployments, review a **targeted catalog update before
 deploying** so all three paths, their goal and kit exist, including for lesson
-feedback validation. For commerce account snapshots, apply migration **0014 after
+feedback validation; do not apply the whole generated seed to production.
+For commerce account snapshots, apply migration **0014 after
 0013 before deploying**; it extends only the existing RPC allowlist and preserves
 ownership, quotas and conflict checks. No seed change is needed for the guided
 project extension if the commerce catalog is already seeded. Redeploy/refresh the
@@ -257,8 +357,8 @@ implementation, so these additions have **no description-review stamp**; referen
 are starting points, not verified live links, fee quotes or endorsements.
 Check current provider documentation before registration, spending or actual use.
 
-Apply the regenerated `supabase/seed.sql` before deploying to a Supabase-backed
-site, then refresh/redeploy the hour-cached catalog so the count becomes 51.
+For an existing Supabase-backed site, review a targeted catalog update for these
+tools, then refresh the hour-cached catalog so the count becomes 51.
 Bundled-only deployments require no SQL; no schema migration is needed.
 
 ### Excel data cleaning and PDF-to-Excel services
@@ -275,7 +375,7 @@ actual user observations. Raw data and missing-versus-zero evidence are never si
 
 SHEET-1..7 plans, workbook starters, Review Centre self-checks, proposals and private handovers
 reuse the existing project infrastructure. Unavailable real owner approval stays blocked.
-Apply **0013 after 0012**, then the regenerated seed before deployment. The migration expands
+Apply **0013 after 0012** when pending, and review a targeted catalog update before deployment. The migration expands
 only the RPC allowlist, preserves ownership/quotas/CAS and is repeatable; an unexpected prior
 function definition fails explicitly rather than silently proceeding. French, German and
 Spanish cover catalog/workflow UI; the extended lessons and downloads remain English.
@@ -297,8 +397,8 @@ milestone evidence, workbook starters, review instructions and private handover.
 pending with blank actual results. All missing real owner approval stays blocked.
 The strict client parser preserves this field through part saves and opt-in account snapshots.
 No migration is needed beyond 0012: the existing server retains the project JSON and path ID.
-Run the regenerated `supabase/seed.sql` to update production catalog names/descriptions before
-deployment; it updates existing records without new catalog IDs or ordering changes.
+Update production catalog names/descriptions through a separately reviewed targeted
+patch, preserving existing IDs and ordering. Do not apply the whole generated seed.
 
 ### Guided first project
 
@@ -578,7 +678,7 @@ write fails, new copies are rolled back when possible and any incomplete cleanup
 The project summary download remains a separate, deliberately limited export.
 
 **Deployment: apply `supabase/migrations/0011_pilot_projects.sql`, then
-`0012_video_business_projects.sql` and the regenerated `supabase/seed.sql` before deploying.**
+`0012_video_business_projects.sql` and a reviewed targeted catalog update before deploying.**
 The migration creates owner-private `pilot_projects`, read-only direct authenticated access and two
 security-definer RPCs. Upload uses account-version compare-and-swap; deletion also checks its version.
 Per-owner transaction locks serialise writes/quota checks (ten account projects). Auth user deletion
@@ -640,8 +740,8 @@ Spanish variants. Its detail-page download button follows the selected language;
 other kits retain their existing files. The kit and variants are checked in both `downloads/` and
 `web/public/downloads/`; this does not localize other kits or change saved project content.
 
-**Run the regenerated `supabase/seed.sql` before deployment, after migrations 0011 and 0012.**
-The seed includes service goals, paths, kits and recommendations. The existing feedback
+**For an existing Supabase database, review a targeted catalog update after pending migrations 0011 and 0012.**
+The catalog prerequisites include service goals, paths, kits and recommendations. The existing feedback
 function recognises the new lesson IDs once the paths are seeded.
 
 `/business-launchpad` starts with `/tutorials/ai-automation-services`: six lessons covering discovery,
@@ -670,7 +770,7 @@ The hub checklist shares `ai-automation-services-kit` progress with its starter-
 uses the existing independent `tutorial` progress type; no client notes or cost worksheets are submitted.
 Home, My progress, the footer, goal recommendations, idea matching and sitemap link to the new content.
 
-**Deployment: re-run the regenerated `supabase/seed.sql` before deploying** when using Supabase so the
+**Deployment: review a targeted catalog update before deploying** when using an existing Supabase database so the
 new goal, path, recommendations and kit are available. No new migration is needed. The existing
 `0010_lesson_feedback.sql` migration must already be applied for private tutorial feedback.
 
@@ -732,13 +832,16 @@ npm run sync-content
 
 Validation checks required fields, unique IDs, cross-references, starter-pack checklists, and downloadable files.
 Sync runs the same checks before copying the files into `content/` and `public/downloads/` and regenerating
-`../supabase/seed.sql`. Commit the results, then re-run the seed in Supabase when catalog data changes.
+`../supabase/seed.sql`. Commit the results. A Supabase-backed deployment also needs a separately reviewed
+catalog update and cache refresh; the generated seed includes whole-catalog operations, so do not apply it
+blindly to production. Review the intended rows and preserve existing learner data.
 
-`data/tool-reviews.json` records dated **description** reviews from indexed official documentation for the
-six tools researched on 2026-11-05. It does not claim successful live link checks. Other tools display that
-no review is recorded. Entries bind the reviewed description and tool URL; validation rejects changed text
-or URLs until the review is updated or removed. The bundled metadata is joined in both catalog loaders,
-including Supabase catalogs, so these labels require no database column or seed change.
+`data/tool-reviews.json` records dated, AI-assisted checks of English descriptions against official
+documentation. These do not verify translated text, every feature, prices or live links; all can change.
+Tools without a matching review display that no review is recorded. Entries bind the exact displayed name,
+description and tool URL; validation rejects changes until the review is updated or removed, and the
+runtime does not attach a stale review to a Supabase row. The bundled metadata is joined in both catalog
+loaders, so the review labels require no database column.
 
 ## Structure
 

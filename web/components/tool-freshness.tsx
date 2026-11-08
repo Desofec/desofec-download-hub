@@ -19,10 +19,10 @@ export function ToolFreshness({ tool, details = false }: { tool: Tool; details?:
 
   return (
     <div className="planner-note">
-      <p>{tr('Description reviewed:')} <time dateTime={review.reviewedOn}>{date}</time></p>
+      <p>{tr('Description checked with AI assistance:')} <time dateTime={review.reviewedOn}>{date}</time></p>
       {details && (
         <>
-          <p>{tr('Based on indexed official documentation, not a live link check. Prices and features can change.')}</p>
+          <p>{tr('The English description was checked against official documentation. Translations, links, prices and all features were not verified and can change.')}</p>
           <a href={review.sourceUrl} target="_blank" rel="noopener noreferrer">
             {tr('Review source')}<span className="sr-only">{` — ${tool.name}`}</span>
           </a>

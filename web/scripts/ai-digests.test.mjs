@@ -126,6 +126,11 @@ test('IDs and sources must be unique; sorting is stable and does not mutate inpu
 
 test('public page renders reviewed evidence safely and never includes draft titles', async () => {
   const pageSource = await readFile(new URL('../app/ai-updates/page.tsx', import.meta.url), 'utf8');
+  const metadataSource = await readFile(new URL('../lib/public-page-metadata.ts', import.meta.url), 'utf8');
+  const metadataOutput = ts.transpileModule(metadataSource, {
+    compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2020 }
+  }).outputText;
+  const metadataUrl = `data:text/javascript;base64,${Buffer.from(metadataOutput).toString('base64')}`;
   const digest = fixture();
   digest.title = '<script>alert("edition")</script>';
   digest.items[0].announcement = '<img src=x onerror=alert(1)>';
@@ -137,6 +142,7 @@ test('public page renders reviewed evidence safely and never includes draft titl
     compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2020, jsx: ts.JsxEmit.React }
   }).outputText;
   output = output
+    .replace("'@/lib/public-page-metadata'", `'${metadataUrl}'`)
     .replace(/import Link from 'next\/link';/, 'const Link = (props) => React.createElement("a", props);')
     .replace(/import \{ Tr \} from '@\/components\/tr';/, 'const Tr = ({children}) => children;')
     .replace(/import \{ getPublishedAiDigests \} from '@\/lib\/ai-digest-content';/, 'const getPublishedAiDigests = () => globalThis.__digestTest.editions;');

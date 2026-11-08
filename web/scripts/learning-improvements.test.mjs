@@ -2577,16 +2577,19 @@ test('feedback response parsing preserves false votes and rejects malformed data
   }
 });
 
-test('review metadata only attaches to the exact reviewed description and URL', async () => {
+test('review metadata only attaches to the exact reviewed name, description and URL', async () => {
   const { withToolReviews } = await loadContent('../lib/tool-review.ts');
   const tool = { id: 'tool', name: 'Tool', description: 'Reviewed', url: 'https://example.com' };
   const reviews = {
-    tool: { reviewedOn: '2026-11-05', sourceUrl: 'https://example.com/help', toolUrl: tool.url, description: tool.description }
+    tool: { reviewedOn: '2026-11-05', sourceUrl: 'https://example.com/help', toolName: tool.name, toolUrl: tool.url, description: tool.description }
   };
   assert.equal(withToolReviews([tool], reviews)[0].review.reviewedOn, '2026-11-05');
+  assert.equal(withToolReviews([{ ...tool, name: 'Changed' }], reviews)[0].review, undefined);
   assert.equal(withToolReviews([{ ...tool, description: 'Changed' }], reviews)[0].review, undefined);
   assert.equal(withToolReviews([{ ...tool, url: 'https://different.example' }], reviews)[0].review, undefined);
   assert.equal(withToolReviews([{ ...tool, id: 'other' }], reviews)[0].review, undefined);
+  const previouslyReviewed = withToolReviews([tool], reviews)[0];
+  assert.equal(withToolReviews([{ ...previouslyReviewed, name: 'Changed' }], reviews)[0].review, undefined);
 });
 
 test('website challenge has seven ordered tasks with independent progress and a final review', async () => {

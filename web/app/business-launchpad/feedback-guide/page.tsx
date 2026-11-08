@@ -1,11 +1,11 @@
-import type { Metadata } from 'next';
+import { publicPageMetadata } from '@/lib/public-page-metadata';
 import { FeedbackGuide } from '@/components/feedback-guide';
 import { Tr } from '@/components/tr';
 
-export const metadata: Metadata = {
+export const metadata = publicPageMetadata('/business-launchpad/feedback-guide', {
   title: 'Practice Project Feedback Guide',
   description: 'Prepare a respectful feedback request, record observations and plan a revision for a fictional practice project.'
-};
+});
 
 export default function FeedbackGuidePage() {
   return <section className="section"><div className="container narrow-container">

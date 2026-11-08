@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState, useSyncExternalStore } from 'react';
+import { useRef, useState, useSyncExternalStore } from 'react';
 import { useAuth } from '@/components/auth-provider';
 import { LanguageSwitcher } from '@/components/language-switcher';
 import { RainbowSwitch } from '@/components/rainbow-switch';
@@ -31,6 +31,7 @@ const subscribeHydration = () => () => {};
 export function SiteHeader() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
+  const menuButton = useRef<HTMLButtonElement>(null);
   const { session } = useAuth();
   // A streamed header can hydrate after the auth provider has already read its session.
   const hydrated = useSyncExternalStore(subscribeHydration, () => true, () => false);
@@ -39,13 +40,20 @@ export function SiteHeader() {
   const tr = useTr();
 
   return (
-    <header className="site-header">
+    <header className="site-header" onKeyDown={(event) => {
+      if (menuOpen && event.key === 'Escape') {
+        event.preventDefault();
+        setMenuOpen(false);
+        menuButton.current?.focus();
+      }
+    }}>
       <div className="container nav-row">
         <Link href="/" className="brand">
           <span className="brand-mark">D</span>
           <span className="brand-text">Desofec AI Studio</span>
         </Link>
         <button
+          ref={menuButton}
           className="menu-toggle"
           type="button"
           aria-expanded={menuOpen}

@@ -1,16 +1,14 @@
-import type { Metadata } from 'next';
+import { publicPageMetadata } from '@/lib/public-page-metadata';
 import { Suspense } from 'react';
 import { CommercePracticeLab } from '@/components/commerce-practice-lab';
 import { Tr } from '@/components/tr';
 import { commerceTrack } from '@/lib/commerce-practice';
 import { isProjectId } from '@/lib/pilot-projects';
 
-export const metadata: Metadata = {
+export const metadata = publicPageMetadata('/business-launchpad/commerce-lab', {
   title: 'Commerce and Logistics Practice Lab',
-  description: 'Edit fictional retail costs and inventory, marketplace commissions, and logistics stock and order records with explicit checks and downloadable worksheets.',
-  alternates: { canonical: '/business-launchpad/commerce-lab' },
-  openGraph: { title: 'Commerce and Logistics Practice Lab', url: '/business-launchpad/commerce-lab' }
-};
+  description: 'Edit fictional retail costs and inventory, marketplace commissions, and logistics stock and order records with explicit checks and downloadable worksheets.'
+});
 
 type Query = Promise<{ track?: string | string[]; project?: string | string[] }>;
 

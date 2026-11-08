@@ -1,13 +1,13 @@
-import type { Metadata } from 'next';
+import { publicPageMetadata } from '@/lib/public-page-metadata';
 import { Suspense } from 'react';
 import { OnboardingForm } from '@/components/onboarding-form';
 import { getCatalog } from '@/lib/catalog';
 import { Tr } from '@/components/tr';
 
-export const metadata: Metadata = {
+export const metadata = publicPageMetadata('/onboarding', {
   title: 'Start your path',
   description: 'Pick a goal to get the right tools and learning path.'
-};
+});
 
 export default async function OnboardingPage() {
   const { goals } = await getCatalog();

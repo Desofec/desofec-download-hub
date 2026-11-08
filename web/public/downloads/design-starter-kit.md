@@ -16,7 +16,7 @@ By Desofec AI Studio. A simple routine for turning an idea into a clear design.
 1. Collect 3 examples you like and note why.
 2. Sketch two versions on paper.
 3. Build the better one in Figma, Canva or Framer.
-4. For physical ideas, model a simple version in Fusion 360.
+4. For physical ideas, model a simple version in Autodesk Fusion (formerly Fusion 360).
 
 ## 4. Feedback checklist
 - Can someone tell what it is in five seconds?

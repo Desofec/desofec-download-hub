@@ -1,12 +1,11 @@
-import type { Metadata } from 'next';
+import { publicPageMetadata } from '@/lib/public-page-metadata';
 import Link from 'next/link';
 import { Tr } from '@/components/tr';
 
-export const metadata: Metadata = {
+export const metadata = publicPageMetadata('/business-launchpad/freelance-portfolio', {
   title: 'Freelance Portfolio & Case Study Builder',
-  description: 'Build a beginner freelance practice portfolio: write case studies, select saved evidence and use a print-ready layout to save as PDF.',
-  alternates: { canonical: '/business-launchpad/freelance-portfolio' }
-};
+  description: 'Build a beginner freelance practice portfolio: write case studies, select saved evidence and use a print-ready layout to save as PDF.'
+});
 
 export default function FreelancePortfolioPage() {
   return <section className="section">

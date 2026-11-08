@@ -1,14 +1,14 @@
-import type { Metadata } from 'next';
+import { publicPageMetadata } from '@/lib/public-page-metadata';
 import Link from 'next/link';
 import { TutorialHeader } from '@/components/tutorial-header';
 import { TutorialLabel } from '@/components/tutorial-back-label';
 import { TutorialSteps } from '@/components/tutorial-steps';
 import { taskTrackerSteps } from '@/lib/task-tracker-tutorial';
 
-export const metadata: Metadata = {
+export const metadata = publicPageMetadata('/projects/first-app/build', {
   title: 'Code your own task tracker',
   description: 'A step-by-step beginner tutorial: build a task tracker with HTML, CSS and JavaScript.'
-};
+});
 
 export default function TaskTrackerTutorialPage() {
   return (

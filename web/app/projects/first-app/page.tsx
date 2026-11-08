@@ -1,16 +1,20 @@
-import type { Metadata } from 'next';
+import { publicPageMetadata } from '@/lib/public-page-metadata';
 import Link from 'next/link';
 import { FirstAppLab } from '@/components/first-app-lab';
+import { Tr } from '@/components/tr';
 
-export const metadata: Metadata = {
+export const metadata = publicPageMetadata('/projects/first-app', {
   title: 'Build Your First App',
   description: 'Build and test a tiny task tracker while learning the building blocks of an app.'
-};
+});
 
 export default function FirstAppProjectPage() {
   return (
     <section className="section">
-      <div className="container first-app-project">
+      <div className="container">
+        <p><Tr>This practice page is currently available in English.</Tr></p>
+      </div>
+      <div className="container first-app-project" lang="en">
         <div className="section-head">
           <span className="eyebrow">Hands-on project · about 20 minutes</span>
           <h1>Build Your First App</h1>
