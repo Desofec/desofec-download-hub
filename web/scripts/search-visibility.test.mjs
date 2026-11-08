@@ -172,7 +172,7 @@ test('tutorial topics cover every registered lesson and combine query, level and
     const book = JSON.parse(await readFile(new URL(`../content/translations/ui-${locale}.json`, import.meta.url), 'utf8'));
     for (const phrase of [
       ...tutorialTopics.map((topic) => topic.label), 'Choose a topic', 'All topics', 'Clear tutorial filters',
-      'Filter by topic, level or a search word. Some lesson descriptions remain in English; the filters follow your language.'
+      'Filter by topic, level or a search word. Titles and descriptions follow your language; some lesson instructions remain in English.'
     ]) assert.ok(book[phrase], `${locale}: ${phrase}`);
   }
   const component = await readFile(new URL('../components/tutorial-list.tsx', import.meta.url), 'utf8');
@@ -217,4 +217,37 @@ test('tutorial cards translate fallback headings and include them in search', as
       assert.notEqual(book[title], title);
     }
   }
+});
+
+test('remaining tutorial card descriptions have three translations preserving lesson-language notices', async () => {
+  const descriptions = [];
+  for (const file of ['../lib/tutorials.ts', '../lib/commerce-tool-guides.ts']) {
+    const source = await readFile(new URL(file, import.meta.url), 'utf8');
+    const ast = ts.createSourceFile(file, source, ts.ScriptTarget.Latest, true);
+    const visit = (node) => {
+      if (ts.isPropertyAssignment(node) && node.name.getText(ast) === 'intro'
+        && ts.isStringLiteral(node.initializer) && node.initializer.text.trim()) {
+        descriptions.push(node.initializer.text);
+      }
+      ts.forEachChild(node, visit);
+    };
+    visit(ast);
+  }
+  const books = await Promise.all(['fr', 'de', 'es'].map(async locale =>
+    JSON.parse(await readFile(new URL(`../content/translations/ui-${locale}.json`, import.meta.url), 'utf8'))));
+  const newDescriptions = descriptions.filter(description => books.some(book => Object.hasOwn(book, description)));
+  assert.equal(newDescriptions.length, 28);
+  for (const description of newDescriptions) {
+    for (const [index, book] of books.entries()) {
+      assert.ok(book[description]?.trim(), `${index}: ${description}`);
+      assert.notEqual(book[description], description);
+      if (description.includes('Instructions are currently English')) {
+        assert.match(book[description], [/anglais/, /Englisch/, /inglés/][index]);
+      }
+    }
+  }
+  const component = await readFile(new URL('../components/tutorial-list.tsx', import.meta.url), 'utf8');
+  assert.match(component, /translation\?\.intro \?\? '', tr\(item\.intro\)/);
+  assert.match(component, /getTutorialTranslation\(tutorial\.pathId, language\)\?\.intro \|\| tr\(tutorial\.intro\)/);
+  assert.match(component, /some lesson instructions remain in English/);
 });

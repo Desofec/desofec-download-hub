@@ -27,8 +27,9 @@ Tutorial links reuse the existing registry and create no new progress records.
 The tutorial directory offers editorial topic groups, combined topic/level/search
 filters and a reset control. Search matches original and displayed translated
 titles, descriptions and topic labels. Cards show the existing lesson introduction
-(or the learning-path description for older tutorials); untranslated descriptions
-are disclosed. Topic assignments live in `lib/tutorial-directory.ts`; new tutorial
+(or the learning-path description for older tutorials), translated in French,
+German and Spanish. English-only lesson instructions remain disclosed.
+Topic assignments live in `lib/tutorial-directory.ts`; new tutorial
 IDs must be assigned at least one topic. Filters are temporary and do not modify
 progress or persist queries.
 Card headings use full tutorial translations when available and the UI phrase book

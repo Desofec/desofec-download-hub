@@ -50,7 +50,7 @@ export function TutorialList({ items }: { items: TutorialCardData[] }) {
 
   return (
     <div>
-      <p><Tr>Filter by topic, level or a search word. Some lesson descriptions remain in English; the filters follow your language.</Tr></p>
+      <p><Tr>Filter by topic, level or a search word. Titles and descriptions follow your language; some lesson instructions remain in English.</Tr></p>
       <div className="tutorial-filters">
         <div className="form-group">
           <label htmlFor="tutorial-topic"><Tr>Choose a topic</Tr></label>
