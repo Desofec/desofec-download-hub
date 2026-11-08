@@ -4,6 +4,7 @@ import { access, readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { test } from 'node:test';
 import { fileURLToPath } from 'node:url';
+import { runInNewContext } from 'node:vm';
 import ts from 'typescript';
 
 const webDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -31,6 +32,7 @@ const readJson = async (file) => JSON.parse(await readWeb(file));
 const { hasLocalizedStarterPack, starterPackDownloadFile } = await loadModule('../lib/starter-pack-downloads.ts');
 const { toolMatchesSearch } = await loadModule('../lib/tool-search.ts');
 const { redactAnalyticsEvent } = await loadModule('../lib/analytics-privacy.ts');
+const { withToolReviews } = await loadModule('../lib/tool-review.ts');
 
 test('every starter-pack download surface uses selected-language routing', async () => {
   const cards = await readWeb('components/cards.tsx');
@@ -140,6 +142,54 @@ test('updated tool names retain their stable IDs and review labels describe thei
     }
   }
   assert.match(tools.find((entry) => entry.id === 'bolt-new').description, /Review and test it before publishing/);
+});
+
+test('older Supabase descriptions retain translations without receiving current review stamps', async () => {
+  const legacy = [
+    ['vscode', 'The most common editor for learning code and building small projects.'],
+    ['git', 'Essential for storing code, tracking progress, and collaborating on projects.'],
+    ['vercel', 'Publish a website from a GitHub repository with a free hobby plan and get a live web address in minutes.'],
+    ['bolt-new', 'Describe an app or website in plain words and get a working project with a live preview in your browser.'],
+    ['github', 'Store your projects, track changes and collaborate or publish work for free.'],
+    ['microsoft-copilot', 'A free AI assistant for questions, writing help and image ideas, handy if you already use Microsoft tools.']
+  ];
+  const tools = await readJson('content/tools.json');
+  const reviews = await readJson('content/tool-reviews.json');
+  const books = {};
+  for (const locale of locales) {
+    for (const kind of ['catalog', 'ui']) {
+      books[`@/content/translations/${kind}-${locale}.json`] =
+        await readJson(`content/translations/${kind}-${locale}.json`);
+    }
+  }
+  const source = await readWeb('lib/phrases.ts');
+  const compiled = ts.transpileModule(source, {
+    compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020, esModuleInterop: true }
+  }).outputText;
+  const exports = {};
+  runInNewContext(compiled, {
+    exports,
+    require(specifier) {
+      assert.ok(Object.hasOwn(books, specifier), `unexpected phrase-book import: ${specifier}`);
+      return books[specifier];
+    }
+  });
+  assert.equal(typeof exports.translatePhrase, 'function');
+
+  for (const locale of locales) {
+    const book = { ...books[`@/content/translations/catalog-${locale}.json`], ...books[`@/content/translations/ui-${locale}.json`] };
+    for (const [id, description] of legacy) {
+      const current = tools.find(tool => tool.id === id);
+      assert.ok(current, `${id}: current tool exists`);
+      assert.notEqual(current.description, description, `${id}: revised copy remains in the source catalog`);
+      assert.ok(book[description] && book[description] !== description, `${locale} ${id}: legacy translation`);
+      assert.ok(book[current.description], `${locale} ${id}: current translation`);
+      assert.equal(exports.translatePhrase(description, locale), book[description], `${locale} ${id}: runtime legacy translation`);
+      assert.equal(exports.translatePhrase(current.description, locale), book[current.description], `${locale} ${id}: runtime current translation`);
+      assert.equal(exports.translatePhrase(description, 'en'), description, `${id}: English text is unchanged`);
+      assert.equal(withToolReviews([{ ...current, description }], reviews)[0].review, undefined, `${id}: stale copy is not stamped as reviewed`);
+    }
+  }
 });
 
 test('tool links preserve their visible label and translate the new-tab notice', async () => {
