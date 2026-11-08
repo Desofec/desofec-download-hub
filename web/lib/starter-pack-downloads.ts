@@ -5,7 +5,8 @@ const localizedStarterPacks = new Set([
   'ai-automation-services-kit',
   'ai-spreadsheets-kit',
   'ai-commerce-services-kit',
-  'ai-video-business-kit'
+  'ai-video-business-kit',
+  'ai-video-creation-kit'
 ]);
 
 export function starterPackDownloadFile(packId: string, file: string, language: LanguageCode) {

@@ -371,6 +371,16 @@ lessons and downloadable kit are available in English, French, German and Spanis
 workbook and review UI also support French, German and Spanish. Optional external tools may charge for
 credits, exports or licensed assets.
 
+### AI Video Creation Kit translations
+
+The original `/tutorials/ai-video-creation` course already supports French, German and
+Spanish lesson translations. Its separate `ai-video-creation-kit` download now follows
+the selected language too, with complete French, German and Spanish copies alongside
+the unchanged English download. The localized worksheets retain the 30-second,
+three-scene exercise, asset permission checks, accessibility review and current
+platform-format and AI-disclosure checks. This is separate from the AI Video Creation
+for Business path and its business-video kit.
+
 ### Private Project Evidence Workbook
 
 Open a saved project, then **Open private evidence workbook**. The private, `noindex`

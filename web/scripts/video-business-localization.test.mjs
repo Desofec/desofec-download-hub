@@ -102,7 +102,8 @@ test('localized starter-kit downloads route only the business-video kit and pres
     assert.match(localized, /fictional|fictif|fiktiv|ficticia/i);
   }
   assert.equal(starterPackDownloadFile('ai-video-business-kit', file, 'en'), file);
-  assert.equal(starterPackDownloadFile('ai-video-creation-kit', file, 'fr'), file);
+  assert.equal(starterPackDownloadFile('ai-video-creation-kit', 'downloads/ai-video-creation-kit.md', 'fr'),
+    'downloads/ai-video-creation-kit-fr.md');
   assert.equal(starterPackDownloadFile('ai-commerce-services-kit', 'downloads/ai-commerce-services-kit.md', 'fr'),
     'downloads/ai-commerce-services-kit-fr.md');
   assert.equal(starterPackDownloadFile('ai-automation-services-kit', 'downloads/ai-automation-services-kit.md', 'de'),
