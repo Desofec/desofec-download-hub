@@ -12,6 +12,7 @@ import { commerceServicesTranslations } from '@/lib/translations/commerce-servic
 import { cadServicesTranslations } from '@/lib/translations/cad-services';
 import { microSaasTranslations } from '@/lib/translations/micro-saas';
 import { educationServicesTranslations } from '@/lib/translations/education-services';
+import { videoBusinessTranslations } from '@/lib/translations/video-business';
 import { searchVisibilityResources } from '@/lib/search-visibility-tutorial';
 
 const { googleProperty, googleSitemap, googleRecrawl, bingGettingStarted } = searchVisibilityResources;
@@ -480,6 +481,7 @@ export const tutorialTranslations: Record<string, Partial<Record<Exclude<Languag
   ...cadServicesTranslations,
   ...microSaasTranslations,
   ...educationServicesTranslations,
+  ...videoBusinessTranslations,
   ...baseTranslations,
   ...taskTrackerTranslations,
   ...codingTranslations,
