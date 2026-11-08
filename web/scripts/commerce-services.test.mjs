@@ -138,6 +138,46 @@ test('all three paths, their goal, kit and recommendations are synced and transl
     );
   }
   assert.equal(kit, await readFile(new URL('../public/downloads/ai-commerce-services-kit.md', import.meta.url), 'utf8'));
+  for (const locale of ['fr', 'de', 'es']) {
+    const localizedFile = `../../downloads/ai-commerce-services-kit-${locale}.md`;
+    const localizedKit = await readFile(new URL(localizedFile, import.meta.url), 'utf8');
+    assert.ok(localizedKit.length > 15000, `${locale}: substantial localized commerce guide`);
+    assert.equal(localizedKit, await readFile(
+      new URL(`../public/downloads/ai-commerce-services-kit-${locale}.md`, import.meta.url), 'utf8'
+    ));
+    for (const invariant of [
+      'https://www.desofec.com/tutorials/ai-online-retail',
+      'https://www.desofec.com/tutorials/ai-marketplace-model',
+      'https://www.desofec.com/tutorials/ai-logistics-services',
+      'https://www.desofec.com/business-launchpad/commerce-lab',
+      'Price 20 - product 6 - channel/payment 3 - packing/delivery 4',
+      'Contribution/price = 5/20 = 25%',
+      'sku,sold_14d,usable_stock,confirmed_inbound,lead_days,buffer',
+      'G2 =B2/14',
+      'J2 =IF(I2<=H2,"REVIEW","HOLD")',
+      '250/20/230',
+      'order,seller,gross,refund',
+      '230',
+      '70',
+      '160',
+      '16',
+      '144',
+      '90',
+      '54',
+      'NO VERIFIED MATCH',
+      'sku,expected,usable,quarantined,total,location',
+      'L1: NB-A 5 and PN-B 3 -> RESERVED; available NB-A 23, PN-B 17',
+      'L2: NB-A 25 -> HOLD, shortage 2; reserve nothing',
+      '80',
+      '60',
+      '20',
+      'Real owner/client approval: BLOCKED - fictional practice',
+      'Demand: UNVALIDATED unless actual evidence recorded',
+      'FICTIONAL PRACTICE'
+    ]) {
+      assert.ok(localizedKit.includes(invariant), `${locale}: missing invariant "${invariant}"`);
+    }
+  }
   const goal = catalog.goals.find(({ id }) => id === 'build-ai-commerce');
   const texts = [...matching.flatMap((path) => [path.title, path.description, ...path.steps]),
     goal.name, goal.description, recommendation.title, recommendation.summary, ...recommendation.steps,
