@@ -561,8 +561,8 @@ steps, worksheet labels/text, checks and optional AI prompts, in
 `lib/translations/content-services.ts`. Stable step IDs and progress storage keys are unchanged.
 Translation worksheet labels use the optional `StepTranslation.file` field; other lessons retain
 their source filenames when no translation supplies one. The remaining courses' lesson instructions
-and service-kit downloads remain English with visible notices, except for the content-service kit
-described below. Catalog, checklist and hub copy
+and service-kit downloads remain English with visible notices, except for the content-service and
+automation kits described below. Catalog, checklist and hub copy
 support French, German and Spanish. No migration or seed update is needed for this translation.
 No paid AI is needed; CAD commercial-use licensing must be verified
 before actual client work, and a paper alternative is clearly not a CAD deliverable.
@@ -592,8 +592,10 @@ The tutorial has complete French, German and Spanish translations in
 optional AI prompts. Column identifiers (`event_id`, `message`, `status`, `draft`, `reviewer`),
 status codes (`QUEUED`, `REVIEW`, `INVALID`, `DUPLICATE`) and AUTO/APPT/REPORT plan codes
 stay unchanged to match the lab and saved projects; their meaning is explained in each language.
-The hub, catalog, checklist UI and content-service kit offer are translated. The Markdown kits for
-other paths, lab sample data/results and
+The hub, catalog, checklist UI and the English/French/German/Spanish automation kit are available.
+The kit download button follows the selected language for English, French, German and Spanish;
+all other kits keep their existing download files. The translated source documents and public
+files are kept in sync and covered by content tests. The lab sample data/results and
 private workbook evidence content remain English with their existing notices; the lesson
 translation does not translate these separate surfaces. Costs are illustrative, not market
 prices or earnings promises. Step IDs, storage keys, progress and no-send behavior are unchanged.
