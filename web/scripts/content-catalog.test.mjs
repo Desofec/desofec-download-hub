@@ -64,6 +64,17 @@ test('practical AI paths have recommendations, kits and catalog translations', a
       assert.ok(download.length > 2000, `${addition.kit}: substantial practical worksheet`);
       assert.equal(download, await readFile(path.join(repoDir, 'web/public', pack.file), 'utf8'));
     }
+    if (addition.id === 'ai-content-services') {
+      for (const locale of ['fr', 'de', 'es']) {
+        const localizedFile = `downloads/ai-content-services-kit-${locale}.md`;
+        const download = await readFile(path.join(repoDir, localizedFile), 'utf8');
+        assert.ok(download.length > 2000, `${localizedFile}: substantial localized worksheet`);
+        assert.equal(download, await readFile(path.join(repoDir, 'web/public', localizedFile), 'utf8'));
+        assert.match(download, locale === 'fr' ? /40 à 60/ : /40-60/);
+        assert.match(download, /100 EUR/);
+        assert.match(download, /BLOQU|BLOCKIERT|BLOQUEAD/);
+      }
+    }
     for (const locale of ['fr', 'de', 'es']) {
       const translations = JSON.parse(await readFile(path.join(repoDir, 'web/content/translations', `catalog-${locale}.json`), 'utf8'));
       for (const text of strings) assert.ok(translations[text], `${locale}: missing "${text}"`);

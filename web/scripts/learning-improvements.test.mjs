@@ -50,6 +50,26 @@ const translationImports = {
   '@/lib/search-visibility-tutorial': '../lib/search-visibility-tutorial.ts'
 };
 
+test('only the content-services starter kit resolves to matching localized static downloads', async () => {
+  const { starterPackDownloadFile } = await loadContent('../lib/starter-pack-downloads.ts');
+  for (const locale of ['en', 'fr', 'de', 'es']) {
+    const expected = locale === 'en'
+      ? 'downloads/ai-content-services-kit.md'
+      : `downloads/ai-content-services-kit-${locale}.md`;
+    assert.equal(starterPackDownloadFile('ai-content-services-kit', 'downloads/ai-content-services-kit.md', locale), expected);
+    assert.equal(starterPackDownloadFile('ai-automation-services-kit', 'downloads/ai-automation-services-kit.md', locale),
+      'downloads/ai-automation-services-kit.md');
+  }
+  for (const unchanged of ['../../private', '/tmp/file.md', 'image.png']) {
+    assert.equal(starterPackDownloadFile('other-kit', unchanged, 'fr'), unchanged);
+  }
+  const component = await readFile(new URL('../components/starter-pack-download.tsx', import.meta.url), 'utf8');
+  const page = await readFile(new URL('../app/starter-packs/[id]/page.tsx', import.meta.url), 'utf8');
+  assert.match(page, /<StarterPackDownload packId=\{pack\.id\} file=\{pack\.file\} \/>/);
+  assert.match(component, /useLanguage\(\)/);
+  assert.match(component, /The downloadable worksheet follows your selected language/);
+});
+
 test('content-service course translates every field and preserves stable six-step IDs', async () => {
   const { contentServicesSteps } = await loadContent('../lib/business-services-tutorials.ts');
   const { getTutorialTranslation } = await loadContent('../lib/tutorial-translations.ts', translationImports);

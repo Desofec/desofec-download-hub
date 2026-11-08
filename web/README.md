@@ -561,7 +561,8 @@ steps, worksheet labels/text, checks and optional AI prompts, in
 `lib/translations/content-services.ts`. Stable step IDs and progress storage keys are unchanged.
 Translation worksheet labels use the optional `StepTranslation.file` field; other lessons retain
 their source filenames when no translation supplies one. The remaining courses' lesson instructions
-and service-kit downloads remain English with visible notices. Catalog, checklist and hub copy
+and service-kit downloads remain English with visible notices, except for the content-service kit
+described below. Catalog, checklist and hub copy
 support French, German and Spanish. No migration or seed update is needed for this translation.
 No paid AI is needed; CAD commercial-use licensing must be verified
 before actual client work, and a paper alternative is clearly not a CAD deliverable.
@@ -574,7 +575,10 @@ prompts, not completed evidence. Guidance and review checks follow the selected 
 existing titles, drafts, linked tests, review observations and retained revisions stay unchanged
 when switching languages or loading the starter. Loading replaces only the unsaved form;
 an explicit save appends a revision without rewriting history. No migration or seed update is
-required. The downloadable service kit remains a separate English document.
+required. The downloadable service kit is a separate document with localized French, German and
+Spanish variants. Its detail-page download button follows the selected language; English and all
+other kits retain their existing files. The kit and variants are checked in both `downloads/` and
+`web/public/downloads/`; this does not localize other kits or change saved project content.
 
 **Run the regenerated `supabase/seed.sql` before deployment, after migrations 0011 and 0012.**
 The seed includes service goals, paths, kits and recommendations. The existing feedback
@@ -588,7 +592,8 @@ The tutorial has complete French, German and Spanish translations in
 optional AI prompts. Column identifiers (`event_id`, `message`, `status`, `draft`, `reviewer`),
 status codes (`QUEUED`, `REVIEW`, `INVALID`, `DUPLICATE`) and AUTO/APPT/REPORT plan codes
 stay unchanged to match the lab and saved projects; their meaning is explained in each language.
-The hub, catalog and checklist UI are translated. The Markdown kit, lab sample data/results and
+The hub, catalog, checklist UI and content-service kit offer are translated. The Markdown kits for
+other paths, lab sample data/results and
 private workbook evidence content remain English with their existing notices; the lesson
 translation does not translate these separate surfaces. Costs are illustrative, not market
 prices or earnings promises. Step IDs, storage keys, progress and no-send behavior are unchanged.
