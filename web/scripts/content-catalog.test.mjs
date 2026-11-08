@@ -75,6 +75,20 @@ test('practical AI paths have recommendations, kits and catalog translations', a
         assert.match(download, /BLOQU|BLOCKIERT|BLOQUEAD/);
       }
     }
+    if (addition.id === 'ai-automation-services') {
+      for (const locale of ['fr', 'de', 'es']) {
+        const localizedFile = `downloads/ai-automation-services-kit-${locale}.md`;
+        const download = await readFile(path.join(repoDir, localizedFile), 'utf8');
+        assert.ok(download.length > 10000, `${localizedFile}: substantial localized guide`);
+        assert.equal(download, await readFile(path.join(repoDir, 'web/public', localizedFile), 'utf8'));
+        for (const invariant of ['AUTO-', 'APPT-', 'REPORT-', 'event_id', 'QUEUED', 'DUPLICATE',
+          'INVALID', 'REVIEW', 'E1', 'A1', 'O5', '2030-01-07', '2030-01-13', 'EUR 21', 'EUR 29',
+          '324', '45', '2h/month']) {
+          assert.ok(download.includes(invariant), `${locale}: missing invariant "${invariant}"`);
+        }
+        assert.match(download, /(?:zéro message envoyé|null gesendete Nachrichten|cero mensajes enviados)/, locale);
+      }
+    }
     for (const locale of ['fr', 'de', 'es']) {
       const translations = JSON.parse(await readFile(path.join(repoDir, 'web/content/translations', `catalog-${locale}.json`), 'utf8'));
       for (const text of strings) assert.ok(translations[text], `${locale}: missing "${text}"`);
@@ -102,8 +116,11 @@ test('business launchpad catalog, checklist and hub copy have complete translati
       assert.ok(book[text], `${locale}: missing launchpad translation "${text}"`);
     }
   }
-  const download = await readFile(path.join(repoDir, 'downloads/ai-automation-services-kit.md'), 'utf8');
-  assert.equal(download, await readFile(path.join(repoDir, 'web/public/downloads/ai-automation-services-kit.md'), 'utf8'));
+  for (const file of ['downloads/ai-automation-services-kit.md', ...['fr', 'de', 'es'].map(locale =>
+    `downloads/ai-automation-services-kit-${locale}.md`)]) {
+    const download = await readFile(path.join(repoDir, file), 'utf8');
+    assert.equal(download, await readFile(path.join(repoDir, 'web/public', file), 'utf8'));
+  }
 });
 
 async function withCatalog(callback) {

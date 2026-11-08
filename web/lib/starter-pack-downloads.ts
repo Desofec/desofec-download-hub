@@ -1,6 +1,6 @@
 import type { LanguageCode } from '@/lib/i18n';
 
-const localizedStarterPacks = new Set(['ai-content-services-kit']);
+const localizedStarterPacks = new Set(['ai-content-services-kit', 'ai-automation-services-kit']);
 
 export function starterPackDownloadFile(packId: string, file: string, language: LanguageCode) {
   if (language === 'en' || !localizedStarterPacks.has(packId)) return file;
