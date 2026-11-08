@@ -594,12 +594,17 @@ status codes (`QUEUED`, `REVIEW`, `INVALID`, `DUPLICATE`) and AUTO/APPT/REPORT p
 stay unchanged to match the lab and saved projects; their meaning is explained in each language.
 The hub, catalog, checklist UI and the English/French/German/Spanish automation kit are available.
 The kit download button follows the selected language for English, French, German and Spanish;
-all other kits keep their existing download files. The translated source documents and public
+other kits retain their existing files and language behavior. The translated source documents and public
 files are kept in sync and covered by content tests. The lab sample data/results and
 private workbook evidence content remain English with their existing notices; the lesson
 translation does not translate these separate surfaces. Costs are illustrative, not market
 prices or earnings promises. Step IDs, storage keys, progress and no-send behavior are unchanged.
 No migration or seed update is needed for this translation.
+
+The downloadable AI Spreadsheets kit has French, German and Spanish versions. Its detail-page download
+follows the selected language while preserving the original formulas, sample values, SHEET-1 through
+SHEET-7 checks, unresolved-value distinctions, and private-project safeguards. Source and public files
+are kept in sync and covered by content tests; other starter kits are unchanged.
 
 The hub checklist shares `ai-automation-services-kit` progress with its starter-pack page. The tutorial
 uses the existing independent `tutorial` progress type; no client notes or cost worksheets are submitted.
