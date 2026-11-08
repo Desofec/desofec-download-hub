@@ -557,9 +557,12 @@ recommendation and five-item starter-kit checklist. Existing catalog ordering an
 
 The tutorial registry's `serviceKitId` connects each service path to its kit and the shared proposal
 builder/results tracker. These tools do not prefill outcomes or grant client/engineering approval.
-The content-service and CAD concept courses have complete French, German and Spanish translations,
-including all six steps, worksheet labels/text, checks and optional AI prompts, in
-`lib/translations/content-services.ts` and `lib/translations/cad-services.ts`. Stable step IDs and progress storage keys are unchanged.
+The content-service, CAD concept, micro-SaaS validation and AI education courses have
+complete French, German and Spanish translations, including all six steps, worksheet
+labels/text, checks and optional AI prompts. The modules are
+`lib/translations/content-services.ts`, `lib/translations/cad-services.ts`,
+`lib/translations/micro-saas.ts` and `lib/translations/education-services.ts`.
+Stable step IDs and progress storage keys are unchanged.
 Translation worksheet labels use the optional `StepTranslation.file` field; other lessons retain
 their source filenames when no translation supplies one. CAD translations preserve millimetre
 dimensions, geometric checks, license cautions and the `CONCEPT ONLY - NOT FOR MANUFACTURE` boundary.
@@ -568,6 +571,9 @@ except for the translated courses and kits described here. Catalog, checklist an
 support French, German and Spanish. No migration or seed update is needed for this translation.
 No paid AI is needed; CAD commercial-use licensing must be verified
 before actual client work, and a paper alternative is clearly not a CAD deliverable.
+The Micro-SaaS prototype remains local-only, with no network or storage, and the
+education workshop uses original adult-learning materials without personal learner
+records, accreditation or guaranteed outcomes.
 
 The bakery workbook's **Use this service text starter** loads a blank guided worksheet in
 English, French, German or Spanish after confirmation. It includes the fictional fact sheet,

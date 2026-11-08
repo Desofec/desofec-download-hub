@@ -46,7 +46,7 @@ const projectId = '11111111-1111-4111-8111-111111111111';
 const translationImports = {
   ...Object.fromEntries(['coding', 'ml-design', 'task-tracker', 'web-nocode', 'practical-fr',
     'practical-de', 'practical-es', 'content-services', 'automation-services',
-    'commerce-services', 'cad-services'].map(name =>
+    'commerce-services', 'cad-services', 'micro-saas', 'education-services'].map(name =>
     [`@/lib/translations/${name}`, `../lib/translations/${name}.ts`])),
   '@/lib/search-visibility-tutorial': '../lib/search-visibility-tutorial.ts'
 };
@@ -223,6 +223,97 @@ test('CAD concept course translates every field while preserving dimensions and 
     Object.keys(cadServicesTranslations['ai-cad-services']),
     ['fr', 'de', 'es']
   );
+});
+
+test('micro-SaaS course translations preserve prototype behavior and security boundaries', async () => {
+  const { microSaasSteps } = await loadContent('../lib/business-services-tutorials.ts');
+  const { microSaasTranslations } = await loadContent('../lib/translations/micro-saas.ts');
+  const { getTutorialTranslation } = await loadContent('../lib/tutorial-translations.ts', translationImports);
+  const ids = ['saas-problem-evidence', 'saas-scope', 'saas-local-prototype',
+    'saas-test-costs', 'saas-user-validation', 'saas-decision'];
+  assert.deepEqual(microSaasSteps.map(step => step.id), ids);
+  assert.equal(getTutorialTranslation('micro-saas-validation', 'en'), undefined);
+  for (const locale of ['fr', 'de', 'es']) {
+    const translation = getTutorialTranslation('micro-saas-validation', locale);
+    assert.ok(translation.title.trim());
+    assert.ok(translation.intro.trim());
+    assert.deepEqual(Object.keys(translation.steps), ids);
+    for (const sourceStep of microSaasSteps) {
+      const step = translation.steps[sourceStep.id];
+      assert.equal(step.explanation.length, sourceStep.explanation.length);
+      assert.ok(step.file.trim());
+      if (sourceStep.id === 'saas-local-prototype') {
+        assert.equal(step.file, sourceStep.file);
+      } else {
+        assert.notEqual(step.file, sourceStep.file);
+      }
+      for (const field of ['title', 'code', 'check', 'aiPrompt']) {
+        assert.ok(step[field]?.trim(), `${locale}/${sourceStep.id}.${field}`);
+        assert.notEqual(step[field], sourceStep[field], `${locale}/${sourceStep.id}.${field}`);
+      }
+      step.explanation.forEach((text, index) => {
+        assert.ok(text.trim());
+        assert.notEqual(text, sourceStep.explanation[index]);
+      });
+      assert.equal('id' in step, false);
+    }
+
+    const prototype = translation.steps['saas-local-prototype'].code;
+    assert.match(prototype, new RegExp(`<html lang="${locale}">`));
+    assert.match(prototype, /maxlength="40"/);
+    assert.match(prototype, /option value="Draft"/);
+    assert.match(prototype, /option value="Review"/);
+    assert.match(prototype, /textContent/);
+    assert.match(prototype, /`Project: \$\{name\}\\nStatus: \$\{status\}`/);
+    assert.doesNotMatch(prototype, /innerHTML|fetch\(|localStorage|https?:\/\//);
+    assert.match(translation.steps['saas-scope'].code, /1-40/);
+    assert.match(translation.steps['saas-test-costs'].code, /40 characters|40 caractères|40 Zeichen|40 caracteres/);
+    assert.match(translation.steps['saas-user-validation'].code, /UNVALIDATED/);
+    assert.match(translation.steps['saas-decision'].code, /NOT BUILT/);
+  }
+  assert.deepEqual(Object.keys(microSaasTranslations['micro-saas-validation']), ['fr', 'de', 'es']);
+});
+
+test('AI education course translates every lesson while preserving evidence and learner safeguards', async () => {
+  const { educationServicesSteps } = await loadContent('../lib/business-services-tutorials.ts');
+  const { educationServicesTranslations } = await loadContent('../lib/translations/education-services.ts');
+  const { getTutorialTranslation } = await loadContent('../lib/tutorial-translations.ts', translationImports);
+  const ids = ['education-service-audience', 'education-service-materials',
+    'education-service-answer-key', 'education-service-trial', 'education-service-offer',
+    'education-service-review'];
+  assert.deepEqual(educationServicesSteps.map(step => step.id), ids);
+  assert.equal(getTutorialTranslation('ai-education-services', 'en'), undefined);
+  for (const locale of ['fr', 'de', 'es']) {
+    const translation = getTutorialTranslation('ai-education-services', locale);
+    assert.ok(translation.title.trim());
+    assert.ok(translation.intro.trim());
+    assert.deepEqual(Object.keys(translation.steps), ids);
+    for (const sourceStep of educationServicesSteps) {
+      const step = translation.steps[sourceStep.id];
+      assert.equal(step.explanation.length, sourceStep.explanation.length);
+      for (const field of ['title', 'file', 'code', 'check', 'aiPrompt']) {
+        assert.ok(step[field]?.trim(), `${locale}/${sourceStep.id}.${field}`);
+        assert.notEqual(step[field], sourceStep[field], `${locale}/${sourceStep.id}.${field}`);
+      }
+      step.explanation.forEach((text, index) => {
+        assert.ok(text.trim());
+        assert.notEqual(text, sourceStep.explanation[index]);
+      });
+      assert.equal('id' in step, false);
+    }
+
+    const steps = translation.steps;
+    assert.match(steps[ids[0]].code, /15/);
+    assert.match(steps[ids[1]].code, /10:00[\s\S]*30[\s\S]*12/);
+    assert.match(steps[ids[1]].code, /3 min[\s\S]*5 min[\s\S]*4 min[\s\S]*3 min|3 Min[\s\S]*5 Min[\s\S]*4 Min[\s\S]*3 Min/);
+    assert.match(steps[ids[2]].code, /60[\s\S]*30/);
+    assert.match(steps[ids[2]].code, /0-4/);
+    assert.match(steps[ids[3]].code, /NOT RUN/);
+    assert.match(steps[ids[3]].code, /No learner names|Aucun nom|Keine Namen|No se guardan nombres/);
+    assert.match(steps[ids[4]].explanation.join(' '), /accréditation|Akkreditierung|acreditación/);
+    assert.match(steps[ids[5]].explanation.join(' '), /0-4/);
+  }
+  assert.deepEqual(Object.keys(educationServicesTranslations['ai-education-services']), ['fr', 'de', 'es']);
 });
 
 test('automation course translates every lesson field with stable progress IDs and matching directory descriptions', async () => {
