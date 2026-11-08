@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { PackChecklist } from '@/components/pack-checklist';
-import { downloadUrl } from '@/lib/urls';
+import { StarterPackDownload } from '@/components/starter-pack-download';
 import { getCatalog } from '@/lib/catalog';
 import { Tr } from '@/components/tr';
 
@@ -47,9 +47,7 @@ export default async function StarterPackDetailPage({ params }: { params: Promis
           <span className="skill-chip"><Tr>{pack.level}</Tr></span>
         </div>
         <div className="cta-row">
-          <a className="btn btn-primary" href={downloadUrl(pack.file)} download>
-            <Tr>Download the pack</Tr>
-          </a>
+          <StarterPackDownload packId={pack.id} file={pack.file} />
           <Link className="btn btn-secondary" href="/starter-packs">
             <Tr>All starter packs</Tr>
           </Link>
