@@ -289,6 +289,63 @@ test('automation translations retain no-send, privacy, untrusted-text, retry and
 });
 
 const workbookTime = '2026-11-06T01:30:00.000Z';
+test('guided bakery workbook starters and reviews are fully localized without fabricating evidence', async () => {
+  const { workbookStarters, appendWorkbookRevision, buildWorkbookExport } = await loadContent('../lib/evidence-workbook.ts');
+  const { contentJourneyStages } = await loadContent('../lib/first-content-project.ts', {
+    ...projectImports, '@/lib/pilot-projects': '../lib/pilot-projects.ts'
+  });
+  const { contentReviewChecks } = await loadContent('../lib/project-review.ts', projectImports);
+  const starter = workbookStarters['ai-content-services'];
+  const expected = {
+    en: [/Tuesday-Saturday/, /not completed work or proof of approval/, /Do not guess safety information/,
+      /Missing permission: BLOCKED/, /Real owner review and publication permission: BLOCKED/,
+      /Self-review never grants approval/, /Unknown price request: PENDING/],
+    fr: [/mardi au samedi/, /ni travail accompli ni preuve de validation/, /Ne devinez pas les informations de sécurité/,
+      /Autorisation manquante : BLOQUÉ/, /autorisation de publication : BLOQUÉES/,
+      /L’autoévaluation n’accorde jamais de validation/, /Demande de prix inconnu : EN ATTENTE/],
+    de: [/Dienstag-Samstag/, /keine abgeschlossene Arbeit oder Freigabe/, /Rate keine Sicherheitsinformationen/,
+      /Fehlende Genehmigung: BLOCKIERT/, /Veröffentlichungsfreigabe: BLOCKIERT/,
+      /Selbstprüfung erteilt niemals Freigabe/, /Unbekannter Preis angefragt: OFFEN/],
+    es: [/martes-sábado/, /no es trabajo terminado ni prueba de aprobación/, /No adivines información de seguridad/,
+      /Permiso ausente: BLOQUEADO/, /permiso de publicación: BLOQUEADOS/,
+      /La autorrevisión nunca concede aprobación/, /Petición de precio desconocido: PENDIENTE/]
+  };
+  const notes = [
+    'Bakery guidance, starter worksheets and review checks follow your language. Saved titles, drafts, evidence and earlier revisions remain exactly as you wrote them. Choose Use this service text starter to load a blank worksheet in the current language; confirm replacement and save explicitly. Nothing is translated or overwritten automatically.',
+    'Bakery review instructions follow your language; saved drafts, observations and correction evidence are not automatically translated. Missing real owner approval stays blocked. A self-checked item is not permission to publish.'
+  ];
+  for (const locale of ['en', 'fr', 'de', 'es']) {
+    const book = locale === 'en' ? {} : {
+      ...JSON.parse(await readFile(new URL(`../content/translations/catalog-${locale}.json`, import.meta.url), 'utf8')),
+      ...JSON.parse(await readFile(new URL(`../content/translations/ui-${locale}.json`, import.meta.url), 'utf8'))
+    };
+    const tr = text => locale === 'en' ? text : book[text] ?? text;
+    const body = tr(starter.text);
+    assert.ok(body.length <= 8000);
+    for (const pattern of expected[locale]) assert.match(body, pattern, locale);
+    assert.match(body, /08:00-14:00/);
+    assert.equal((body.match(/40-60/g) ?? []).length, 4);
+    assert.deepEqual([...body.matchAll(/FAQ ([1-4])/g)].map(match => match[1]), ['1', '2', '3', '4']);
+    assert.match(body, /v1.*v2/);
+    const workbook = appendWorkbookRevision({ version: 1, items: [] }, null, 'Original evidence', 'UNCHANGED_USER_EVIDENCE', workbookTime);
+    const next = appendWorkbookRevision(workbook, 'item-1', tr(starter.title), body, workbookTime);
+    assert.equal(next.items[0].revisions[0].body, 'UNCHANGED_USER_EVIDENCE');
+    assert.equal(workbook.items[0].revisions.length, 1);
+    assert.equal(next.items[0].links.length, 0);
+    const exported = buildWorkbookExport(next, 'Unchanged project title', [], tr);
+    assert.ok(exported.includes(body));
+    assert.ok(exported.includes('UNCHANGED_USER_EVIDENCE'));
+    if (locale === 'en') continue;
+    for (const text of [starter.title, starter.text, ...notes,
+      ...contentJourneyStages.flatMap(stage => [stage.title, stage.instruction, stage.action, stage.link]),
+      ...contentReviewChecks.flatMap(check => [check.label, check.instruction])]) {
+      assert.ok(book[text]?.trim(), `${locale}: ${text}`);
+      assert.notEqual(book[text], text);
+    }
+    assert.ok(tr(notes[0]).includes(tr('Use this service text starter')));
+  }
+});
+
 test('discovery fit never grants acceptance and requires every check, complete brief and evidence', async () => {
   const { emptyDiscovery, readDiscovery, discoveryFit, discoveryFields, fitChecks, buildDiscoveryReport } = await loadContent('../lib/client-discovery.ts', projectImports);
   const draft = emptyDiscovery();

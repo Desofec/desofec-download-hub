@@ -97,6 +97,7 @@ export function ProjectReviewCentre({ projectId }: { projectId?: string }) {
       </div>
       {saved && <>
         <h2>{saved.project.title}</h2>
+        {saved.project.pathId === 'ai-content-services' && <p>{tr('Bakery review instructions follow your language; saved drafts, observations and correction evidence are not automatically translated. Missing real owner approval stays blocked. A self-checked item is not permission to publish.')}</p>}
         {commerceProjectTrack(saved.project.pathId) && <p>{tr('Commerce project instructions, workbook starters and required checks are English. Navigation follows your language. Save selected fictional lab observations manually; no files are uploaded or evidence automatically approved.')}</p>}
         {!items.length && <p>{tr('Save practice text in the workbook first, then reload this review centre.')}</p>}
         <div className="form-group">

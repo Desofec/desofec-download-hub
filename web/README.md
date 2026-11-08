@@ -561,11 +561,20 @@ steps, worksheet labels/text, checks and optional AI prompts, in
 `lib/translations/content-services.ts`. Stable step IDs and progress storage keys are unchanged.
 Translation worksheet labels use the optional `StepTranslation.file` field; other lessons retain
 their source filenames when no translation supplies one. The remaining courses' lesson instructions
-and service-kit downloads remain English with visible notices; translating this course does not
-translate the private project workbook or its evidence fields. Catalog, checklist and hub copy
+and service-kit downloads remain English with visible notices. Catalog, checklist and hub copy
 support French, German and Spanish. No migration or seed update is needed for this translation.
 No paid AI is needed; CAD commercial-use licensing must be verified
 before actual client work, and a paper alternative is clearly not a CAD deliverable.
+
+The bakery workbook's **Use this service text starter** loads a blank guided worksheet in
+English, French, German or Spanish after confirmation. It includes the fictional fact sheet,
+three 40-60-word post sections with manual word-count records, four named FAQ sections,
+claim/asset ledgers, v1/v2 revision prompts and explicit blocked owner approval. These are
+prompts, not completed evidence. Guidance and review checks follow the selected language;
+existing titles, drafts, linked tests, review observations and retained revisions stay unchanged
+when switching languages or loading the starter. Loading replaces only the unsaved form;
+an explicit save appends a revision without rewriting history. No migration or seed update is
+required. The downloadable service kit remains a separate English document.
 
 **Run the regenerated `supabase/seed.sql` before deployment, after migrations 0011 and 0012.**
 The seed includes service goals, paths, kits and recommendations. The existing feedback

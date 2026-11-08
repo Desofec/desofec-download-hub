@@ -112,6 +112,7 @@ export function ProjectEvidenceWorkbook({ projectId }: { projectId?: string }) {
 
       {saved && <>
         <h2>{saved.project.title}</h2>
+        {saved.project.pathId === 'ai-content-services' && <p>{tr('Bakery guidance, starter worksheets and review checks follow your language. Saved titles, drafts, evidence and earlier revisions remain exactly as you wrote them. Choose Use this service text starter to load a blank worksheet in the current language; confirm replacement and save explicitly. Nothing is translated or overwritten automatically.')}</p>}
         {commerceProjectTrack(saved.project.pathId) && <p>{tr('Commerce project instructions, workbook starters and required checks are English. Navigation follows your language. Save selected fictional lab observations manually; no files are uploaded or evidence automatically approved.')}</p>}
         <p>{tr('Saved reviews keep a separate copy of reviewed text. Deleting workbook text does not delete those copies; remove saved reviews separately in the Review Centre.')}</p>
         <p>{tr('Up to eight text items, five saved revisions per item and 8,000 characters per revision. No silent pruning: export or remove an item when a limit is reached.')}</p>
