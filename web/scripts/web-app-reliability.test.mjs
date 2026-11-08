@@ -220,6 +220,16 @@ test('compact navigation remains scrollable and dismissible on smaller screens',
   assert.match(css, /\.main-nav a \{[\s\S]*?white-space: nowrap/);
 });
 
+test('skip-to-content link is translated and moves keyboard focus to main', async () => {
+  const layout = await readWeb('app/layout.tsx');
+  assert.match(layout, /<a className="skip-link" href="#main-content">\s*<Tr>Skip to content<\/Tr>/);
+  assert.match(layout, /<main id="main-content" tabIndex=\{-1\}>/);
+  for (const locale of locales) {
+    const book = await readJson(`content/translations/ui-${locale}.json`);
+    assert.ok(book['Skip to content'] && book['Skip to content'] !== 'Skip to content', `${locale}: translated skip link`);
+  }
+});
+
 test('legal translations retain every section and track the English sources', async () => {
   const component = await readWeb('components/legal-translation.tsx');
   const css = await readWeb('app/globals.css');

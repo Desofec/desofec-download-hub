@@ -7,6 +7,7 @@ import { FavoritesSync } from '@/components/favorites-sync';
 import { PwaControls } from '@/components/pwa-controls';
 import { SiteFooter } from '@/components/site-footer';
 import { SiteHeader } from '@/components/site-header';
+import { Tr } from '@/components/tr';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -58,7 +59,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
       <body>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         <a className="skip-link" href="#main-content">
-          Skip to content
+          <Tr>Skip to content</Tr>
         </a>
         <AuthProvider>
           <FavoritesSync />
@@ -66,7 +67,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
             <SiteHeader />
           </Suspense>
           <PwaControls />
-          <main id="main-content">{children}</main>
+          <main id="main-content" tabIndex={-1}>{children}</main>
           <SiteFooter />
           <BreakTimer />
         </AuthProvider>
