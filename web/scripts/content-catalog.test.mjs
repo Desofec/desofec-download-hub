@@ -89,6 +89,34 @@ test('practical AI paths have recommendations, kits and catalog translations', a
         assert.match(download, /(?:zéro message envoyé|null gesendete Nachrichten|cero mensajes enviados)/, locale);
       }
     }
+    if (addition.id === 'ai-spreadsheets') {
+      for (const locale of ['fr', 'de', 'es']) {
+        const localizedFile = `downloads/ai-spreadsheets-kit-${locale}.md`;
+        const download = await readFile(path.join(repoDir, localizedFile), 'utf8');
+        assert.ok(download.length > 6000, `${localizedFile}: substantial localized guide`);
+        assert.equal(download, await readFile(path.join(repoDir, 'web/public', localizedFile), 'utf8'));
+        for (const invariant of [
+          'Order,Item,Quantity,UnitPrice',
+          'A5,Folder,,4',
+          '2030/01/07',
+          'A5,Folder,2030-01-13,,4',
+          'A6,Folder,01/02/2030,1,4',
+          '=IF(AND(ISNUMBER(C2),ISNUMBER(D2)),C2*D2,"REVIEW")',
+          '=SUM(E2:E6)',
+          '=COUNTIF(E2:E6,"REVIEW")',
+          '10, 6, 5, 0, REVIEW',
+          'SHEET-1',
+          'SHEET-7',
+          '2030-01-07',
+          '2030-01-13',
+          'EUR 21',
+          'CSV',
+          'XLSX'
+        ]) {
+          assert.ok(download.includes(invariant), `${locale}: missing invariant "${invariant}"`);
+        }
+      }
+    }
     for (const locale of ['fr', 'de', 'es']) {
       const translations = JSON.parse(await readFile(path.join(repoDir, 'web/content/translations', `catalog-${locale}.json`), 'utf8'));
       for (const text of strings) assert.ok(translations[text], `${locale}: missing "${text}"`);
