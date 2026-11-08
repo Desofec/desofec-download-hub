@@ -66,7 +66,7 @@ function readProgress(
       const timestamp = Number(localStorage.getItem(`desofec:activity:path:${path.id}`) ?? 0);
       saved[`path:${path.id}`] = {
         completed: Array.isArray(completed)
-          ? completed.filter((index) => Number.isInteger(index) && index >= 0 && index < path.steps.length)
+          ? [...new Set<number>(completed.filter((index) => Number.isInteger(index) && index >= 0 && index < path.steps.length))]
           : [],
         lastActivity: Number.isFinite(timestamp) ? timestamp : 0
       };
@@ -80,7 +80,7 @@ function readProgress(
       const timestamp = Number(localStorage.getItem(`desofec:activity:pack:${pack.id}`) ?? 0);
       const count = checklists[pack.id]?.length ?? 0;
       saved[`pack:${pack.id}`] = {
-        completed: completed.filter((index) => Number.isInteger(index) && index >= 0 && index < count),
+        completed: [...new Set(completed.filter((index) => Number.isInteger(index) && index >= 0 && index < count))],
         lastActivity: Number.isFinite(timestamp) ? timestamp : 0
       };
     }
@@ -176,9 +176,9 @@ export function ContinueLearning({ paths, packs, checklists, tutorials = NO_TUTO
     ].flatMap((item) => {
       const local = localProgress[item.key] ?? { completed: [], lastActivity: 0 };
       const remote = userId ? remoteByKey.get(item.key) : undefined;
-      const remoteSteps = (remote?.completed_steps ?? []).filter(
+      const remoteSteps = [...new Set((remote?.completed_steps ?? []).filter(
         (index) => Number.isInteger(index) && index >= 0 && index < item.total
-      );
+      ))];
       let completed = local.completed;
       if (remote) {
         const metaKey = `desofec:progress-sync:${userId}:${item.kind}:${item.key.slice(item.kind.length + 1)}`;
@@ -206,12 +206,16 @@ export function ContinueLearning({ paths, packs, checklists, tutorials = NO_TUTO
       return [{ ...item, completed: Math.min(completed.length, item.total), lastActivity }];
     });
 
-    return all.sort((a, b) => b.lastActivity - a.lastActivity);
+    // Unfinished work comes first; a finished item only appears when nothing else is in progress.
+    return all.sort(
+      (a, b) => Number(a.completed >= a.total) - Number(b.completed >= b.total) || b.lastActivity - a.lastActivity
+    );
   }, [checklists, localProgress, packs, paths, remoteRows, tutorials, userId]);
 
   if (!authReady || snapshot === null) return null;
 
   const item = candidates[0];
+  const finished = Boolean(item && item.completed >= item.total);
   const percent = item ? Math.round((item.completed / item.total) * 100) : 0;
   const itemTitle = item
     ? item.kind === 'tutorial'
@@ -224,10 +228,12 @@ export function ContinueLearning({ paths, packs, checklists, tutorials = NO_TUTO
       <div className="container">
         <div className="continue-card">
           <div className="continue-copy">
-            <span className="eyebrow">{item ? tr('Pick up where you left off') : tr('Your next step')}</span>
+            <span className="eyebrow">{finished ? tr('Completed') : item ? tr('Pick up where you left off') : tr('Your next step')}</span>
             <h2>{item ? itemTitle : tr('Ready to start learning?')}</h2>
             <p>
-              {item
+              {finished
+                ? tr('You finished every step. Be proud of what you built.')
+                : item
                 ? tr('{done} of {total} steps complete · {percent}%', { done: item.completed, total: item.total, percent })
                 : userId
                   ? tr('Choose a learning path or starter pack and your progress will sync to your account.')
@@ -237,12 +243,18 @@ export function ContinueLearning({ paths, packs, checklists, tutorials = NO_TUTO
             {!userId && !item && <Link href="/account">{tr('Sign in to sync progress across devices')}</Link>}
           </div>
           <div className="continue-action">
-            <Link className="btn btn-primary" href={item?.href ?? '/paths'}>
-              {item ? tr('Continue learning') : tr('Explore learning paths')}
+            <Link className="btn btn-primary" href={finished ? '/paths' : item?.href ?? '/paths'}>
+              {finished ? tr('Explore learning paths') : item ? tr('Continue learning') : tr('Explore learning paths')}
             </Link>
+            {finished && item && <Link className="text-link" href={item.href}>
+                {tr('Review')}
+              </Link>}
             {item && <Link className="text-link" href="/my-progress">
                 {tr('View all progress')}
               </Link>}
+            <Link className="text-link" href="/business-launchpad/projects">
+              {tr('Open existing projects')}
+            </Link>
           </div>
         </div>
       </div>

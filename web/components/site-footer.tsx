@@ -1,17 +1,18 @@
 'use client';
 
 import Link from 'next/link';
-import { Tr } from '@/components/tr';
+import { Tr, useTr } from '@/components/tr';
 import { LanguageEffect, useT } from '@/components/language';
 
 export function SiteFooter() {
   const t = useT();
+  const tr = useTr();
   return (
     <LanguageEffect>
       <footer className="site-footer">
         <div className="container footer-row">
           <div>{t('footer.copy')}</div>
-          <nav className="footer-links" aria-label="Legal">
+          <nav className="footer-links" aria-label={tr('Footer links')}>
             <Link href="/business-launchpad"><Tr>AI Business Launchpad</Tr></Link>
             <Link href="/ai-updates"><Tr>AI updates</Tr></Link>
             <Link href="/break-room"><Tr>Break room</Tr></Link>

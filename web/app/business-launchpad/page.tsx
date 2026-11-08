@@ -42,24 +42,30 @@ export default async function BusinessLaunchpadPage() {
           <span className="eyebrow"><Tr>From learning to a small pilot</Tr></span>
           <h1><Tr>AI Business Launchpad</Tr></h1>
           <p><Tr>Choose a service learning path, including AI video creation for business. Build practice evidence before offering real work; no path promises clients or income.</Tr></p>
-          <p><Tr>No paid AI is required for the worksheets. Lessons and downloads are currently English; the surrounding interface follows your language. Interviews, feedback and tool setup take additional time.</Tr></p>
+          <p><Tr>No paid AI is required for the worksheets. Many lessons and kit downloads are available in French, German and Spanish; when a download is only available in English, its button or page says so. Interviews, feedback and tool setup take additional time.</Tr></p>
           <div className="cta-row">
-            <Link className="btn btn-primary" href="/business-launchpad/commerce-lab"><Tr>Open commerce practice lab</Tr></Link>
             <Link className="btn btn-primary" href="/start-here"><Tr>Start here</Tr></Link>
-            <Link className="btn btn-primary" href="/paths/freelance-client-discovery"><Tr>{'Freelance Client Discovery & Project Scoping'}</Tr></Link>
-            <Link className="btn btn-primary" href="/business-launchpad/freelance-portfolio"><Tr>{'Freelance Portfolio & Case Study Builder'}</Tr></Link>
-            <Link className="btn btn-primary" href="/business-launchpad/spreadsheet-lab"><Tr>{'Excel Data Cleaning & PDF-to-Excel Services'}</Tr></Link>
-            <Link className="btn btn-primary" href="/paths/ai-video-business"><Tr>AI Video Creation for Business</Tr></Link>
-            <Link className="btn btn-primary" href="/paths/ai-automation-services"><Tr>AI Workflow Automation for Small Business</Tr></Link>
-            <Link className="btn btn-secondary" href="/business-launchpad/automation-lab"><Tr>Open the no-send automation practice lab</Tr></Link>
-            <Link className="btn btn-primary" href="/business-launchpad/first-project"><Tr>Complete your first practice project</Tr></Link>
-            <Link className="btn btn-secondary" href="/business-launchpad/feedback-guide"><Tr>Open practice feedback guide</Tr></Link>
-            <Link className="btn btn-primary" href="/business-launchpad/projects"><Tr>Open the Pilot Project Workspace</Tr></Link>
-            <Link className="btn btn-primary" href="/tutorials/ai-automation-services"><Tr>Start the automation service tutorial</Tr></Link>
-            <Link className="btn btn-secondary" href="/starter-packs/ai-automation-services-kit"><Tr>Open the pilot kit</Tr></Link>
-            <Link className="btn btn-secondary" href="/business-launchpad/proposal-builder"><Tr>Build a pilot proposal</Tr></Link>
-            <Link className="btn btn-secondary" href="/business-launchpad/results-tracker"><Tr>Track pilot tests and results</Tr></Link>
+            <a className="btn btn-secondary" href="#launchpad-services"><Tr>Choose a service learning path</Tr></a>
+            <Link className="btn btn-secondary" href="/business-launchpad/projects"><Tr>Open existing projects</Tr></Link>
           </div>
+          <details className="more-options">
+            <summary><Tr>More practice tools and resources</Tr></summary>
+            <div className="cta-row">
+              <Link className="btn btn-primary" href="/business-launchpad/commerce-lab"><Tr>Open commerce practice lab</Tr></Link>
+              <Link className="btn btn-primary" href="/paths/freelance-client-discovery"><Tr>{'Freelance Client Discovery & Project Scoping'}</Tr></Link>
+              <Link className="btn btn-primary" href="/business-launchpad/freelance-portfolio"><Tr>{'Freelance Portfolio & Case Study Builder'}</Tr></Link>
+              <Link className="btn btn-primary" href="/business-launchpad/spreadsheet-lab"><Tr>{'Excel Data Cleaning & PDF-to-Excel Services'}</Tr></Link>
+              <Link className="btn btn-primary" href="/paths/ai-video-business"><Tr>AI Video Creation for Business</Tr></Link>
+              <Link className="btn btn-primary" href="/paths/ai-automation-services"><Tr>AI Workflow Automation for Small Business</Tr></Link>
+              <Link className="btn btn-secondary" href="/business-launchpad/automation-lab"><Tr>Open the no-send automation practice lab</Tr></Link>
+              <Link className="btn btn-primary" href="/business-launchpad/first-project"><Tr>Complete your first practice project</Tr></Link>
+              <Link className="btn btn-secondary" href="/business-launchpad/feedback-guide"><Tr>Open practice feedback guide</Tr></Link>
+              <Link className="btn btn-primary" href="/tutorials/ai-automation-services"><Tr>Start the automation service tutorial</Tr></Link>
+              <Link className="btn btn-secondary" href="/starter-packs/ai-automation-services-kit"><Tr>Open the pilot kit</Tr></Link>
+              <Link className="btn btn-secondary" href="/business-launchpad/proposal-builder"><Tr>Build a pilot proposal</Tr></Link>
+              <Link className="btn btn-secondary" href="/business-launchpad/results-tracker"><Tr>Track pilot tests and results</Tr></Link>
+            </div>
+          </details>
         </div>
 
         <section className="progress-section" aria-labelledby="launchpad-services">

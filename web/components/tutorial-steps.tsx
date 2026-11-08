@@ -2,7 +2,7 @@
 
 import { useCallback, useMemo, useState, useSyncExternalStore } from 'react';
 import { useLanguage, useT } from '@/components/language';
-import { Tr } from '@/components/tr';
+import { Tr, useTr } from '@/components/tr';
 import { getTutorialTranslation } from '@/lib/tutorial-translations';
 import { useProgressSync } from '@/components/progress-sync';
 import type { TutorialStep } from '@/lib/task-tracker-tutorial';
@@ -63,6 +63,7 @@ export function TutorialSteps({
   feedbackEnabled?: boolean;
 }) {
   const t = useT();
+  const tr = useTr();
   const language = useLanguage();
   const translation = getTutorialTranslation(syncId, language);
   const steps = useMemo(
@@ -134,7 +135,7 @@ export function TutorialSteps({
           {sync.status === 'syncing' ? t('tutorial.syncing') : sync.status === 'error' ? t('tutorial.syncError') : t('tutorial.synced')}
         </p>
       )}
-      <progress className="progress-bar" value={done.length} max={steps.length} aria-label="Tutorial progress" />
+      <progress className="progress-bar" value={done.length} max={steps.length} aria-label={tr('Tutorial progress')} />
       {storageUnavailable && <p role="status"><Tr>Progress cannot be saved in this browser right now.</Tr></p>}
       <ol className="tutorial-steps">
         {steps.map((step, index) => (
@@ -194,6 +195,7 @@ export function TutorialSteps({
             <h2 id="completion-title"><Tr>Tutorial completed</Tr></h2>
             <p className="certificate-tutorial-title">{translation?.title ?? title}</p>
             <p><Tr>You finished every step. Be proud of what you built.</Tr></p>
+            <p><Tr>This certificate reflects steps you marked complete. It is not independently assessed or an accredited qualification.</Tr></p>
             <button type="button" className="btn btn-primary no-print" onClick={() => window.print()}>
               <Tr>Print or save certificate</Tr>
             </button>

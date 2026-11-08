@@ -181,6 +181,12 @@ button {
   transform: translateY(-1px);
 }
 
+.download-language-note {
+  margin-left: 0.35rem;
+  font-weight: 500;
+  opacity: 0.8;
+}
+
 .btn-primary {
   background: linear-gradient(135deg, var(--primary), var(--primary-strong));
   color: var(--on-primary);
@@ -373,6 +379,20 @@ h3 {
   font-size: clamp(2rem, 3vw, 2.8rem);
 }
 
+.more-options {
+  margin-top: 20px;
+}
+
+.more-options > summary {
+  cursor: pointer;
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.more-options > .goal-grid {
+  margin-top: 18px;
+}
+
 .split-head {
   display: flex;
   justify-content: space-between;
@@ -403,6 +423,10 @@ h3 {
 .result-card {
   padding: 20px 18px;
   box-shadow: var(--shadow);
+}
+
+.tool-fallback {
+  padding-left: 1.25rem;
 }
 
 .service-path-entry {

@@ -50,7 +50,7 @@ export function SiteHeader() {
           type="button"
           aria-expanded={menuOpen}
           aria-controls="primary-navigation"
-          aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+          aria-label={tr(menuOpen ? 'Close navigation menu' : 'Open navigation menu')}
           onClick={() => setMenuOpen((open) => !open)}
         >
           <span />
@@ -60,7 +60,7 @@ export function SiteHeader() {
         <nav
           className={`main-nav${menuOpen ? ' is-open' : ''}`}
           id="primary-navigation"
-          aria-label="Main navigation"
+          aria-label={tr('Main navigation')}
         >
           {links.map((link) => (
             <Link

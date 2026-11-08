@@ -4,8 +4,8 @@ Three platform-neutral learning tracks. No specific marketplace is required.
 All businesses, orders and amounts below are fictional practice data. AI is optional:
 use a document and spreadsheet, check the calculations yourself, and keep drafts private.
 Each tutorial takes about two hours for worksheets; research, feedback and setup take longer.
-The lessons and this download are currently English; the surrounding catalog supports
-French, German and Spanish.
+This is the English edition; French, German and Spanish editions are available from the
+kit page.
 
 ## Choose your business model
 

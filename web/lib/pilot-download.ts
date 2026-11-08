@@ -1,5 +1,5 @@
-export function downloadPilotText(text: string, filename: string) {
-  const url = URL.createObjectURL(new Blob([text], { type: 'text/plain;charset=utf-8' }));
+export function downloadPilotText(text: string, filename: string, type = 'text/plain;charset=utf-8') {
+  const url = URL.createObjectURL(new Blob([text], { type }));
   const link = document.createElement('a');
   try {
     link.href = url;

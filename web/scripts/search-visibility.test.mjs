@@ -57,9 +57,11 @@ test('new tutorial is listed without an invalid learning-path link or unsupporte
 
 test('homepage displays learning paths rather than the separate goal count', async () => {
   const home = await readFile(new URL('../app/page.tsx', import.meta.url), 'utf8');
-  assert.match(home, /catalog\.paths\.length/);
-  assert.match(home, /<Tr>learning paths<\/Tr>/);
-  assert.doesNotMatch(home, /catalog\.goals\.length/);
+  const stats = home.match(/<ul className="mini-stats"[\s\S]*?<\/ul>/)?.[0];
+  assert.ok(stats, 'homepage statistics are present');
+  assert.match(stats, /catalog\.paths\.length/);
+  assert.match(stats, /<Tr>learning paths<\/Tr>/);
+  assert.doesNotMatch(stats, /catalog\.goals\.length/);
   assert.match(home, /alternates: \{ canonical: '\/' \}/);
   assert.match(home, /openGraph: \{ type: 'website', locale: 'en_US', url: '\/'/);
   const paths = JSON.parse(await readFile(new URL('../content/paths.json', import.meta.url), 'utf8'));

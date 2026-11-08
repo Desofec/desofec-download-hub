@@ -6,6 +6,7 @@ import { ToolCard } from '@/components/cards';
 import type { Tool } from '@/lib/types';
 import { Tr, useTr } from '@/components/tr';
 import { ToolFreshness } from '@/components/tool-freshness';
+import { toolMatchesSearch } from '@/lib/tool-search';
 
 export function ToolsExplorer({ tools }: { tools: Tool[] }) {
   const tr = useTr();
@@ -56,12 +57,11 @@ export function ToolsExplorer({ tools }: { tools: Tool[] }) {
     return tool ? [tool] : [];
   });
 
-  const needle = query.trim().toLowerCase();
   const visible = tools.filter(
     (tool) =>
       (category === 'All' || tool.category === category) &&
       (skill === 'All' || tool.skill === skill) &&
-      (!needle || `${tool.name} ${tool.description} ${tool.category}`.toLowerCase().includes(needle))
+      toolMatchesSearch(tool, query, tr)
   );
 
   const filtersActive = Boolean(query.trim()) || category !== 'All' || skill !== 'All';

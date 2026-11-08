@@ -54,9 +54,24 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
+  if (url.pathname.startsWith('/downloads/')) {
+    // Revalidate mutable downloads online, retaining the existing cache for offline use.
+    event.respondWith(
+      fetch(request, { cache: 'no-cache' })
+        .then((response) => {
+          if (response.ok && response.type === 'basic') {
+            const copy = response.clone();
+            event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.put(request, copy)));
+          }
+          return response;
+        })
+        .catch(async () => (await caches.match(request)) || Response.error())
+    );
+    return;
+  }
+
   if (
     url.pathname.startsWith('/_next/static/') ||
-    url.pathname.startsWith('/downloads/') ||
     url.pathname.startsWith('/icon-') ||
     url.pathname === '/manifest.webmanifest'
   ) {

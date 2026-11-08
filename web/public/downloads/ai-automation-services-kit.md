@@ -2,7 +2,7 @@
 
 By Desofec AI Studio. Use with the AI Business Launchpad and automation-services tutorial.
 These worksheets are educational, not a promise of earnings or legal, tax or investment advice.
-No paid tool is required for the paper/spreadsheet exercises. Instructions are currently English.
+No paid tool is required for the paper/spreadsheet exercises. This is the English edition; French, German and Spanish editions are available from the kit page.
 
 Choose **customer enquiry tracking**, **appointment reminder automation**, or **automated weekly
 business reports**. This extends the existing AI Workflow Automation for Small Business path;

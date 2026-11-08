@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { useAuth } from '@/components/auth-provider';
 import { PilotProjectAccount } from '@/components/pilot-project-account';
+import { ProjectBackup } from '@/components/project-backup';
 import { ServiceProjectJourney } from '@/components/service-project-journey';
 import { serviceProjectJourney } from '@/lib/service-project-journeys';
 import { useTr } from '@/components/tr';
@@ -146,6 +147,10 @@ function Workspace({ paths, projectId, initialPath }: WorkspaceProps) {
 
       <section aria-labelledby="device-projects">
         <h2 id="device-projects">{tr('Device projects')}</h2>
+        <ProjectBackup projectCount={projects.length} onRestored={() => {
+          setProjects(listProjects(localStorage));
+          window.dispatchEvent(new Event('desofec-project-dashboard-refresh'));
+        }} />
         {!projects.length && <p>{tr('No projects saved on this device yet.')}</p>}
         <div className="path-grid">
           {projects.map(({ project }) => (

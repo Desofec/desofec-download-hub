@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { FavoriteToolButton } from '@/components/favorite-tool-button';
-import { downloadUrl } from '@/lib/urls';
+import { StarterPackDownload } from '@/components/starter-pack-download';
 import type { Goal, LearningPath, StarterPack, Tool } from '@/lib/types';
 import { Tr } from '@/components/tr';
 import { ToolFreshness } from '@/components/tool-freshness';
@@ -111,9 +111,7 @@ export function PackCard({ pack }: { pack: StarterPack }) {
         <Link className="btn btn-secondary" href={`/starter-packs/${encodeURIComponent(pack.id)}`}>
           <Tr>View checklist</Tr>
         </Link>
-        <a className="btn btn-secondary" href={downloadUrl(pack.file)} download>
-          <Tr>Download pack</Tr>
-        </a>
+        <StarterPackDownload packId={pack.id} file={pack.file} variant="card" />
       </div>
     </article>
   );
