@@ -142,10 +142,10 @@ warehouse operation, shipment, model API or external integration is activated.
 These courses support the Pilot Project Workspace with service-specific guided
 journeys, test plans, workbook starters, review checklists and case-study exports.
 
-Tutorial content and catalog titles, descriptions, learning steps and kit checklists
+Commerce tutorials, catalog titles, descriptions, learning steps and kit checklists
 support French, German and Spanish. The commerce kit download is available in English,
 French, German and Spanish and follows the selected language. Tutorial, path and kit
-progress reuse existing tracking; translating the download does not alter saved project evidence.
+progress reuse existing tracking; translations do not alter saved project evidence.
 Run `npm run sync-content` after changing the source catalog or download.
 For Supabase deployments, apply the **regenerated `supabase/seed.sql` before
 deploying** so all three paths, their goal and kit exist, including for lesson
