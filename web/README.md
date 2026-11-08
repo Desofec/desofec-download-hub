@@ -556,8 +556,15 @@ recommendation and five-item starter-kit checklist. Existing catalog ordering an
 
 The tutorial registry's `serviceKitId` connects each service path to its kit and the shared proposal
 builder/results tracker. These tools do not prefill outcomes or grant client/engineering approval.
-Lesson instructions and downloads remain English with visible notices; catalog, checklist and hub copy
-support French, German and Spanish. No paid AI is needed; CAD commercial-use licensing must be verified
+The content-service course has complete French, German and Spanish translations, including all six
+steps, worksheet labels/text, checks and optional AI prompts, in
+`lib/translations/content-services.ts`. Stable step IDs and progress storage keys are unchanged.
+Translation worksheet labels use the optional `StepTranslation.file` field; other lessons retain
+their source filenames when no translation supplies one. The remaining courses' lesson instructions
+and service-kit downloads remain English with visible notices; translating this course does not
+translate the private project workbook or its evidence fields. Catalog, checklist and hub copy
+support French, German and Spanish. No migration or seed update is needed for this translation.
+No paid AI is needed; CAD commercial-use licensing must be verified
 before actual client work, and a paper alternative is clearly not a CAD deliverable.
 
 **Run the regenerated `supabase/seed.sql` before deployment, after migrations 0011 and 0012.**

@@ -6,6 +6,7 @@ import { webNocodeTranslations } from '@/lib/translations/web-nocode';
 import { practicalFrench } from '@/lib/translations/practical-fr';
 import { practicalGerman } from '@/lib/translations/practical-de';
 import { practicalSpanish } from '@/lib/translations/practical-es';
+import { contentServicesTranslations } from '@/lib/translations/content-services';
 import { searchVisibilityResources } from '@/lib/search-visibility-tutorial';
 
 const { googleProperty, googleSitemap, googleRecrawl, bingGettingStarted } = searchVisibilityResources;
@@ -13,6 +14,7 @@ const { googleProperty, googleSitemap, googleRecrawl, bingGettingStarted } = sea
 export type StepTranslation = {
   title: string;
   explanation: string[];
+  file?: string;
   code?: string;
   check: string;
   aiPrompt: string;
@@ -467,6 +469,7 @@ export function getTutorialTranslation(tutorialId: string, language: LanguageCod
 }
 
 export const tutorialTranslations: Record<string, Partial<Record<Exclude<LanguageCode, 'en'>, TutorialTranslation>>> = {
+  ...contentServicesTranslations,
   ...baseTranslations,
   ...taskTrackerTranslations,
   ...codingTranslations,

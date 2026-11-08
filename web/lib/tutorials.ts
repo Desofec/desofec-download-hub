@@ -348,7 +348,7 @@ export const tutorials: TutorialInfo[] = [
     pathId: 'ai-content-services',
     href: '/tutorials/ai-content-services',
     title: 'Prepare a reviewed AI content service package',
-    intro: 'Create three posts and four FAQ answers for a fictional bakery, verify claims and assets, manage revisions and plan an honest service offer. Instructions are currently English; AI drafting is optional. Allow about 90 minutes plus feedback time.',
+    intro: 'Create three posts and four FAQ answers for a fictional bakery, verify claims and assets, manage revisions and plan an honest service offer. AI drafting is optional. Allow about 90 minutes plus feedback time.',
     time: '90 minutes',
     steps: contentServicesSteps,
     serviceKitId: 'ai-content-services-kit'

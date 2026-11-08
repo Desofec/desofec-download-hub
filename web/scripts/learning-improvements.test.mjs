@@ -44,6 +44,98 @@ function memoryStorage() {
 }
 const projectId = '11111111-1111-4111-8111-111111111111';
 
+test('content-service course translates every field and preserves stable six-step IDs', async () => {
+  const { contentServicesSteps } = await loadContent('../lib/business-services-tutorials.ts');
+  const { getTutorialTranslation } = await loadContent('../lib/tutorial-translations.ts', {
+    ...Object.fromEntries(['coding', 'ml-design', 'task-tracker', 'web-nocode', 'practical-fr',
+      'practical-de', 'practical-es', 'content-services'].map(name =>
+      [`@/lib/translations/${name}`, `../lib/translations/${name}.ts`])),
+    '@/lib/search-visibility-tutorial': '../lib/search-visibility-tutorial.ts'
+  });
+  const ids = ['brief', 'draft', 'quality', 'revisions', 'offer', 'handoff']
+    .map(name => `content-service-${name}`);
+  assert.deepEqual(contentServicesSteps.map(step => step.id), ids);
+  assert.equal(getTutorialTranslation('ai-content-services', 'en'), undefined);
+  assert.equal(getTutorialTranslation('not-a-course', 'fr'), undefined);
+  for (const locale of ['fr', 'de', 'es']) {
+    const translation = getTutorialTranslation('ai-content-services', locale);
+    assert.deepEqual(Object.keys(translation.steps), ids);
+    assert.match(translation.intro, /90/);
+    assert.doesNotMatch(translation.intro, /anglais|Englisch|inglés/);
+    for (const sourceStep of contentServicesSteps) {
+      const step = translation.steps[sourceStep.id];
+      assert.equal(step.explanation.length, sourceStep.explanation.length);
+      for (const field of ['title', 'file', 'code', 'check', 'aiPrompt']) {
+        assert.ok(step[field]?.trim(), `${locale}: ${sourceStep.id}.${field}`);
+        assert.notEqual(step[field], sourceStep[field], `${locale}: ${sourceStep.id}.${field}`);
+      }
+      step.explanation.forEach((paragraph, index) => {
+        assert.ok(paragraph.trim());
+        assert.notEqual(paragraph, sourceStep.explanation[index]);
+      });
+      assert.equal('id' in step, false, 'translations must not replace progress IDs');
+    }
+    const steps = translation.steps;
+    assert.match(steps[ids[0]].code, /Cedar Bakery/);
+    assert.match(steps[ids[0]].code, /08:00-14:00/);
+    assert.match(steps[ids[0]].code, /40-60/);
+    assert.match(steps[ids[1]].code, /40-60/);
+    assert.match(steps[ids[3]].code, /40-60/);
+    assert.match(steps[ids[4]].code, /\(1 \+ 2 \+ 1 \+ 1\) x 20 EUR = 100 EUR/);
+    const book = JSON.parse(await readFile(new URL(`../content/translations/ui-${locale}.json`, import.meta.url), 'utf8'));
+    const intro = 'Create three posts and four FAQ answers for a fictional bakery, verify claims and assets, manage revisions and plan an honest service offer. AI drafting is optional. Allow about 90 minutes plus feedback time.';
+    assert.equal(translation.intro, book[intro]);
+  }
+});
+
+test('content-service translations preserve privacy, fact, rights, cost and approval boundaries', async () => {
+  const { contentServicesTranslations } = await loadContent('../lib/translations/content-services.ts');
+  const safeguards = {
+    fr: {
+      brief: /ni coordonnées ni informations commerciales confidentielles/,
+      allergens: /Ne devinez pas les informations de sécurité/,
+      reject: /Ouvert dimanche.*SUPPRIMER\nLivraison disponible.*SUPPRIMER/,
+      rights: /sans autorisation/,
+      price: /prix non confirmé doit rester en attente/,
+      costs: /ni un tarif de marché, ni une recommandation de prix, ni un bénéfice/,
+      blocked: /BLOQUÉ, pas RÉUSSI/,
+      approval: /Un vrai client doit autoriser la publication séparément/
+    },
+    de: {
+      brief: /keine Kontaktdaten oder vertraulichen Geschäftsinformationen/,
+      allergens: /Rate keine Sicherheitsinformationen/,
+      reject: /Sonntags geöffnet.*ENTFERNEN\nLieferung verfügbar.*ENTFERNEN/,
+      rights: /ohne Genehmigung/,
+      price: /unbestätigten Preis bleibt offen/,
+      costs: /kein Marktpreis, keine Preisempfehlung und kein Gewinn/,
+      blocked: /BLOCKIERT, nicht BESTANDEN/,
+      approval: /Ein echter Kunde muss die Veröffentlichung separat freigeben/
+    },
+    es: {
+      brief: /No subas datos de contacto ni información comercial confidencial/,
+      allergens: /No adivines información de seguridad/,
+      reject: /Abierto el domingo.*ELIMINAR\nEntrega disponible.*ELIMINAR/,
+      rights: /sin permiso/,
+      price: /precio sin confirmar debe quedar pendiente/,
+      costs: /No es una tarifa de mercado, recomendación de precio ni beneficio/,
+      blocked: /BLOQUEADO, no APROBADO/,
+      approval: /Un cliente real debe aprobar la publicación por separado/
+    }
+  };
+  for (const [locale, expected] of Object.entries(safeguards)) {
+    const steps = contentServicesTranslations['ai-content-services'][locale].steps;
+    const prose = name => steps[`content-service-${name}`].explanation.join(' ');
+    assert.match(prose('brief'), expected.brief);
+    assert.match(prose('draft'), expected.allergens);
+    assert.match(steps['content-service-quality'].code, expected.reject);
+    assert.match(prose('quality'), expected.rights);
+    assert.match(prose('revisions'), expected.price);
+    assert.match(prose('offer'), expected.costs);
+    assert.match(steps['content-service-handoff'].code, expected.blocked);
+    assert.match(prose('handoff'), expected.approval);
+  }
+});
+
 const workbookTime = '2026-11-06T01:30:00.000Z';
 test('discovery fit never grants acceptance and requires every check, complete brief and evidence', async () => {
   const { emptyDiscovery, readDiscovery, discoveryFit, discoveryFields, fitChecks, buildDiscoveryReport } = await loadContent('../lib/client-discovery.ts', projectImports);
