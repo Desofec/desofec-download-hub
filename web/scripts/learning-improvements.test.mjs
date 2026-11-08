@@ -53,7 +53,12 @@ const translationImports = {
 test('only translated starter kits resolve to localized static downloads', async () => {
   const { starterPackDownloadFile } = await loadContent('../lib/starter-pack-downloads.ts');
   for (const locale of ['en', 'fr', 'de', 'es']) {
-    for (const kit of ['ai-content-services-kit', 'ai-automation-services-kit', 'ai-spreadsheets-kit']) {
+    for (const kit of [
+      'ai-content-services-kit',
+      'ai-automation-services-kit',
+      'ai-spreadsheets-kit',
+      'ai-commerce-services-kit'
+    ]) {
       const file = `downloads/${kit}.md`;
       const expected = locale === 'en' ? file : `downloads/${kit}-${locale}.md`;
       assert.equal(starterPackDownloadFile(kit, file, locale), expected);
