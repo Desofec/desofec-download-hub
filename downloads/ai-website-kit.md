@@ -22,9 +22,9 @@ By Desofec AI Studio. Plan a small website, let AI draft it, then review and pub
 - Do not publish personal data that is not meant to be public.
 - Keep your own copy of the files.
 
-## 5. Publish for free (one common route)
+## 5. Choose hosting and publish
 1. Put the files in a GitHub repository.
-2. Import the repository into a free hosting service such as Vercel.
+2. Choose hosting that permits your intended use and import the repository. Vercel's free Hobby plan is for non-commercial personal use; check current plan terms and costs.
 3. Open the live address on your phone and ask a friend to test it.
 
 Plans and menu names change, so follow each service's current instructions.

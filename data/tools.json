@@ -41,7 +41,7 @@
     "name": "VS Code",
     "category": "Coding",
     "skill": "Beginner",
-    "description": "The most common editor for learning code and building small projects.",
+    "description": "A code editor for learning programming and building projects.",
     "badge": "Code"
   },
   {
@@ -50,7 +50,7 @@
     "name": "GitHub",
     "category": "Coding",
     "skill": "Beginner",
-    "description": "Essential for storing code, tracking progress, and collaborating on projects.",
+    "description": "Store code, track changes, and collaborate on projects with GitHub.",
     "badge": "Code"
   },
   {
@@ -128,7 +128,7 @@
   {
     "id": "fusion-360",
     "url": "https://www.autodesk.com/products/fusion-360/overview",
-    "name": "Fusion 360",
+    "name": "Autodesk Fusion (Fusion 360)",
     "category": "Design",
     "skill": "Intermediate",
     "description": "Helpful for CAD, product thinking, and 3D modeling for conceptual projects.",
@@ -185,7 +185,7 @@
     "name": "GitHub",
     "category": "Coding",
     "skill": "Beginner",
-    "description": "Store your projects, track changes and collaborate or publish work for free.",
+    "description": "Store projects, track changes and collaborate. A free plan is available; check publishing and storage limits.",
     "badge": "Code"
   },
   {
@@ -199,8 +199,8 @@
   },
   {
     "id": "notebooklm",
-    "url": "https://notebooklm.google.com",
-    "name": "NotebookLM",
+    "url": "https://notebook.google.com/",
+    "name": "Gemini Notebook (NotebookLM)",
     "category": "AI",
     "skill": "Beginner",
     "description": "Study from your own sources with summaries, study guides, and answers grounded in the materials you add.",
@@ -275,7 +275,7 @@
     "name": "Microsoft Copilot",
     "category": "AI",
     "skill": "Beginner",
-    "description": "A free AI assistant for questions, writing help and image ideas, handy if you already use Microsoft tools.",
+    "description": "An AI assistant with a free tier for questions, writing help and image ideas; check availability and plan limits.",
     "badge": "Assistant"
   },
   {
@@ -302,7 +302,7 @@
     "name": "Vercel",
     "category": "Coding",
     "skill": "Beginner",
-    "description": "Publish a website from a GitHub repository with a free hobby plan and get a live web address in minutes.",
+    "description": "Publish a website from a GitHub repository. Vercel's free Hobby plan is for non-commercial personal use; check current terms and limits.",
     "badge": "Hosting"
   },
   {
@@ -329,7 +329,7 @@
     "name": "Bolt",
     "category": "Coding",
     "skill": "Beginner",
-    "description": "Describe an app or website in plain words and get a working project with a live preview in your browser.",
+    "description": "Describe an app or website and view the generated project in your browser. Review and test it before publishing.",
     "badge": "App builder"
   },
   {
@@ -451,8 +451,8 @@
   },
   {
     "id": "looker-studio",
-    "url": "https://cloud.google.com/looker-studio",
-    "name": "Looker Studio",
+    "url": "https://cloud.google.com/data-studio",
+    "name": "Google Data Studio (Looker Studio)",
     "category": "Data",
     "skill": "Beginner",
     "description": "Explore dashboards and business reports from approved data sources; verify connectors, sharing permissions and any associated costs.",

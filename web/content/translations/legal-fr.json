@@ -1,0 +1,141 @@
+{
+  "notice": "Cette traduction a été réalisée avec l’aide de l’IA et n’a pas encore été vérifiée par un juriste ou un locuteur natif. Vous pouvez consulter l’original anglais ci-dessous.",
+  "englishOriginal": "Voir l’original en anglais",
+  "privacy": {
+    "sourceDigest": "f55535426e3bfb52353f57d6b9625f556a664efecbeaecebf349058544fbf069",
+    "title": "Politique de confidentialité",
+    "updated": "Dernière mise à jour : novembre 2026",
+    "intro": "Desofec AI Studio (« nous ») respecte votre vie privée. Cette page explique les données que nous recueillons et pourquoi.",
+    "collectedHeading": "Données que nous recueillons",
+    "collected": [
+      {
+        "label": "Adresse électronique",
+        "text": "si vous vous abonnez à la lettre d’information ou vous connectez. Nous l’utilisons uniquement à cette fin."
+      },
+      {
+        "label": "Progression et favoris",
+        "text": "(parcours, kits de démarrage, étapes de tutoriel, outils enregistrés). Sans compte, ces données restent dans votre navigateur. Lorsque vous vous connectez, elles sont également enregistrées dans votre compte afin de se synchroniser entre vos appareils."
+      },
+      {
+        "label": "Préférences",
+        "text": "telles que la langue choisie, enregistrées dans votre navigateur."
+      },
+      {
+        "label": "Brouillons de proposition pilote",
+        "text": "uniquement si vous les enregistrez explicitement dans le créateur de propositions. Un brouillon est enregistré localement dans le profil du navigateur, et non dans votre compte ou notre base de données. L’application n’envoie pas le texte de la proposition à un service d’IA. Toute personne utilisant ce profil de navigateur peut accéder à la copie enregistrée ; ne saisissez pas de données personnelles ni d’informations client confidentielles. Utilisez l’action de suppression de la copie enregistrée pour la retirer. Les fichiers téléchargés restent sur votre appareil jusqu’à leur suppression séparée."
+      },
+      {
+        "label": "Résultats de tests pilotes",
+        "text": "uniquement si vous les enregistrez explicitement dans le suivi des résultats. Un brouillon de suivi, distinct de votre proposition, reste dans ce profil de navigateur sans synchronisation au compte ni traitement par IA. Il comprend vos preuves de test, vos coûts et votre décision ; toute personne utilisant ce profil peut y accéder. Utilisez uniquement des données fictives ou anonymisées. La suppression des résultats enregistrés retire la copie du navigateur, mais pas la page actuelle ni les rapports téléchargés. L’effacement des données du navigateur peut supprimer les brouillons locaux."
+      },
+      {
+        "label": "Espaces de travail de projets pilotes",
+        "text": "uniquement lorsque vous créez ou enregistrez explicitement un projet. Jusqu’à dix projets sur l’appareil contiennent votre brief, une liste de contrôle de projet distincte, une proposition comprenant les coûts internes et des résultats de test. L’application ne chiffre pas les projets sur l’appareil, qui sont accessibles à toute personne utilisant ce profil de navigateur. Ces brouillons restent séparés des brouillons autonomes de proposition et de résultats ainsi que de la progression d’apprentissage. La connexion ne les téléverse pas. Si vous donnez explicitement votre consentement et les téléversez, un instantané privé est enregistré dans Supabase pour être accessible sur un autre appareil. L’enregistrement et le chargement des instantanés sont manuels ; il ne s’agit ni d’une synchronisation en arrière-plan ni d’un chiffrement de bout en bout. Selon les politiques d’accès aux lignes de la base de données, seul votre compte peut accéder à ses instantanés. Les actions de suppression du projet sur l’appareil et de l’instantané du compte retirent séparément ces copies ; les fichiers téléchargés restent présents jusqu’à leur suppression. Aucun contenu de projet n’est envoyé à une IA ni automatiquement envoyé ou publié pour des clients. Utilisez uniquement des données fictives ou anonymisées. Les téléchargements récapitulatifs omettent les champs financiers mais contiennent toujours le brief et le texte de décision saisis par l’utilisateur ; vérifiez-les avant de les partager."
+      },
+      {
+        "label": "Portfolios de pratique guidée",
+        "text": "sont des aperçus privés issus de projets de service enregistrés, et non des pages enregistrées séparément ou hébergées publiquement. L’application ne téléverse ni n’examine les fichiers originaux du projet et ne vérifie pas indépendamment les résultats consignés. L’aperçu comprend votre brief, l’état des étapes, les noms et résultats des tests, la couverture des cas requis lorsque celle-ci s’applique et les notes de décision ; il omet les propositions complètes, les champs financiers structurés et les preuves brutes des tests. Vérifiez tout le texte saisi avant de télécharger ou partager manuellement. Le téléchargement exige une confirmation et crée un fichier sur votre appareil, pas un lien public ; supprimez ce fichier séparément. Le choix d’un objectif de premier projet n’enregistre ni ne téléverse de projet. Le chargement des plans de test de service exige une confirmation et remplace uniquement les cas de test dans le formulaire actuel ; votre projet enregistré reste inchangé tant que vous ne l’enregistrez pas explicitement."
+      },
+      {
+        "label": "Cahiers de preuves privés des projets",
+        "text": "enregistrent le texte de pratique uniquement lorsque vous sauvegardez explicitement une révision dans un projet sur l’appareil. Chaque projet peut conserver huit éléments de texte et cinq révisions par élément, y compris les anciens titres et le texte intégral. Les références aux tests conservent aussi le nom du test, son entrée et le résultat attendu au moment de la liaison. L’application ne téléverse pas de fichiers, n’exécute pas de scripts brouillons et ne vérifie pas indépendamment ce travail. Les références ne valident pas les tests et n’accordent aucune approbation. Un instantané de compte auquel vous avez explicitement consenti comprend tout le cahier enregistré et ses révisions conservées. Contrairement au portfolio de pratique plus court, les téléchargements du cahier comprennent le texte intégral enregistré et les anciennes révisions ; vérifiez toutes les révisions pour détecter les informations sensibles avant de télécharger, téléverser ou partager. La suppression d’un élément ou du projet sur l’appareil retire ces copies locales ; les instantanés du compte et les fichiers téléchargés doivent être supprimés séparément."
+      },
+      {
+        "label": "Auto-évaluations de projet",
+        "text": "pour les parcours de service conservent une évaluation explicitement enregistrée par élément du cahier, y compris les observations propres au service, les tâches de correction, les preuves de correction consignées par l’utilisateur et une copie intégrale distincte de la révision du texte évalué. Retirer le texte du cahier ne supprime pas sa copie d’évaluation. La suppression de l’évaluation enregistrée retire cet enregistrement de l’appareil ; la suppression de tout le projet sur l’appareil retire aussi ses évaluations locales. Les instantanés du compte et les dossiers de transmission téléchargés restent séparés. Le consentement explicite au téléversement dans le compte inclut ces évaluations et copies de texte, même archivées. Les téléchargements de transmission exigent une sélection et une confirmation de vérification ; ils contiennent le texte copié sélectionné, les retours, les noms et résultats des tests et les prochaines actions non résolues, mais pas les brouillons non sélectionnés, les preuves brutes ni les coûts structurés. Les auto-évaluations ne vérifient jamais le travail et n’accordent aucune approbation du client. Vérifiez les informations sensibles avant de téléverser ou partager, et supprimez séparément les copies du compte et les fichiers téléchargés."
+      },
+      {
+        "label": "Laboratoire de pratique des feuilles de calcul",
+        "text": "utilise des données fictives et des modifications temporaires dans la page. Il ne téléverse pas vos fichiers, n’exécute pas de modèle d’IA ni de service de reconnaissance optique de caractères et n’enregistre pas automatiquement ses résultats dans un projet ou un compte. Le PDF fictif est fourni par ce site ; les téléchargements CSV sont générés dans votre navigateur et restent sur votre appareil jusqu’à leur suppression. La copie d’observations dans un projet privé suit les règles d’enregistrement explicite et de consentement au compte ci-dessus."
+      },
+      {
+        "label": "Retours sur les leçons",
+        "text": "si vous choisissez de voter après connexion. Nous enregistrons la leçon, le choix utile ou non utile, la référence de votre compte et l’heure de votre dernier vote pour améliorer les leçons. Les votes ne sont pas publics. Vous pouvez modifier ou retirer votre vote sur la page de la leçon. Nous ne recueillons pas de commentaires écrits."
+      },
+      {
+        "label": "Statistiques de visite anonymes",
+        "text": "(pages consultées, pays et type d’appareil) afin de voir quels parcours aident les visiteurs. Elles utilisent Vercel Web Analytics sans cookies : aucun cookie, aucun profil publicitaire et aucun suivi sur d’autres sites."
+      }
+    ],
+    "extras": [
+      {
+        "label": "Études de cas freelance :",
+        "text": "le texte narratif explicitement enregistré et les identifiants des tests sélectionnés appartiennent à votre projet privé sur l’appareil. Le consentement facultatif au téléversement dans le compte les inclut. L’aperçu enregistré et la mise en page imprimable contiennent le récit, le texte des tests enregistrés sélectionnés, y compris les corrections et nouveaux tests, ainsi que l’état de l’ensemble du projet ; ils ne contiennent pas les propositions complètes, les coûts structurés, les brouillons du cahier ni les copies d’évaluation. Tous les exports sont signalés comme pratique fictive, et non comme travail client vérifié. Vérifiez chaque section incluse avant l’exportation. Aucune page publique ni aucun lien de partage n’est créé. Supprimez séparément l’étude de cas enregistrée, les instantanés du compte et les copies téléchargées ou imprimées ; la suppression d’une étude de cas ne supprime pas les tests sources du projet. Les en-têtes d’impression du navigateur peuvent inclure l’URL de la page : désactivez les en-têtes et pieds de page avant de partager."
+      },
+      {
+        "label": "Découverte client et définition du périmètre :",
+        "text": "le laboratoire public utilise une mémoire de page temporaire et des réponses fictives prédéfinies, sans IA ni prise de contact réelle. Il n’enregistre ni ne téléverse vos modifications. Dans un projet de service privé, les éléments de découverte explicitement enregistrés comprennent le texte du brief, les choix d’adéquation du projet, les notes de preuves et un changement proposé. Le consentement facultatif au compte couvre ces enregistrements. L’importation dans une proposition exige une confirmation et copie uniquement les champs de périmètre enregistrés dans un formulaire non enregistré ; elle n’applique jamais les changements proposés, n’enregistre pas automatiquement et n’accorde aucune approbation. Les téléchargements de découverte utilisent uniquement les éléments de découverte enregistrés, sans autres enregistrements du projet. Supprimez séparément les éléments de découverte, les instantanés du compte, les fichiers téléchargés et le texte copié dans une proposition. Aucun contact client ni accord n’est automatique."
+      },
+      {
+        "label": "Tableau de bord des projets « Commencer ici » :",
+        "text": "lit les projets déjà enregistrés dans ce navigateur pour afficher les étapes consignées par l’utilisateur, les nombres de tests, les décisions et l’état de l’étude de cas. Il ne vérifie pas indépendamment les livrables, ne téléverse pas les projets, ne charge pas les instantanés du compte et ne crée pas d’enregistrements supplémentaires. Les projets sur l’appareil peuvent être visibles par toute personne utilisant ce profil de navigateur. Les projets du compte doivent être chargés explicitement depuis l’espace de travail. Le panneau distinct de coches d’apprentissage suit les règles de synchronisation de la progression ci-dessus, et non celles des projets privés."
+      },
+      {
+        "label": "Guide de retours de pratique :",
+        "text": "les modifications existent uniquement dans la page ouverte et sont perdues lors du rechargement ou de la navigation. Le guide ne les enregistre pas dans un projet, ne les téléverse pas et n’envoie aucune demande. Les téléchargements distincts de demande et de plan de révision contiennent le texte affiché dans leurs aperçus et restent sur votre appareil jusqu’à leur suppression. La fiche vierge est un fichier public. Utilisez des informations fictives ou anonymisées et inspectez les fichiers téléchargés avant de les partager."
+      }
+    ],
+    "noSale": "Nous ne vendons pas vos données et n’affichons pas de publicités de tiers.",
+    "providersHeading": "Services que nous utilisons",
+    "providers": [
+      {
+        "label": "Supabase",
+        "text": "stocke les comptes, la progression, les retours sur les leçons, les abonnements et les instantanés privés de projet téléversés explicitement."
+      },
+      {
+        "label": "Google",
+        "text": "si vous choisissez « Continuer avec Google ». Nous recevons uniquement votre adresse électronique et la confirmation de connexion, jamais votre mot de passe Google."
+      },
+      {
+        "label": "Resend",
+        "text": "envoie les courriels de confirmation et les lettres d’information."
+      },
+      {
+        "label": "Vercel",
+        "text": "héberge le site, fournit des statistiques de visite anonymes et peut traiter des données techniques de requête telles que les adresses IP."
+      }
+    ],
+    "newsletterHeading": "Lettre d’information",
+    "newsletter": "Nous utilisons une double confirmation : vous ne recevez la lettre d’information qu’après avoir confirmé votre adresse électronique. Vous pouvez vous désabonner à tout moment au moyen du lien présent dans chaque courriel.",
+    "choicesHeading": "Vos choix",
+    "choices": "Vous pouvez à tout moment effacer le stockage de votre navigateur pour retirer les données enregistrées localement. Pour accéder aux données liées à votre adresse électronique, les corriger ou les supprimer, contactez-nous et nous vous aiderons.",
+    "childrenHeading": "Enfants",
+    "children": "Le site ne s’adresse pas aux enfants de moins de 13 ans.",
+    "contactHeading": "Contact",
+    "contactLead": "Des questions sur la confidentialité ? Consultez notre",
+    "contactLink": "page de contact",
+    "contactTail": "."
+  },
+  "terms": {
+    "sourceDigest": "5071ffda5bb5c54e1ec984bc2484f830e88d5dcbeca2b376292a032a466f5288",
+    "title": "Conditions d’utilisation",
+    "updated": "Dernière mise à jour : novembre 2026",
+    "intro": "En utilisant Desofec AI Studio, vous acceptez ces conditions.",
+    "sections": [
+      {
+        "heading": "Présentation du site",
+        "text": "Desofec AI Studio est un guide pédagogique consacré aux outils d’IA, aux parcours d’apprentissage, aux tutoriels et aux kits de démarrage. Le contenu est fourni à des fins d’information générale et d’apprentissage."
+      },
+      {
+        "heading": "Outils tiers",
+        "text": "Nous proposons des liens vers des outils gérés par d’autres entreprises. Nous ne les contrôlons pas : leurs propres conditions, tarifs et politiques de confidentialité s’appliquent. Les informations sur les outils peuvent changer sans préavis."
+      },
+      {
+        "heading": "Absence de garantie",
+        "text": "Le site est fourni « en l’état ». Nous nous efforçons de garder le contenu exact, mais nous ne garantissons pas qu’il soit complet, à jour ou adapté à votre situation. Les traductions sont automatiques et peuvent contenir des erreurs."
+      },
+      {
+        "heading": "Votre compte",
+        "text": "Protégez vos identifiants de connexion. N’utilisez pas le service de manière abusive, ne tentez pas de le perturber et ne soumettez pas de contenu nuisible."
+      },
+      {
+        "heading": "Modifications",
+        "text": "Nous pouvons mettre à jour le site et ces conditions. La poursuite de l’utilisation signifie que vous acceptez les conditions mises à jour."
+      }
+    ],
+    "contactHeading": "Contact",
+    "contactLead": "Des questions ? Consultez notre",
+    "contactLink": "page de contact",
+    "contactTail": "."
+  }
+}

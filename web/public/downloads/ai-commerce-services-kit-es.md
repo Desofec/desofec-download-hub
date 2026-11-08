@@ -58,7 +58,7 @@ resultados de práctica comprobados, costes que investigar y límites de aprobac
 | Zoho Inventory | Registros de existencias y pedidos | https://www.desofec.com/tutorials/zoho-inventory-guide |
 | Shippo | Planificación de envíos | https://www.desofec.com/tutorials/shippo-guide |
 | Zendesk | Atención al cliente con revisión humana | https://www.desofec.com/tutorials/zendesk-guide |
-| Looker Studio | Informes y paneles conciliados | https://www.desofec.com/tutorials/looker-studio-guide |
+| Google Data Studio (antes Looker Studio) | Informes y paneles conciliados | https://www.desofec.com/tutorials/looker-studio-guide |
 
 La documentación y referencias de precios de proveedores están enlazadas en cada guía. No se pudieron resolver
 los sitios externos durante la implementación; son puntos de partida, no referencias verificadas en vivo ni avales.

@@ -235,7 +235,7 @@ export const commerceToolGuides: CommerceToolGuide[] = [
   },
   {
     toolId: 'looker-studio',
-    title: 'Looker Studio: a reconciled business report practice',
+    title: 'Google Data Studio (Looker Studio): a reconciled business report practice',
     intro: 'Plan a private report, reconcile fictional sales data and use optional AI to explain limitations. A spreadsheet-only alternative requires no dashboard account.',
     steps: [
       {
@@ -243,13 +243,13 @@ export const commerceToolGuides: CommerceToolGuide[] = [
         title: 'Check connectors, costs and private sharing',
         explanation: [
           'Check official documentation for report setup, supported connectors, credentials, sharing and current product/Pro pricing. Sources were not live-checked when this guide was added. A connector or upstream data service may charge separately; do not assume the whole workflow or AI is free/included.',
-          'Use a spreadsheet-only report or an authorised private report from fictional data. If using Looker Studio, verify the connector supports your source and keep report/data permissions restricted; do not publish, link a real store or expose owner-credential data to others. AI use is external and optional. Never upload customer or financial records for this exercise.'
+          'Use a spreadsheet-only report or an authorised private report from fictional data. Google Data Studio was formerly called Looker Studio. If using it, verify the connector supports your source and keep report/data permissions restricted; do not publish, link a real store or expose owner-credential data to others. AI use is external and optional. Never upload customer or financial records for this exercise.'
         ],
         file: 'Report setup checklist',
-        code: 'Mode: spreadsheet report / authorised private Looker Studio report\nSource: fictional aggregate rows only\nConnector/credential/sharing eligibility: TO CONFIRM\nProduct/Pro, connector and upstream costs: TO CONFIRM\nPublic links, real store data and automatic sharing: DISABLED\nPeriod/currency/refund meaning documented',
+        code: 'Mode: spreadsheet report / authorised private Data Studio report\nSource: fictional aggregate rows only\nConnector/credential/sharing eligibility: TO CONFIRM\nProduct/Pro, connector and upstream costs: TO CONFIRM\nPublic links, real store data and automatic sharing: DISABLED\nPeriod/currency/refund meaning documented',
         check: 'You record connector/cost and permission requirements and keep the source/report private.',
         aiPrompt: 'Help plan a private report from fictional aggregate data. Review current connector and pricing information I provide. Flag sharing/credential risks and unknown costs without requesting secrets or assuming features: [checklist].',
-        resources: [{ label: 'Looker Studio documentation', url: 'https://cloud.google.com/looker/docs/studio' }, { label: 'Looker Studio product and plan information', url: 'https://cloud.google.com/looker-studio' }]
+        resources: [{ label: 'Data Studio documentation', url: 'https://docs.cloud.google.com/data-studio/welcome' }, { label: 'Data Studio product and plan information', url: 'https://cloud.google.com/data-studio' }]
       },
       {
         id: 'looker-reconcile',
@@ -274,7 +274,7 @@ export const commerceToolGuides: CommerceToolGuide[] = [
         code: 'Missing refund -> UNRESOLVED, not zero\nDuplicate/conflicting source row -> REVIEW\nKnown omissions: fees, taxes, other adjustments\nActual filter/aggregation/access checks and source/date:\nMode: spreadsheet-only / verified private report\nConnector refresh: NOT TESTED unless observed\nReal approval BLOCKED; no public links or automatic delivery',
         check: 'You flag incomplete/duplicate data, reopen the report and distinguish observed behavior from untested connector claims.',
         aiPrompt: 'Review this report handover for missing/duplicate data, aggregation errors, misleading claims, permission risks and unknown costs. Keep commentary a draft; do not certify finances or invent refresh/approval evidence: [checks].',
-        resources: [{ label: 'Looker Studio documentation', url: 'https://cloud.google.com/looker/docs/studio' }]
+        resources: [{ label: 'Data Studio documentation', url: 'https://docs.cloud.google.com/data-studio/welcome' }]
       }
     ]
   }

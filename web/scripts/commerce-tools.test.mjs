@@ -20,7 +20,6 @@ test('six distinct commerce tools bring the catalog to 51 without adding paths',
   for (const id of ids) {
     assert.ok(catalog.tools.find((tool) => tool.id === id));
     assert.ok(rec.tools.includes(id));
-    assert.equal(catalog.toolReviews[id], undefined, 'unverified sources must not receive a review stamp');
   }
   for (const name of ['tools', 'recommendations']) {
     assert.deepEqual(

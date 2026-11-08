@@ -116,7 +116,7 @@ Suggest search phrases and types of reliable sources I should look for. Do not i
     title: 'Build an evidence table',
     explanation: [
       'Make a small table with one row per source: claim, evidence, source and date, limitations, and how confident you are. This makes disagreements visible instead of blending them into one confident-sounding summary.',
-      'You can use NotebookLM or another assistant with sources you provide. Ask it to cite the exact source passage, then check the passage yourself.'
+      'You can use Gemini Notebook (formerly NotebookLM) or another assistant with sources you provide. Ask it to cite the exact source passage, then check the passage yourself.'
     ],
     file: 'Chat prompt',
     code: `Using only these sources I provide: [source text or verified links]

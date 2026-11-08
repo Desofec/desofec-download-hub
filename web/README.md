@@ -29,6 +29,20 @@ and opening device projects, with the other existing links in an expandable sect
 The home continuation card links to device projects as well as learning progress.
 Tutorial certificates identify checklist completion as self-recorded, not an
 independently assessed or accredited qualification.
+The header uses a scrollable compact menu on tablets and smaller laptops; Escape
+closes it and returns keyboard focus to the menu button. On medium desktop widths,
+the duplicate header call to action is hidden while the Start here link remains.
+
+Privacy and Terms provide French, German and Spanish translations on their
+individual pages, with the original English available in an expandable section.
+The translations are AI-assisted and have not received native-speaker or legal
+review. Tests pin each translation to its English source: after editing English
+legal content, review all three translations against it and update their
+`sourceDigest` values. A matching digest does not replace human review. Legal
+links are underlined, and links and the English-original control use high-contrast
+text in every theme. Tool-page external links use their visible translated label
+as their accessible name and announce when they open a new tab. Text accents use
+a contrast-checked color separate from button backgrounds in lighter themes.
 
 The tutorial directory offers editorial topic groups, combined topic/level/search
 filters and a reset control. Search matches original and displayed translated
@@ -732,13 +746,16 @@ npm run sync-content
 
 Validation checks required fields, unique IDs, cross-references, starter-pack checklists, and downloadable files.
 Sync runs the same checks before copying the files into `content/` and `public/downloads/` and regenerating
-`../supabase/seed.sql`. Commit the results, then re-run the seed in Supabase when catalog data changes.
+`../supabase/seed.sql`. Commit the results. A Supabase-backed deployment also needs a separately reviewed
+catalog update and cache refresh; the generated seed includes whole-catalog operations, so do not apply it
+blindly to production. Review the intended rows and preserve existing learner data.
 
-`data/tool-reviews.json` records dated **description** reviews from indexed official documentation for the
-six tools researched on 2026-11-05. It does not claim successful live link checks. Other tools display that
-no review is recorded. Entries bind the reviewed description and tool URL; validation rejects changed text
-or URLs until the review is updated or removed. The bundled metadata is joined in both catalog loaders,
-including Supabase catalogs, so these labels require no database column or seed change.
+`data/tool-reviews.json` records dated, AI-assisted checks of English descriptions against official
+documentation. These do not verify translated text, every feature, prices or live links; all can change.
+Tools without a matching review display that no review is recorded. Entries bind the exact displayed name,
+description and tool URL; validation rejects changes until the review is updated or removed, and the
+runtime does not attach a stale review to a Supabase row. The bundled metadata is joined in both catalog
+loaders, so the review labels require no database column.
 
 ## Structure
 

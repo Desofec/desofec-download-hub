@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { LegalTranslation } from '@/components/legal-translation';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy',
@@ -9,6 +10,8 @@ export default function PrivacyPage() {
   return (
     <section className="section">
       <div className="container legal">
+        <LegalTranslation kind="privacy">
+        <div lang="en" data-legal-source="privacy">
         <h1>Privacy Policy</h1>
         <p className="legal-date">Last updated: November 2026</p>
         <p>Desofec AI Studio (&ldquo;we&rdquo;) respects your privacy. This page explains what we collect and why.</p>
@@ -53,6 +56,8 @@ export default function PrivacyPage() {
 
         <h2>Contact</h2>
         <p>Questions about privacy? Visit our <a href="/contact">contact page</a>.</p>
+        </div>
+        </LegalTranslation>
       </div>
     </section>
   );

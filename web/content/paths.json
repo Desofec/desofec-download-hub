@@ -236,7 +236,7 @@
     "id": "ai-website-builder",
     "title": "Build a Website with AI",
     "level": "Beginner",
-    "description": "Plan a small website, let AI draft it, review and personalise it, then publish it for free with a live address.",
+    "description": "Plan a small website, let AI draft it, review and personalise it, then choose suitable hosting and publish it.",
     "badge": "Web",
     "steps": [
       "Plan the site and write a brief",

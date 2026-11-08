@@ -57,7 +57,7 @@ des coûts à examiner et des limites d’approbation.
 | Zoho Inventory | Registres de stock et de commandes | https://www.desofec.com/tutorials/zoho-inventory-guide |
 | Shippo | Planification d’expédition | https://www.desofec.com/tutorials/shippo-guide |
 | Zendesk | Assistance client avec revue humaine | https://www.desofec.com/tutorials/zendesk-guide |
-| Looker Studio | Rapports et tableaux de bord rapprochés | https://www.desofec.com/tutorials/looker-studio-guide |
+| Google Data Studio (anciennement Looker Studio) | Rapports et tableaux de bord rapprochés | https://www.desofec.com/tutorials/looker-studio-guide |
 
 Les guides relient la documentation des fournisseurs et leurs tarifs. Les sites externes n’ont pas pu être résolus pendant la mise
 en œuvre ; ces liens sont des points de départ, pas des références vérifiées en direct ni des recommandations.

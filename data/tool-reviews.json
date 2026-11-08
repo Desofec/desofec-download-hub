@@ -1,37 +1,358 @@
 {
+  "chatgpt": {
+    "reviewedOn": "2026-11-08",
+    "sourceUrl": "https://openai.com/academy/research/",
+    "toolName": "ChatGPT",
+    "toolUrl": "https://chatgpt.com",
+    "description": "Helpful for prompt writing, brainstorming, research, and learning how AI works in practice."
+  },
+  "claude": {
+    "reviewedOn": "2026-11-08",
+    "sourceUrl": "https://academy.claude.com/tutorials/getting-started-with-claude",
+    "toolName": "Claude",
+    "toolUrl": "https://claude.ai",
+    "description": "Good for long-form writing, summarization, and understanding complex ideas more clearly."
+  },
+  "perplexity": {
+    "reviewedOn": "2026-11-08",
+    "sourceUrl": "https://www.perplexity.ai/help-center/en/articles/10352155-what-is-perplexity",
+    "toolName": "Perplexity",
+    "toolUrl": "https://www.perplexity.ai",
+    "description": "Useful for research, fast answers, and learning across many topics quickly."
+  },
+  "notion-ai": {
+    "reviewedOn": "2026-11-08",
+    "sourceUrl": "https://www.notion.com/en-gb/help/guides/notion-ai-for-docs",
+    "toolName": "Notion AI",
+    "toolUrl": "https://www.notion.com/product/ai",
+    "description": "Great for notes, summaries, planning, and personal productivity work."
+  },
+  "vscode": {
+    "reviewedOn": "2026-11-08",
+    "sourceUrl": "https://code.visualstudio.com/",
+    "toolName": "VS Code",
+    "toolUrl": "https://code.visualstudio.com",
+    "description": "A code editor for learning programming and building projects."
+  },
+  "git": {
+    "reviewedOn": "2026-11-08",
+    "sourceUrl": "https://docs.github.com/en/get-started/start-your-journey/what-is-github",
+    "toolName": "GitHub",
+    "toolUrl": "https://github.com",
+    "description": "Store code, track changes, and collaborate on projects with GitHub."
+  },
+  "python": {
+    "reviewedOn": "2026-11-08",
+    "sourceUrl": "https://docs.python.org/3/tutorial/",
+    "toolName": "Python",
+    "toolUrl": "https://www.python.org",
+    "description": "A practical language for coding, automation, and data-focused beginner learning."
+  },
+  "figma": {
+    "reviewedOn": "2026-11-08",
+    "sourceUrl": "https://www.figma.com/design/",
+    "toolName": "Figma",
+    "toolUrl": "https://www.figma.com",
+    "description": "Great for UI design, mockups, concept exploration, and simple product layout work."
+  },
+  "canva": {
+    "reviewedOn": "2026-11-08",
+    "sourceUrl": "https://www.canva.com/create/",
+    "toolName": "Canva",
+    "toolUrl": "https://www.canva.com",
+    "description": "Useful for posters, presentations, simple visuals, and design-learning projects."
+  },
+  "zapier": {
+    "reviewedOn": "2026-11-08",
+    "sourceUrl": "https://zapier.com/",
+    "toolName": "Zapier",
+    "toolUrl": "https://zapier.com",
+    "description": "Connect apps and automate repetitive tasks without writing code."
+  },
+  "make": {
+    "reviewedOn": "2026-11-08",
+    "sourceUrl": "https://www.make.com/",
+    "toolName": "Make",
+    "toolUrl": "https://www.make.com",
+    "description": "A visual builder for connecting tools and simplifying everyday digital workflows."
+  },
+  "n8n": {
+    "reviewedOn": "2026-11-08",
+    "sourceUrl": "https://n8n.io/",
+    "toolName": "n8n",
+    "toolUrl": "https://n8n.io",
+    "description": "A flexible automation platform for more advanced workflows and custom integrations."
+  },
+  "colab": {
+    "reviewedOn": "2026-11-08",
+    "sourceUrl": "https://research.google.com/colaboratory/faq.html",
+    "toolName": "Google Colab",
+    "toolUrl": "https://colab.research.google.com",
+    "description": "An easy environment for notebooks, data analysis, and beginner ML experiments."
+  },
+  "kaggle": {
+    "reviewedOn": "2026-11-08",
+    "sourceUrl": "https://www.kaggle.com/learn",
+    "toolName": "Kaggle",
+    "toolUrl": "https://www.kaggle.com",
+    "description": "A beginner-friendly place to learn from datasets, notebooks, and real examples."
+  },
+  "fusion-360": {
+    "reviewedOn": "2026-11-08",
+    "sourceUrl": "https://www.autodesk.com/products/fusion-360/blog/what-is-autodesk-fusion/",
+    "toolName": "Autodesk Fusion (Fusion 360)",
+    "toolUrl": "https://www.autodesk.com/products/fusion-360/overview",
+    "description": "Helpful for CAD, product thinking, and 3D modeling for conceptual projects."
+  },
+  "gemini": {
+    "reviewedOn": "2026-11-08",
+    "sourceUrl": "https://support.google.com/gemini/answer/13695044",
+    "toolName": "Gemini",
+    "toolUrl": "https://gemini.google.com",
+    "description": "Google's AI assistant, handy for brainstorming, summarizing and working alongside Google apps."
+  },
+  "github-copilot": {
+    "reviewedOn": "2026-11-08",
+    "sourceUrl": "https://docs.github.com/en/copilot/get-started/about-github-copilot",
+    "toolName": "GitHub Copilot",
+    "toolUrl": "https://github.com/features/copilot",
+    "description": "An AI pair programmer that suggests code and explains it inside your editor."
+  },
+  "replit": {
+    "reviewedOn": "2026-11-08",
+    "sourceUrl": "https://docs.replit.com/build/code/code-with-replit",
+    "toolName": "Replit",
+    "toolUrl": "https://replit.com",
+    "description": "Write, run and share code in the browser with nothing to install."
+  },
+  "framer": {
+    "reviewedOn": "2026-11-08",
+    "sourceUrl": "https://www.framer.com/",
+    "toolName": "Framer",
+    "toolUrl": "https://www.framer.com",
+    "description": "Design and publish a polished website visually, without writing code."
+  },
+  "airtable": {
+    "reviewedOn": "2026-11-08",
+    "sourceUrl": "https://www.airtable.com/guides/start/what-is-airtable",
+    "toolName": "Airtable",
+    "toolUrl": "https://airtable.com",
+    "description": "A friendly spreadsheet-database for organizing data and building simple no-code apps."
+  },
+  "github": {
+    "reviewedOn": "2026-11-08",
+    "sourceUrl": "https://docs.github.com/en/get-started/learning-about-github/githubs-plans",
+    "toolName": "GitHub",
+    "toolUrl": "https://github.com",
+    "description": "Store projects, track changes and collaborate. A free plan is available; check publishing and storage limits."
+  },
+  "openai-codex": {
+    "reviewedOn": "2026-11-08",
+    "sourceUrl": "https://openai.com/codex/",
+    "toolName": "OpenAI Codex",
+    "toolUrl": "https://chatgpt.com/codex/",
+    "description": "An AI coding agent that can help explore a codebase, implement changes, and work through software tasks."
+  },
+  "notebooklm": {
+    "reviewedOn": "2026-11-08",
+    "sourceUrl": "https://edu.google.com/intl/ALL_in/ai-gemini-notebook/",
+    "toolName": "Gemini Notebook (NotebookLM)",
+    "toolUrl": "https://notebook.google.com/",
+    "description": "Study from your own sources with summaries, study guides, and answers grounded in the materials you add."
+  },
+  "cursor": {
+    "reviewedOn": "2026-11-08",
+    "sourceUrl": "https://cursor.com/docs",
+    "toolName": "Cursor",
+    "toolUrl": "https://cursor.com",
+    "description": "An AI-powered code editor that helps you write, understand, and improve software alongside your code."
+  },
+  "lovable": {
+    "reviewedOn": "2026-11-08",
+    "sourceUrl": "https://docs.lovable.dev/introduction/getting-started",
+    "toolName": "Lovable",
+    "toolUrl": "https://lovable.dev",
+    "description": "Turn a written app idea into a web prototype, then refine it by describing changes to an AI builder."
+  },
+  "adobe-firefly": {
+    "reviewedOn": "2026-11-08",
+    "sourceUrl": "https://www.adobe.com/products/firefly.html",
+    "toolName": "Adobe Firefly",
+    "toolUrl": "https://firefly.adobe.com",
+    "description": "Explore AI-assisted image and design creation with Adobe's generative tools."
+  },
+  "gamma": {
+    "reviewedOn": "2026-11-08",
+    "sourceUrl": "https://gamma.app/explore/content/guides/gamma-platform-presentations-documents-web-pages",
+    "toolName": "Gamma",
+    "toolUrl": "https://gamma.app",
+    "description": "Turn an outline into a presentation, document, or simple webpage, then edit the result."
+  },
+  "capcut": {
+    "reviewedOn": "2026-11-08",
+    "sourceUrl": "https://www.capcut.com/",
+    "toolName": "CapCut",
+    "toolUrl": "https://www.capcut.com",
+    "description": "Edit short videos with templates, captions and simple effects in your browser or on your phone."
+  },
+  "elevenlabs": {
+    "reviewedOn": "2026-11-08",
+    "sourceUrl": "https://elevenlabs.io/",
+    "toolName": "ElevenLabs",
+    "toolUrl": "https://elevenlabs.io",
+    "description": "Turn text into natural-sounding speech for voice-overs, using voices you are allowed to use."
+  },
+  "descript": {
+    "reviewedOn": "2026-11-08",
+    "sourceUrl": "https://www.descript.com/",
+    "toolName": "Descript",
+    "toolUrl": "https://www.descript.com",
+    "description": "Edit audio and video by editing the written transcript, and remove filler words quickly."
+  },
+  "microsoft-copilot": {
+    "reviewedOn": "2026-11-08",
+    "sourceUrl": "https://copilot.com/en-gb/",
+    "toolName": "Microsoft Copilot",
+    "toolUrl": "https://copilot.microsoft.com",
+    "description": "An AI assistant with a free tier for questions, writing help and image ideas; check availability and plan limits."
+  },
+  "originpro": {
+    "reviewedOn": "2026-11-08",
+    "sourceUrl": "https://www.originlab.com/Origin",
+    "toolName": "Origin / OriginPro",
+    "toolUrl": "https://www.originlab.com",
+    "description": "Commercial graphing and data-analysis software for importing data, plotting, statistics, curve fitting and integration."
+  },
+  "julius-ai": {
+    "reviewedOn": "2026-11-08",
+    "sourceUrl": "https://julius.ai/docs/get-started/quickstart",
+    "toolName": "Julius AI",
+    "toolUrl": "https://julius.ai",
+    "description": "Chat with an AI assistant to analyse an uploaded spreadsheet or CSV file and draw charts without writing code."
+  },
+  "vercel": {
+    "reviewedOn": "2026-11-08",
+    "sourceUrl": "https://vercel.com/docs/plans/hobby",
+    "toolName": "Vercel",
+    "toolUrl": "https://vercel.com",
+    "description": "Publish a website from a GitHub repository. Vercel's free Hobby plan is for non-commercial personal use; check current terms and limits."
+  },
+  "hugging-face": {
+    "reviewedOn": "2026-11-08",
+    "sourceUrl": "https://huggingface.co/",
+    "toolName": "Hugging Face",
+    "toolUrl": "https://huggingface.co",
+    "description": "Browse and try thousands of open AI models and datasets, and learn how models are shared and used."
+  },
+  "google-ai-studio": {
+    "reviewedOn": "2026-11-08",
+    "sourceUrl": "https://ai.google.dev/aistudio",
+    "toolName": "Google AI Studio",
+    "toolUrl": "https://aistudio.google.com",
+    "description": "Experiment with Google's Gemini models in the browser and test prompts before you build anything."
+  },
+  "bolt-new": {
+    "reviewedOn": "2026-11-08",
+    "sourceUrl": "https://support.bolt.new/get-started/quickstart",
+    "toolName": "Bolt",
+    "toolUrl": "https://bolt.new",
+    "description": "Describe an app or website and view the generated project in your browser. Review and test it before publishing."
+  },
+  "streamlit": {
+    "reviewedOn": "2026-11-08",
+    "sourceUrl": "https://streamlit.io/",
+    "toolName": "Streamlit",
+    "toolUrl": "https://streamlit.io",
+    "description": "Turn a short Python script into a shareable web app with charts, inputs and tables."
+  },
+  "obsidian": {
+    "reviewedOn": "2026-11-08",
+    "sourceUrl": "https://obsidian.md/",
+    "toolName": "Obsidian",
+    "toolUrl": "https://obsidian.md",
+    "description": "Keep linked notes as plain files on your own device to build a personal knowledge base for study and research."
+  },
+  "shopify": {
+    "reviewedOn": "2026-11-08",
+    "sourceUrl": "https://help.shopify.com/en/manual/intro-to-shopify",
+    "toolName": "Shopify",
+    "toolUrl": "https://www.shopify.com/",
+    "description": "Explore a hosted online storefront for product listings and orders; verify current plans, payment eligibility and fulfillment responsibilities."
+  },
+  "sharetribe": {
+    "reviewedOn": "2026-11-08",
+    "sourceUrl": "https://www.sharetribe.com/",
+    "toolName": "Sharetribe",
+    "toolUrl": "https://www.sharetribe.com/",
+    "description": "Explore a marketplace platform for independent sellers and buyers; check supported transaction models, country eligibility and payment requirements."
+  },
+  "zoho-inventory": {
+    "reviewedOn": "2026-11-08",
+    "sourceUrl": "https://www.zoho.com/us/inventory/help/getting-started/inventory-management.html",
+    "toolName": "Zoho Inventory",
+    "toolUrl": "https://www.zoho.com/inventory/",
+    "description": "Explore inventory and order records for a small business; check current stock, warehouse and integration capabilities before adopting."
+  },
+  "shippo": {
+    "reviewedOn": "2026-11-08",
+    "sourceUrl": "https://goshippo.com/",
+    "toolName": "Shippo",
+    "toolUrl": "https://goshippo.com/",
+    "description": "Explore shipping software for carrier and label workflows; verify supported countries, services, charges and return requirements."
+  },
+  "zendesk": {
+    "reviewedOn": "2026-11-08",
+    "sourceUrl": "https://www.zendesk.com/",
+    "toolName": "Zendesk",
+    "toolUrl": "https://www.zendesk.com/",
+    "description": "Explore customer-support ticket workflows with optional AI features; check plan availability, data handling and human-review controls."
+  },
+  "looker-studio": {
+    "reviewedOn": "2026-11-08",
+    "sourceUrl": "https://docs.cloud.google.com/data-studio/welcome",
+    "toolName": "Google Data Studio (Looker Studio)",
+    "toolUrl": "https://cloud.google.com/data-studio",
+    "description": "Explore dashboards and business reports from approved data sources; verify connectors, sharing permissions and any associated costs."
+  },
   "tally": {
     "reviewedOn": "2026-11-05",
     "sourceUrl": "https://tally.so/",
+    "toolName": "Tally",
     "toolUrl": "https://tally.so/",
     "description": "Build forms and surveys to collect customer feedback, with conditional logic and app integrations."
   },
   "hubspot-breeze": {
     "reviewedOn": "2026-11-05",
     "sourceUrl": "https://www.hubspot.com/products/artificial-intelligence",
+    "toolName": "HubSpot Breeze",
     "toolUrl": "https://www.hubspot.com/products/artificial-intelligence",
     "description": "Use HubSpot's built-in AI to support marketing, sales and customer service with CRM context."
   },
   "runway": {
     "reviewedOn": "2026-11-05",
     "sourceUrl": "https://runwayml.com/product",
+    "toolName": "Runway",
     "toolUrl": "https://runwayml.com/",
     "description": "Generate and edit video with AI using text or image references, then review the result before sharing."
   },
   "teal": {
     "reviewedOn": "2026-11-05",
     "sourceUrl": "https://www.tealhq.com/tools/resume-builder",
+    "toolName": "Teal",
     "toolUrl": "https://www.tealhq.com/tools/resume-builder",
     "description": "Build and tailor resumes to job descriptions and track applications; check every claim yourself."
   },
   "excel-copilot": {
     "reviewedOn": "2026-11-05",
     "sourceUrl": "https://support.microsoft.com/en-gb/excel/copilot/get-started-with-copilot-in-excel",
+    "toolName": "Copilot in Excel",
     "toolUrl": "https://support.microsoft.com/en-gb/excel/copilot/get-started-with-copilot-in-excel",
     "description": "Use AI support for Excel formulas, tables and data analysis; availability depends on your plan and settings."
   },
   "google-sheets": {
     "reviewedOn": "2026-11-05",
     "sourceUrl": "https://workspace.google.com/resources/spreadsheet-ai/",
+    "toolName": "Google Sheets",
     "toolUrl": "https://workspace.google.com/products/sheets/",
     "description": "Create collaborative spreadsheets with formulas and charts, with optional Gemini features on eligible plans."
   }

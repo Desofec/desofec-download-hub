@@ -198,7 +198,14 @@ test('rejects missing starter pack checklists', async () => {
   });
 });
 
-test('rejects stale review text, unknown tools and invalid review dates', async () => {
+test('rejects stale review names and text, unknown tools and invalid review dates', async () => {
+  await withCatalog(async (tempDir) => {
+    const reviewsPath = path.join(tempDir, 'data', 'tool-reviews.json');
+    const reviews = JSON.parse(await readFile(reviewsPath, 'utf8'));
+    reviews.tally.toolName = 'Outdated name';
+    await writeFile(reviewsPath, JSON.stringify(reviews));
+    await assert.rejects(readAndValidateCatalog(tempDir), /stale review/);
+  });
   await withCatalog(async (tempDir) => {
     const reviewsPath = path.join(tempDir, 'data', 'tool-reviews.json');
     const reviews = JSON.parse(await readFile(reviewsPath, 'utf8'));

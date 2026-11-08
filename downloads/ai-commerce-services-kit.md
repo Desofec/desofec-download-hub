@@ -60,7 +60,7 @@ practice outputs, costs to investigate and approval boundaries.
 | Zoho Inventory | Stock and order records | https://www.desofec.com/tutorials/zoho-inventory-guide |
 | Shippo | Shipping and dispatch planning | https://www.desofec.com/tutorials/shippo-guide |
 | Zendesk | Human-reviewed customer support | https://www.desofec.com/tutorials/zendesk-guide |
-| Looker Studio | Reconciled reports and dashboards | https://www.desofec.com/tutorials/looker-studio-guide |
+| Google Data Studio (formerly Looker Studio) | Reconciled reports and dashboards | https://www.desofec.com/tutorials/looker-studio-guide |
 
 Provider documentation and pricing references are linked in each guide. External sites
 could not be resolved during implementation; these are starting points, not live-verified

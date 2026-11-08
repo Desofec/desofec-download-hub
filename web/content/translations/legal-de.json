@@ -1,0 +1,141 @@
+{
+  "notice": "Diese Übersetzung wurde mithilfe von KI erstellt und noch nicht von einer juristischen Fachperson oder einer muttersprachlichen Person geprüft. Das englische Original finden Sie unten.",
+  "englishOriginal": "Englisches Original anzeigen",
+  "privacy": {
+    "sourceDigest": "f55535426e3bfb52353f57d6b9625f556a664efecbeaecebf349058544fbf069",
+    "title": "Datenschutzerklärung",
+    "updated": "Zuletzt aktualisiert: November 2026",
+    "intro": "Desofec AI Studio („wir“) respektiert Ihre Privatsphäre. Diese Seite erklärt, welche Daten wir erheben und warum.",
+    "collectedHeading": "Welche Daten wir erheben",
+    "collected": [
+      {
+        "label": "E-Mail-Adresse",
+        "text": "wenn Sie den Newsletter abonnieren oder sich anmelden. Wir verwenden sie nur für diesen Zweck."
+      },
+      {
+        "label": "Fortschritt und Favoriten",
+        "text": "(Lernpfade, Starterpakete, Tutorial-Schritte, gespeicherte Tools). Ohne Konto bleiben diese Daten in Ihrem Browser. Wenn Sie sich anmelden, werden sie zusätzlich in Ihrem Konto gespeichert, damit sie zwischen Ihren Geräten synchronisiert werden."
+      },
+      {
+        "label": "Einstellungen",
+        "text": "wie Ihre gewählte Sprache, die in Ihrem Browser gespeichert werden."
+      },
+      {
+        "label": "Entwürfe für Pilotangebote",
+        "text": "nur wenn Sie diese ausdrücklich im Angebotsersteller speichern. Ein Entwurf wird lokal im Browserprofil gespeichert, nicht in Ihrem Konto oder unserer Datenbank. Die App sendet den Angebotstext nicht an einen KI-Dienst. Alle Personen, die dieses Browserprofil nutzen, können auf die gespeicherte Kopie zugreifen; geben Sie keine personenbezogenen Daten oder vertraulichen Kundeninformationen ein. Verwenden Sie die Aktion zum Löschen der gespeicherten Kopie, um sie zu entfernen. Heruntergeladene Dateien bleiben auf Ihrem Gerät, bis Sie sie gesondert löschen."
+      },
+      {
+        "label": "Ergebnisse von Pilottests",
+        "text": "nur wenn Sie diese ausdrücklich im Ergebnis-Tracker speichern. Ein Tracker-Entwurf bleibt getrennt von Ihrem Angebot in diesem Browserprofil, ohne Kontosynchronisierung oder KI-Verarbeitung. Er enthält Ihre Testnachweise, Kosten und Entscheidung; alle Personen, die das Profil nutzen, können darauf zugreifen. Verwenden Sie ausschließlich fiktive oder anonymisierte Daten. Das Löschen der gespeicherten Ergebnisse entfernt die Browserkopie, nicht aber die aktuelle Seite oder heruntergeladene Berichte. Das Löschen der Browserdaten kann lokale Entwürfe entfernen."
+      },
+      {
+        "label": "Arbeitsbereiche für Pilotprojekte",
+        "text": "nur wenn Sie ein Projekt erstellen oder ausdrücklich speichern. Bis zu zehn Geräteprojekte enthalten Ihr Briefing, eine separate Projektcheckliste, ein Angebot einschließlich interner Kosten und Testergebnisse. Geräteprojekte werden von der App nicht verschlüsselt und sind für alle Personen zugänglich, die dieses Browserprofil nutzen. Diese Entwürfe bleiben von den eigenständigen Angebots- und Ergebnisentwürfen sowie vom Lernfortschritt getrennt. Durch die Anmeldung werden sie nicht hochgeladen. Wenn Sie ausdrücklich zustimmen und sie hochladen, wird ein privater Konto-Snapshot in Supabase gespeichert, damit er auf einem anderen Gerät verfügbar ist. Das Speichern und Laden von Snapshots erfolgt manuell; es handelt sich weder um eine Hintergrundsynchronisierung noch um eine Ende-zu-Ende-Verschlüsselung. Gemäß den zeilenbezogenen Datenbankrichtlinien kann nur Ihr Konto auf seine Snapshots zugreifen. Die Aktionen zum Löschen des Geräteprojekts und des Konto-Snapshots entfernen diese Kopien getrennt; heruntergeladene Dateien bleiben erhalten, bis Sie sie löschen. Projektinhalte werden weder an KI gesendet noch automatisch an Kunden gesendet oder für sie veröffentlicht. Verwenden Sie ausschließlich fiktive oder anonymisierte Daten. Zusammenfassende Downloads lassen finanzielle Felder weg, enthalten aber weiterhin von Nutzern eingegebenen Briefing- und Entscheidungstext; prüfen Sie sie vor dem Teilen."
+      },
+      {
+        "label": "Angeleitete Übungsportfolios",
+        "text": "sind private Vorschauen aus gespeicherten Dienstleistungsprojekten, keine separat gespeicherten oder öffentlich gehosteten Seiten. Die App lädt ursprüngliche Projektdateien nicht hoch, prüft sie nicht und verifiziert aufgezeichnete Ergebnisse nicht unabhängig. Die Vorschau enthält Ihr Briefing, den Meilensteinstatus, Testnamen und -ergebnisse, gegebenenfalls die Abdeckung erforderlicher Fälle und Entscheidungsnotizen; vollständige Angebote, strukturierte Finanzfelder und rohe Testnachweise sind nicht enthalten. Prüfen Sie alle von Nutzern eingegebenen Texte vor dem Herunterladen oder manuellen Teilen. Der Download erfordert eine Bestätigung und erstellt eine Datei auf Ihrem Gerät, keinen öffentlichen Link; löschen Sie diese Datei gesondert. Die Auswahl eines Ziels für ein erstes Projekt speichert oder lädt kein Projekt hoch. Das Laden von Dienstleistungstestplänen erfordert eine Bestätigung und ersetzt nur die Testfälle im aktuellen Formular; Ihr gespeichertes Projekt bleibt unverändert, bis Sie ausdrücklich speichern."
+      },
+      {
+        "label": "Private Projekt-Nachweishefte",
+        "text": "speichern Übungstext nur, wenn Sie ausdrücklich eine Revision in einem Geräteprojekt speichern. Jedes Projekt kann acht Textelemente und fünf Revisionen pro Element einschließlich früherer Titel und vollständiger Texte aufbewahren. Testverweise speichern außerdem den Testnamen, die Eingabe und das erwartete Ergebnis zum Zeitpunkt der Verknüpfung. Die App lädt keine Dateien hoch, führt keine Skriptentwürfe aus und verifiziert diese Arbeit nicht unabhängig. Verweise markieren Tests nicht als bestanden und erteilen keine Freigabe. Ein ausdrücklich genehmigter Konto-Snapshot enthält das gesamte gespeicherte Nachweisheft und seine aufbewahrten Revisionen. Anders als das kürzere Übungsportfolio enthalten Downloads des Nachweishefts den vollständigen gespeicherten Text und ältere Revisionen; prüfen Sie vor dem Herunterladen, Hochladen oder Teilen alle Revisionen auf vertrauliche Informationen. Das Löschen eines Elements oder des Geräteprojekts entfernt diese lokalen Kopien; Konto-Snapshots und heruntergeladene Dateien müssen gesondert entfernt werden."
+      },
+      {
+        "label": "Projekt-Selbstbewertungen",
+        "text": "für Dienstleistungspfade speichern eine ausdrücklich gespeicherte Bewertung pro Element des Nachweishefts, einschließlich dienstleistungsspezifischer Beobachtungen, Korrekturaufgaben, selbst aufgezeichneter Korrekturbelege und einer separaten vollständigen Kopie der bewerteten Textrevision. Das Entfernen des Textes aus dem Nachweisheft entfernt nicht die Kopie in der Bewertung. Das Löschen der gespeicherten Bewertung entfernt diesen Eintrag vom Gerät; das Löschen des gesamten Geräteprojekts entfernt auch dessen lokale Bewertungen. Konto-Snapshots und heruntergeladene Übergabepakete bleiben getrennt. Die ausdrückliche Zustimmung zum Hochladen in das Konto umfasst diese Bewertungen und Textkopien, auch wenn sie archiviert sind. Übergabe-Downloads erfordern eine Auswahl und die Bestätigung der Prüfung; sie enthalten ausgewählten kopierten Text, Rückmeldungen, Testnamen und -ergebnisse sowie ungelöste nächste Schritte, aber keine nicht ausgewählten Entwürfe, rohen Testnachweise oder strukturierten Kosten. Selbstbewertungen verifizieren niemals die Arbeit und erteilen keine Kundenfreigabe. Prüfen Sie vertrauliche Angaben vor dem Hochladen oder Teilen und löschen Sie Konto- und heruntergeladene Kopien gesondert."
+      },
+      {
+        "label": "Übungslabor für Tabellen",
+        "text": "verwendet fiktive Beispieldaten und temporäre Änderungen auf der Seite. Es lädt Ihre Dateien nicht hoch, führt weder ein KI-Modell noch einen OCR-Dienst aus und speichert Laborergebnisse nicht automatisch in einem Projekt oder Konto. Das fiktive PDF wird von dieser Website bereitgestellt; CSV-Downloads werden in Ihrem Browser erzeugt und bleiben auf Ihrem Gerät, bis Sie sie löschen. Für das Kopieren von Beobachtungen in ein privates Projekt gelten die obigen Regeln zum ausdrücklichen Speichern des Projekts und zur Kontoeinwilligung."
+      },
+      {
+        "label": "Feedback zu Lektionen",
+        "text": "wenn Sie sich angemeldet für eine Abstimmung entscheiden. Wir speichern die Lektion, Ihre Wahl „hilfreich“ oder „nicht hilfreich“, Ihren Kontobezug und den Zeitpunkt Ihrer letzten Abstimmung, um Lektionen zu verbessern. Abstimmungen sind nicht öffentlich sichtbar. Sie können Ihre Abstimmung auf der Lektionsseite ändern oder entfernen. Wir erheben keine schriftlichen Feedback-Kommentare."
+      },
+      {
+        "label": "Anonyme Besuchsstatistiken",
+        "text": "(aufgerufene Seiten, Land und Gerätetyp), damit wir sehen können, welche Lernpfade Menschen helfen. Hierfür wird Vercel Web Analytics ohne Cookies verwendet: keine Cookies, keine Werbeprofile und keine Nachverfolgung über andere Websites hinweg."
+      }
+    ],
+    "extras": [
+      {
+        "label": "Freelance-Fallstudien:",
+        "text": "Ausdrücklich gespeicherter Erzähltext und ausgewählte Testkennungen gehören zu Ihrem privaten Geräteprojekt. Eine optionale Zustimmung zum Hochladen in das Konto schließt sie ein. Die gespeicherte Vorschau und das Drucklayout enthalten die Darstellung, den Text ausgewählter gespeicherter Tests einschließlich Korrekturen und erneuter Tests sowie den Status des gesamten Projekts; sie enthalten keine vollständigen Angebote, strukturierten Kosten, Entwürfe des Nachweishefts oder Kopien von Bewertungen. Alle Exporte sind als fiktive Übung gekennzeichnet, nicht als verifizierte Kundenarbeit. Prüfen Sie vor dem Export jeden enthaltenen Abschnitt. Es wird keine öffentliche Seite und kein Freigabelink erstellt. Löschen Sie die gespeicherte Fallstudie, Konto-Snapshots und heruntergeladene oder gedruckte Kopien gesondert; das Löschen einer Fallstudie löscht nicht die ursprünglichen Tests im Projekt. Druckkopfzeilen des Browsers können die Seiten-URL enthalten: Deaktivieren Sie Kopf- und Fußzeilen vor dem Teilen."
+      },
+      {
+        "label": "Kundenbedarf und Projektumfang:",
+        "text": "Das öffentliche Labor verwendet temporären Seitenspeicher und festgelegte fiktive Antworten, keine KI und keine tatsächliche Kontaktaufnahme. Es speichert Ihre Änderungen nicht und lädt sie nicht hoch. In einem privaten Dienstleistungsprojekt enthalten ausdrücklich gespeicherte Angaben zur Bedarfsermittlung Briefingtext, Entscheidungen zur Projekteignung, Nachweisnotizen und eine vorgeschlagene Änderung. Eine optionale Kontoeinwilligung umfasst diese Einträge. Der Import in ein Angebot erfordert eine Bestätigung und kopiert nur gespeicherte Umfangsfelder in ein ungespeichertes Formular; er wendet vorgeschlagene Änderungen niemals an, speichert nicht automatisch und erteilt keine Freigabe. Downloads zur Bedarfsermittlung verwenden nur gespeicherte Angaben zur Bedarfsermittlung und schließen andere Projekteinträge aus. Löschen Sie Angaben zur Bedarfsermittlung, Konto-Snapshots, heruntergeladene Dateien und in ein Angebot kopierten Text gesondert. Es erfolgt keine automatische Kontaktaufnahme mit Kunden und keine automatische Vereinbarung."
+      },
+      {
+        "label": "Projektübersicht „Hier starten“:",
+        "text": "Liest bereits in diesem Browser gespeicherte Projekte, um selbst aufgezeichnete Meilensteine, Testzahlen, Entscheidungen und den Status von Fallstudien anzuzeigen. Sie verifiziert Ergebnisse nicht unabhängig, lädt keine Projekte hoch, lädt keine Konto-Snapshots und erstellt keine zusätzlichen gespeicherten Einträge. Geräteprojekte können für alle Personen sichtbar sein, die dieses Browserprofil nutzen. Kontoprojekte müssen ausdrücklich aus dem Arbeitsbereich geladen werden. Für den separaten Bereich mit Lernhäkchen gelten die obigen Regeln zur Synchronisierung des Lernfortschritts, nicht die Regeln für private Projekte."
+      },
+      {
+        "label": "Leitfaden für Übungsfeedback:",
+        "text": "Änderungen bestehen nur auf der geöffneten Seite und gehen beim Neuladen oder Navigieren verloren. Der Leitfaden speichert sie nicht in einem Projekt, lädt sie nicht hoch und versendet keine Anfrage. Getrennte Downloads für Anfrage und Überarbeitungsplan enthalten den Text aus ihren Vorschauen und bleiben auf Ihrem Gerät, bis sie gelöscht werden. Das leere Arbeitsblatt ist eine öffentliche Datei. Verwenden Sie fiktive oder anonymisierte Informationen und prüfen Sie heruntergeladene Dateien vor dem Teilen."
+      }
+    ],
+    "noSale": "Wir verkaufen Ihre Daten nicht und zeigen keine Werbung von Dritten.",
+    "providersHeading": "Dienste, die wir nutzen",
+    "providers": [
+      {
+        "label": "Supabase",
+        "text": "speichert Konten, Fortschritt, Lektionsfeedback, Abonnements und ausdrücklich hochgeladene private Projekt-Snapshots."
+      },
+      {
+        "label": "Google",
+        "text": "wenn Sie „Mit Google fortfahren“ wählen. Wir erhalten nur Ihre E-Mail-Adresse und die Anmeldebestätigung, niemals Ihr Google-Passwort."
+      },
+      {
+        "label": "Resend",
+        "text": "versendet Bestätigungs- und Newsletter-E-Mails."
+      },
+      {
+        "label": "Vercel",
+        "text": "hostet die Website, stellt anonyme Besuchsstatistiken bereit und kann technische Anfragedaten wie IP-Adressen verarbeiten."
+      }
+    ],
+    "newsletterHeading": "Newsletter",
+    "newsletter": "Wir verwenden eine doppelte Bestätigung: Sie erhalten den Newsletter erst, nachdem Sie Ihre E-Mail-Adresse bestätigt haben. Sie können sich jederzeit über den Link in jeder E-Mail abmelden.",
+    "choicesHeading": "Ihre Möglichkeiten",
+    "choices": "Sie können den Speicher Ihres Browsers jederzeit leeren, um lokal gespeicherte Daten zu entfernen. Wenn Sie auf die mit Ihrer E-Mail-Adresse verbundenen Daten zugreifen, sie berichtigen oder löschen möchten, kontaktieren Sie uns; wir helfen Ihnen.",
+    "childrenHeading": "Kinder",
+    "children": "Die Website richtet sich nicht an Kinder unter 13 Jahren.",
+    "contactHeading": "Kontakt",
+    "contactLead": "Fragen zum Datenschutz? Besuchen Sie unsere",
+    "contactLink": "Kontaktseite",
+    "contactTail": "."
+  },
+  "terms": {
+    "sourceDigest": "5071ffda5bb5c54e1ec984bc2484f830e88d5dcbeca2b376292a032a466f5288",
+    "title": "Nutzungsbedingungen",
+    "updated": "Zuletzt aktualisiert: November 2026",
+    "intro": "Durch die Nutzung von Desofec AI Studio stimmen Sie diesen Bedingungen zu.",
+    "sections": [
+      {
+        "heading": "Was die Website ist",
+        "text": "Desofec AI Studio ist ein Bildungsleitfaden zu KI-Tools, Lernpfaden, Tutorials und Starterpaketen. Die Inhalte dienen der allgemeinen Information und dem Lernen."
+      },
+      {
+        "heading": "Tools von Dritten",
+        "text": "Wir verlinken auf Tools, die von anderen Unternehmen betrieben werden. Wir kontrollieren diese nicht; es gelten deren eigene Bedingungen, Preise und Datenschutzrichtlinien. Angaben zu Tools können sich ohne Vorankündigung ändern."
+      },
+      {
+        "heading": "Keine Garantien",
+        "text": "Die Website wird „wie besehen“ bereitgestellt. Wir bemühen uns um genaue Inhalte, garantieren jedoch nicht, dass sie vollständig, aktuell oder für Ihre Situation geeignet sind. Übersetzungen erfolgen automatisch und können Fehler enthalten."
+      },
+      {
+        "heading": "Ihr Konto",
+        "text": "Bewahren Sie Ihre Anmeldedaten sicher auf. Nutzen Sie den Dienst nicht missbräuchlich, versuchen Sie nicht, ihn zu stören, und übermitteln Sie keine schädlichen Inhalte."
+      },
+      {
+        "heading": "Änderungen",
+        "text": "Wir können die Website und diese Bedingungen aktualisieren. Durch die weitere Nutzung akzeptieren Sie die aktualisierten Bedingungen."
+      }
+    ],
+    "contactHeading": "Kontakt",
+    "contactLead": "Fragen? Besuchen Sie unsere",
+    "contactLink": "Kontaktseite",
+    "contactTail": "."
+  }
+}

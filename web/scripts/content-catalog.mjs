@@ -106,8 +106,8 @@ export async function readAndValidateCatalog(repoDir) {
     if (typeof review.sourceUrl !== 'string' || !/^https:\/\/[^\s]+$/.test(review.sourceUrl)) {
       throw new Error(`tool-reviews: invalid source URL for "${toolId}".`);
     }
-    if (review.toolUrl !== tool.url || review.description !== tool.description) {
-      throw new Error(`tool-reviews: stale review for "${toolId}"; review the changed URL or description.`);
+    if (review.toolName !== tool.name || review.toolUrl !== tool.url || review.description !== tool.description) {
+      throw new Error(`tool-reviews: stale review for "${toolId}"; review the changed name, URL or description.`);
     }
   }
   assertFields(catalog.paths, 'paths', ['title', 'level', 'description', 'badge', 'goal']);
