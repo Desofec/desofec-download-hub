@@ -125,6 +125,12 @@ indexing or traffic. Google Analytics/GA4 is another separate service; this app 
 Vercel Web Analytics and does not install a Google Analytics tag. Do not add duplicate
 tracking merely to connect Search Console.
 
+For the canonical production property, Bing ownership verification uses the
+provider-issued public file `public/BingSiteAuth.xml`. Preserve its exact contents;
+if Bing issues a replacement, update the file and its search-visibility test together.
+Deploy the file before requesting verification in Bing. The file alone does not prove
+ownership, sitemap submission or indexing.
+
 Supabase-backed catalog edits need a separately reviewed targeted update and cache
 refresh. A deployment does not sync bundled JSON into the database. Review labels are
 withheld when a database tool's name, URL or description does not match the reviewed

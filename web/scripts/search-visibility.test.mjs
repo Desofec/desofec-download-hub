@@ -43,6 +43,17 @@ test('Google and Bing lessons link to primary documentation and the Bing portal'
   assert.ok(searchVisibilitySteps[4].resources.some(({ url }) => url === searchVisibilityResources.bingPortal.url));
 });
 
+test('Bing ownership file preserves the verification issued for the production property', async () => {
+  const xml = (await readFile(new URL('../public/BingSiteAuth.xml', import.meta.url), 'utf8'))
+    .replace(/\r\n/g, '\n').trim();
+  assert.equal(xml, [
+    '<?xml version="1.0"?>',
+    '<users>',
+    '\t<user>1A40A79EE7BAE314A3FD3DA65AF7801A</user>',
+    '</users>'
+  ].join('\n'));
+});
+
 test('new tutorial is listed without an invalid learning-path link or unsupported lesson feedback', async () => {
   const tutorials = await readFile(new URL('../lib/tutorials.ts', import.meta.url), 'utf8');
   assert.match(tutorials, /pathId: 'search-visibility'/);
