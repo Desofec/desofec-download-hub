@@ -1,11 +1,11 @@
-import type { Metadata } from 'next';
+import { publicPageMetadata } from '@/lib/public-page-metadata';
 import { BreakRoom } from '@/components/break-room';
 import { Tr } from '@/components/tr';
 
-export const metadata: Metadata = {
+export const metadata = publicPageMetadata('/break-room', {
   title: 'Break room',
   description: 'Rest your mind between lessons with breathing, a quick game, a stretch checklist and music links.'
-};
+});
 
 export default function BreakRoomPage() {
   return (

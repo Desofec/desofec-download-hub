@@ -1801,5 +1801,14 @@
  "or use an email link": "o usa un enlace por correo",
  "Could not start Google sign-in. Please try again.": "No se pudo iniciar el acceso con Google. Inténtalo de nuevo.",
  "Sign in with Google or a secure email link to sync learning-path and starter-pack progress across your devices. No password needed.": "Inicia sesión con Google o con un enlace seguro por correo para sincronizar tu progreso en todos tus dispositivos. Sin contraseña.",
- "Skip to content": "Saltar al contenido"
+ "Skip to content": "Saltar al contenido",
+ "Contact us": "Contacta con nosotros",
+ "Questions, feedback or a tool we should add? We would love to hear from you.": "¿Tienes preguntas, comentarios o una herramienta que deberíamos añadir? Nos encantará leerte.",
+ "Tell us which page you were using, what you wanted to do and where you got stuck.": "Indica qué página estabas usando, qué querías hacer y dónde encontraste una dificultad.",
+ "Please do not send passwords, API keys, sign-in links or confidential project or client details.": "No envíes contraseñas, claves API, enlaces de acceso ni datos confidenciales de proyectos o clientes.",
+ "Email:": "Correo electrónico:",
+ "This opens your email app. Review your message before sending; nothing is sent automatically.": "Este enlace abre tu aplicación de correo. Revisa el mensaje antes de enviarlo; no se envía nada automáticamente.",
+ "Response times can vary.": "Los tiempos de respuesta pueden variar.",
+ "Need a starting point? Open the beginner guide.": "¿No sabes por dónde empezar? Abre la guía para principiantes.",
+ "This practice page is currently available in English.": "Esta página de práctica está disponible actualmente en inglés."
 }

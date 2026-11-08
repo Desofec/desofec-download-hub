@@ -1,14 +1,14 @@
-import type { Metadata } from 'next';
+import { publicPageMetadata } from '@/lib/public-page-metadata';
 import Link from 'next/link';
 import { TutorialHeader } from '@/components/tutorial-header';
 import { TutorialLabel } from '@/components/tutorial-back-label';
 import { TutorialSteps } from '@/components/tutorial-steps';
 import { codingFoundationsSteps } from '@/lib/coding-foundations-tutorial';
 
-export const metadata: Metadata = {
+export const metadata = publicPageMetadata('/projects/coding-foundations/build', {
   title: 'Learn Python: coding foundations tutorial',
   description: 'A step-by-step beginner tutorial: set up Python, learn the basics, use Git and build a guessing game.'
-};
+});
 
 export default function CodingFoundationsTutorialPage() {
   return (

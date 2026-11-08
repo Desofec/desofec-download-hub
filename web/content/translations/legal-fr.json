@@ -2,7 +2,7 @@
   "notice": "Cette traduction a été réalisée avec l’aide de l’IA et n’a pas encore été vérifiée par un juriste ou un locuteur natif. Vous pouvez consulter l’original anglais ci-dessous.",
   "englishOriginal": "Voir l’original en anglais",
   "privacy": {
-    "sourceDigest": "f55535426e3bfb52353f57d6b9625f556a664efecbeaecebf349058544fbf069",
+    "sourceDigest": "110996f0e4f71bf624596371246d65c938336f0764bc506587ad326a4be18ed9",
     "title": "Politique de confidentialité",
     "updated": "Dernière mise à jour : novembre 2026",
     "intro": "Desofec AI Studio (« nous ») respecte votre vie privée. Cette page explique les données que nous recueillons et pourquoi.",
@@ -10,7 +10,7 @@
     "collected": [
       {
         "label": "Adresse électronique",
-        "text": "si vous vous abonnez à la lettre d’information ou vous connectez. Nous l’utilisons uniquement à cette fin."
+        "text": "si vous vous abonnez, vous connectez, contactez l’assistance ou recevez une invitation à un espace de travail. Nous l’utilisons pour fournir la fonctionnalité choisie ou répondre à votre demande. Les propriétaires d’espaces de travail ne doivent inviter que les personnes qu’ils sont autorisés à contacter."
       },
       {
         "label": "Progression et favoris",
@@ -30,7 +30,7 @@
       },
       {
         "label": "Espaces de travail de projets pilotes",
-        "text": "uniquement lorsque vous créez ou enregistrez explicitement un projet. Jusqu’à dix projets sur l’appareil contiennent votre brief, une liste de contrôle de projet distincte, une proposition comprenant les coûts internes et des résultats de test. L’application ne chiffre pas les projets sur l’appareil, qui sont accessibles à toute personne utilisant ce profil de navigateur. Ces brouillons restent séparés des brouillons autonomes de proposition et de résultats ainsi que de la progression d’apprentissage. La connexion ne les téléverse pas. Si vous donnez explicitement votre consentement et les téléversez, un instantané privé est enregistré dans Supabase pour être accessible sur un autre appareil. L’enregistrement et le chargement des instantanés sont manuels ; il ne s’agit ni d’une synchronisation en arrière-plan ni d’un chiffrement de bout en bout. Selon les politiques d’accès aux lignes de la base de données, seul votre compte peut accéder à ses instantanés. Les actions de suppression du projet sur l’appareil et de l’instantané du compte retirent séparément ces copies ; les fichiers téléchargés restent présents jusqu’à leur suppression. Aucun contenu de projet n’est envoyé à une IA ni automatiquement envoyé ou publié pour des clients. Utilisez uniquement des données fictives ou anonymisées. Les téléchargements récapitulatifs omettent les champs financiers mais contiennent toujours le brief et le texte de décision saisis par l’utilisateur ; vérifiez-les avant de les partager."
+        "text": "uniquement lorsque vous créez ou enregistrez explicitement un projet. Jusqu’à dix projets sur l’appareil contiennent votre brief, une liste de contrôle de projet distincte, une proposition comprenant les coûts internes et des résultats de test. L’application ne chiffre pas les projets sur l’appareil, qui sont accessibles à toute personne utilisant ce profil de navigateur. Ces brouillons restent séparés des brouillons autonomes de proposition et de résultats ainsi que de la progression d’apprentissage. La connexion ne les téléverse pas. Si vous donnez explicitement votre consentement et les téléversez, un instantané privé est enregistré dans Supabase pour être accessible sur un autre appareil. L’enregistrement et le chargement des instantanés sont manuels ; il ne s’agit ni d’une synchronisation en arrière-plan ni d’un chiffrement de bout en bout. Les politiques d’accès aux lignes de la base de données de l’application limitent l’accès aux instantanés à votre compte ; les administrateurs de service autorisés peuvent également y accéder. Les actions de suppression du projet sur l’appareil et de l’instantané du compte retirent séparément ces copies ; les fichiers téléchargés restent présents jusqu’à leur suppression. Aucun contenu de projet n’est envoyé à une IA ni automatiquement envoyé ou publié pour des clients. Utilisez uniquement des données fictives ou anonymisées. Les téléchargements récapitulatifs omettent les champs financiers mais contiennent toujours le brief et le texte de décision saisis par l’utilisateur ; vérifiez-les avant de les partager."
       },
       {
         "label": "Portfolios de pratique guidée",
@@ -53,8 +53,8 @@
         "text": "si vous choisissez de voter après connexion. Nous enregistrons la leçon, le choix utile ou non utile, la référence de votre compte et l’heure de votre dernier vote pour améliorer les leçons. Les votes ne sont pas publics. Vous pouvez modifier ou retirer votre vote sur la page de la leçon. Nous ne recueillons pas de commentaires écrits."
       },
       {
-        "label": "Statistiques de visite anonymes",
-        "text": "(pages consultées, pays et type d’appareil) afin de voir quels parcours aident les visiteurs. Elles utilisent Vercel Web Analytics sans cookies : aucun cookie, aucun profil publicitaire et aucun suivi sur d’autres sites."
+        "label": "Statistiques de visite",
+        "text": "utilisent Vercel Web Analytics sans cookies pour des données agrégées sur les pages consultées, les origines des sites référents, la localisation approximative, le navigateur et l’appareil. L’application n’envoie que des événements de consultation de page, retire les paramètres et fragments des URL et exclut les pages de connexion, de lettre d’information et d’espaces de travail personnels. Elle n’envoie pas le texte des formulaires ni les preuves des projets comme événements statistiques personnalisés. Le fournisseur peut traiter les données techniques des requêtes et un identifiant de visiteur haché de courte durée. Des statistiques sans cookies ne signifient pas que toutes les données du site sont anonymes ; les requêtes adressées à l’hébergeur peuvent toujours contenir l’URL demandée."
       }
     ],
     "extras": [
@@ -73,6 +73,22 @@
       {
         "label": "Guide de retours de pratique :",
         "text": "les modifications existent uniquement dans la page ouverte et sont perdues lors du rechargement ou de la navigation. Le guide ne les enregistre pas dans un projet, ne les téléverse pas et n’envoie aucune demande. Les téléchargements distincts de demande et de plan de révision contiennent le texte affiché dans leurs aperçus et restent sur votre appareil jusqu’à leur suppression. La fiche vierge est un fichier public. Utilisez des informations fictives ou anonymisées et inspectez les fichiers téléchargés avant de les partager."
+      },
+      {
+        "label": "Stockage du navigateur et sauvegardes :",
+        "text": "le navigateur conserve aussi les sessions de connexion lorsque les fonctions de compte sont activées, les préférences d’interface, les pages et ressources visitées pour une utilisation hors ligne, ainsi que les titres et états d’achèvement des tâches du petit gestionnaire de tâches. Effacer les données du site peut les supprimer et vous déconnecter. Une sauvegarde de projets est un fichier non chiffré contenant tous les détails des projets enregistrés sur l’appareil, notamment les brouillons, coûts, résultats de tests, révisions du cahier et évaluations. Elle exclut les modifications non enregistrées, les brouillons autonomes, la progression d’apprentissage et les instantanés du compte. Gardez-la privée. La restauration crée de nouvelles copies sur l’appareil avec de nouveaux identifiants ; elle ne les téléverse pas et n’écrase pas les projets existants. Les copies du navigateur, instantanés du compte, caches hors ligne et fichiers téléchargés doivent être supprimés séparément."
+      },
+      {
+        "label": "Saisie vocale facultative :",
+        "text": "le planificateur d’idées utilise le service vocal de votre navigateur uniquement si vous choisissez de parler. Le fournisseur du navigateur peut traiter l’audio à distance selon ses propres autorisations et politiques. Vous pouvez écrire à la place. Les idées écrites et transcriptions reçues sont rapprochées dans la mémoire de la page ; le planificateur ne les enregistre pas et ne les envoie pas à notre serveur. Évitez les informations confidentielles avec les deux méthodes."
+      },
+      {
+        "label": "Espaces d’apprentissage partagés et groupes d’étude :",
+        "text": "les fonctions de compte facultatives conservent les noms des espaces, identifiants des membres, références des éléments de catalogue partagés et adresses électroniques d’invitation. Les membres peuvent voir les éléments partagés et identifiants des membres, mais pas la progression personnelle ni les projets privés des autres membres. Les adresses d’invitation sont visibles par le propriétaire de l’espace et le destinataire prévu ; les liens sont utilisables une fois et expirent sous sept jours. Les cartes d’étude contiennent votre pseudonyme, objectif et note et sont visibles par les utilisateurs connectés pendant 30 jours. Les demandes d’adhésion conservent votre pseudonyme, message et référence de compte ; les signalements de modération conservent le motif et le compte de l’auteur du signalement. L’expiration retire une carte de la liste du tableau, mais pas nécessairement de tous les stockages. Approuver une demande donne accès à l’espace. Ne partagez que les informations que vous souhaitez rendre visibles, retirez vos propres cartes ou éléments partagés avec leurs commandes et contactez l’assistance pour les autres données de groupe conservées."
+      },
+      {
+        "label": "Messages de contact :",
+        "text": "écrire à l’assistance transmet votre adresse et votre message par des fournisseurs de messagerie. Le lien de contact ouvre votre application de messagerie sans envoyer automatiquement de message. N’envoyez pas de mots de passe, de liens de connexion, de clés API ni d’informations confidentielles sur des clients ou projets."
       }
     ],
     "noSale": "Nous ne vendons pas vos données et n’affichons pas de publicités de tiers.",
@@ -80,11 +96,11 @@
     "providers": [
       {
         "label": "Supabase",
-        "text": "stocke les comptes, la progression, les retours sur les leçons, les abonnements et les instantanés privés de projet téléversés explicitement."
+        "text": "lorsque les fonctions de compte sont configurées, stocke les comptes, la progression, les retours sur les leçons, les abonnements, les données des espaces partagés et groupes d’étude et les instantanés privés de projet téléversés explicitement."
       },
       {
         "label": "Google",
-        "text": "si vous choisissez « Continuer avec Google ». Nous recevons uniquement votre adresse électronique et la confirmation de connexion, jamais votre mot de passe Google."
+        "text": "si vous choisissez « Continuer avec Google ». La connexion via Supabase Auth peut fournir votre adresse électronique, identifiant de compte et informations de profil de base telles que votre nom ou photo, selon les autorisations accordées. Nous ne recevons pas votre mot de passe Google."
       },
       {
         "label": "Resend",
@@ -96,9 +112,9 @@
       }
     ],
     "newsletterHeading": "Lettre d’information",
-    "newsletter": "Nous utilisons une double confirmation : vous ne recevez la lettre d’information qu’après avoir confirmé votre adresse électronique. Vous pouvez vous désabonner à tout moment au moyen du lien présent dans chaque courriel.",
+    "newsletter": "Nous utilisons une double confirmation : l’envoi de la lettre d’information exige la confirmation de votre adresse électronique. Les liens de confirmation expirent après 24 heures ; leur expiration ne supprime pas en elle-même l’adresse enregistrée. Le désabonnement marque l’abonnement comme désabonné au lieu de supprimer le compte ou l’enregistrement d’abonné. Utilisez le lien du courriel pour vous désabonner et contactez l’assistance pour demander une suppression. Ces pages n’activent pas de calendrier automatique de lettres d’information.",
     "choicesHeading": "Vos choix",
-    "choices": "Vous pouvez à tout moment effacer le stockage de votre navigateur pour retirer les données enregistrées localement. Pour accéder aux données liées à votre adresse électronique, les corriger ou les supprimer, contactez-nous et nous vous aiderons.",
+    "choices": "La déconnexion ne supprime pas la progression ni les projets sur l’appareil. Effacer les données du site dans le navigateur peut retirer les copies locales, mais ne supprime pas les instantanés du compte, les données d’abonnement ou de groupe ni les fichiers téléchargés. Utilisez les commandes de suppression disponibles pour la copie enregistrée concernée ; certaines copies d’évaluation et exportations doivent être supprimées séparément. Pour demander l’accès, la correction ou la suppression de données de compte, d’abonnement ou de groupe, contactez l’assistance en précisant la fonctionnalité concernée, sans envoyer de mots de passe ni de liens de connexion. La suppression des données actives de l’application n’efface pas nécessairement immédiatement les journaux ou sauvegardes des fournisseurs, qui suivent leurs paramètres de conservation et d’accès.",
     "childrenHeading": "Enfants",
     "children": "Le site ne s’adresse pas aux enfants de moins de 13 ans.",
     "contactHeading": "Contact",
@@ -107,14 +123,14 @@
     "contactTail": "."
   },
   "terms": {
-    "sourceDigest": "5071ffda5bb5c54e1ec984bc2484f830e88d5dcbeca2b376292a032a466f5288",
+    "sourceDigest": "3973bfb807bae5dae3b0afc29dfec31be16324812d4b5d88fc4e4162673cfa95",
     "title": "Conditions d’utilisation",
     "updated": "Dernière mise à jour : novembre 2026",
     "intro": "En utilisant Desofec AI Studio, vous acceptez ces conditions.",
     "sections": [
       {
         "heading": "Présentation du site",
-        "text": "Desofec AI Studio est un guide pédagogique consacré aux outils d’IA, aux parcours d’apprentissage, aux tutoriels et aux kits de démarrage. Le contenu est fourni à des fins d’information générale et d’apprentissage."
+        "text": "Desofec AI Studio est un guide pédagogique consacré aux outils d’IA, aux parcours d’apprentissage, aux tutoriels et aux kits de démarrage. Le contenu sert à l’information générale et à l’apprentissage, et non à fournir des conseils juridiques, financiers ou professionnels personnalisés. La pratique fictive, la progression et les portfolios consignés par l’utilisateur ne constituent pas un travail client vérifié indépendamment, une qualification accréditée, une approbation de client ni une promesse de revenus."
       },
       {
         "heading": "Outils tiers",
@@ -122,7 +138,7 @@
       },
       {
         "heading": "Absence de garantie",
-        "text": "Le site est fourni « en l’état ». Nous nous efforçons de garder le contenu exact, mais nous ne garantissons pas qu’il soit complet, à jour ou adapté à votre situation. Les traductions sont automatiques et peuvent contenir des erreurs."
+        "text": "Le site est fourni « en l’état ». Nous nous efforçons de garder le contenu exact, mais nous ne garantissons pas qu’il soit complet, à jour ou adapté à votre situation. Certaines traductions sont réalisées avec l’aide de l’IA et peuvent contenir des erreurs ; consultez la version dans la langue d’origine lorsque l’exactitude est importante. Ces conditions ne retirent aucun droit qui ne peut légalement être exclu."
       },
       {
         "heading": "Votre compte",

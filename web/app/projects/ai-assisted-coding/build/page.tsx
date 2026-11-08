@@ -1,14 +1,14 @@
-import type { Metadata } from 'next';
+import { publicPageMetadata } from '@/lib/public-page-metadata';
 import Link from 'next/link';
 import { TutorialHeader } from '@/components/tutorial-header';
 import { TutorialLabel } from '@/components/tutorial-back-label';
 import { TutorialSteps } from '@/components/tutorial-steps';
 import { aiAssistedCodingSteps } from '@/lib/ai-assisted-coding-tutorial';
 
-export const metadata: Metadata = {
+export const metadata = publicPageMetadata('/projects/ai-assisted-coding/build', {
   title: 'Code with an AI assistant: tutorial',
   description: 'A step-by-step tutorial: write clear prompts, review AI code, test it and stay in control.'
-};
+});
 
 export default function AiAssistedCodingTutorialPage() {
   return (

@@ -1,13 +1,12 @@
-import type { Metadata } from 'next';
+import { publicPageMetadata } from '@/lib/public-page-metadata';
 import Link from 'next/link';
 import { ClientDiscoveryBuilder } from '@/components/client-discovery-builder';
 import { Tr } from '@/components/tr';
 
-export const metadata: Metadata = {
+export const metadata = publicPageMetadata('/business-launchpad/client-discovery-lab', {
   title: 'Freelance Client Discovery & Project Scoping',
-  description: 'Practise client discovery questions, project-fit checks, bounded scope and change requests with a fictional client brief. No live outreach or automatic approval.',
-  alternates: { canonical: '/business-launchpad/client-discovery-lab' }
-};
+  description: 'Practise client discovery questions, project-fit checks, bounded scope and change requests with a fictional client brief. No live outreach or automatic approval.'
+});
 export default function DiscoveryLabPage() {
   return <section className="section"><div className="container narrow-container">
     <div className="section-head">

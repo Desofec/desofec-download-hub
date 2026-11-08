@@ -2,7 +2,7 @@
   "notice": "Esta traducción se ha elaborado con ayuda de IA y aún no ha sido revisada por un profesional jurídico ni por una persona hablante nativa. Puede consultar el original en inglés más abajo.",
   "englishOriginal": "Ver el original en inglés",
   "privacy": {
-    "sourceDigest": "f55535426e3bfb52353f57d6b9625f556a664efecbeaecebf349058544fbf069",
+    "sourceDigest": "110996f0e4f71bf624596371246d65c938336f0764bc506587ad326a4be18ed9",
     "title": "Política de privacidad",
     "updated": "Última actualización: noviembre de 2026",
     "intro": "Desofec AI Studio («nosotros») respeta su privacidad. Esta página explica qué datos recopilamos y por qué.",
@@ -10,7 +10,7 @@
     "collected": [
       {
         "label": "Dirección de correo electrónico",
-        "text": "si se suscribe al boletín o inicia sesión. La utilizamos únicamente para ese fin."
+        "text": "si se suscribe, inicia sesión, contacta con soporte o recibe una invitación a un espacio de trabajo. La utilizamos para proporcionar la función elegida o responder a su solicitud. Los propietarios de espacios solo deben invitar a personas a las que estén autorizados a contactar."
       },
       {
         "label": "Progreso y favoritos",
@@ -30,7 +30,7 @@
       },
       {
         "label": "Espacios de trabajo de proyectos piloto",
-        "text": "solo cuando crea o guarda expresamente un proyecto. Hasta diez proyectos del dispositivo contienen su briefing, una lista de verificación del proyecto independiente, una propuesta que incluye costes internos y resultados de pruebas. La aplicación no cifra los proyectos del dispositivo, y cualquier persona que utilice ese perfil del navegador puede acceder a ellos. Estos borradores permanecen separados de los borradores independientes de propuestas y resultados y del progreso de aprendizaje. Iniciar sesión no los sube. Si da su consentimiento expreso y los sube, se guarda una instantánea privada de la cuenta en Supabase para acceder a ella desde otro dispositivo. El guardado y la carga de instantáneas son manuales; no son sincronización en segundo plano ni cifrado de extremo a extremo. Según las políticas de acceso a filas de la base de datos, solo su cuenta puede acceder a sus instantáneas. Las acciones para eliminar el proyecto del dispositivo y la instantánea de la cuenta retiran esas copias por separado; los archivos descargados permanecen hasta que los elimine. No se envía contenido del proyecto a una IA ni se envía o publica automáticamente para clientes. Utilice únicamente datos ficticios o anonimizados. Las descargas de resumen omiten los campos financieros, pero siguen incluyendo el texto del briefing y de la decisión introducido por el usuario; revíselas antes de compartirlas."
+        "text": "solo cuando crea o guarda expresamente un proyecto. Hasta diez proyectos del dispositivo contienen su briefing, una lista de verificación del proyecto independiente, una propuesta que incluye costes internos y resultados de pruebas. La aplicación no cifra los proyectos del dispositivo, y cualquier persona que utilice ese perfil del navegador puede acceder a ellos. Estos borradores permanecen separados de los borradores independientes de propuestas y resultados y del progreso de aprendizaje. Iniciar sesión no los sube. Si da su consentimiento expreso y los sube, se guarda una instantánea privada de la cuenta en Supabase para acceder a ella desde otro dispositivo. El guardado y la carga de instantáneas son manuales; no son sincronización en segundo plano ni cifrado de extremo a extremo. Las políticas de acceso a filas de la base de datos de la aplicación restringen el acceso a las instantáneas a su cuenta; los administradores de servicio autorizados también pueden tener acceso. Las acciones para eliminar el proyecto del dispositivo y la instantánea de la cuenta retiran esas copias por separado; los archivos descargados permanecen hasta que los elimine. No se envía contenido del proyecto a una IA ni se envía o publica automáticamente para clientes. Utilice únicamente datos ficticios o anonimizados. Las descargas de resumen omiten los campos financieros, pero siguen incluyendo el texto del briefing y de la decisión introducido por el usuario; revíselas antes de compartirlas."
       },
       {
         "label": "Portafolios de práctica guiada",
@@ -53,8 +53,8 @@
         "text": "si decide votar después de iniciar sesión. Guardamos la lección, la elección útil o no útil, la referencia de su cuenta y la hora de su último voto para mejorar las lecciones. Los votos no son visibles públicamente. Puede cambiar o retirar su voto en la página de la lección. No recopilamos comentarios escritos."
       },
       {
-        "label": "Estadísticas anónimas de visitas",
-        "text": "(páginas consultadas, país y tipo de dispositivo) para saber qué rutas ayudan a las personas. Se utiliza Vercel Web Analytics sin cookies: sin cookies, sin perfiles publicitarios y sin seguimiento en otros sitios web."
+        "label": "Estadísticas de visitas",
+        "text": "utilizan Vercel Web Analytics sin cookies para datos agregados de páginas vistas, orígenes de sitios de referencia, ubicación aproximada, navegador y dispositivo. La aplicación solo envía eventos de páginas vistas, elimina consultas y fragmentos de las URL y excluye rutas de acceso, boletín y espacios personales. No envía texto de formularios ni evidencias de proyectos como eventos analíticos personalizados. El proveedor puede procesar datos técnicos de las solicitudes y un hash de visitante de corta duración. Las estadísticas sin cookies no significan que todos los datos del sitio sean anónimos; las solicitudes al alojamiento pueden seguir incluyendo la URL solicitada."
       }
     ],
     "extras": [
@@ -73,6 +73,22 @@
       {
         "label": "Guía de comentarios para la práctica:",
         "text": "Las ediciones existen únicamente en la página abierta y se pierden al recargar o navegar. La guía no las guarda en un proyecto, no las sube ni envía una solicitud. Las descargas separadas de solicitud y plan de revisión contienen el texto mostrado en sus vistas previas y permanecen en su dispositivo hasta que se eliminen. La hoja de trabajo en blanco es un archivo público. Utilice información ficticia o anonimizada e inspeccione los archivos descargados antes de compartirlos."
+      },
+      {
+        "label": "Almacenamiento del navegador y copias de seguridad:",
+        "text": "El navegador también guarda sesiones de acceso cuando las funciones de cuenta están activadas, preferencias de la interfaz, páginas y recursos visitados para uso sin conexión y títulos y estados de tareas del pequeño gestor de tareas. Borrar los datos del sitio puede eliminarlos y cerrar su sesión. Una copia de proyectos es un archivo sin cifrar con todos los detalles guardados de los proyectos del dispositivo, incluidos borradores, costes, resultados de pruebas, revisiones del cuaderno y evaluaciones. Excluye cambios sin guardar, borradores independientes, progreso de aprendizaje e instantáneas de la cuenta. Manténgala privada. La restauración crea nuevas copias del dispositivo con nuevos identificadores; no las sube ni sobrescribe proyectos existentes. Las copias del navegador, instantáneas de la cuenta, cachés sin conexión y archivos descargados deben eliminarse por separado."
+      },
+      {
+        "label": "Entrada de voz opcional:",
+        "text": "El planificador de ideas usa el servicio de voz del navegador solo cuando elige hablar. El proveedor del navegador puede procesar audio de forma remota según sus propios permisos y políticas. Puede escribir en su lugar. Las ideas escritas y las transcripciones recibidas se comparan en la memoria de la página; el planificador no las guarda ni las envía a nuestro servidor. Evite información confidencial con ambos métodos de entrada."
+      },
+      {
+        "label": "Espacios de aprendizaje compartidos y grupos de estudio:",
+        "text": "Las funciones de cuenta opcionales guardan nombres de espacios, identificadores de miembros, referencias a elementos del catálogo compartidos y direcciones de invitación. Los miembros pueden ver los elementos compartidos y los identificadores de miembros, no el progreso personal ni los proyectos privados de otros miembros. Las direcciones de invitación son visibles para el propietario del espacio y el destinatario previsto; los enlaces se usan una vez y caducan en un máximo de siete días. Las tarjetas de estudio contienen su apodo, objetivo y nota y son visibles para usuarios conectados durante 30 días. Las solicitudes de acceso guardan apodo, mensaje y referencia de cuenta; los informes de moderación guardan el motivo y la cuenta que informa. La caducidad retira una tarjeta de la lista del tablón, no necesariamente de todos los almacenamientos. Aprobar una solicitud concede acceso al espacio. Comparta solo información que desee mostrar, retire sus tarjetas o elementos compartidos con sus controles y contacte con soporte sobre otros registros de grupo guardados."
+      },
+      {
+        "label": "Mensajes de contacto:",
+        "text": "Enviar un correo a soporte transmite su dirección y mensaje a través de proveedores de correo. El enlace de contacto abre su aplicación de correo y no envía nada automáticamente. No envíe contraseñas, enlaces de acceso, claves API ni datos confidenciales de clientes o proyectos."
       }
     ],
     "noSale": "No vendemos sus datos ni mostramos anuncios de terceros.",
@@ -80,11 +96,11 @@
     "providers": [
       {
         "label": "Supabase",
-        "text": "almacena cuentas, progreso, opiniones sobre lecciones, suscripciones e instantáneas privadas de proyectos subidas expresamente."
+        "text": "cuando las funciones de cuenta están configuradas, almacena cuentas, progreso, opiniones sobre lecciones, suscripciones, datos de espacios compartidos y grupos de estudio e instantáneas privadas de proyectos subidas expresamente."
       },
       {
         "label": "Google",
-        "text": "si elige «Continuar con Google». Solo recibimos su dirección de correo electrónico y la confirmación de inicio de sesión, nunca su contraseña de Google."
+        "text": "si elige «Continuar con Google». El acceso mediante Supabase Auth puede proporcionar su correo electrónico, identificador de cuenta y campos básicos del perfil, como nombre o foto, según los permisos concedidos. No recibimos su contraseña de Google."
       },
       {
         "label": "Resend",
@@ -96,9 +112,9 @@
       }
     ],
     "newsletterHeading": "Boletín",
-    "newsletter": "Utilizamos una doble confirmación: solo recibe el boletín después de confirmar su correo electrónico. Puede darse de baja en cualquier momento mediante el enlace incluido en cada correo.",
+    "newsletter": "Utilizamos una doble confirmación: el envío del boletín requiere confirmar su correo electrónico. Los enlaces de confirmación caducan tras 24 horas; su caducidad no elimina por sí misma el correo guardado. Darse de baja marca la suscripción como cancelada en vez de eliminar la cuenta o el registro de suscriptor. Use el enlace del correo para darse de baja y contacte con soporte para solicitar la eliminación. Estas páginas no activan un calendario automático de boletines.",
     "choicesHeading": "Sus opciones",
-    "choices": "Puede borrar el almacenamiento de su navegador en cualquier momento para eliminar los datos guardados localmente. Para acceder a los datos vinculados a su correo electrónico, corregirlos o eliminarlos, póngase en contacto con nosotros y le ayudaremos.",
+    "choices": "Cerrar sesión no elimina el progreso ni los proyectos del dispositivo. Borrar los datos del sitio en el navegador puede retirar copias locales, pero no elimina instantáneas de la cuenta, registros de suscripción o grupo ni archivos descargados. Use los controles de eliminación disponibles para la copia guardada correspondiente; algunas copias de evaluaciones y exportaciones requieren eliminación separada. Para solicitar acceso, corrección o eliminación de datos de cuenta, suscripción o grupo, contacte con soporte e indique la función afectada sin enviar contraseñas ni enlaces de acceso. Retirar datos activos de la aplicación no elimina necesariamente de inmediato registros o copias de seguridad de los proveedores, que siguen sus ajustes configurados de conservación y acceso.",
     "childrenHeading": "Menores",
     "children": "El sitio no está dirigido a menores de 13 años.",
     "contactHeading": "Contacto",
@@ -107,14 +123,14 @@
     "contactTail": "."
   },
   "terms": {
-    "sourceDigest": "5071ffda5bb5c54e1ec984bc2484f830e88d5dcbeca2b376292a032a466f5288",
+    "sourceDigest": "3973bfb807bae5dae3b0afc29dfec31be16324812d4b5d88fc4e4162673cfa95",
     "title": "Condiciones de uso",
     "updated": "Última actualización: noviembre de 2026",
     "intro": "Al utilizar Desofec AI Studio, acepta estas condiciones.",
     "sections": [
       {
         "heading": "Qué es el sitio",
-        "text": "Desofec AI Studio es una guía educativa sobre herramientas de IA, rutas de aprendizaje, tutoriales y kits de inicio. El contenido se ofrece para información general y aprendizaje."
+        "text": "Desofec AI Studio es una guía educativa sobre herramientas de IA, rutas de aprendizaje, tutoriales y kits de inicio. El contenido ofrece información general y aprendizaje, no asesoramiento jurídico, financiero ni profesional personalizado. La práctica ficticia, el progreso y los portafolios registrados por el usuario no son trabajo de clientes verificado independientemente, titulaciones acreditadas, aprobación de clientes ni promesas de ingresos."
       },
       {
         "heading": "Herramientas de terceros",
@@ -122,7 +138,7 @@
       },
       {
         "heading": "Sin garantías",
-        "text": "El sitio se ofrece «tal cual». Intentamos mantener la exactitud del contenido, pero no garantizamos que sea completo, esté actualizado o sea adecuado para su situación. Las traducciones son automáticas y pueden contener errores."
+        "text": "El sitio se ofrece «tal cual». Intentamos mantener la exactitud del contenido, pero no garantizamos que sea completo, esté actualizado o sea adecuado para su situación. Algunas traducciones tienen ayuda de IA y pueden contener errores; consulte la versión en el idioma original cuando la precisión sea importante. Estas condiciones no eliminan derechos que no puedan excluirse legalmente."
       },
       {
         "heading": "Su cuenta",

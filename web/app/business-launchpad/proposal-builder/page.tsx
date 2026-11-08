@@ -1,13 +1,13 @@
-import type { Metadata } from 'next';
+import { publicPageMetadata } from '@/lib/public-page-metadata';
 import Link from 'next/link';
 import { PilotProposalBuilder } from '@/components/pilot-proposal-builder';
 import { Tr } from '@/components/tr';
 import { Suspense } from 'react';
 
-export const metadata: Metadata = {
+export const metadata = publicPageMetadata('/business-launchpad/proposal-builder', {
   title: 'Pilot Proposal Builder',
   description: 'Plan costs, choose service fees and create an editable pilot proposal with optional device or project drafts, text download and printing.'
-};
+});
 
 async function ProposalForm({ searchParams }: { searchParams: Promise<{ project?: string | string[] }> }) {
   const { project } = await searchParams;

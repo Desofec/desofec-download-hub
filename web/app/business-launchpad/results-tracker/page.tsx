@@ -1,13 +1,13 @@
-import type { Metadata } from 'next';
+import { publicPageMetadata } from '@/lib/public-page-metadata';
 import Link from 'next/link';
 import { PilotResultsTracker } from '@/components/pilot-results-tracker';
 import { Tr } from '@/components/tr';
 import { Suspense } from 'react';
 
-export const metadata: Metadata = {
+export const metadata = publicPageMetadata('/business-launchpad/results-tracker', {
   title: 'Pilot Test & Results Tracker',
   description: 'Record pilot test evidence, corrections, observed time and costs, and an evidence-based continue, revise or stop decision.'
-};
+});
 
 async function ResultsForm({ searchParams }: { searchParams: Promise<{ project?: string | string[] }> }) {
   const { project } = await searchParams;

@@ -5,7 +5,8 @@ import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'Your account',
-  description: 'Sign in to sync your learning progress across devices.'
+  description: 'Sign in to sync your learning progress across devices.',
+  robots: { index: false, follow: true }
 };
 
 export default function AccountPage() {

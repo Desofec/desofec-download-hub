@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import { publicPageMetadata } from '@/lib/public-page-metadata';
 import Link from 'next/link';
 import { PackChecklist } from '@/components/pack-checklist';
 import { Tr } from '@/components/tr';
@@ -7,10 +7,10 @@ import { getCatalog } from '@/lib/catalog';
 import { tutorialStorageKey } from '@/lib/tutorials';
 import { websiteChallengeId, websiteChallengeSteps } from '@/lib/website-challenge';
 
-export const metadata: Metadata = {
+export const metadata = publicPageMetadata('/challenges/first-website', {
   title: '7-Day First Website Challenge',
   description: 'Build and publish a small website with seven practical tasks, saved progress and a final project checklist.'
-};
+});
 
 export default async function FirstWebsiteChallengePage() {
   const { starterPackChecklists } = await getCatalog();

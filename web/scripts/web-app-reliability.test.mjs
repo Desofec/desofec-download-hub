@@ -30,6 +30,7 @@ const readWeb = (file) => readFile(path.join(webDir, file), 'utf8');
 const readJson = async (file) => JSON.parse(await readWeb(file));
 const { hasLocalizedStarterPack, starterPackDownloadFile } = await loadModule('../lib/starter-pack-downloads.ts');
 const { toolMatchesSearch } = await loadModule('../lib/tool-search.ts');
+const { redactAnalyticsEvent } = await loadModule('../lib/analytics-privacy.ts');
 
 test('every starter-pack download surface uses selected-language routing', async () => {
   const cards = await readWeb('components/cards.tsx');
@@ -230,6 +231,66 @@ test('skip-to-content link is translated and moves keyboard focus to main', asyn
   }
 });
 
+test('analytics preserves public page views while removing sensitive URL information', () => {
+  const event = {
+    type: 'pageview',
+    url: 'https://www.desofec.com/tutorials/ai-video-business?email=learner%40example.test&token=private#invite',
+    properties: { note: 'must not be copied' }
+  };
+  assert.deepEqual(redactAnalyticsEvent(event), {
+    type: 'pageview', url: 'https://www.desofec.com/tutorials/ai-video-business'
+  });
+  assert.ok(event.url.includes('?'), 'input is not mutated');
+  assert.deepEqual(redactAnalyticsEvent({
+    type: 'pageview', url: 'http://127.0.0.1:3167/contact?from=project#help'
+  }), { type: 'pageview', url: 'http://127.0.0.1:3167/contact' });
+  assert.deepEqual(redactAnalyticsEvent({
+    type: 'pageview', url: 'https://user:password@preview.example.test/tools?query=private'
+  }), { type: 'pageview', url: 'https://preview.example.test/tools' });
+});
+
+test('analytics excludes private routes including nested and encoded paths', () => {
+  for (const route of [
+    '/account', '/my-progress', '/newsletter', '/workspaces', '/study-groups',
+    '/business-launchpad/projects', '/business-launchpad/proposal-builder',
+    '/business-launchpad/results-tracker', '/business-launchpad/client-discovery',
+    '/business-launchpad/case-study-builder', '/business-launchpad/evidence-workbook',
+    '/business-launchpad/review-centre', '/business-launchpad/commerce-pilot-planner',
+    '/business-launchpad/commerce-pilot-review', '/business-launchpad/commerce-readiness'
+  ]) {
+    for (const suffix of ['', '/private-id', '?token=private#invite']) {
+      assert.equal(redactAnalyticsEvent({ type: 'pageview', url: `https://www.desofec.com${route}${suffix}` }), null, `${route}${suffix}`);
+    }
+  }
+  for (const route of ['/%61ccount', '/workspaces%2Fprivate-id', '/tools/../account']) {
+    assert.equal(redactAnalyticsEvent({ type: 'pageview', url: `https://www.desofec.com${route}` }), null, route);
+  }
+  assert.ok(redactAnalyticsEvent({ type: 'pageview', url: 'https://www.desofec.com/business-launchpad' }));
+});
+
+test('analytics rejects custom events and malformed URLs without exposing raw input', (t) => {
+  const warning = t.mock.method(console, 'warn', () => {});
+  assert.equal(redactAnalyticsEvent({ type: 'event', url: 'https://www.desofec.com/' }), null);
+  assert.equal(redactAnalyticsEvent({ type: 'pageview', url: 'mailto:private@example.test' }), null);
+  for (const url of ['private-token-not-a-url', 'https://www.desofec.com/%invalid']) {
+    assert.equal(redactAnalyticsEvent({ type: 'pageview', url }), null);
+  }
+  assert.equal(warning.mock.callCount(), 2);
+  for (const call of warning.mock.calls) {
+    assert.deepEqual(call.arguments, ['Skipped analytics page view with an invalid URL.']);
+  }
+});
+
+test('root analytics uses the privacy filter and sends only referral origins', async () => {
+  const layout = await readWeb('app/layout.tsx');
+  const component = await readWeb('components/privacy-analytics.tsx');
+  assert.match(layout, /<PrivacyAnalytics \/>/);
+  assert.doesNotMatch(layout, /<Analytics/);
+  assert.match(layout, /referrer: 'strict-origin'/);
+  assert.match(component, /^'use client';/);
+  assert.match(component, /<Analytics beforeSend=\{redactAnalyticsEvent\} \/>/);
+});
+
 test('legal translations retain every section and track the English sources', async () => {
   const component = await readWeb('components/legal-translation.tsx');
   const css = await readWeb('app/globals.css');
@@ -267,7 +328,7 @@ test('legal translations retain every section and track the English sources', as
       }
     }
     assert.equal(book.privacy.collected.length, 12, `${locale}: all data categories`);
-    assert.equal(book.privacy.extras.length, 4, `${locale}: all project details`);
+    assert.equal(book.privacy.extras.length, 8, `${locale}: all project and privacy details`);
     assert.equal(book.privacy.providers.length, 4, `${locale}: all service providers`);
     assert.equal(book.terms.sections.length, 5, `${locale}: all terms sections`);
     for (const [index, category] of [[5, 0], [7, 1], [7, 2]]) {
@@ -278,6 +339,41 @@ test('legal translations retain every section and track the English sources', as
     ]) assert.ok(text.label && text.text, `${locale}: empty legal item`);
     for (const section of book.terms.sections) assert.ok(section.heading && section.text, `${locale}: empty term`);
     assert.doesNotMatch(JSON.stringify(book), /\uFFFD|\p{L}\?\p{L}/u, `${locale}: corrupted characters`);
+  }
+});
+
+test('policies distinguish stored records, sharing, provider access and practice claims', async () => {
+  const privacy = await readWeb('app/privacy/page.tsx');
+  const terms = await readWeb('app/terms/page.tsx');
+  for (const pattern of [
+    /authorised service administrators may also have access/,
+    /Browser storage and backups/, /unencrypted file containing all saved device project details/,
+    /sign-in sessions/, /provider may process audio remotely/,
+    /Shared learning workspaces and study groups/, /expire within seven days/,
+    /visible to signed-in users for 30 days/, /profile fields such as your name or photo/,
+    /Confirmation links expire after 24 hours/,
+    /Unsubscribing marks the subscription as unsubscribed rather than deleting/,
+    /Signing out does not delete device progress or projects/,
+    /does not necessarily immediately erase provider logs or backups/,
+    /hosting requests can still contain the URL you requested/
+  ]) assert.match(privacy, pattern);
+  assert.doesNotMatch(privacy, /Only your account can access|receive only your email|Anonymous visit statistics/);
+  assert.match(terms, /Some translations are AI-assisted/);
+  assert.match(terms, /not independently verified client work, accredited qualifications, client approval or promises of income/);
+  assert.match(terms, /rights that cannot lawfully be excluded/);
+  assert.doesNotMatch(terms, /Translations are automatic/);
+  for (const [locale, admin, invitation, confirmation, profile] of [
+    ['fr', /administrateurs de service/, /sept jours/, /24 heures/, /profil de base/],
+    ['de', /Dienstadministratoren/, /sieben Tagen/, /24 Stunden/, /Profilfelder/],
+    ['es', /administradores de servicio/, /siete días/, /24 horas/, /campos básicos del perfil/]
+  ]) {
+    const book = await readJson(`content/translations/legal-${locale}.json`);
+    assert.match(book.privacy.collected[5].text, admin, locale);
+    assert.match(book.privacy.extras[6].text, invitation, locale);
+    assert.match(book.privacy.extras[6].text, /30/, locale);
+    assert.match(book.privacy.newsletter, confirmation, locale);
+    assert.match(book.privacy.providers.find(item => item.label === 'Google').text, profile, locale);
+    assert.equal(new Set(book.privacy.extras.map(item => item.label)).size, 8, `${locale}: unique privacy headings`);
   }
 });
 

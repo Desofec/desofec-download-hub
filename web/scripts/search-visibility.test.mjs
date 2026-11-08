@@ -97,6 +97,76 @@ test('SEO metadata uses page-specific canonical and social URLs instead of inher
   }
 });
 
+test('public practice and support pages have matching canonical and social metadata', async () => {
+  const source = await readFile(new URL('../lib/public-page-metadata.ts', import.meta.url), 'utf8');
+  const output = ts.transpileModule(source, {
+    compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2020 }
+  }).outputText;
+  const { publicPageMetadata } = await import(`data:text/javascript;base64,${Buffer.from(output).toString('base64')}`);
+  for (const pathname of [
+    '/contact', '/onboarding', '/plan', '/break-room', '/privacy', '/terms',
+    '/projects/first-app', '/projects/first-app/build', '/projects/coding-foundations/build',
+    '/projects/ai-assisted-coding/build', '/challenges/first-website', '/ai-updates',
+    '/business-launchpad/first-project', '/business-launchpad/feedback-guide',
+    '/business-launchpad/proposal-builder', '/business-launchpad/results-tracker',
+    '/business-launchpad/freelance-portfolio', '/business-launchpad/client-discovery-lab',
+    '/business-launchpad/commerce-lab'
+  ]) {
+    const page = await readFile(new URL(`../app${pathname}/page.tsx`, import.meta.url), 'utf8');
+    assert.ok(page.includes(`publicPageMetadata('${pathname}',`), `${pathname}: uses public metadata`);
+    const metadata = publicPageMetadata(pathname, { title: 'Page title', description: 'Page description' });
+    assert.equal(metadata.alternates.canonical, pathname);
+    assert.equal(metadata.openGraph.url, pathname);
+    assert.equal(metadata.openGraph.title, metadata.title);
+    assert.equal(metadata.openGraph.description, metadata.description);
+    assert.equal(metadata.openGraph.siteName, 'Desofec AI Studio');
+    assert.equal(metadata.openGraph.images[0].url, '/opengraph-image');
+    assert.equal(metadata.twitter.card, 'summary_large_image');
+    assert.equal(metadata.twitter.title, metadata.title);
+    assert.equal(metadata.twitter.description, metadata.description);
+    assert.deepEqual(metadata.twitter.images, ['/opengraph-image']);
+  }
+});
+
+test('account and progress pages request no indexing without blocking crawler access to noindex', async () => {
+  for (const pathname of ['account', 'my-progress']) {
+    const page = await readFile(new URL(`../app/${pathname}/page.tsx`, import.meta.url), 'utf8');
+    assert.match(page, /robots: \{ index: false, follow: true \}/, pathname);
+  }
+  const sitemap = await readFile(new URL('../app/sitemap.ts', import.meta.url), 'utf8');
+  assert.doesNotMatch(sitemap, /['"]\/(?:account|my-progress|workspaces|study-groups)(?:\/|['"])/);
+  const robots = await readFile(new URL('../app/robots.ts', import.meta.url), 'utf8');
+  assert.match(robots, /allow: '\/'/);
+  assert.doesNotMatch(robots, /disallow:/, 'crawlers must be able to read page-level noindex');
+});
+
+test('contact guidance is translated and preserves the manual email boundary', async () => {
+  const page = await readFile(new URL('../app/contact/page.tsx', import.meta.url), 'utf8');
+  const phrases = [...page.matchAll(/<Tr>([^<]+)<\/Tr>/g)].map(match => match[1]);
+  assert.equal(phrases.length, 8);
+  assert.match(page, /href="mailto:support@desofec\.com"/);
+  assert.match(page, /href="\/start-here"/);
+  assert.doesNotMatch(page, /<form|fetch\(|localStorage/);
+  for (const locale of ['fr', 'de', 'es']) {
+    const book = JSON.parse(await readFile(new URL(`../content/translations/ui-${locale}.json`, import.meta.url), 'utf8'));
+    for (const phrase of phrases) {
+      assert.ok(book[phrase]?.trim() && book[phrase] !== phrase, `${locale}: ${phrase}`);
+      assert.doesNotMatch(book[phrase], /\uFFFD|\p{L}\?\p{L}/u);
+    }
+  }
+});
+
+test('English-only first-app practice has an explicit content language and translated notice', async () => {
+  const page = await readFile(new URL('../app/projects/first-app/page.tsx', import.meta.url), 'utf8');
+  const phrase = 'This practice page is currently available in English.';
+  assert.match(page, /<div className="container first-app-project" lang="en">/);
+  assert.ok(page.indexOf(`<Tr>${phrase}</Tr>`) < page.indexOf('lang="en"'), 'notice follows the selected language');
+  for (const locale of ['fr', 'de', 'es']) {
+    const book = JSON.parse(await readFile(new URL(`../content/translations/ui-${locale}.json`, import.meta.url), 'utf8'));
+    assert.ok(book[phrase]?.trim() && book[phrase] !== phrase, `${locale}: English notice`);
+  }
+});
+
 test('search visibility tutorial translation covers every step and public UI labels', async () => {
   const content = await readFile(new URL('../lib/tutorial-translations.ts', import.meta.url), 'utf8');
   for (const id of ['choose-canonical-origin', 'verify-google-property', 'submit-google-sitemap',

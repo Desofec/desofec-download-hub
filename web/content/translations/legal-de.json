@@ -2,7 +2,7 @@
   "notice": "Diese Übersetzung wurde mithilfe von KI erstellt und noch nicht von einer juristischen Fachperson oder einer muttersprachlichen Person geprüft. Das englische Original finden Sie unten.",
   "englishOriginal": "Englisches Original anzeigen",
   "privacy": {
-    "sourceDigest": "f55535426e3bfb52353f57d6b9625f556a664efecbeaecebf349058544fbf069",
+    "sourceDigest": "110996f0e4f71bf624596371246d65c938336f0764bc506587ad326a4be18ed9",
     "title": "Datenschutzerklärung",
     "updated": "Zuletzt aktualisiert: November 2026",
     "intro": "Desofec AI Studio („wir“) respektiert Ihre Privatsphäre. Diese Seite erklärt, welche Daten wir erheben und warum.",
@@ -10,7 +10,7 @@
     "collected": [
       {
         "label": "E-Mail-Adresse",
-        "text": "wenn Sie den Newsletter abonnieren oder sich anmelden. Wir verwenden sie nur für diesen Zweck."
+        "text": "wenn Sie sich anmelden, den Newsletter abonnieren, den Support kontaktieren oder eine Einladung zu einem Arbeitsbereich erhalten. Wir verwenden sie für die gewählte Funktion oder zur Beantwortung Ihrer Anfrage. Eigentümer von Arbeitsbereichen sollten nur Personen einladen, die sie kontaktieren dürfen."
       },
       {
         "label": "Fortschritt und Favoriten",
@@ -30,7 +30,7 @@
       },
       {
         "label": "Arbeitsbereiche für Pilotprojekte",
-        "text": "nur wenn Sie ein Projekt erstellen oder ausdrücklich speichern. Bis zu zehn Geräteprojekte enthalten Ihr Briefing, eine separate Projektcheckliste, ein Angebot einschließlich interner Kosten und Testergebnisse. Geräteprojekte werden von der App nicht verschlüsselt und sind für alle Personen zugänglich, die dieses Browserprofil nutzen. Diese Entwürfe bleiben von den eigenständigen Angebots- und Ergebnisentwürfen sowie vom Lernfortschritt getrennt. Durch die Anmeldung werden sie nicht hochgeladen. Wenn Sie ausdrücklich zustimmen und sie hochladen, wird ein privater Konto-Snapshot in Supabase gespeichert, damit er auf einem anderen Gerät verfügbar ist. Das Speichern und Laden von Snapshots erfolgt manuell; es handelt sich weder um eine Hintergrundsynchronisierung noch um eine Ende-zu-Ende-Verschlüsselung. Gemäß den zeilenbezogenen Datenbankrichtlinien kann nur Ihr Konto auf seine Snapshots zugreifen. Die Aktionen zum Löschen des Geräteprojekts und des Konto-Snapshots entfernen diese Kopien getrennt; heruntergeladene Dateien bleiben erhalten, bis Sie sie löschen. Projektinhalte werden weder an KI gesendet noch automatisch an Kunden gesendet oder für sie veröffentlicht. Verwenden Sie ausschließlich fiktive oder anonymisierte Daten. Zusammenfassende Downloads lassen finanzielle Felder weg, enthalten aber weiterhin von Nutzern eingegebenen Briefing- und Entscheidungstext; prüfen Sie sie vor dem Teilen."
+        "text": "nur wenn Sie ein Projekt erstellen oder ausdrücklich speichern. Bis zu zehn Geräteprojekte enthalten Ihr Briefing, eine separate Projektcheckliste, ein Angebot einschließlich interner Kosten und Testergebnisse. Geräteprojekte werden von der App nicht verschlüsselt und sind für alle Personen zugänglich, die dieses Browserprofil nutzen. Diese Entwürfe bleiben von den eigenständigen Angebots- und Ergebnisentwürfen sowie vom Lernfortschritt getrennt. Durch die Anmeldung werden sie nicht hochgeladen. Wenn Sie ausdrücklich zustimmen und sie hochladen, wird ein privater Konto-Snapshot in Supabase gespeichert, damit er auf einem anderen Gerät verfügbar ist. Das Speichern und Laden von Snapshots erfolgt manuell; es handelt sich weder um eine Hintergrundsynchronisierung noch um eine Ende-zu-Ende-Verschlüsselung. Die zeilenbezogenen Datenbankrichtlinien der App beschränken den Snapshot-Zugriff auf Ihr Konto; berechtigte Dienstadministratoren können ebenfalls Zugriff haben. Die Aktionen zum Löschen des Geräteprojekts und des Konto-Snapshots entfernen diese Kopien getrennt; heruntergeladene Dateien bleiben erhalten, bis Sie sie löschen. Projektinhalte werden weder an KI gesendet noch automatisch an Kunden gesendet oder für sie veröffentlicht. Verwenden Sie ausschließlich fiktive oder anonymisierte Daten. Zusammenfassende Downloads lassen finanzielle Felder weg, enthalten aber weiterhin von Nutzern eingegebenen Briefing- und Entscheidungstext; prüfen Sie sie vor dem Teilen."
       },
       {
         "label": "Angeleitete Übungsportfolios",
@@ -53,8 +53,8 @@
         "text": "wenn Sie sich angemeldet für eine Abstimmung entscheiden. Wir speichern die Lektion, Ihre Wahl „hilfreich“ oder „nicht hilfreich“, Ihren Kontobezug und den Zeitpunkt Ihrer letzten Abstimmung, um Lektionen zu verbessern. Abstimmungen sind nicht öffentlich sichtbar. Sie können Ihre Abstimmung auf der Lektionsseite ändern oder entfernen. Wir erheben keine schriftlichen Feedback-Kommentare."
       },
       {
-        "label": "Anonyme Besuchsstatistiken",
-        "text": "(aufgerufene Seiten, Land und Gerätetyp), damit wir sehen können, welche Lernpfade Menschen helfen. Hierfür wird Vercel Web Analytics ohne Cookies verwendet: keine Cookies, keine Werbeprofile und keine Nachverfolgung über andere Websites hinweg."
+        "label": "Besuchsstatistiken",
+        "text": "verwenden Vercel Web Analytics ohne Cookies für aggregierte Seitenaufrufe, Ursprünge verweisender Websites, ungefähren Standort sowie Browser- und Geräteinformationen. Die App sendet nur Seitenaufrufereignisse, entfernt URL-Parameter und -Fragmente und schließt Anmelde-, Newsletter- und persönliche Arbeitsbereichsrouten aus. Formulartext oder Projektnachweise werden nicht als benutzerdefinierte Analyseereignisse gesendet. Der Anbieter kann technische Anfragedaten und einen kurzlebigen Besucher-Hash verarbeiten. Statistik ohne Cookies bedeutet nicht, dass alle Websitedaten anonym sind; Hosting-Anfragen können weiterhin die angeforderte URL enthalten."
       }
     ],
     "extras": [
@@ -73,6 +73,22 @@
       {
         "label": "Leitfaden für Übungsfeedback:",
         "text": "Änderungen bestehen nur auf der geöffneten Seite und gehen beim Neuladen oder Navigieren verloren. Der Leitfaden speichert sie nicht in einem Projekt, lädt sie nicht hoch und versendet keine Anfrage. Getrennte Downloads für Anfrage und Überarbeitungsplan enthalten den Text aus ihren Vorschauen und bleiben auf Ihrem Gerät, bis sie gelöscht werden. Das leere Arbeitsblatt ist eine öffentliche Datei. Verwenden Sie fiktive oder anonymisierte Informationen und prüfen Sie heruntergeladene Dateien vor dem Teilen."
+      },
+      {
+        "label": "Browserspeicher und Sicherungen:",
+        "text": "Der Browser speichert außerdem Anmeldesitzungen bei aktivierten Kontofunktionen, Oberflächeneinstellungen, besuchte Seiten und Ressourcen für die Offline-Nutzung sowie Aufgabentitel und Erledigungsstatus im kleinen Aufgaben-Tracker. Das Löschen der Websitedaten kann diese entfernen und Sie abmelden. Eine Projektsicherung ist eine unverschlüsselte Datei mit allen gespeicherten Geräteprojektdetails, einschließlich Entwürfen, Kosten, Testergebnissen, Nachweisheftrevisionen und Bewertungen. Ungespeicherte Änderungen, eigenständige Entwürfe, Lernfortschritt und Konto-Snapshots sind ausgeschlossen. Halten Sie die Datei privat. Die Wiederherstellung erstellt neue Gerätekopien mit neuen IDs; sie lädt diese nicht hoch und überschreibt keine bestehenden Projekte. Browserkopien, Konto-Snapshots, Offline-Caches und heruntergeladene Dateien müssen gesondert entfernt werden."
+      },
+      {
+        "label": "Optionale Spracheingabe:",
+        "text": "Der Ideenplaner verwendet den Sprachdienst Ihres Browsers nur, wenn Sie die Spracheingabe wählen. Der Browseranbieter kann Audio nach seinen eigenen Berechtigungen und Richtlinien außerhalb des Geräts verarbeiten. Sie können stattdessen tippen. Eingegebene Ideen und zurückgelieferte Transkripte werden im Seitenspeicher abgeglichen; der Planer speichert sie nicht und sendet sie nicht an unseren Server. Vermeiden Sie vertrauliche Angaben bei beiden Eingabemethoden."
+      },
+      {
+        "label": "Geteilte Lernarbeitsbereiche und Lerngruppen:",
+        "text": "Optionale Kontofunktionen speichern Arbeitsbereichsnamen, Mitgliedskennungen, Verweise auf geteilte Katalogelemente und Einladungs-E-Mail-Adressen. Mitglieder können geteilte Elemente und Mitgliedskennungen sehen, nicht den persönlichen Fortschritt oder private Projekte anderer Mitglieder. Einladungsadressen sind für den Eigentümer des Arbeitsbereichs und die vorgesehene eingeladene Person sichtbar; Links sind einmal nutzbar und laufen innerhalb von sieben Tagen ab. Lernkarten enthalten Ihren Spitznamen, Ihr Ziel und Ihre Notiz und sind 30 Tage für angemeldete Nutzer sichtbar. Beitrittsanfragen speichern Spitznamen, Nachricht und Kontobezug; Moderationsmeldungen speichern den Grund und das meldende Konto. Der Ablauf entfernt eine Karte aus der Board-Liste, nicht unbedingt aus allen Speichern. Die Zustimmung zu einer Anfrage gewährt Zugang zum Arbeitsbereich. Teilen Sie nur dafür vorgesehene Informationen, entfernen Sie eigene Karten oder geteilte Elemente über deren Bedienelemente und kontaktieren Sie den Support zu anderen gespeicherten Gruppendaten."
+      },
+      {
+        "label": "Kontaktanfragen:",
+        "text": "Eine E-Mail an den Support übermittelt Ihre Adresse und Nachricht über E-Mail-Anbieter. Der Kontaktlink öffnet Ihre E-Mail-App und sendet nichts automatisch. Senden Sie keine Passwörter, Anmeldelinks, API-Schlüssel oder vertraulichen Kunden- oder Projektdaten."
       }
     ],
     "noSale": "Wir verkaufen Ihre Daten nicht und zeigen keine Werbung von Dritten.",
@@ -80,11 +96,11 @@
     "providers": [
       {
         "label": "Supabase",
-        "text": "speichert Konten, Fortschritt, Lektionsfeedback, Abonnements und ausdrücklich hochgeladene private Projekt-Snapshots."
+        "text": "speichert bei konfigurierten Kontofunktionen Konten, Fortschritt, Lektionsfeedback, Abonnements, Daten geteilter Arbeitsbereiche und Lerngruppen sowie ausdrücklich hochgeladene private Projekt-Snapshots."
       },
       {
         "label": "Google",
-        "text": "wenn Sie „Mit Google fortfahren“ wählen. Wir erhalten nur Ihre E-Mail-Adresse und die Anmeldebestätigung, niemals Ihr Google-Passwort."
+        "text": "wenn Sie „Mit Google fortfahren“ wählen. Die Anmeldung über Supabase Auth kann je nach erteilten Berechtigungen Ihre E-Mail-Adresse, Kontokennung und grundlegende Profilfelder wie Name oder Foto bereitstellen. Wir erhalten Ihr Google-Passwort nicht."
       },
       {
         "label": "Resend",
@@ -96,9 +112,9 @@
       }
     ],
     "newsletterHeading": "Newsletter",
-    "newsletter": "Wir verwenden eine doppelte Bestätigung: Sie erhalten den Newsletter erst, nachdem Sie Ihre E-Mail-Adresse bestätigt haben. Sie können sich jederzeit über den Link in jeder E-Mail abmelden.",
+    "newsletter": "Wir verwenden eine doppelte Bestätigung: Der Newsletter-Versand erfordert die Bestätigung Ihrer E-Mail-Adresse. Bestätigungslinks laufen nach 24 Stunden ab; ihr Ablauf löscht die gespeicherte Adresse nicht automatisch. Eine Abmeldung markiert das Abonnement als abgemeldet, statt das Konto oder den Abonnenteneintrag zu löschen. Nutzen Sie den E-Mail-Link zur Abmeldung und kontaktieren Sie den Support für eine Löschanfrage. Diese Seiten aktivieren keinen automatischen Newsletter-Zeitplan.",
     "choicesHeading": "Ihre Möglichkeiten",
-    "choices": "Sie können den Speicher Ihres Browsers jederzeit leeren, um lokal gespeicherte Daten zu entfernen. Wenn Sie auf die mit Ihrer E-Mail-Adresse verbundenen Daten zugreifen, sie berichtigen oder löschen möchten, kontaktieren Sie uns; wir helfen Ihnen.",
+    "choices": "Eine Abmeldung löscht keinen Gerätefortschritt und keine Geräteprojekte. Das Löschen der Websitedaten im Browser kann lokale Kopien entfernen, löscht aber keine Konto-Snapshots, Abonnement- oder Gruppendaten und keine heruntergeladenen Dateien. Verwenden Sie die vorhandenen Löschfunktionen für die jeweilige gespeicherte Kopie; manche Bewertungskopien und Exporte müssen gesondert entfernt werden. Um Zugang, Berichtigung oder Löschung von Konto-, Abonnement- oder Gruppendaten anzufragen, kontaktieren Sie den Support und nennen Sie die betroffene Funktion, ohne Passwörter oder Anmeldelinks zu senden. Das Entfernen aktiver App-Daten löscht Anbieterprotokolle oder Sicherungen nicht unbedingt sofort; für diese gelten die konfigurierten Aufbewahrungs- und Zugriffseinstellungen der Anbieter.",
     "childrenHeading": "Kinder",
     "children": "Die Website richtet sich nicht an Kinder unter 13 Jahren.",
     "contactHeading": "Kontakt",
@@ -107,14 +123,14 @@
     "contactTail": "."
   },
   "terms": {
-    "sourceDigest": "5071ffda5bb5c54e1ec984bc2484f830e88d5dcbeca2b376292a032a466f5288",
+    "sourceDigest": "3973bfb807bae5dae3b0afc29dfec31be16324812d4b5d88fc4e4162673cfa95",
     "title": "Nutzungsbedingungen",
     "updated": "Zuletzt aktualisiert: November 2026",
     "intro": "Durch die Nutzung von Desofec AI Studio stimmen Sie diesen Bedingungen zu.",
     "sections": [
       {
         "heading": "Was die Website ist",
-        "text": "Desofec AI Studio ist ein Bildungsleitfaden zu KI-Tools, Lernpfaden, Tutorials und Starterpaketen. Die Inhalte dienen der allgemeinen Information und dem Lernen."
+        "text": "Desofec AI Studio ist ein Bildungsleitfaden zu KI-Tools, Lernpfaden, Tutorials und Starterpaketen. Die Inhalte dienen der allgemeinen Information und dem Lernen, nicht einer individuellen rechtlichen, finanziellen oder sonstigen professionellen Beratung. Fiktive Übungen, selbst aufgezeichneter Fortschritt und Portfolios sind keine unabhängig verifizierte Kundenarbeit, akkreditierten Qualifikationen, Kundenfreigaben oder Einkommensversprechen."
       },
       {
         "heading": "Tools von Dritten",
@@ -122,7 +138,7 @@
       },
       {
         "heading": "Keine Garantien",
-        "text": "Die Website wird „wie besehen“ bereitgestellt. Wir bemühen uns um genaue Inhalte, garantieren jedoch nicht, dass sie vollständig, aktuell oder für Ihre Situation geeignet sind. Übersetzungen erfolgen automatisch und können Fehler enthalten."
+        "text": "Die Website wird „wie besehen“ bereitgestellt. Wir bemühen uns um genaue Inhalte, garantieren jedoch nicht, dass sie vollständig, aktuell oder für Ihre Situation geeignet sind. Manche Übersetzungen sind KI-unterstützt und können Fehler enthalten; ziehen Sie die ursprüngliche Sprachversion heran, wenn Genauigkeit wichtig ist. Diese Bedingungen entfernen keine Rechte, die rechtlich nicht ausgeschlossen werden dürfen."
       },
       {
         "heading": "Ihr Konto",

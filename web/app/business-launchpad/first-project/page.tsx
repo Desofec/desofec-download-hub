@@ -1,14 +1,14 @@
-import type { Metadata } from 'next';
+import { publicPageMetadata } from '@/lib/public-page-metadata';
 import Link from 'next/link';
 import { FirstProjectChooser } from '@/components/first-project-chooser';
 import { Tr } from '@/components/tr';
 import { getCatalog } from '@/lib/catalog';
 import { servicePathIds } from '@/lib/pilot-projects';
 
-export const metadata: Metadata = {
+export const metadata = publicPageMetadata('/business-launchpad/first-project', {
   title: 'Complete Your First Practice Project',
   description: 'Choose a guided service project, including AI video creation for business, with tailored evidence checks and a private practice portfolio.'
-};
+});
 
 export default async function FirstProjectPage() {
   const { paths } = await getCatalog();

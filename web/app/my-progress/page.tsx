@@ -10,7 +10,8 @@ import { ProjectCompletionDashboard } from '@/components/project-completion-dash
 
 export const metadata: Metadata = {
   title: 'My progress',
-  description: 'Continue your learning paths and starter-pack checklists.'
+  description: 'Continue your learning paths and starter-pack checklists.',
+  robots: { index: false, follow: true }
 };
 
 export default async function MyProgressPage() {
