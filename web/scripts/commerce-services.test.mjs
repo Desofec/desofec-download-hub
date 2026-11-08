@@ -2,9 +2,10 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { test } from 'node:test';
 import ts from 'typescript';
+import { fileURLToPath } from 'node:url';
 import { readAndValidateCatalog } from './content-catalog.mjs';
 
-const repo = new URL('../../', import.meta.url).pathname;
+const repo = fileURLToPath(new URL('../../', import.meta.url));
 async function loadModule(relative) {
   const source = await readFile(new URL(relative, import.meta.url), 'utf8');
   const output = ts.transpileModule(source, {

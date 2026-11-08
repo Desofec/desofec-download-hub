@@ -366,9 +366,10 @@ Saved milestones indicate recorded work, not passing tests or permission to publ
 **Deployment:** apply `0012_video_business_projects.sql` after `0011`, then the regenerated
 `supabase/seed.sql`, before deploying. Migration 0012 only extends the account RPC's accepted paths;
 owner isolation, locking, quotas, document limits and compare-and-swap remain unchanged. Reload all
-app tabs after deployment; older app versions cannot read business-video projects. Lesson instructions
-and downloads are English with the existing notice; catalog, journey, workbook and review UI support
-French, German and Spanish. Optional external tools may charge for credits, exports or licensed assets.
+app tabs after deployment; older app versions cannot read business-video projects. The six business-video
+lessons and downloadable kit are available in English, French, German and Spanish. Catalog, journey,
+workbook and review UI also support French, German and Spanish. Optional external tools may charge for
+credits, exports or licensed assets.
 
 ### Private Project Evidence Workbook
 

@@ -46,7 +46,8 @@ const projectId = '11111111-1111-4111-8111-111111111111';
 const translationImports = {
   ...Object.fromEntries(['coding', 'ml-design', 'task-tracker', 'web-nocode', 'practical-fr',
     'practical-de', 'practical-es', 'content-services', 'automation-services',
-    'commerce-services', 'cad-services', 'micro-saas', 'education-services'].map(name =>
+    'commerce-services', 'cad-services', 'micro-saas', 'education-services',
+    'video-business'].map(name =>
     [`@/lib/translations/${name}`, `../lib/translations/${name}.ts`])),
   '@/lib/search-visibility-tutorial': '../lib/search-visibility-tutorial.ts'
 };
@@ -58,7 +59,8 @@ test('only translated starter kits resolve to localized static downloads', async
       'ai-content-services-kit',
       'ai-automation-services-kit',
       'ai-spreadsheets-kit',
-      'ai-commerce-services-kit'
+      'ai-commerce-services-kit',
+      'ai-video-business-kit'
     ]) {
       const file = `downloads/${kit}.md`;
       const expected = locale === 'en' ? file : `downloads/${kit}-${locale}.md`;
@@ -87,6 +89,28 @@ test('commerce tutorials resolve localized titles, intros and lesson content', a
       assert.ok(Object.values(translation.steps).every(step =>
         step.title && step.explanation.length && step.file && step.code && step.check && step.aiPrompt
       ));
+    }
+  }
+});
+
+test('business-video tutorial resolves complete localized lessons with stable progress IDs', async () => {
+  const { getTutorialTranslation } = await loadContent('../lib/tutorial-translations.ts', translationImports);
+  const { videoBusinessSteps } = await loadContent('../lib/video-business-tutorial.ts');
+  const ids = videoBusinessSteps.map(({ id }) => id);
+  assert.equal(getTutorialTranslation('ai-video-business', 'en'), undefined);
+  for (const locale of ['fr', 'de', 'es']) {
+    const translation = getTutorialTranslation('ai-video-business', locale);
+    assert.ok(translation.title.trim());
+    assert.ok(translation.intro.trim());
+    assert.deepEqual(Object.keys(translation.steps), ids);
+    for (const source of videoBusinessSteps) {
+      const step = translation.steps[source.id];
+      assert.equal(step.explanation.length, source.explanation.length);
+      for (const field of ['title', 'file', 'code', 'check', 'aiPrompt']) {
+        assert.ok(step[field]?.trim(), `${locale}/${source.id}.${field}`);
+        assert.notEqual(step[field], source[field], `${locale}/${source.id}.${field}`);
+      }
+      assert.equal('id' in step, false, `${locale}/${source.id}: progress IDs remain unchanged`);
     }
   }
 });
