@@ -45,7 +45,8 @@ function memoryStorage() {
 const projectId = '11111111-1111-4111-8111-111111111111';
 const translationImports = {
   ...Object.fromEntries(['coding', 'ml-design', 'task-tracker', 'web-nocode', 'practical-fr',
-    'practical-de', 'practical-es', 'content-services', 'automation-services'].map(name =>
+    'practical-de', 'practical-es', 'content-services', 'automation-services',
+    'commerce-services'].map(name =>
     [`@/lib/translations/${name}`, `../lib/translations/${name}.ts`])),
   '@/lib/search-visibility-tutorial': '../lib/search-visibility-tutorial.ts'
 };
@@ -72,6 +73,22 @@ test('only translated starter kits resolve to localized static downloads', async
   assert.match(page, /<StarterPackDownload packId=\{pack\.id\} file=\{pack\.file\} \/>/);
   assert.match(component, /useLanguage\(\)/);
   assert.match(component, /The downloadable worksheet follows your selected language/);
+});
+
+test('commerce tutorials resolve localized titles, intros and lesson content', async () => {
+  const { getTutorialTranslation } = await loadContent('../lib/tutorial-translations.ts', translationImports);
+  for (const tutorialId of ['ai-online-retail', 'ai-marketplace-model', 'ai-logistics-services']) {
+    assert.equal(getTutorialTranslation(tutorialId, 'en'), undefined);
+    for (const locale of ['fr', 'de', 'es']) {
+      const translation = getTutorialTranslation(tutorialId, locale);
+      assert.ok(translation.title.trim());
+      assert.ok(translation.intro.trim());
+      assert.equal(Object.keys(translation.steps).length, 6);
+      assert.ok(Object.values(translation.steps).every(step =>
+        step.title && step.explanation.length && step.file && step.code && step.check && step.aiPrompt
+      ));
+    }
+  }
 });
 
 test('content-service course translates every field and preserves stable six-step IDs', async () => {

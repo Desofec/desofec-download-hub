@@ -13,6 +13,7 @@ async function loadModule(relative) {
   return import(`data:text/javascript;base64,${Buffer.from(output).toString('base64')}`);
 }
 const { onlineRetailSteps, marketplaceSteps, logisticsSteps } = await loadModule('../lib/commerce-services-tutorials.ts');
+const { commerceServicesTranslations } = await loadModule('../lib/translations/commerce-services.ts');
 const tracks = [
   ['ai-online-retail', onlineRetailSteps],
   ['ai-marketplace-model', marketplaceSteps],
@@ -39,6 +40,75 @@ test('three platform-neutral courses have 18 complete, distinctly keyed lessons'
   assert.match(text, /No automatic publication/);
   assert.match(text, /credentials|passwords/);
   assert.match(text, /UNVALIDATED/);
+});
+
+test('all 18 commerce lessons have complete French, German and Spanish translations', () => {
+  const expectedIds = {
+    'ai-online-retail': onlineRetailSteps.map(({ id }) => id),
+    'ai-marketplace-model': marketplaceSteps.map(({ id }) => id),
+    'ai-logistics-services': logisticsSteps.map(({ id }) => id)
+  };
+  for (const [tutorialId, steps] of Object.entries(expectedIds)) {
+    for (const locale of ['fr', 'de', 'es']) {
+      const translation = commerceServicesTranslations[tutorialId][locale];
+      assert.ok(translation.title.trim(), `${locale}/${tutorialId}: title`);
+      assert.ok(translation.intro.trim(), `${locale}/${tutorialId}: intro`);
+      assert.notEqual(translation.title, tracks.find(([id]) => id === tutorialId)[1][0].title);
+      assert.deepEqual(Object.keys(translation.steps), steps, `${locale}/${tutorialId}: stable step IDs`);
+      const sourceSteps = tracks.find(([id]) => id === tutorialId)[1];
+      for (const source of sourceSteps) {
+        const translated = translation.steps[source.id];
+        assert.equal(translated.explanation.length, source.explanation.length, `${locale}/${source.id}`);
+        for (const field of ['title', 'file', 'code', 'check', 'aiPrompt']) {
+          assert.ok(translated[field]?.trim(), `${locale}/${source.id}.${field}`);
+          assert.notEqual(translated[field], source[field], `${locale}/${source.id}.${field}`);
+        }
+        translated.explanation.forEach((text, index) => {
+          assert.ok(text.trim(), `${locale}/${source.id}.explanation[${index}]`);
+          assert.notEqual(text, source.explanation[index], `${locale}/${source.id}.explanation[${index}]`);
+        });
+        assert.equal('id' in translated, false, `${locale}/${source.id}: progress ID must remain in source`);
+      }
+    }
+  }
+});
+
+test('commerce course translations preserve IDs, formulas, sample arithmetic and safety boundaries', () => {
+  for (const locale of ['fr', 'de', 'es']) {
+    const retail = commerceServicesTranslations['ai-online-retail'][locale].steps;
+    assert.match(retail['retail-cost-and-fulfillment'].code, /=B1-SUM\(B2:B6\)/);
+    assert.match(retail['retail-cost-and-fulfillment'].code, /=B7\/B1/);
+    assert.match(retail['retail-inventory-planning'].code, /G2 =B2\/14/);
+    assert.match(retail['retail-inventory-planning'].code, /J2 =IF\(I2<=H2,"REVIEW","HOLD"\)/);
+    assert.match(retail['retail-inventory-planning'].code, /NB-A \| 28 \| 18 \| 0 \| 10 \| 6/);
+    assert.match(retail['retail-inventory-planning'].code, /PN-B \| 14 \| 30 \| 0 \| 7 \| 4/);
+    assert.match(retail['retail-report-and-support'].code, /2030-01-07.*2030-01-13/);
+    assert.match(retail['retail-report-and-support'].code, /250/);
+    assert.match(retail['retail-report-and-support'].code, /230/);
+    assert.match(retail['retail-inventory-planning'].explanation.join(' '), /TO CONFIRM/);
+    assert.match(retail['retail-service-handover'].code, /BLOCKED - fictional practice/);
+
+    const marketplace = commerceServicesTranslations['ai-marketplace-model'][locale].steps;
+    const ledger = marketplace['marketplace-orders-and-commission'];
+    assert.match(ledger.code, /O1 \| S1 \| 100 \| 0 \| 100 \| 10 \| 90/);
+    assert.match(ledger.code, /O2 \| S2 \| 80 \| 20 \| 60 \| 6 \| 54/);
+    assert.match(ledger.code, /230 \| 70 \| 160 \| 16 \| 144/);
+    assert.match(ledger.code, /ERROR\/REVIEW/);
+    assert.match(ledger.code, /UNRESOLVED/);
+    assert.match(marketplace['marketplace-catalog'].code, /NO VERIFIED MATCH/);
+    assert.match(marketplace['marketplace-support'].code, /UNKNOWN/);
+    assert.match(marketplace['marketplace-handover'].code, /BLOCKED.*UNVALIDATED/);
+
+    const logistics = commerceServicesTranslations['ai-logistics-services'][locale].steps;
+    assert.match(logistics['logistics-receiving-and-stock'].code, /NB-A \| 30 \| 28 \| 2 \| 30 \| A1/);
+    assert.match(logistics['logistics-pick-and-pack'].code, /L1: NB-A 5, PN-B 3 -> RESERVED/);
+    assert.match(logistics['logistics-pick-and-pack'].code, /L2: NB-A 25 -> HOLD/);
+    assert.match(logistics['logistics-pick-and-pack'].code, /NB-A 23.*PN-B 13/);
+    assert.match(logistics['logistics-dispatch-and-returns'].code, /R1/);
+    assert.match(logistics['logistics-cost-and-report'].code, /8 - 3 - 1 - 2 = 2/);
+    assert.match(logistics['logistics-cost-and-report'].code, /80 - 60 = 20/);
+    assert.match(logistics['logistics-handover'].code, /BLOCKED/);
+  }
 });
 
 test('retail worksheet arithmetic and unknown-data boundaries match the lessons', () => {
