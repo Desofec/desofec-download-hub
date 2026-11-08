@@ -46,7 +46,7 @@ const projectId = '11111111-1111-4111-8111-111111111111';
 const translationImports = {
   ...Object.fromEntries(['coding', 'ml-design', 'task-tracker', 'web-nocode', 'practical-fr',
     'practical-de', 'practical-es', 'content-services', 'automation-services',
-    'commerce-services'].map(name =>
+    'commerce-services', 'cad-services'].map(name =>
     [`@/lib/translations/${name}`, `../lib/translations/${name}.ts`])),
   '@/lib/search-visibility-tutorial': '../lib/search-visibility-tutorial.ts'
 };
@@ -176,6 +176,53 @@ test('content-service translations preserve privacy, fact, rights, cost and appr
     assert.match(steps['content-service-handoff'].code, expected.blocked);
     assert.match(prose('handoff'), expected.approval);
   }
+});
+
+test('CAD concept course translates every field while preserving dimensions and no-manufacture safeguards', async () => {
+  const { cadServicesSteps } = await loadContent('../lib/business-services-tutorials.ts');
+  const { cadServicesTranslations } = await loadContent('../lib/translations/cad-services.ts');
+  const { getTutorialTranslation } = await loadContent('../lib/tutorial-translations.ts', translationImports);
+  const ids = ['cad-service-boundaries', 'cad-service-sketch', 'cad-service-model',
+    'cad-service-review', 'cad-service-offer', 'cad-service-handoff'];
+  assert.deepEqual(cadServicesSteps.map(step => step.id), ids);
+  assert.equal(getTutorialTranslation('ai-cad-services', 'en'), undefined);
+  for (const locale of ['fr', 'de', 'es']) {
+    const translation = getTutorialTranslation('ai-cad-services', locale);
+    assert.ok(translation.title.trim());
+    assert.ok(translation.intro.trim());
+    assert.deepEqual(Object.keys(translation.steps), ids);
+    for (const sourceStep of cadServicesSteps) {
+      const step = translation.steps[sourceStep.id];
+      assert.equal(step.explanation.length, sourceStep.explanation.length);
+      for (const field of ['title', 'file', 'code', 'check', 'aiPrompt']) {
+        assert.ok(step[field]?.trim(), `${locale}/${sourceStep.id}.${field}`);
+        assert.notEqual(step[field], sourceStep[field], `${locale}/${sourceStep.id}.${field}`);
+      }
+      step.explanation.forEach((text, index) => {
+        assert.ok(text.trim());
+        assert.notEqual(text, sourceStep.explanation[index]);
+      });
+      assert.equal('id' in step, false);
+    }
+
+    const steps = translation.steps;
+    assert.match(steps[ids[0]].code, /80.*40.*3/);
+    assert.match(steps[ids[0]].code, /CONCEPT ONLY - NOT FOR MANUFACTURE/);
+    assert.match(steps[ids[1]].code, /80 x 40 mm[\s\S]*3 x 40 mm[\s\S]*80 x 3 mm/);
+    assert.match(steps[ids[1]].code, /9600 mm\^3/);
+    assert.match(steps[ids[2]].code, /80 x 40/);
+    assert.match(steps[ids[2]].code, /extrud|extrusion|extrusión/i);
+    assert.match(steps[ids[2]].code, /3/);
+    assert.match(steps[ids[3]].code, /v1\s*:\s*80 x 40 x 3 mm\s*;\s*(?:volume|volumen) 9600 mm\^3/i);
+    assert.match(steps[ids[3]].code, /v2\s*:\s*90 x 40 x 3 mm\s*;\s*(?:volume|volumen) 10800 mm\^3/i);
+    assert.match(steps[ids[3]].code, /2\.25:1/);
+    assert.match(steps[ids[4]].explanation.join(' '), /qualified professional|professionnel qualifié|qualifizierten Fachperson|profesional cualificada/);
+    assert.match(steps[ids[5]].code, /CONCEPT ONLY - NOT FOR MANUFACTURE/);
+  }
+  assert.deepEqual(
+    Object.keys(cadServicesTranslations['ai-cad-services']),
+    ['fr', 'de', 'es']
+  );
 });
 
 test('automation course translates every lesson field with stable progress IDs and matching directory descriptions', async () => {
