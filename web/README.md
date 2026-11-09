@@ -90,6 +90,10 @@ existing language selector. The sitemap's existing
 submission can discover new entries without being submitted again. These signals
 do not guarantee indexing or search rankings. After `npm run build`, run
 `npm run test:search-render` to check the built HTML, alternates and sitemap.
+Tutorial search titles and descriptions can use concise, language-specific copy
+from `lib/tutorial-search-metadata.ts` without changing lesson text or progress.
+Keep search descriptions accurate about fictional examples and practice safeguards;
+the content and rendered-search tests check their length and important safeguards.
 The tools directory renders browsable tool links while its interactive search and
 comparison load; without JavaScript, those controls and saved-tool buttons are unavailable.
 

@@ -7,6 +7,7 @@ import { TutorialLabel } from '@/components/tutorial-back-label';
 import { TutorialLanguageLinks } from '@/components/tutorial-language-links';
 import { Tr } from '@/components/tr';
 import { tutorialAlternates, tutorialSocialLocales } from '@/lib/localized-tutorials';
+import { tutorialSearchText } from '@/lib/tutorial-search-metadata';
 import { tutorialStorageKey, tutorials } from '@/lib/tutorials';
 
 const hosted = tutorials.filter((tutorial) => tutorial.href.startsWith('/tutorials/'));
@@ -18,12 +19,17 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;
   const tutorial = hosted.find((entry) => entry.pathId === id);
-  return tutorial ? {
-    title: tutorial.title, description: tutorial.intro,
+  if (!tutorial) return { title: 'Tutorial' };
+  const search = tutorialSearchText(tutorial.pathId, 'en', {
+    title: tutorial.title,
+    description: tutorial.intro
+  });
+  return {
+    title: search.title, description: search.description,
     alternates: tutorialAlternates(tutorial, 'en'),
-    openGraph: { title: tutorial.title, description: tutorial.intro, url: tutorial.href, ...tutorialSocialLocales(tutorial, 'en') },
-    twitter: { card: 'summary_large_image', title: tutorial.title, description: tutorial.intro }
-  } : { title: 'Tutorial' };
+    openGraph: { title: tutorial.title, description: search.description, url: tutorial.href, ...tutorialSocialLocales(tutorial, 'en') },
+    twitter: { card: 'summary_large_image', title: tutorial.title, description: search.description }
+  };
 }
 
 export default async function TutorialPage({ params }: { params: Promise<{ id: string }> }) {
