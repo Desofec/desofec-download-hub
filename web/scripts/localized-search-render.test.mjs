@@ -213,6 +213,21 @@ test('representative lessons render translated teaching text without JavaScript'
   }
 });
 
+test('search-visibility pages render existing-sitemap guidance in each language', async () => {
+  for (const [pathname, google, bing] of [
+    ['/tutorials/search-visibility', 'Submit it only if it is absent', 'Submit it only if absent'],
+    ['/fr/tutorials/search-visibility', 'Envoyez-la seulement si elle est absente', 'Envoyez-le seulement s’il est absent'],
+    ['/de/tutorials/search-visibility', 'Reiche sie nur ein, wenn sie fehlt', 'ist die Sitemap noch in Bearbeitung, beobachte den vorhandenen Eintrag'],
+    ['/es/tutorials/search-visibility', 'Envíala solo si falta', 'Envíalo solo si falta']
+  ]) {
+    const { response, html } = await page(pathname);
+    assert.equal(response.status, 200, pathname);
+    const main = htmlText(renderedMain(html));
+    assert.ok(main.includes(google), `${pathname}: Google guidance`);
+    assert.ok(main.includes(bing), `${pathname}: Bing guidance`);
+  }
+});
+
 test('incomplete translations and private pages are not advertised', async () => {
   for (const pathname of ['/fr/tutorials/ai-spreadsheets', '/es/tutorials/shopify-guide', '/fr/account']) {
     const { response, html } = await page(pathname);

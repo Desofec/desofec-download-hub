@@ -163,9 +163,10 @@ Using the owner's accounts, verify the production property in
 [Google Search Console](https://search.google.com/search-console) and
 [Bing Webmaster Tools](https://www.bing.com/webmasters/). Submit the existing sitemap
 only if it is not already submitted, and inspect the homepage, `/start-here` and
-relevant lesson URLs. The site includes
-the `/tutorials/search-visibility` guide; repeated indexing requests do not guarantee
-or accelerate inclusion. No account submission is performed by these code changes.
+relevant lesson URLs. The `/tutorials/search-visibility` guide and its translations
+explain how to check existing or pending sitemap submissions before adding one.
+Repeated indexing requests do not guarantee or accelerate inclusion. No account
+submission is performed by these code changes.
 
 Share a relevant lesson or the beginner starting route only in communities that
 permit it, disclose ownership and ask for actual feedback from consenting beginners.

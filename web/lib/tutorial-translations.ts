@@ -38,7 +38,7 @@ const baseTranslations: Record<string, Partial<Record<Exclude<LanguageCode, 'en'
   'search-visibility': {
     fr: {
       title: 'Configurer Google Search et Bing Webmaster Tools',
-      intro: 'Choisissez une adresse canonique, envoyez votre sitemap et vérifiez l’indexation dans Google Search Console et Bing Webmaster Tools. Microsoft Edge est un navigateur, pas le service webmaster de Bing.',
+      intro: 'Choisissez une adresse canonique, vérifiez ou envoyez votre sitemap et consultez l’indexation dans Google Search Console et Bing Webmaster Tools. Microsoft Edge est un navigateur, pas le service webmaster de Bing.',
       steps: {
         'choose-canonical-origin': {
           title: 'Choisir une seule adresse publique',
@@ -55,8 +55,8 @@ const baseTranslations: Record<string, Partial<Record<Exclude<LanguageCode, 'en'
           resources: [{ label: 'Ajouter une propriété dans Search Console', url: googleProperty.url }]
         },
         'submit-google-sitemap': {
-          title: 'Envoyer le sitemap canonique à Google',
-          explanation: ['Dans la propriété vérifiée, ouvrez Sitemaps. Envoyez l’URL complète du sitemap de l’hôte canonique, par exemple https://www.example.com/sitemap.xml. Vérifiez qu’il est récupéré et contient les pages publiques à découvrir.', 'Un sitemap aide Google à découvrir des URL sans imposer leur indexation. Gardez un sitemap actuel et corrigez les erreurs à leur source.'],
+          title: 'Vérifier ou envoyer le sitemap canonique à Google',
+          explanation: ['Dans la propriété vérifiée, ouvrez Sitemaps. Vérifiez d’abord si l’URL complète du sitemap canonique, par exemple https://www.example.com/sitemap.xml, figure déjà dans la liste. Envoyez-la seulement si elle est absente ; sinon, conservez l’envoi existant et consultez son état.', 'Si le traitement est en attente, patientez plutôt que de renvoyer le même sitemap. Examinez les erreurs signalées et vérifiez que le sitemap contient les pages publiques à découvrir. Un sitemap aide Google à découvrir des URL sans imposer leur indexation.'],
           check: 'Le sitemap envoyé affiche un état de traitement réussi et son URL utilise l’hôte HTTPS canonique.',
           aiPrompt: 'Aide-moi à interpréter l’état du rapport Sitemaps. Demande seulement le texte de l’état, jamais les accès au compte.',
           resources: [{ label: 'Créer et envoyer un sitemap à Google', url: googleSitemap.url }]
@@ -69,8 +69,8 @@ const baseTranslations: Record<string, Partial<Record<Exclude<LanguageCode, 'en'
           resources: [{ label: 'Demander une nouvelle exploration Google', url: googleRecrawl.url }]
         },
         'set-up-bing-webmaster': {
-          title: 'Ajouter et vérifier le site dans Bing Webmaster Tools',
-          explanation: ['Bing Webmaster Tools sert à Bing Search ; Microsoft Edge est un navigateur. Ouvrez Bing Webmaster Tools et connectez-vous. Si Search Console est déjà vérifiée, utilisez l’importation proposée par Bing ; sinon ajoutez le site et choisissez une méthode de vérification affichée.', 'Ajoutez l’adresse canonique et le même sitemap, par exemple https://www.example.com/sitemap.xml. Utilisez les outils d’inspection ou d’envoi d’URL disponibles. Vérifiez les instructions Bing actuelles car les écrans peuvent changer.'],
+          title: 'Vérifier le site dans Bing Webmaster Tools',
+          explanation: ['Bing Webmaster Tools sert à Bing Search ; Microsoft Edge est un navigateur. Ouvrez Bing Webmaster Tools et connectez-vous. Vérifiez d’abord si le site canonique figure déjà dans la liste. S’il est présent, utilisez cette entrée et ne le vérifiez que si nécessaire. S’il est absent, utilisez l’importation Bing d’une propriété déjà vérifiée dans Search Console si elle est proposée ; sinon ajoutez le site et suivez une méthode de vérification affichée.', 'Vérifiez si le même sitemap canonique, par exemple https://www.example.com/sitemap.xml, figure déjà dans la liste. Envoyez-le seulement s’il est absent ; si le sitemap est en attente, surveillez l’envoi existant au lieu de le répéter. Suivez les instructions Bing actuelles en cas d’erreur et utilisez les outils d’inspection disponibles pour les nouvelles pages importantes.'],
           check: 'Bing Webmaster Tools affiche le site vérifié et le sitemap canonique sans erreur non résolue.',
           aiPrompt: 'Guide-moi dans la checklist officielle de Bing Webmaster Tools, écran par écran. Demande quelles options sont affichées. Ne demande aucun mot de passe ou jeton.',
           resources: [{ label: 'Ouvrir Bing Webmaster Tools', url: searchVisibilityResources.bingPortal.url }, { label: 'Checklist Bing Webmaster Tools', url: bingGettingStarted.url }]
@@ -86,7 +86,7 @@ const baseTranslations: Record<string, Partial<Record<Exclude<LanguageCode, 'en'
     },
     de: {
       title: 'Google Suche und Bing Webmaster Tools einrichten',
-      intro: 'Wähle eine kanonische Website-Adresse, reiche die Sitemap ein und prüfe die Indexierung in Google Search Console und Bing Webmaster Tools. Microsoft Edge ist ein Browser, nicht Bings Webmaster-Dienst.',
+      intro: 'Wähle eine kanonische Website-Adresse, prüfe oder reiche die Sitemap ein und überprüfe die Indexierung in Google Search Console und Bing Webmaster Tools. Microsoft Edge ist ein Browser, nicht Bings Webmaster-Dienst.',
       steps: {
         'choose-canonical-origin': {
           title: 'Eine öffentliche Website-Adresse festlegen',
@@ -103,8 +103,8 @@ const baseTranslations: Record<string, Partial<Record<Exclude<LanguageCode, 'en'
           resources: [{ label: 'Property in Search Console hinzufügen', url: googleProperty.url }]
         },
         'submit-google-sitemap': {
-          title: 'Kanonische Sitemap bei Google einreichen',
-          explanation: ['Öffne in der bestätigten Property den Bereich Sitemaps. Reiche die vollständige Sitemap-Adresse des kanonischen Hosts ein, zum Beispiel https://www.example.com/sitemap.xml. Prüfe, ob sie abgerufen wurde und gewünschte öffentliche Seiten enthält.', 'Eine Sitemap hilft Google beim Entdecken, erzwingt aber keine Indexierung. Halte eine aktuelle Sitemap und behebe Fehler an ihrer Ursache.'],
+          title: 'Kanonische Sitemap bei Google prüfen oder einreichen',
+          explanation: ['Öffne in der bestätigten Property den Bereich Sitemaps. Prüfe zuerst, ob die vollständige kanonische Sitemap-Adresse, zum Beispiel https://www.example.com/sitemap.xml, bereits aufgeführt ist. Reiche sie nur ein, wenn sie fehlt; andernfalls nutze den vorhandenen Eintrag und prüfe seinen Status.', 'Steht die Verarbeitung noch aus, warte ab, statt dieselbe Sitemap erneut einzureichen. Untersuche gemeldete Fehler und prüfe, ob die Sitemap die gewünschten öffentlichen Seiten enthält. Eine Sitemap hilft Google beim Entdecken, erzwingt aber keine Indexierung.'],
           check: 'Die Sitemap zeigt eine erfolgreiche Verarbeitung und verwendet den kanonischen HTTPS-Host.',
           aiPrompt: 'Hilf mir, den Status im Search-Console-Sitemapbericht zu verstehen. Frage nur nach dem Statustext, nicht nach Kontozugängen.',
           resources: [{ label: 'Sitemap bei Google erstellen und einreichen', url: googleSitemap.url }]
@@ -117,8 +117,8 @@ const baseTranslations: Record<string, Partial<Record<Exclude<LanguageCode, 'en'
           resources: [{ label: 'Google erneut crawlen lassen', url: googleRecrawl.url }]
         },
         'set-up-bing-webmaster': {
-          title: 'Website in Bing Webmaster Tools hinzufügen',
-          explanation: ['Bing Webmaster Tools ist der Dienst für Bing Search; Microsoft Edge ist nur ein Browser. Melde dich bei Bing Webmaster Tools an. Wenn deine Website bereits in Search Console bestätigt ist, nutze Bings Importoption; andernfalls füge sie hinzu und schließe eine angezeigte Bestätigungsmethode ab.', 'Füge den kanonischen Host und dieselbe Sitemap ein, zum Beispiel https://www.example.com/sitemap.xml. Nutze verfügbare URL-Prüf- oder Einreichungsfunktionen. Prüfe aktuelle Bing-Anweisungen, da sich Menüs ändern können.'],
+          title: 'Website in Bing Webmaster Tools prüfen oder bestätigen',
+          explanation: ['Bing Webmaster Tools ist der Dienst für Bing Search; Microsoft Edge ist nur ein Browser. Melde dich bei Bing Webmaster Tools an. Prüfe zuerst, ob die kanonische Website bereits aufgeführt ist. Ist sie vorhanden, nutze den bestehenden Eintrag und bestätige sie nur bei Bedarf. Fehlt sie, nutze Bings Importoption für eine bereits in Search Console bestätigte Property, falls angeboten; andernfalls füge die Website hinzu und schließe eine angezeigte Bestätigungsmethode ab.', 'Prüfe, ob dieselbe kanonische Sitemap, zum Beispiel https://www.example.com/sitemap.xml, bereits aufgeführt ist. Reiche sie nur ein, wenn sie fehlt; ist die Sitemap noch in Bearbeitung, beobachte den vorhandenen Eintrag, statt sie erneut einzureichen. Folge bei Fehlern den aktuellen Bing-Hinweisen und nutze die verfügbaren URL-Prüfwerkzeuge für wichtige neue Seiten.'],
           check: 'Bing Webmaster Tools listet die bestätigte Website und die kanonische Sitemap ohne offenen Fehler.',
           aiPrompt: 'Führe mich Schritt für Schritt durch Bings offizielle Webmaster-Checkliste. Frage, welche Optionen ich sehe. Frage nicht nach Passwörtern oder Prüftoken.',
           resources: [{ label: 'Bing Webmaster Tools öffnen', url: searchVisibilityResources.bingPortal.url }, { label: 'Bing Webmaster Tools Checkliste', url: bingGettingStarted.url }]
@@ -134,7 +134,7 @@ const baseTranslations: Record<string, Partial<Record<Exclude<LanguageCode, 'en'
     },
     es: {
       title: 'Configurar Google Search y Bing Webmaster Tools',
-      intro: 'Elige una dirección canónica, envía tu sitemap y comprueba la indexación en Google Search Console y Bing Webmaster Tools. Microsoft Edge es un navegador, no el servicio para webmasters de Bing.',
+      intro: 'Elige una dirección canónica, comprueba o envía tu sitemap y revisa la indexación en Google Search Console y Bing Webmaster Tools. Microsoft Edge es un navegador, no el servicio para webmasters de Bing.',
       steps: {
         'choose-canonical-origin': {
           title: 'Elige una única dirección pública',
@@ -151,8 +151,8 @@ const baseTranslations: Record<string, Partial<Record<Exclude<LanguageCode, 'en'
           resources: [{ label: 'Añadir una propiedad en Search Console', url: googleProperty.url }]
         },
         'submit-google-sitemap': {
-          title: 'Envía el sitemap canónico a Google',
-          explanation: ['En la propiedad verificada, abre Sitemaps y envía la URL completa del sitemap del dominio canónico, por ejemplo https://www.example.com/sitemap.xml. Comprueba que se ha procesado e incluye las páginas públicas que quieres que Google descubra.', 'El sitemap ayuda a descubrir URL, pero no obliga a indexarlas. Mantén un sitemap actualizado y corrige los errores desde su origen.'],
+          title: 'Comprueba o envía el sitemap canónico a Google',
+          explanation: ['En la propiedad verificada, abre Sitemaps. Comprueba primero si la URL completa del sitemap canónico, por ejemplo https://www.example.com/sitemap.xml, ya aparece en la lista. Envíala solo si falta; si ya figura, conserva el envío existente y revisa su estado.', 'Si está pendiente de procesamiento, espera en lugar de volver a enviar el mismo sitemap. Investiga los errores indicados y comprueba que el sitemap contiene las páginas públicas que quieres dar a conocer. El sitemap ayuda a Google a descubrir URL, pero no obliga a indexarlas.'],
           check: 'El sitemap muestra procesamiento correcto y usa el dominio HTTPS canónico.',
           aiPrompt: 'Ayúdame a entender el estado del informe de Sitemaps. Pide solo el texto del estado, nunca credenciales.',
           resources: [{ label: 'Crear y enviar un sitemap a Google', url: googleSitemap.url }]
@@ -165,8 +165,8 @@ const baseTranslations: Record<string, Partial<Record<Exclude<LanguageCode, 'en'
           resources: [{ label: 'Solicitar a Google que vuelva a rastrear', url: googleRecrawl.url }]
         },
         'set-up-bing-webmaster': {
-          title: 'Añade y verifica tu sitio en Bing Webmaster Tools',
-          explanation: ['Bing Webmaster Tools es el servicio para Bing Search; Microsoft Edge es solo un navegador. Inicia sesión en Bing Webmaster Tools. Si Search Console ya está verificada, usa la opción de importación de Bing; si no, añade el sitio y completa uno de los métodos de verificación disponibles.', 'Añade el dominio canónico y el mismo sitemap, por ejemplo https://www.example.com/sitemap.xml. Usa las herramientas disponibles para inspeccionar o enviar URL. Consulta las instrucciones actuales de Bing porque los menús pueden cambiar.'],
+          title: 'Comprueba o verifica tu sitio en Bing Webmaster Tools',
+          explanation: ['Bing Webmaster Tools es el servicio para Bing Search; Microsoft Edge es solo un navegador. Inicia sesión en Bing Webmaster Tools. Comprueba primero si el sitio canónico ya aparece en la lista. Si figura, usa la entrada existente y verifícala solo si es necesario. Si falta, usa la importación de Bing para una propiedad ya verificada en Search Console cuando esté disponible; de lo contrario, añade el sitio y completa uno de los métodos de verificación mostrados.', 'Comprueba si el mismo sitemap canónico, por ejemplo https://www.example.com/sitemap.xml, ya aparece en la lista. Envíalo solo si falta; si el sitemap está pendiente, vigila el envío existente en lugar de repetirlo. Sigue las instrucciones actuales de Bing ante errores y usa sus herramientas de inspección para las nuevas páginas importantes.'],
           check: 'Bing Webmaster Tools muestra el sitio verificado y el sitemap canónico sin errores pendientes.',
           aiPrompt: 'Guíame por la lista oficial de inicio de Bing Webmaster Tools, una pantalla cada vez. Pregunta qué opciones veo. No pidas contraseñas ni tokens.',
           resources: [{ label: 'Abrir Bing Webmaster Tools', url: searchVisibilityResources.bingPortal.url }, { label: 'Lista de inicio de Bing Webmaster Tools', url: bingGettingStarted.url }]

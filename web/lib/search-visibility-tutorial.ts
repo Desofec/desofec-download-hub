@@ -48,10 +48,10 @@ export const searchVisibilitySteps: TutorialStep[] = [
   },
   {
     id: 'submit-google-sitemap',
-    title: 'Submit the canonical sitemap to Google',
+    title: 'Check or submit the canonical sitemap to Google',
     explanation: [
-      'Open the verified property and select Sitemaps. Submit the full sitemap URL for your canonical hostname, such as https://www.example.com/sitemap.xml. Check that the sitemap is fetched successfully and contains the public page URLs you want discovered.',
-      'A sitemap helps Google discover URLs; it does not force indexing. Keep one current sitemap for the canonical site and correct errors at their source.'
+      'Open the verified property and select Sitemaps. First check whether the full canonical sitemap URL, such as https://www.example.com/sitemap.xml, is already listed. Submit it only if it is absent; otherwise keep the existing submission and check its status.',
+      'If processing is pending, allow time rather than submitting the same sitemap again. Investigate reported errors and check that the sitemap contains the public page URLs you want discovered. A sitemap helps Google discover URLs; it does not force indexing.'
     ],
     check: 'The submitted sitemap shows a successful processing status and its URL begins with your canonical HTTPS hostname.',
     aiPrompt: 'Help me interpret the status in the Search Console Sitemaps report. Ask for the status text only; do not request login details.',
@@ -70,10 +70,10 @@ export const searchVisibilitySteps: TutorialStep[] = [
   },
   {
     id: 'set-up-bing-webmaster',
-    title: 'Add and verify your site in Bing Webmaster Tools',
+    title: 'Check or verify your site in Bing Webmaster Tools',
     explanation: [
-      'Bing Webmaster Tools is the service for Bing search; Microsoft Edge is only a web browser. Open Bing Webmaster Tools and sign in with an available account. If Search Console is already verified, use Bing’s import option when offered; otherwise add your site and complete one of the verification methods shown there.',
-      'Add the canonical site address and submit the same canonical sitemap URL, for example https://www.example.com/sitemap.xml. Use Bing’s available URL inspection or submission tools for important new pages. Check the current Bing instructions because screens and options may change.'
+      'Bing Webmaster Tools is the service for Bing search; Microsoft Edge is only a web browser. Open Bing Webmaster Tools and sign in with an available account. First check whether the canonical site is already listed. If it is, use the existing entry and verify it only if needed. If it is absent, use Bing’s import option for an already verified Search Console property when offered, or add the site and complete a verification method shown there.',
+      'Check whether the same canonical sitemap URL, for example https://www.example.com/sitemap.xml, is already listed. Submit it only if absent; if the sitemap is pending, monitor the existing submission rather than submitting it again. Follow current Bing guidance for errors and use its available URL inspection tools for important new pages.'
     ],
     check: 'Bing Webmaster Tools lists your verified site and the canonical sitemap, with no unresolved verification or sitemap error.',
     aiPrompt: 'Guide me through the official Bing Webmaster Tools getting-started checklist one screen at a time. Ask what option I see. Do not ask for passwords, verification tokens or DNS credentials.',
