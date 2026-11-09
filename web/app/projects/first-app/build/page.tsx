@@ -2,13 +2,19 @@ import { publicPageMetadata } from '@/lib/public-page-metadata';
 import Link from 'next/link';
 import { TutorialHeader } from '@/components/tutorial-header';
 import { TutorialLabel } from '@/components/tutorial-back-label';
+import { TutorialLanguageLinks } from '@/components/tutorial-language-links';
 import { TutorialSteps } from '@/components/tutorial-steps';
+import { requireTutorial, tutorialAlternates } from '@/lib/localized-tutorials';
 import { taskTrackerSteps } from '@/lib/task-tracker-tutorial';
 
-export const metadata = publicPageMetadata('/projects/first-app/build', {
-  title: 'Code your own task tracker',
-  description: 'A step-by-step beginner tutorial: build a task tracker with HTML, CSS and JavaScript.'
-});
+const tutorial = requireTutorial('first-app');
+export const metadata = {
+  ...publicPageMetadata('/projects/first-app/build', {
+    title: 'Code your own task tracker',
+    description: 'A step-by-step beginner tutorial: build a task tracker with HTML, CSS and JavaScript.'
+  }),
+  alternates: tutorialAlternates(tutorial, 'en')
+};
 
 export default function TaskTrackerTutorialPage() {
   return (
@@ -26,6 +32,7 @@ export default function TaskTrackerTutorialPage() {
             account and a web browser. No installs and no experience required.</>
           }
         />
+        <TutorialLanguageLinks tutorial={tutorial} />
         <TutorialSteps
           steps={taskTrackerSteps}
           storageKey="desofec:tutorial:task-tracker"

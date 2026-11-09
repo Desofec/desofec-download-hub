@@ -2,13 +2,19 @@ import { publicPageMetadata } from '@/lib/public-page-metadata';
 import Link from 'next/link';
 import { TutorialHeader } from '@/components/tutorial-header';
 import { TutorialLabel } from '@/components/tutorial-back-label';
+import { TutorialLanguageLinks } from '@/components/tutorial-language-links';
 import { TutorialSteps } from '@/components/tutorial-steps';
+import { requireTutorial, tutorialAlternates } from '@/lib/localized-tutorials';
 import { codingFoundationsSteps } from '@/lib/coding-foundations-tutorial';
 
-export const metadata = publicPageMetadata('/projects/coding-foundations/build', {
-  title: 'Learn Python: coding foundations tutorial',
-  description: 'A step-by-step beginner tutorial: set up Python, learn the basics, use Git and build a guessing game.'
-});
+const tutorial = requireTutorial('coding-foundations');
+export const metadata = {
+  ...publicPageMetadata('/projects/coding-foundations/build', {
+    title: 'Learn Python: coding foundations tutorial',
+    description: 'A step-by-step beginner tutorial: set up Python, learn the basics, use Git and build a guessing game.'
+  }),
+  alternates: tutorialAlternates(tutorial, 'en')
+};
 
 export default function CodingFoundationsTutorialPage() {
   return (
@@ -23,6 +29,7 @@ export default function CodingFoundationsTutorialPage() {
             with Git and finish with a small game you can share.</>
           }
         />
+        <TutorialLanguageLinks tutorial={tutorial} />
         <TutorialSteps
           steps={codingFoundationsSteps}
           storageKey="desofec:tutorial:coding-foundations"

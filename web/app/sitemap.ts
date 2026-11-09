@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { getCatalog } from '@/lib/catalog';
+import { localizedTutorialLanguages, localizedTutorialPath, localizedTutorials } from '@/lib/localized-tutorials';
 import { tutorials } from '@/lib/tutorials';
 
 const siteUrl = 'https://www.desofec.com';
@@ -18,6 +19,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: new URL('/business-launchpad/freelance-portfolio', siteUrl).toString() },
     { url: new URL('/business-launchpad/spreadsheet-lab', siteUrl).toString() },
     ...[...publicPages, ...tutorialPages].map((path) => ({ url: new URL(path, siteUrl).toString() })),
+    ...localizedTutorials.flatMap((tutorial) => localizedTutorialLanguages.map((language) => ({
+      url: new URL(localizedTutorialPath(tutorial, language), siteUrl).toString()
+    }))),
     ...paths.map((path) => ({
       url: new URL(`/paths/${encodeURIComponent(path.id)}`, siteUrl).toString()
     })),

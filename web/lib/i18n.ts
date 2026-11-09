@@ -156,3 +156,22 @@ export const dictionaries: Record<LanguageCode, Record<TranslationKey, string>> 
 export function isLanguageCode(value: unknown): value is LanguageCode {
   return languages.some((language) => language.code === value);
 }
+
+export function languageFromPath(pathname: string): LanguageCode | undefined {
+  const prefix = pathname.split('/')[1];
+  return prefix !== defaultLanguage && isLanguageCode(prefix) ? prefix : undefined;
+}
+
+export function withoutLanguagePrefix(pathname: string) {
+  return languageFromPath(pathname) ? pathname.slice(3) || '/' : pathname;
+}
+
+export function tutorialLanguageDestination(
+  pathname: string,
+  language: LanguageCode,
+  availablePaths: readonly string[]
+) {
+  const tutorialPath = withoutLanguagePrefix(pathname);
+  const targetPath = language === defaultLanguage ? tutorialPath : `/${language}${tutorialPath}`;
+  return availablePaths.includes(targetPath) ? targetPath : undefined;
+}

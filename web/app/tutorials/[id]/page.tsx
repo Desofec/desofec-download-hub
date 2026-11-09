@@ -4,7 +4,9 @@ import { notFound } from 'next/navigation';
 import { TutorialHeader } from '@/components/tutorial-header';
 import { TutorialSteps } from '@/components/tutorial-steps';
 import { TutorialLabel } from '@/components/tutorial-back-label';
+import { TutorialLanguageLinks } from '@/components/tutorial-language-links';
 import { Tr } from '@/components/tr';
+import { tutorialAlternates } from '@/lib/localized-tutorials';
 import { tutorialStorageKey, tutorials } from '@/lib/tutorials';
 
 const hosted = tutorials.filter((tutorial) => tutorial.href.startsWith('/tutorials/'));
@@ -18,7 +20,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   const tutorial = hosted.find((entry) => entry.pathId === id);
   return tutorial ? {
     title: tutorial.title, description: tutorial.intro,
-    alternates: { canonical: tutorial.href },
+    alternates: tutorialAlternates(tutorial, 'en'),
     openGraph: { title: tutorial.title, description: tutorial.intro, url: tutorial.href },
     twitter: { card: 'summary_large_image', title: tutorial.title, description: tutorial.intro }
   } : { title: 'Tutorial' };
@@ -38,6 +40,7 @@ export default async function TutorialPage({ params }: { params: Promise<{ id: s
           intro={tutorial.intro}
           minutes={Number.parseInt(tutorial.time, 10)}
         />
+        <TutorialLanguageLinks tutorial={tutorial} />
         <TutorialSteps
           steps={tutorial.steps}
           storageKey={tutorialStorageKey(tutorial.pathId)}

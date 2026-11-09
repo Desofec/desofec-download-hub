@@ -2,13 +2,19 @@ import { publicPageMetadata } from '@/lib/public-page-metadata';
 import Link from 'next/link';
 import { TutorialHeader } from '@/components/tutorial-header';
 import { TutorialLabel } from '@/components/tutorial-back-label';
+import { TutorialLanguageLinks } from '@/components/tutorial-language-links';
 import { TutorialSteps } from '@/components/tutorial-steps';
 import { aiAssistedCodingSteps } from '@/lib/ai-assisted-coding-tutorial';
+import { requireTutorial, tutorialAlternates } from '@/lib/localized-tutorials';
 
-export const metadata = publicPageMetadata('/projects/ai-assisted-coding/build', {
-  title: 'Code with an AI assistant: tutorial',
-  description: 'A step-by-step tutorial: write clear prompts, review AI code, test it and stay in control.'
-});
+const tutorial = requireTutorial('ai-assisted-coding');
+export const metadata = {
+  ...publicPageMetadata('/projects/ai-assisted-coding/build', {
+    title: 'AI coding assistant tutorial for beginners',
+    description: 'Practise with an AI coding assistant and a small Python project. Write prompts, review suggested code, test for bugs and stay in control.'
+  }),
+  alternates: tutorialAlternates(tutorial, 'en')
+};
 
 export default function AiAssistedCodingTutorialPage() {
   return (
@@ -24,6 +30,7 @@ export default function AiAssistedCodingTutorialPage() {
             <Link href="/projects/coding-foundations/build">Python tutorial</Link> first.</>
           }
         />
+        <TutorialLanguageLinks tutorial={tutorial} />
         <TutorialSteps
           steps={aiAssistedCodingSteps}
           storageKey="desofec:tutorial:ai-assisted-coding"
