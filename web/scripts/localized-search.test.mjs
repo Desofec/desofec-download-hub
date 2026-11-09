@@ -3,11 +3,12 @@ import { readFile } from 'node:fs/promises';
 import { test } from 'node:test';
 import { loadWebModules } from './load-web-modules.mjs';
 
-const [localized, registry, translations, i18n] = loadWebModules([
+const [localized, registry, translations, i18n, search] = loadWebModules([
   'lib/localized-tutorials.ts',
   'lib/tutorials.ts',
   'lib/tutorial-translations.ts',
-  'lib/i18n.ts'
+  'lib/i18n.ts',
+  'lib/tutorial-search-metadata.ts'
 ]);
 
 test('only public tutorials with complete lesson translations get localized pages', () => {
@@ -67,12 +68,16 @@ test('canonical and reciprocal alternates point to real language versions', () =
       if (code !== 'en') {
         const metadata = localized.localizedTutorialMetadata(tutorial, code);
         const text = translations.getTutorialTranslation(tutorial.pathId, code);
-        assert.equal(metadata.title, text.title);
-        assert.equal(metadata.description, text.intro);
+        const snippet = search.tutorialSearchText(tutorial.pathId, code, { title: text.title, description: text.intro });
+        assert.equal(metadata.title, snippet.title);
+        assert.equal(metadata.description, snippet.description);
         assert.equal(metadata.openGraph.url, href);
+        assert.equal(metadata.openGraph.title, text.title);
+        assert.equal(metadata.openGraph.description, snippet.description);
         assert.equal(metadata.openGraph.locale, social.locale);
         assert.deepEqual(metadata.openGraph.alternateLocale, social.alternateLocale);
         assert.equal(metadata.twitter.title, text.title);
+        assert.equal(metadata.twitter.description, snippet.description);
         assert.deepEqual(metadata.alternates, alternate);
       }
     }
@@ -82,6 +87,75 @@ test('canonical and reciprocal alternates point to real language versions', () =
   assert.equal(localized.tutorialSocialLocales(untranslated, 'en'), undefined);
   assert.deepEqual(localized.tutorialAlternates(untranslated, 'en'), { canonical: untranslated.href });
   assert.throws(() => localized.tutorialAlternates(untranslated, 'fr'), /Missing localized tutorial/);
+});
+
+test('tutorial search snippets fit search results without losing practice safeguards', () => {
+  const assertSnippet = (id, language, source) => {
+    const snippet = search.tutorialSearchText(id, language, source);
+    assert.ok(`${snippet.title} | Desofec AI Studio`.length < 70, `${id}/${language}: search title`);
+    assert.ok(snippet.description.length >= 25 && snippet.description.length <= 160, `${id}/${language}: search description`);
+    return snippet.description;
+  };
+  for (const tutorial of registry.tutorials.filter(({ href }) => href.startsWith('/tutorials/'))) {
+    assertSnippet(tutorial.pathId, 'en', { title: tutorial.title, description: tutorial.intro });
+  }
+  for (const tutorial of localized.localizedTutorials) {
+    for (const language of localized.localizedTutorialLanguages) {
+      const text = translations.getTutorialTranslation(tutorial.pathId, language);
+      assertSnippet(tutorial.pathId, language, { title: text.title, description: text.intro });
+    }
+  }
+
+  const video = registry.tutorials.find(({ pathId }) => pathId === 'ai-video-business');
+  for (const [language, fiction, privacy, duration, noPublication] of [
+    ['en', /fictional bakery/i, /privat/i, /15-30/, /do not publish/i],
+    ['fr', /boulangerie fictive/i, /privé/i, /15 à 30/, /sans publication/i],
+    ['de', /fiktive Bäckerei/i, /privat/i, /15- bis 30/, /nicht veröffentlichen/i],
+    ['es', /panadería ficticia/i, /privado/i, /15 a 30/, /sin publicar/i]
+  ]) {
+    const source = language === 'en' ? video : translations.getTutorialTranslation(video.pathId, language);
+    const description = assertSnippet(video.pathId, language, { title: source.title, description: source.intro });
+    assert.match(description, fiction, language);
+    assert.match(description, privacy, language);
+    assert.match(description, duration, language);
+    assert.match(description, noPublication, language);
+    assert.match(description, /storyboard/i, language);
+  }
+
+  for (const [id, language, safeguard] of [
+    ['ai-online-retail', 'en', /fictional.*no live store, payments or purchases/i],
+    ['ai-online-retail', 'fr', /fictives.*sans boutique, paiement ni achat réel/i],
+    ['ai-online-retail', 'de', /fiktiven.*keine Zahlungen oder Käufe/i],
+    ['ai-online-retail', 'es', /ficticios.*sin tienda, pagos ni compras reales/i],
+    ['ai-automation-services', 'en', /fictional.*no live sending/i],
+    ['ai-automation-services', 'fr', /fictives.*sans envoi réel/i],
+    ['ai-automation-services', 'de', /fiktiven.*ohne echten Versand/i],
+    ['ai-automation-services', 'es', /ficticios.*sin envíos reales/i],
+    ['ai-marketplace-model', 'en', /paper or spreadsheet prototype, not a live marketplace or payment system/i],
+    ['ai-marketplace-model', 'fr', /papier ou tableur, sans marketplace ni système de paiement réel/i],
+    ['ai-marketplace-model', 'de', /Papier oder in Tabellen, ohne echten Marktplatz oder Zahlungsverkehr/i],
+    ['ai-marketplace-model', 'es', /papel u hoja de cálculo, sin mercado ni sistema de pagos activo/i],
+    ['ai-logistics-services', 'en', /fictional.*no goods, addresses or real shipments/i],
+    ['ai-logistics-services', 'fr', /fictifs, sans traiter de marchandises, d’adresses ni d’envois réels/i],
+    ['ai-logistics-services', 'de', /fiktiven.*keine echten Waren, Adressen oder Sendungen/i],
+    ['ai-logistics-services', 'es', /ficticios.*no se procesan bienes, direcciones ni envíos reales/i],
+    ['ai-cad-services', 'en', /non-functional.*no manufacturing or engineering approval/i],
+    ['ai-cad-services', 'fr', /non fonctionnel.*sans fabrication ni approbation/i],
+    ['ai-cad-services', 'de', /nicht funktionsfähiges.*keine Fertigung oder technische Freigabe/i],
+    ['ai-cad-services', 'es', /no funcional.*sin fabricación ni aprobación/i],
+    ['micro-saas-validation', 'en', /local-only.*no paid AI, billing or production launch/i],
+    ['micro-saas-validation', 'fr', /local.*pas d’IA payante, de facturation ni de lancement en production/i],
+    ['micro-saas-validation', 'de', /lokalen.*keine kostenpflichtige KI, Abrechnung oder Produktionsfreigabe/i],
+    ['micro-saas-validation', 'es', /local.*sin IA de pago, facturación ni lanzamiento en producción/i],
+    ['ai-education-services', 'en', /no accreditation or guaranteed learning outcome/i],
+    ['ai-education-services', 'fr', /aucune accréditation ni aucun apprentissage garanti/i],
+    ['ai-education-services', 'de', /keine Akkreditierung und kein garantierter Lernerfolg/i],
+    ['ai-education-services', 'es', /sin acreditación ni resultados de aprendizaje garantizados/i]
+  ]) {
+    const tutorial = registry.tutorials.find(({ pathId }) => pathId === id);
+    const source = language === 'en' ? tutorial : translations.getTutorialTranslation(id, language);
+    assert.match(assertSnippet(id, language, { title: source.title, description: source.intro }), safeguard, `${id}/${language}`);
+  }
 });
 
 test('language-prefixed navigation keeps existing routes recognizable', () => {

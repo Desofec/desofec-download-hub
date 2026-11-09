@@ -1,6 +1,7 @@
 import type { LanguageCode } from '@/lib/i18n';
 import { languages } from '@/lib/i18n';
 import { publicPageMetadata } from '@/lib/public-page-metadata';
+import { tutorialSearchText } from '@/lib/tutorial-search-metadata';
 import { getTutorialTranslation } from '@/lib/tutorial-translations';
 import { tutorials, type TutorialInfo } from '@/lib/tutorials';
 
@@ -100,12 +101,17 @@ export function localizedTutorialMetadata(tutorial: TutorialInfo, language: Loca
     throw new Error(`Missing ${language} tutorial translation: ${tutorial.pathId}`);
   }
   const pathname = localizedTutorialPath(tutorial, language);
+  const search = tutorialSearchText(tutorial.pathId, language, {
+    title: translation.title,
+    description: translation.intro
+  });
   return {
     ...publicPageMetadata(pathname, {
       title: translation.title,
-      description: translation.intro,
+      description: search.description,
       socialLocales: tutorialSocialLocales(tutorial, language)
     }),
+    title: search.title,
     alternates: tutorialAlternates(tutorial, language)
   };
 }

@@ -120,6 +120,15 @@ function checkSocialMetadata(html, pathname, language, expectedTitle) {
   if (expectedTitle) assert.equal(value('og:title'), expectedTitle, `${pathname}: translated social title`);
 }
 
+function checkSearchSnippet(html, pathname) {
+  const title = html.match(/<title>([^<]*)<\/title>/i)?.[1];
+  assert.ok(title, `${pathname}: search title`);
+  assert.ok(htmlText(title).length < 70, `${pathname}: search title includes the site name`);
+  const tags = [...html.matchAll(/<meta\b[^>]*>/gi)].map(([tag]) => attributes(tag));
+  const description = tags.find((tag) => tag.name === 'description')?.content;
+  assert.ok(description && description.length >= 25 && description.length <= 160, `${pathname}: search description`);
+}
+
 function checkLanguageNavigation(main, pathname) {
   const navigation = main.match(/<nav\b[^>]*class="tutorial-language-links"[^>]*>[\s\S]*?<\/nav>/i)?.[0];
   assert.ok(navigation, `${pathname}: language navigation`);
@@ -155,10 +164,10 @@ test('all sitemap language versions return readable, self-canonical HTML with re
   const localizedUrls = locations.filter((location) => /^https:\/\/www\.desofec\.com\/(?:fr|de|es)\//.test(location));
   assert.ok(localizedUrls.length >= 60, 'complete translations have discoverable language URLs');
   const expectedPages = new Map(localized.localizedTutorials.flatMap((tutorial) =>
-    localized.localizedTutorialLanguages.map((language) => [
-      `${productionOrigin}${localized.localizedTutorialPath(tutorial, language)}`,
-      translations.getTutorialTranslation(tutorial.pathId, language).title
-    ])
+    localized.localizedTutorialLanguages.map((language) => {
+      const { title, intro } = translations.getTutorialTranslation(tutorial.pathId, language);
+      return [`${productionOrigin}${localized.localizedTutorialPath(tutorial, language)}`, { title, intro }];
+    })
   ));
   assert.deepEqual([...localizedUrls].sort(), [...expectedPages.keys()].sort(), 'sitemap matches eligible translations');
 
@@ -185,14 +194,20 @@ test('all sitemap language versions return readable, self-canonical HTML with re
     assert.match(main, new RegExp(`<div lang="${language}">`), pathname);
     const heading = main.match(/<h1\b[^>]*>([^<]+)<\/h1>/i);
     assert.ok(heading, pathname);
-    assert.equal(htmlText(heading[1]), expectedPages.get(url), `${pathname}: translated heading`);
+    const expected = expectedPages.get(url);
+    assert.equal(htmlText(heading[1]), expected.title, `${pathname}: translated heading`);
+    const sectionHead = main.match(/<div\b[^>]*class="section-head"[^>]*>([\s\S]*?)<\/div>/i)?.[1];
+    const intro = sectionHead?.match(/<p>([\s\S]*?)<\/p>/i)?.[1];
+    assert.ok(intro, `${pathname}: translated introduction`);
+    assert.equal(htmlText(intro), expected.intro, `${pathname}: full translated introduction`);
     const checkboxes = [...main.matchAll(/<input\b[^>]*type="checkbox"[^>]*>/gi)].map(([input]) => input);
     assert.ok(checkboxes.length > 0, pathname);
     assert.ok(checkboxes.every((input) => !/\schecked(?:[=>\s]|$)/i.test(input)), `${pathname}: no automatic completion`);
     assert.doesNotMatch(document, /<meta[^>]+name="robots"[^>]+noindex/i, pathname);
     checkLanguageNavigation(main, pathname);
     checkAlternates(document, pathname.slice(3), pathname);
-    checkSocialMetadata(document, pathname, language, expectedPages.get(url));
+    checkSocialMetadata(document, pathname, language, expected.title);
+    checkSearchSnippet(document, pathname);
   });
 
   await forEachLimit([...groups.keys()], 6, async (pathname) => {
@@ -201,7 +216,21 @@ test('all sitemap language versions return readable, self-canonical HTML with re
     checkLanguageNavigation(renderedMain(document), pathname);
     checkAlternates(document, pathname, pathname);
     checkSocialMetadata(document, pathname, 'en');
+    checkSearchSnippet(document, pathname);
   });
+});
+
+test('English-only tutorials render concise search snippets', async () => {
+  for (const pathname of [
+    '/tutorials/looker-studio-guide',
+    '/tutorials/zoho-inventory-guide',
+    '/tutorials/freelance-client-discovery',
+    '/tutorials/ai-spreadsheets'
+  ]) {
+    const { response, html } = await page(pathname);
+    assert.equal(response.status, 200, pathname);
+    checkSearchSnippet(html, pathname);
+  }
 });
 
 test('representative lessons render translated teaching text without JavaScript', async () => {
