@@ -4,6 +4,7 @@ import { TutorialHeader } from '@/components/tutorial-header';
 import { TutorialLabel } from '@/components/tutorial-back-label';
 import { TutorialLanguageLinks } from '@/components/tutorial-language-links';
 import { TutorialSteps } from '@/components/tutorial-steps';
+import { TutorialLink } from '@/components/tutorial-link';
 import { requireTutorial, tutorialAlternates, tutorialSocialLocales } from '@/lib/localized-tutorials';
 import { codingFoundationsSteps } from '@/lib/coding-foundations-tutorial';
 
@@ -38,9 +39,9 @@ export default function CodingFoundationsTutorialPage() {
           title="Learn to code with Python"
         />
         <div className="cta-row">
-          <Link className="btn btn-primary" href="/projects/first-app/build">
+          <TutorialLink className="btn btn-primary" href="/projects/first-app/build">
             Next: build a task tracker
-          </Link>
+          </TutorialLink>
           <Link className="btn btn-secondary" href="/paths/coding-foundations"><TutorialLabel k="tutorial.back" /></Link>
         </div>
       </div>

@@ -6,6 +6,7 @@ import { FavoriteToolButton } from '@/components/favorite-tool-button';
 import { getCatalog } from '@/lib/catalog';
 import { Tr } from '@/components/tr';
 import { ToolFreshness } from '@/components/tool-freshness';
+import { TutorialLink } from '@/components/tutorial-link';
 import { tutorials } from '@/lib/tutorials';
 
 export async function generateStaticParams() {
@@ -63,9 +64,9 @@ export default async function ToolDetailPage({ params }: { params: Promise<{ id:
             <FavoriteToolButton toolId={tool.id} />
           </div>
           <div className="cta-row">
-            {guide && <Link className="btn btn-secondary" href={guide.href}>
+            {guide && <TutorialLink className="btn btn-secondary" href={guide.href}>
               <Tr>Learn step by step: tutorial</Tr>
-            </Link>}
+            </TutorialLink>}
             <a
               className="btn btn-primary"
               href={tool.url}

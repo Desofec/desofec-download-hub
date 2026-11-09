@@ -4,6 +4,7 @@ import { GoalCard, PackCard, PathCard, ToolCard } from '@/components/cards';
 import { ContinueLearning } from '@/components/continue-learning';
 import { HeroArt } from '@/components/hero-art';
 import { NewsletterForm } from '@/components/newsletter-form';
+import { TutorialLink } from '@/components/tutorial-link';
 import { getCatalog } from '@/lib/catalog';
 import { tutorialStorageKey, tutorials } from '@/lib/tutorials';
 import { Tr } from '@/components/tr';
@@ -143,7 +144,7 @@ export default async function HomePage() {
               const tutorial = tutorials.find((entry) => entry.pathId === lesson.id);
               if (!tutorial) throw new Error(`Missing featured homepage tutorial: ${lesson.id}`);
               return <article className="result-card" key={lesson.id}>
-                <h3><Link href={tutorial.href}><Tr>{lesson.title}</Tr></Link></h3>
+                <h3><TutorialLink href={tutorial.href}><Tr>{lesson.title}</Tr></TutorialLink></h3>
                 <p><Tr>{lesson.outcome}</Tr></p>
               </article>;
             })}

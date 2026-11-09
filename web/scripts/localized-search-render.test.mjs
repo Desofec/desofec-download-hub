@@ -120,6 +120,15 @@ function checkSocialMetadata(html, pathname, language, expectedTitle) {
   if (expectedTitle) assert.equal(value('og:title'), expectedTitle, `${pathname}: translated social title`);
 }
 
+function checkLanguageNavigation(main, pathname) {
+  const navigation = main.match(/<nav\b[^>]*class="tutorial-language-links"[^>]*>[\s\S]*?<\/nav>/i)?.[0];
+  assert.ok(navigation, `${pathname}: language navigation`);
+  const current = [...navigation.matchAll(/<a\b[^>]*>/gi)].map(([tag]) => attributes(tag))
+    .filter((link) => link['aria-current'] === 'page');
+  assert.equal(current.length, 1, `${pathname}: one current language`);
+  assert.equal(current[0].href, pathname, `${pathname}: current language URL`);
+}
+
 async function page(pathname) {
   const response = await fetch(`${origin}${pathname}`, {
     headers: { 'User-Agent': 'Googlebot', 'Accept-Language': 'en-US,en;q=0.9' },
@@ -181,6 +190,7 @@ test('all sitemap language versions return readable, self-canonical HTML with re
     assert.ok(checkboxes.length > 0, pathname);
     assert.ok(checkboxes.every((input) => !/\schecked(?:[=>\s]|$)/i.test(input)), `${pathname}: no automatic completion`);
     assert.doesNotMatch(document, /<meta[^>]+name="robots"[^>]+noindex/i, pathname);
+    checkLanguageNavigation(main, pathname);
     checkAlternates(document, pathname.slice(3), pathname);
     checkSocialMetadata(document, pathname, language, expectedPages.get(url));
   });
@@ -188,6 +198,7 @@ test('all sitemap language versions return readable, self-canonical HTML with re
   await forEachLimit([...groups.keys()], 6, async (pathname) => {
     const { response: result, html: document } = await page(pathname);
     assert.equal(result.status, 200, pathname);
+    checkLanguageNavigation(renderedMain(document), pathname);
     checkAlternates(document, pathname, pathname);
     checkSocialMetadata(document, pathname, 'en');
   });
@@ -210,6 +221,16 @@ test('representative lessons render translated teaching text without JavaScript'
     const checkboxes = [...main.matchAll(/<input\b[^>]*type="checkbox"[^>]*>/gi)].map(([input]) => input);
     assert.ok(checkboxes.length > 0, pathname);
     assert.ok(checkboxes.every((input) => !/\schecked(?:[=>\s]|$)/i.test(input)), `${pathname}: no automatic completion`);
+  }
+});
+
+test('translated tutorial pages link to the same-language next tutorial without JavaScript', async () => {
+  for (const language of ['fr', 'de', 'es']) {
+    const pathname = `/${language}/projects/coding-foundations/build`;
+    const { response, html } = await page(pathname);
+    assert.equal(response.status, 200, pathname);
+    const links = [...renderedMain(html).matchAll(/<a\b[^>]*>/gi)].map(([tag]) => attributes(tag));
+    assert.ok(links.some((link) => link.href === `/${language}/projects/first-app/build`), pathname);
   }
 });
 

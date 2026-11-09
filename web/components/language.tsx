@@ -5,7 +5,8 @@ import {
   defaultLanguage,
   dictionaries,
   isLanguageCode,
-  languageFromPath,
+  localizedTutorialHref,
+  tutorialRouteLanguage,
   type LanguageCode,
   type TranslationKey
 } from '@/lib/i18n';
@@ -13,6 +14,7 @@ import {
 const STORAGE_KEY = 'desofec:language';
 const EVENT_NAME = 'desofec-language-change';
 const RouteLanguageContext = createContext<LanguageCode | undefined>(undefined);
+const TutorialPathsContext = createContext<readonly string[]>([]);
 
 function subscribe(callback: () => void) {
   window.addEventListener('storage', callback);
@@ -23,8 +25,8 @@ function subscribe(callback: () => void) {
   };
 }
 
-function readLanguage(): LanguageCode {
-  const routeLanguage = languageFromPath(window.location.pathname);
+function readLanguage(localizedPaths: readonly string[]): LanguageCode {
+  const routeLanguage = tutorialRouteLanguage(window.location.pathname, localizedPaths);
   if (routeLanguage) return routeLanguage;
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
@@ -47,11 +49,21 @@ export function refreshLanguageFromPath() {
 
 export function useLanguage() {
   const routeLanguage = useContext(RouteLanguageContext);
+  const localizedPaths = useContext(TutorialPathsContext);
   return useSyncExternalStore(
     subscribe,
-    () => routeLanguage ?? readLanguage(),
+    () => routeLanguage ?? readLanguage(localizedPaths),
     () => routeLanguage ?? defaultLanguage
   );
+}
+
+export function TutorialPathsProvider({ paths, children }: { paths: readonly string[]; children: ReactNode }) {
+  return <TutorialPathsContext.Provider value={paths}>{children}</TutorialPathsContext.Provider>;
+}
+
+export function useLocalizedTutorialHref(href: string) {
+  const localizedPaths = useContext(TutorialPathsContext);
+  return localizedTutorialHref(href, useLanguage(), localizedPaths);
 }
 
 export function TutorialRouteLanguage({ language, children }: { language: LanguageCode; children: ReactNode }) {

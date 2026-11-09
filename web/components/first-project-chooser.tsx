@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useState, useSyncExternalStore } from 'react';
 import { useTr } from '@/components/tr';
+import { TutorialLink } from '@/components/tutorial-link';
 import type { LearningPath } from '@/lib/types';
 import { firstContentPath } from '@/lib/first-content-project';
 import { serviceJourneyDefinition } from '@/lib/service-project-journeys';
@@ -54,7 +55,7 @@ export function FirstProjectChooser({ paths }: { paths: LearningPath[] }) {
           <Link className="btn btn-primary" href={`/business-launchpad/projects?path=${encodeURIComponent(selected)}`}>
             {tr(guided ? 'Start the guided content project' : 'Start this guided service project')}
           </Link>
-          <Link className="btn btn-secondary" href={`/tutorials/${selected}`}>{tr('Preview the lessons')}</Link>
+          <TutorialLink className="btn btn-secondary" href={`/tutorials/${selected}`}>{tr('Preview the lessons')}</TutorialLink>
         </div>
       </section>}
     </div>

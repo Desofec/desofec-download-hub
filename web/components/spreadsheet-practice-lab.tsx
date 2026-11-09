@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { useTr } from '@/components/tr';
+import { TutorialLink } from '@/components/tutorial-link';
 import {
   cleanSpreadsheet, comparePdfRows, extractedPdfRows, messySpreadsheet, spreadsheetCsv,
   spreadsheetReport, spreadsheetSource, type PracticeOrder
@@ -110,7 +111,7 @@ export function SpreadsheetPracticeLab() {
     <p>{tr('Reloading clears lab results. Save your own observations explicitly in a private project, with raw files, corrections and unresolved issues. Lab matches are not grades or owner approval.')}</p>
     <div className="cta-row">
       <Link className="btn btn-primary" href="/business-launchpad/projects?path=ai-spreadsheets">{tr('Start a practice project')}</Link>
-      <Link className="btn btn-secondary" href="/tutorials/ai-spreadsheets">{tr('Start the tutorial')}</Link>
+      <TutorialLink className="btn btn-secondary" href="/tutorials/ai-spreadsheets">{tr('Start the tutorial')}</TutorialLink>
       <Link className="btn btn-secondary" href="/starter-packs/ai-spreadsheets-kit">{tr('Open the service kit')}</Link>
     </div>
   </div>;

@@ -4,6 +4,7 @@ import { TutorialHeader } from '@/components/tutorial-header';
 import { TutorialLabel } from '@/components/tutorial-back-label';
 import { TutorialLanguageLinks } from '@/components/tutorial-language-links';
 import { TutorialSteps } from '@/components/tutorial-steps';
+import { TutorialLink } from '@/components/tutorial-link';
 import { aiAssistedCodingSteps } from '@/lib/ai-assisted-coding-tutorial';
 import { requireTutorial, tutorialAlternates, tutorialSocialLocales } from '@/lib/localized-tutorials';
 
@@ -28,7 +29,7 @@ export default function AiAssistedCodingTutorialPage() {
           intro={
             <>Learn to pair with Copilot or Codex without losing control. You will write a small Python function with
             AI help, then read it, test it, debug it and improve it. If Python is new to you, start with the{' '}
-            <Link href="/projects/coding-foundations/build">Python tutorial</Link> first.</>
+            <TutorialLink href="/projects/coding-foundations/build">Python tutorial</TutorialLink> first.</>
           }
         />
         <TutorialLanguageLinks tutorial={tutorial} />

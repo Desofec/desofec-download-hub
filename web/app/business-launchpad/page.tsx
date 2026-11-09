@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { PackChecklist } from '@/components/pack-checklist';
+import { TutorialLink } from '@/components/tutorial-link';
 import { Tr } from '@/components/tr';
 import { getCatalog } from '@/lib/catalog';
 import { phrase } from '@/lib/phrase-mark';
@@ -60,7 +61,7 @@ export default async function BusinessLaunchpadPage() {
               <Link className="btn btn-secondary" href="/business-launchpad/automation-lab"><Tr>Open the no-send automation practice lab</Tr></Link>
               <Link className="btn btn-primary" href="/business-launchpad/first-project"><Tr>Complete your first practice project</Tr></Link>
               <Link className="btn btn-secondary" href="/business-launchpad/feedback-guide"><Tr>Open practice feedback guide</Tr></Link>
-              <Link className="btn btn-primary" href="/tutorials/ai-automation-services"><Tr>Start the automation service tutorial</Tr></Link>
+              <TutorialLink className="btn btn-primary" href="/tutorials/ai-automation-services"><Tr>Start the automation service tutorial</Tr></TutorialLink>
               <Link className="btn btn-secondary" href="/starter-packs/ai-automation-services-kit"><Tr>Open the pilot kit</Tr></Link>
               <Link className="btn btn-secondary" href="/business-launchpad/proposal-builder"><Tr>Build a pilot proposal</Tr></Link>
               <Link className="btn btn-secondary" href="/business-launchpad/results-tracker"><Tr>Track pilot tests and results</Tr></Link>
@@ -78,9 +79,9 @@ export default async function BusinessLaunchpadPage() {
                 <div key={path.id} className="service-path-entry">
                   <PathCard path={path} />
                   <div className="cta-row">
-                    <Link className="btn btn-primary" href={tutorial.href}>
+                    <TutorialLink className="btn btn-primary" href={tutorial.href}>
                       <Tr>Start the tutorial</Tr>
-                    </Link>
+                    </TutorialLink>
                     <Link className="btn btn-secondary" href={`/starter-packs/${tutorial.serviceKitId}`}>
                       <Tr>Open the service kit</Tr>
                     </Link>
@@ -112,8 +113,8 @@ export default async function BusinessLaunchpadPage() {
           <h2 id="launchpad-foundations"><Tr>New to automation? Start here</Tr></h2>
           <p><Tr>Learn the basics first, then return to the pilot. Use test accounts and fictional data. Check current tool plans before paying or connecting business accounts.</Tr></p>
           <div className="cta-row">
-            <Link className="btn btn-secondary" href="/tutorials/no-code-automation"><Tr>Automate your first task</Tr></Link>
-            <Link className="btn btn-secondary" href="/tutorials/advanced-no-code-automation"><Tr>Build reliable no-code automations</Tr></Link>
+            <TutorialLink className="btn btn-secondary" href="/tutorials/no-code-automation"><Tr>Automate your first task</Tr></TutorialLink>
+            <TutorialLink className="btn btn-secondary" href="/tutorials/advanced-no-code-automation"><Tr>Build reliable no-code automations</Tr></TutorialLink>
             <Link className="btn btn-secondary" href="/results/start-ai-business"><Tr>Explore tools for this pilot</Tr></Link>
           </div>
         </section>
@@ -125,7 +126,7 @@ export default async function BusinessLaunchpadPage() {
         </section>
         <p><Tr>Before real client work, seek qualified local guidance on registration, contracts, privacy, taxes and insurance. Begin with administrative tasks, not safety-critical decisions.</Tr></p>
         <div className="cta-row">
-          <Link className="btn btn-primary" href="/tutorials/ai-automation-services"><Tr>Start the automation service tutorial</Tr></Link>
+          <TutorialLink className="btn btn-primary" href="/tutorials/ai-automation-services"><Tr>Start the automation service tutorial</Tr></TutorialLink>
           <Link className="btn btn-secondary" href="/my-progress"><Tr>View all progress</Tr></Link>
         </div>
       </div>

@@ -93,6 +93,29 @@ test('language-prefixed navigation keeps existing routes recognizable', () => {
   assert.equal(i18n.withoutLanguagePrefix('/tutorials/ai-video-business'), '/tutorials/ai-video-business');
 });
 
+test('tutorial links and explicit routes use the matching language without affecting other pages', () => {
+  const paths = localized.localizedTutorials.map((tutorial) => tutorial.href);
+  for (const tutorial of localized.localizedTutorials) {
+    assert.equal(i18n.tutorialRouteLanguage(tutorial.href, paths), 'en');
+    assert.equal(i18n.localizedTutorialHref(tutorial.href, 'en', paths), tutorial.href);
+    for (const language of localized.localizedTutorialLanguages) {
+      const localizedPath = `/${language}${tutorial.href}`;
+      assert.equal(i18n.tutorialRouteLanguage(localizedPath, paths), language);
+      assert.equal(i18n.localizedTutorialHref(tutorial.href, language, paths), localizedPath);
+      assert.equal(
+        i18n.localizedTutorialHref(`${tutorial.href}?source=practice#lesson`, language, paths),
+        `${localizedPath}?source=practice#lesson`
+      );
+    }
+  }
+  for (const path of ['/tools', '/tutorials', '/tutorials/shopify-guide', '/tutorials/ai-spreadsheets']) {
+    assert.equal(i18n.tutorialRouteLanguage(path, paths), undefined, path);
+    assert.equal(i18n.localizedTutorialHref(path, 'fr', paths), path);
+  }
+  assert.equal(i18n.localizedTutorialHref('https://example.com/tutorials/ai-video-business', 'fr', paths),
+    'https://example.com/tutorials/ai-video-business');
+});
+
 test('language selection cannot follow an unrelated cached tutorial', () => {
   const cachedPaths = [
     '/es/projects/ai-assisted-coding/build',
@@ -116,12 +139,41 @@ test('language selection cannot follow an unrelated cached tutorial', () => {
   );
 });
 
+test('tutorial entry points use the shared language-aware link', async () => {
+  const entryPoints = [
+    ['../app/page.tsx', /<TutorialLink href=\{tutorial\.href\}/],
+    ['../app/start-here/page.tsx', /<TutorialLink[^>]*href="\/tutorials\/ai-content-services"/],
+    ['../app/paths/[id]/page.tsx', /<TutorialLink[^>]*href=\{tutorial\.href\}/],
+    ['../app/tools/[id]/page.tsx', /<TutorialLink[^>]*href=\{guide\.href\}/],
+    ['../app/business-launchpad/page.tsx', /<TutorialLink[^>]*href=\{tutorial\.href\}/],
+    ['../app/business-launchpad/proposal-builder/page.tsx', /<TutorialLink[^>]*href="\/tutorials\/ai-automation-services"/],
+    ['../app/projects/first-app/page.tsx', /<TutorialLink[^>]*href="\/projects\/first-app\/build"/],
+    ['../app/projects/coding-foundations/build/page.tsx', /<TutorialLink[^>]*href="\/projects\/first-app\/build"/],
+    ['../app/projects/ai-assisted-coding/build/page.tsx', /<TutorialLink[^>]*href="\/projects\/coding-foundations\/build"/],
+    ['../components/tutorial-list.tsx', /<TutorialLink[^>]*href=\{tutorial\.href\}/],
+    ['../components/first-project-chooser.tsx', /<TutorialLink[^>]*href=\{`\/tutorials\/\$\{selected\}`\}/],
+    ['../components/commerce-practice-lab.tsx', /<TutorialLink[^>]*href=\{`\/tutorials\/\$\{trackPaths\[track\]\}`\}/],
+    ['../components/pilot-project-workspace.tsx', /<TutorialLink[^>]*href=\{`\/tutorials\/\$\{saved\.pathId\}`\}/],
+    ['../components/idea-planner.tsx', /<TutorialLink[^>]*href=\{path\.tutorialHref\}/],
+    ['../components/continue-learning.tsx', /<TutorialLink[^>]*href=\{finished \? '\/paths' : item\?\.href/],
+    ['../components/progress-dashboard.tsx', /<TutorialLink[^>]*href=\{item\.href\}/],
+    ['../components/workspace-detail.tsx', /<TutorialLink href=\{item\.href\}/]
+  ];
+  for (const [file, link] of entryPoints) {
+    assert.match(await readFile(new URL(file, import.meta.url), 'utf8'), link, file);
+  }
+  const discovery = await readFile(new URL('../components/client-discovery-builder.tsx', import.meta.url), 'utf8');
+  assert.match(discovery, /<TutorialLink[^>]*href="\/tutorials\/freelance-client-discovery" onNavigate=\{\(event\) => \{\s*if \(!discard\(\)\) event\.preventDefault\(\);/);
+});
+
 test('localized pages reuse original tutorials and the existing sitemap', async () => {
   const hosted = await readFile(new URL('../components/localized-hosted-tutorial.tsx', import.meta.url), 'utf8');
   const legacy = await readFile(new URL('../components/localized-legacy-tutorial.tsx', import.meta.url), 'utf8');
   const sitemap = await readFile(new URL('../app/sitemap.ts', import.meta.url), 'utf8');
   const language = await readFile(new URL('../components/language.tsx', import.meta.url), 'utf8');
   const switcher = await readFile(new URL('../components/language-switcher.tsx', import.meta.url), 'utf8');
+  const layout = await readFile(new URL('../app/layout.tsx', import.meta.url), 'utf8');
+  const link = await readFile(new URL('../components/tutorial-link.tsx', import.meta.url), 'utf8');
   assert.match(hosted, /<TutorialPage params=\{Promise\.resolve\(\{ id \}\)\} \/>/);
   for (const component of ['AiAssistedCodingTutorialPage', 'CodingFoundationsTutorialPage', 'TaskTrackerTutorialPage']) {
     assert.ok(legacy.includes(`<${component} />`), component);
@@ -131,6 +183,10 @@ test('localized pages reuse original tutorials and the existing sitemap', async 
   assert.match(sitemap, /localizedTutorials\.flatMap/);
   assert.match(sitemap, /localizedTutorialPath\(tutorial, language\)/);
   assert.match(language, /<div lang=\{language\}>\{children\}<\/div>/);
+  assert.match(language, /tutorialRouteLanguage\(window\.location\.pathname, localizedPaths\)/);
+  assert.match(layout, /<TutorialPathsProvider paths=\{localizedTutorialPaths\}>/);
+  assert.match(link, /const localizedHref = useLocalizedTutorialHref\(href\)/);
+  assert.match(link, /<Link \{\.\.\.props\} href=\{localizedHref\}/);
   assert.match(switcher, /tutorialLanguageDestination\(window\.location\.pathname, selected, availablePaths\)/);
   assert.doesNotMatch(hosted + legacy, /tutorialStorageKey|localStorage|applyProgress|persist\(/);
   for (const locale of ['fr', 'de', 'es']) {

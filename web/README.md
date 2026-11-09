@@ -83,8 +83,10 @@ language-specific public URLs, such as `/fr/tutorials/ai-video-business` and
 in the initial HTML, with self-canonical URLs, reciprocal language alternates and
 matching Open Graph language information for social previews, plus links in the
 existing sitemap. English URLs and tutorial progress keys remain
-unchanged. Incomplete translations do not get these URLs or language alternates;
-other pages continue to use the existing language selector. The sitemap's existing
+unchanged. Tutorial links follow the selected language when a complete translation
+exists; an explicit unprefixed tutorial URL remains English. Incomplete translations
+do not get these URLs or language alternates; other pages continue to use the
+existing language selector. The sitemap's existing
 submission can discover new entries without being submitted again. These signals
 do not guarantee indexing or search rankings. After `npm run build`, run
 `npm run test:search-render` to check the built HTML, alternates and sitemap.

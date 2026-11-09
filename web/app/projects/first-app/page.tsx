@@ -1,6 +1,6 @@
 import { publicPageMetadata } from '@/lib/public-page-metadata';
-import Link from 'next/link';
 import { FirstAppLab } from '@/components/first-app-lab';
+import { TutorialLink } from '@/components/tutorial-link';
 import { Tr } from '@/components/tr';
 
 export const metadata = publicPageMetadata('/projects/first-app', {
@@ -80,9 +80,9 @@ export default function FirstAppProjectPage() {
             app at once.”
           </p>
           <p>Your tasks in this demo are saved only in this browser on this device.</p>
-          <Link className="btn btn-primary" href="/projects/first-app/build">
+          <TutorialLink className="btn btn-primary" href="/projects/first-app/build">
             Code it yourself: step-by-step tutorial
-          </Link>
+          </TutorialLink>
         </aside>
       </div>
     </section>

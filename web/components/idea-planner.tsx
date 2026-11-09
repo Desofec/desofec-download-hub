@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
 import { useLanguage } from '@/components/language';
+import { TutorialLink } from '@/components/tutorial-link';
 import { matchGoals } from '@/lib/idea-planner';
 import { useTr } from '@/components/tr';
 
@@ -145,9 +146,9 @@ export function IdeaPlanner({ goals, paths }: { goals: PlannerGoal[]; paths: Pla
                       )}
                       <div className="cta-row">
                         {path?.tutorialHref && (
-                          <Link className="btn btn-primary" href={path.tutorialHref}>
+                          <TutorialLink className="btn btn-primary" href={path.tutorialHref}>
                             {tr('Start the tutorial')}
-                          </Link>
+                          </TutorialLink>
                         )}
                         <Link className="btn btn-secondary" href={`/results/${encodeURIComponent(goal.id)}`}>
                           {tr('See tools and starter packs')}

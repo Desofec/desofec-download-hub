@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { useTr } from '@/components/tr';
+import { TutorialLink } from '@/components/tutorial-link';
 import { downloadPilotText } from '@/lib/pilot-download';
 import { loadProject, saveProjectPart, withProjectLock, type StoredProject } from '@/lib/pilot-projects';
 import {
@@ -62,9 +63,9 @@ export function ClientDiscoveryBuilder({ projectId }: { projectId?: string }) {
         <Link className="btn btn-secondary" href={`/business-launchpad/projects${query}`} onNavigate={(event) => {
           if (!discard()) event.preventDefault();
         }}>{tr('Open the Pilot Project Workspace')}</Link>
-        <Link className="btn btn-secondary" href="/tutorials/freelance-client-discovery" onNavigate={(event) => {
+        <TutorialLink className="btn btn-secondary" href="/tutorials/freelance-client-discovery" onNavigate={(event) => {
           if (!discard()) event.preventDefault();
-        }}>{tr('Learn step by step: tutorial')}</Link>
+        }}>{tr('Learn step by step: tutorial')}</TutorialLink>
         {isProject && <button className="btn btn-primary" type="button" disabled={!hydrated || busy} onClick={() => attempt(() => {
           if (!discard() || projectId === undefined) return;
           display(loadProject(localStorage, projectId));

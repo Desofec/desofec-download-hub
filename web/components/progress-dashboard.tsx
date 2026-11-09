@@ -8,6 +8,7 @@ import type { LearningPath, StarterPack } from '@/lib/types';
 import { getSupabaseBrowserClient } from '@/lib/supabase-browser';
 import { useTr } from '@/components/tr';
 import { useLanguage } from '@/components/language';
+import { TutorialLink } from '@/components/tutorial-link';
 import { getTutorialTranslation } from '@/lib/tutorial-translations';
 
 type Props = {
@@ -244,9 +245,9 @@ function ProgressSection({ title, items }: { title: string; items: ProgressItem[
               <h3>{title}</h3>
               <p>{tr('{done} of {total} steps · {percent}%', { done: item.completed, total: item.total, percent })}</p>
               <progress value={item.completed} max={item.total || 1} aria-label={tr('{title} progress', { title })} />
-              <Link className="btn btn-secondary" href={item.href}>
+              <TutorialLink className="btn btn-secondary" href={item.href}>
                 {item.completed === item.total && item.total > 0 ? tr('Review') : item.completed > 0 ? tr('Continue') : tr('Start')}
-              </Link>
+              </TutorialLink>
             </article>
           );
         })}
