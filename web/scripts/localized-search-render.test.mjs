@@ -4,9 +4,14 @@ import { createServer } from 'node:net';
 import path from 'node:path';
 import { after, before, test } from 'node:test';
 import { fileURLToPath } from 'node:url';
+import { loadWebModules } from './load-web-modules.mjs';
 
 const webDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const productionOrigin = 'https://www.desofec.com';
+const [localized, translations] = loadWebModules([
+  'lib/localized-tutorials.ts',
+  'lib/tutorial-translations.ts'
+]);
 let server;
 let origin;
 let output = '';
@@ -76,6 +81,15 @@ function renderedMain(html) {
   return main;
 }
 
+function htmlText(value) {
+  const named = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'" };
+  return value.replace(/&(?:#(\d+)|#x([\da-f]+)|(amp|lt|gt|quot|apos));/gi, (match, decimal, hex, name) => {
+    if (decimal) return String.fromCodePoint(Number(decimal));
+    if (hex) return String.fromCodePoint(Number.parseInt(hex, 16));
+    return named[name.toLowerCase()] ?? match;
+  });
+}
+
 function checkAlternates(html, englishPath, currentPath) {
   const links = [...html.matchAll(/<link\b[^>]*>/gi)].map(([tag]) => attributes(tag));
   const canonical = links.find((link) => link.rel === 'canonical');
@@ -117,6 +131,13 @@ test('all sitemap language versions return readable, self-canonical HTML with re
   assert.equal(new Set(locations).size, locations.length, 'sitemap URLs are unique');
   const localizedUrls = locations.filter((location) => /^https:\/\/www\.desofec\.com\/(?:fr|de|es)\//.test(location));
   assert.ok(localizedUrls.length >= 60, 'complete translations have discoverable language URLs');
+  const expectedPages = new Map(localized.localizedTutorials.flatMap((tutorial) =>
+    localized.localizedTutorialLanguages.map((language) => [
+      `${productionOrigin}${localized.localizedTutorialPath(tutorial, language)}`,
+      translations.getTutorialTranslation(tutorial.pathId, language).title
+    ])
+  ));
+  assert.deepEqual([...localizedUrls].sort(), [...expectedPages.keys()].sort(), 'sitemap matches eligible translations');
 
   const groups = new Map();
   for (const url of localizedUrls) {
@@ -139,7 +160,12 @@ test('all sitemap language versions return readable, self-canonical HTML with re
     assert.equal(result.status, 200, pathname);
     const main = renderedMain(document);
     assert.match(main, new RegExp(`<div lang="${language}">`), pathname);
-    assert.match(main, /<h1\b[^>]*>[^<]+<\/h1>/i, pathname);
+    const heading = main.match(/<h1\b[^>]*>([^<]+)<\/h1>/i);
+    assert.ok(heading, pathname);
+    assert.equal(htmlText(heading[1]), expectedPages.get(url), `${pathname}: translated heading`);
+    const checkboxes = [...main.matchAll(/<input\b[^>]*type="checkbox"[^>]*>/gi)].map(([input]) => input);
+    assert.ok(checkboxes.length > 0, pathname);
+    assert.ok(checkboxes.every((input) => !/\schecked(?:[=>\s]|$)/i.test(input)), `${pathname}: no automatic completion`);
     assert.doesNotMatch(document, /<meta[^>]+name="robots"[^>]+noindex/i, pathname);
     checkAlternates(document, pathname.slice(3), pathname);
   });

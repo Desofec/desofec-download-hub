@@ -1,42 +1,14 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { createRequire } from 'node:module';
-import path from 'node:path';
 import { test } from 'node:test';
-import { fileURLToPath } from 'node:url';
-import ts from 'typescript';
+import { loadWebModules } from './load-web-modules.mjs';
 
-const require = createRequire(import.meta.url);
-const Module = require('node:module');
-const webDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const originalResolve = Module._resolveFilename;
-const originalTsLoader = Module._extensions['.ts'];
-
-let localized;
-let registry;
-let translations;
-let i18n;
-try {
-  Module._resolveFilename = function (request, parent, ...args) {
-    const resolved = request.startsWith('@/') ? path.join(webDir, request.slice(2)) : request;
-    return originalResolve.call(this, resolved, parent, ...args);
-  };
-  Module._extensions['.ts'] = (module, filename) => {
-    const source = require('node:fs').readFileSync(filename, 'utf8');
-    const output = ts.transpileModule(source, {
-      compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020, esModuleInterop: true }
-    }).outputText;
-    module._compile(output, filename);
-  };
-  localized = require(path.join(webDir, 'lib/localized-tutorials.ts'));
-  registry = require(path.join(webDir, 'lib/tutorials.ts'));
-  translations = require(path.join(webDir, 'lib/tutorial-translations.ts'));
-  i18n = require(path.join(webDir, 'lib/i18n.ts'));
-} finally {
-  Module._resolveFilename = originalResolve;
-  if (originalTsLoader) Module._extensions['.ts'] = originalTsLoader;
-  else delete Module._extensions['.ts'];
-}
+const [localized, registry, translations, i18n] = loadWebModules([
+  'lib/localized-tutorials.ts',
+  'lib/tutorials.ts',
+  'lib/tutorial-translations.ts',
+  'lib/i18n.ts'
+]);
 
 test('only public tutorials with complete lesson translations get localized pages', () => {
   const { localizedTutorials, hasLocalizedTutorialPages, localizedTutorialLanguages } = localized;
