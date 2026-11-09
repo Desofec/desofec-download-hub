@@ -179,6 +179,9 @@ export function TutorialSteps({
             <label className="step-check">
               <input type="checkbox" checked={done.includes(step.id)} disabled={!ready} onChange={() => toggle(step.id)} />{' '}
               {t('tutorial.markDone')}
+              <span className="sr-only" lang={translation?.steps[step.id] ? language : 'en'}>
+                {`: ${index + 1}. ${step.title}`}
+              </span>
             </label>
           </li>
         ))}

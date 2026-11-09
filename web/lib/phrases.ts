@@ -13,6 +13,10 @@ const books: Record<Exclude<LanguageCode, 'en'>, Record<string, string>> = {
   es: { ...catalogEs, ...uiEs }
 };
 
+export function phraseLanguage(text: string, language: LanguageCode): LanguageCode {
+  return language !== 'en' && books[language][text] !== undefined ? language : 'en';
+}
+
 export function translatePhrase(text: string, language: LanguageCode, values?: Record<string, string | number>) {
   let result = language === 'en' ? text : (books[language][text] ?? text);
   for (const [name, value] of Object.entries(values ?? {})) result = result.replaceAll(`{${name}}`, String(value));

@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
+import { readFile } from 'node:fs/promises';
 import { createServer } from 'node:net';
 import path from 'node:path';
 import { after, before, test } from 'node:test';
@@ -9,9 +10,10 @@ import { loadWebModules } from './load-web-modules.mjs';
 const webDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const productionOrigin = 'https://www.desofec.com';
 const socialLocales = { en: 'en_US', fr: 'fr_FR', de: 'de_DE', es: 'es_ES' };
-const [localized, translations] = loadWebModules([
+const [localized, translations, registry] = loadWebModules([
   'lib/localized-tutorials.ts',
-  'lib/tutorial-translations.ts'
+  'lib/tutorial-translations.ts',
+  'lib/tutorials.ts'
 ]);
 let server;
 let origin;
@@ -132,10 +134,36 @@ function checkSearchSnippet(html, pathname) {
 function checkLanguageNavigation(main, pathname) {
   const navigation = main.match(/<nav\b[^>]*class="tutorial-language-links"[^>]*>[\s\S]*?<\/nav>/i)?.[0];
   assert.ok(navigation, `${pathname}: language navigation`);
-  const current = [...navigation.matchAll(/<a\b[^>]*>/gi)].map(([tag]) => attributes(tag))
-    .filter((link) => link['aria-current'] === 'page');
+  const language = pathname.match(/^\/(fr|de|es)\//)?.[1] ?? 'en';
+  const englishPath = language === 'en' ? pathname : pathname.slice(3);
+  const labels = { en: 'Language', fr: 'Langue', de: 'Sprache', es: 'Idioma' };
+  assert.equal(attributes(navigation.match(/^<nav\b[^>]*>/i)[0])['aria-label'], labels[language],
+    `${pathname}: translated navigation name`);
+  const links = [...navigation.matchAll(/<a\b[^>]*>([\s\S]*?)<\/a>/gi)].map(([tag, text]) => ({
+    ...attributes(tag), text: htmlText(text)
+  }));
+  assert.deepEqual(links.map(({ href, lang, hreflang, text }) => ({ href, lang, hreflang, text })), [
+    { href: englishPath, lang: 'en', hreflang: 'en', text: 'English' },
+    { href: `/fr${englishPath}`, lang: 'fr', hreflang: 'fr', text: 'Français' },
+    { href: `/de${englishPath}`, lang: 'de', hreflang: 'de', text: 'Deutsch' },
+    { href: `/es${englishPath}`, lang: 'es', hreflang: 'es', text: 'Español' }
+  ], `${pathname}: language names, destinations and tags`);
+  const current = links.filter((link) => link['aria-current'] === 'page');
   assert.equal(current.length, 1, `${pathname}: one current language`);
   assert.equal(current[0].href, pathname, `${pathname}: current language URL`);
+}
+
+function checkCompletionLabels(main, titles, language, pathname) {
+  const labels = [...main.matchAll(/<label\b[^>]*class="step-check"[^>]*>([\s\S]*?)<\/label>/gi)];
+  assert.equal(labels.length, titles.length, `${pathname}: one completion control per lesson`);
+  for (const [index, [, contents]] of labels.entries()) {
+    assert.match(contents, /<input\b[^>]*type="checkbox"/i, `${pathname}: lesson ${index + 1} checkbox`);
+    const context = contents.match(/<span\b[^>]*class="sr-only"[^>]*>([\s\S]*?)<\/span>/i);
+    assert.ok(context, `${pathname}: lesson ${index + 1} has accessible context`);
+    assert.equal(attributes(context[0]).lang, language, `${pathname}: lesson ${index + 1} title language`);
+    assert.equal(htmlText(context[1]), `: ${index + 1}. ${titles[index]}`,
+      `${pathname}: lesson ${index + 1} accessible context`);
+  }
 }
 
 async function page(pathname) {
@@ -165,8 +193,10 @@ test('all sitemap language versions return readable, self-canonical HTML with re
   assert.ok(localizedUrls.length >= 60, 'complete translations have discoverable language URLs');
   const expectedPages = new Map(localized.localizedTutorials.flatMap((tutorial) =>
     localized.localizedTutorialLanguages.map((language) => {
-      const { title, intro } = translations.getTutorialTranslation(tutorial.pathId, language);
-      return [`${productionOrigin}${localized.localizedTutorialPath(tutorial, language)}`, { title, intro }];
+      const { title, intro, steps } = translations.getTutorialTranslation(tutorial.pathId, language);
+      return [`${productionOrigin}${localized.localizedTutorialPath(tutorial, language)}`, {
+        title, intro, stepTitles: tutorial.steps.map((step) => steps[step.id].title)
+      }];
     })
   ));
   assert.deepEqual([...localizedUrls].sort(), [...expectedPages.keys()].sort(), 'sitemap matches eligible translations');
@@ -203,6 +233,7 @@ test('all sitemap language versions return readable, self-canonical HTML with re
     const checkboxes = [...main.matchAll(/<input\b[^>]*type="checkbox"[^>]*>/gi)].map(([input]) => input);
     assert.ok(checkboxes.length > 0, pathname);
     assert.ok(checkboxes.every((input) => !/\schecked(?:[=>\s]|$)/i.test(input)), `${pathname}: no automatic completion`);
+    checkCompletionLabels(main, expected.stepTitles, language, pathname);
     assert.doesNotMatch(document, /<meta[^>]+name="robots"[^>]+noindex/i, pathname);
     checkLanguageNavigation(main, pathname);
     checkAlternates(document, pathname.slice(3), pathname);
@@ -213,7 +244,11 @@ test('all sitemap language versions return readable, self-canonical HTML with re
   await forEachLimit([...groups.keys()], 6, async (pathname) => {
     const { response: result, html: document } = await page(pathname);
     assert.equal(result.status, 200, pathname);
-    checkLanguageNavigation(renderedMain(document), pathname);
+    const main = renderedMain(document);
+    const tutorial = localized.localizedTutorials.find(({ href }) => href === pathname);
+    assert.ok(tutorial, `${pathname}: tutorial exists`);
+    checkCompletionLabels(main, tutorial.steps.map(({ title }) => title), 'en', pathname);
+    checkLanguageNavigation(main, pathname);
     checkAlternates(document, pathname, pathname);
     checkSocialMetadata(document, pathname, 'en');
     checkSearchSnippet(document, pathname);
@@ -231,6 +266,25 @@ test('English-only tutorials render concise search snippets', async () => {
     assert.equal(response.status, 200, pathname);
     checkSearchSnippet(html, pathname);
   }
+});
+
+test('other English learning entries identify every lesson completion control', async () => {
+  for (const tutorial of registry.tutorials.filter((entry) => !localized.hasLocalizedTutorialPages(entry))) {
+    const { response, html } = await page(tutorial.href);
+    assert.equal(response.status, 200, tutorial.href);
+    checkCompletionLabels(renderedMain(html), tutorial.steps.map(({ title }) => title), 'en', tutorial.href);
+  }
+});
+
+test('every learning path identifies its completion controls', async () => {
+  const paths = JSON.parse(await readFile(path.join(webDir, 'content', 'paths.json'), 'utf8'));
+  assert.ok(paths.length > 0, 'learning paths are present');
+  await forEachLimit(paths, 6, async (entry) => {
+    const pathname = `/paths/${encodeURIComponent(entry.id)}`;
+    const { response, html } = await page(pathname);
+    assert.equal(response.status, 200, pathname);
+    checkCompletionLabels(renderedMain(html), entry.steps, 'en', pathname);
+  });
 });
 
 test('representative lessons render translated teaching text without JavaScript', async () => {

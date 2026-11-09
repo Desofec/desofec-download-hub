@@ -1289,7 +1289,6 @@ h3 {
     grid-template-columns: 1fr;
   }
 }
-.step-done { opacity: .7; }
 .step-done h3 { text-decoration: line-through; }
 
 .menu-toggle,
@@ -1470,8 +1469,9 @@ h3 {
   background: var(--surface);
 }
 
-.tutorial-step.step-done {
-  border-color: rgba(125, 211, 252, .5);
+.tutorial-step.step-done,
+.result-card.step-done {
+  border-color: var(--accent-text);
 }
 
 .tutorial-step h2 {
