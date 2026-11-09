@@ -6,6 +6,7 @@ import { test } from 'node:test';
 import { fileURLToPath } from 'node:url';
 import { runInNewContext } from 'node:vm';
 import ts from 'typescript';
+import { loadWebModules } from './load-web-modules.mjs';
 
 const webDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const repoDir = path.resolve(webDir, '..');
@@ -390,6 +391,47 @@ test('skip-to-content link is translated and moves keyboard focus to main', asyn
   }
 });
 
+test('lesson completion controls identify their step and English fallbacks', async () => {
+  const tutorial = await readWeb('components/tutorial-steps.tsx');
+  const start = tutorial.indexOf('<label className="step-check">');
+  const end = tutorial.indexOf('</label>', start);
+  assert.ok(start !== -1 && end !== -1, 'completion control exists');
+  const label = tutorial.slice(start, end);
+  assert.match(label, /checked=\{done\.includes\(step\.id\)\}/);
+  assert.match(label, /onChange=\{\(\) => toggle\(step\.id\)\}/);
+  assert.match(label, /<span className="sr-only" lang=\{translation\?\.steps\[step\.id\] \? language : 'en'\}>/);
+  assert.ok(label.includes('{`: ${index + 1}. ${step.title}`}'));
+});
+
+test('path completion controls identify translated steps without changing progress', async () => {
+  const component = await readWeb('components/path-steps.tsx');
+  const start = component.indexOf('<label className="step-check">');
+  const end = component.indexOf('</label>', start);
+  assert.ok(start !== -1 && end !== -1, 'completion control exists');
+  const label = component.slice(start, end);
+  assert.match(label, /checked=\{done\.includes\(index\)\}/);
+  assert.match(label, /onChange=\{\(\) => toggle\(index\)\}/);
+  assert.match(label, /<span className="sr-only" lang=\{phraseLanguage\(step, language\)\}>/);
+  assert.ok(label.includes('{`: ${index + 1}. ${tr(step)}`}'));
+  assert.match(component, /<p>\{tr\(step\)\}<\/p>/);
+  assert.ok(component.includes('`desofec:progress:${pathId}`'));
+
+  const [phrases] = loadWebModules(['lib/phrases.ts']);
+  const translated = 'Plan short-form business videos';
+  const missing = 'A missing translation used only in this test';
+  const identical = { fr: 'Commerce', de: 'Design', es: 'CapCut' };
+  assert.equal(phrases.phraseLanguage(translated, 'en'), 'en');
+  for (const locale of locales) {
+    const book = await readJson(`content/translations/catalog-${locale}.json`);
+    assert.ok(book[translated] && book[translated] !== translated, `${locale}: translated fixture`);
+    assert.equal(book[identical[locale]], identical[locale], `${locale}: identical translation fixture`);
+    assert.equal(phrases.phraseLanguage(translated, locale), locale);
+    assert.equal(phrases.phraseLanguage(identical[locale], locale), locale);
+    assert.equal(phrases.phraseLanguage(missing, locale), 'en');
+    assert.equal(phrases.translatePhrase(missing, locale), missing);
+  }
+});
+
 test('analytics preserves public page views while removing sensitive URL information', () => {
   const event = {
     type: 'pageview',
@@ -536,9 +578,18 @@ test('policies distinguish stored records, sharing, provider access and practice
   }
 });
 
-test('legal and accent text meet normal-text contrast across theme gradients', async () => {
+test('legal, accent and completed-step text meet normal-text contrast across theme gradients', async () => {
   const css = await readWeb('app/globals.css');
   assert.match(css, /\.legal p,\s*\.legal li\s*\{[^}]*color:\s*var\(--muted\);/);
+  const doneRule = css.match(/\.result-card\.step-done\s*\{([^}]+)\}/);
+  assert.ok(doneRule, 'completed steps have a distinctive border');
+  assert.match(doneRule[1], /border-color:\s*var\(--accent-text\);/);
+  assert.match(css, /\.step-done h3\s*\{[^}]*text-decoration:\s*line-through;/);
+  for (const [, selectors, declarations] of css.matchAll(/([^{}]+)\{([^{}]+)\}/g)) {
+    if (selectors.split(',').some((selector) => /\.step-done\s*$/.test(selector))) {
+      assert.doesNotMatch(declarations, /\bopacity\s*:/, 'completed steps do not fade their content');
+    }
+  }
   for (const selector of ['text-link', 'eyebrow', 'goal-badge', 'tool-tag', 'step-number', 'step-marker']) {
     assert.match(css, new RegExp(`\\.${selector}\\s*\\{[^}]*color:\\s*var\\(--accent-text\\);`));
   }
@@ -548,7 +599,10 @@ test('legal and accent text meet normal-text contrast across theme gradients', a
   const root = css.match(/:root\s*\{([^}]+)\}/);
   const light = css.match(/html\[data-theme="light"\],\s*html\[data-theme="sky"\],\s*html\[data-theme="sunrise"\],\s*html\[data-theme="mint"\]\s*\{([^}]+)\}/);
   const body = css.match(/^body\s*\{([^}]+)\}/m);
+  const card = css.match(/\.result-card\s*\{([^}]+)\}/);
   assert.ok(root && light && body, 'base theme and body declarations exist');
+  const cardLayer = card?.[1].match(/background:\s*rgba\(\s*(\d+),\s*(\d+),\s*(\d+),\s*([\d.]+)\)/);
+  assert.ok(cardLayer, 'learning path card background');
   assert.match(body[1], /var\(--body-grad\)/);
   const overlays = [...body[1].matchAll(/radial-gradient\([^,]+,\s*rgba\(\s*(\d+),\s*(\d+),\s*(\d+),\s*([\d.]+)\)/g)]
     .map((match) => ({ rgb: match.slice(1, 4).map(Number), alpha: Number(match[4]) }));
@@ -609,6 +663,18 @@ test('legal and accent text meet normal-text contrast across theme gradients', a
     const accentReference = vars['accent-text'].match(/^var\(--([\w-]+)\)$/);
     assert.ok(accentReference, `${theme}: accent text color reference`);
     const accent = rgb(vars[accentReference[1]]);
+    const tutorialLayer = vars.surface.match(/^rgba\(\s*(\d+),\s*(\d+),\s*(\d+),\s*([\d.]+)\)$/);
+    assert.ok(tutorialLayer, `${theme}: tutorial card background`);
+    const completedCards = [
+      ['learning path', blend(background, cardLayer.slice(1, 4).map(Number), Number(cardLayer[4]))],
+      ['tutorial', blend(background, tutorialLayer.slice(1, 4).map(Number), Number(tutorialLayer[4]))]
+    ];
+    for (const [surface, color] of completedCards) {
+      for (const [text, foreground] of [['text', rgb(vars.text)], ['muted', rgb(vars.muted)], ['accent', accent]]) {
+        const ratio = contrast(foreground, color);
+        assert.ok(ratio >= 4.5, `${theme}: completed ${surface} ${text} contrast ${ratio.toFixed(2)}:1 is below 4.5:1`);
+      }
+    }
     const panels = [...vars['accent-panel'].matchAll(/rgba\(\s*(\d+),\s*(\d+),\s*(\d+),\s*([\d.]+)\)/g)]
       .map((match) => blend(background, match.slice(1, 4).map(Number), Number(match[4])));
     assert.equal(panels.length, 2, `${theme}: two accent-panel gradient stops`);

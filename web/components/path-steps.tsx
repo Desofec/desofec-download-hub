@@ -1,8 +1,10 @@
 'use client';
 
 import { useCallback, useMemo, useSyncExternalStore } from 'react';
+import { useLanguage } from '@/components/language';
 import { useProgressSync } from '@/components/progress-sync';
 import { Tr, useTr } from '@/components/tr';
+import { phraseLanguage } from '@/lib/phrases';
 
 const listeners = new Set<() => void>();
 
@@ -25,6 +27,7 @@ function read(key: string) {
 
 export function PathSteps({ pathId, steps }: { pathId: string; steps: string[] }) {
   const tr = useTr();
+  const language = useLanguage();
   const key = `desofec:progress:${pathId}`;
   const raw = useSyncExternalStore(
     subscribe,
@@ -96,6 +99,9 @@ export function PathSteps({ pathId, steps }: { pathId: string; steps: string[] }
                 onChange={() => toggle(index)}
               />{' '}
               <Tr>Mark as done</Tr>
+              <span className="sr-only" lang={phraseLanguage(step, language)}>
+                {`: ${index + 1}. ${tr(step)}`}
+              </span>
             </label>
           </article>
         ))}

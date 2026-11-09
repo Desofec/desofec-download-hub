@@ -31,6 +31,11 @@ and opening device projects, with the other existing links in an expandable sect
 The home continuation card links to device projects as well as learning progress.
 Tutorial certificates identify checklist completion as self-recorded, not an
 independently assessed or accredited qualification.
+Tutorial and learning-path completion checkboxes include the step number and
+title in their screen-reader names, while keeping the visible labels and existing
+progress data unchanged. A title that falls back to English is identified as
+English. Completed cards retain full text contrast and a distinctive border;
+their checked controls and existing title decoration remain visible.
 The header uses a scrollable compact menu on tablets and smaller laptops; Escape
 closes it and returns keyboard focus to the menu button. On medium desktop widths,
 the duplicate header call to action is hidden while the Start here link remains.
