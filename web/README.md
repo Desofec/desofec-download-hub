@@ -81,7 +81,8 @@ Tutorials with complete French, German and Spanish lesson translations also have
 language-specific public URLs, such as `/fr/tutorials/ai-video-business` and
 `/de/projects/ai-assisted-coding/build`. Their translated lesson text is rendered
 in the initial HTML, with self-canonical URLs, reciprocal language alternates and
-links in the existing sitemap. English URLs and tutorial progress keys remain
+matching Open Graph language information for social previews, plus links in the
+existing sitemap. English URLs and tutorial progress keys remain
 unchanged. Incomplete translations do not get these URLs or language alternates;
 other pages continue to use the existing language selector. The sitemap's existing
 submission can discover new entries without being submitted again. These signals

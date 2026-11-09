@@ -48,6 +48,7 @@ test('only public tutorials with complete lesson translations get localized page
 });
 
 test('canonical and reciprocal alternates point to real language versions', () => {
+  const socialLocales = { en: 'en_US', fr: 'fr_FR', de: 'de_DE', es: 'es_ES' };
   for (const tutorial of localized.localizedTutorials) {
     const versions = localized.tutorialLanguageVersions(tutorial);
     assert.deepEqual(versions.map(({ code }) => code), ['en', 'fr', 'de', 'es']);
@@ -58,12 +59,19 @@ test('canonical and reciprocal alternates point to real language versions', () =
       const alternate = localized.tutorialAlternates(tutorial, code);
       assert.equal(alternate.canonical, href);
       assert.deepEqual(alternate.languages, expected);
+      const social = localized.tutorialSocialLocales(tutorial, code);
+      assert.equal(social.locale, socialLocales[code]);
+      assert.deepEqual(social.alternateLocale, versions
+        .filter((version) => version.code !== code)
+        .map((version) => socialLocales[version.code]));
       if (code !== 'en') {
         const metadata = localized.localizedTutorialMetadata(tutorial, code);
         const text = translations.getTutorialTranslation(tutorial.pathId, code);
         assert.equal(metadata.title, text.title);
         assert.equal(metadata.description, text.intro);
         assert.equal(metadata.openGraph.url, href);
+        assert.equal(metadata.openGraph.locale, social.locale);
+        assert.deepEqual(metadata.openGraph.alternateLocale, social.alternateLocale);
         assert.equal(metadata.twitter.title, text.title);
         assert.deepEqual(metadata.alternates, alternate);
       }
@@ -71,6 +79,7 @@ test('canonical and reciprocal alternates point to real language versions', () =
   }
   const untranslated = registry.tutorials.find(({ pathId }) => pathId === 'shopify-guide');
   assert.deepEqual(localized.tutorialLanguageVersions(untranslated), []);
+  assert.equal(localized.tutorialSocialLocales(untranslated, 'en'), undefined);
   assert.deepEqual(localized.tutorialAlternates(untranslated, 'en'), { canonical: untranslated.href });
   assert.throws(() => localized.tutorialAlternates(untranslated, 'fr'), /Missing localized tutorial/);
 });

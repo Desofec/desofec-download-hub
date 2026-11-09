@@ -6,7 +6,7 @@ import { TutorialSteps } from '@/components/tutorial-steps';
 import { TutorialLabel } from '@/components/tutorial-back-label';
 import { TutorialLanguageLinks } from '@/components/tutorial-language-links';
 import { Tr } from '@/components/tr';
-import { tutorialAlternates } from '@/lib/localized-tutorials';
+import { tutorialAlternates, tutorialSocialLocales } from '@/lib/localized-tutorials';
 import { tutorialStorageKey, tutorials } from '@/lib/tutorials';
 
 const hosted = tutorials.filter((tutorial) => tutorial.href.startsWith('/tutorials/'));
@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   return tutorial ? {
     title: tutorial.title, description: tutorial.intro,
     alternates: tutorialAlternates(tutorial, 'en'),
-    openGraph: { title: tutorial.title, description: tutorial.intro, url: tutorial.href },
+    openGraph: { title: tutorial.title, description: tutorial.intro, url: tutorial.href, ...tutorialSocialLocales(tutorial, 'en') },
     twitter: { card: 'summary_large_image', title: tutorial.title, description: tutorial.intro }
   } : { title: 'Tutorial' };
 }

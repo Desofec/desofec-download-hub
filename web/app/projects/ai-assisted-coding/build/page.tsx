@@ -5,13 +5,14 @@ import { TutorialLabel } from '@/components/tutorial-back-label';
 import { TutorialLanguageLinks } from '@/components/tutorial-language-links';
 import { TutorialSteps } from '@/components/tutorial-steps';
 import { aiAssistedCodingSteps } from '@/lib/ai-assisted-coding-tutorial';
-import { requireTutorial, tutorialAlternates } from '@/lib/localized-tutorials';
+import { requireTutorial, tutorialAlternates, tutorialSocialLocales } from '@/lib/localized-tutorials';
 
 const tutorial = requireTutorial('ai-assisted-coding');
 export const metadata = {
   ...publicPageMetadata('/projects/ai-assisted-coding/build', {
     title: 'AI coding assistant tutorial for beginners',
-    description: 'Practise with an AI coding assistant and a small Python project. Write prompts, review suggested code, test for bugs and stay in control.'
+    description: 'Practise with an AI coding assistant and a small Python project. Write prompts, review suggested code, test for bugs and stay in control.',
+    socialLocales: tutorialSocialLocales(tutorial, 'en')
   }),
   alternates: tutorialAlternates(tutorial, 'en')
 };

@@ -4,14 +4,15 @@ import { TutorialHeader } from '@/components/tutorial-header';
 import { TutorialLabel } from '@/components/tutorial-back-label';
 import { TutorialLanguageLinks } from '@/components/tutorial-language-links';
 import { TutorialSteps } from '@/components/tutorial-steps';
-import { requireTutorial, tutorialAlternates } from '@/lib/localized-tutorials';
+import { requireTutorial, tutorialAlternates, tutorialSocialLocales } from '@/lib/localized-tutorials';
 import { codingFoundationsSteps } from '@/lib/coding-foundations-tutorial';
 
 const tutorial = requireTutorial('coding-foundations');
 export const metadata = {
   ...publicPageMetadata('/projects/coding-foundations/build', {
     title: 'Learn Python: coding foundations tutorial',
-    description: 'A step-by-step beginner tutorial: set up Python, learn the basics, use Git and build a guessing game.'
+    description: 'A step-by-step beginner tutorial: set up Python, learn the basics, use Git and build a guessing game.',
+    socialLocales: tutorialSocialLocales(tutorial, 'en')
   }),
   alternates: tutorialAlternates(tutorial, 'en')
 };

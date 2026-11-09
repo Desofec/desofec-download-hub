@@ -4,14 +4,15 @@ import { TutorialHeader } from '@/components/tutorial-header';
 import { TutorialLabel } from '@/components/tutorial-back-label';
 import { TutorialLanguageLinks } from '@/components/tutorial-language-links';
 import { TutorialSteps } from '@/components/tutorial-steps';
-import { requireTutorial, tutorialAlternates } from '@/lib/localized-tutorials';
+import { requireTutorial, tutorialAlternates, tutorialSocialLocales } from '@/lib/localized-tutorials';
 import { taskTrackerSteps } from '@/lib/task-tracker-tutorial';
 
 const tutorial = requireTutorial('first-app');
 export const metadata = {
   ...publicPageMetadata('/projects/first-app/build', {
     title: 'Code your own task tracker',
-    description: 'A step-by-step beginner tutorial: build a task tracker with HTML, CSS and JavaScript.'
+    description: 'A step-by-step beginner tutorial: build a task tracker with HTML, CSS and JavaScript.',
+    socialLocales: tutorialSocialLocales(tutorial, 'en')
   }),
   alternates: tutorialAlternates(tutorial, 'en')
 };

@@ -7,6 +7,14 @@ import { tutorials, type TutorialInfo } from '@/lib/tutorials';
 export const localizedTutorialLanguages = ['fr', 'de', 'es'] as const;
 export type LocalizedTutorialLanguage = (typeof localizedTutorialLanguages)[number];
 
+// Open Graph requires language_TERRITORY even though hreflang targets language only.
+const socialLocales: Record<LanguageCode, string> = {
+  en: 'en_US',
+  fr: 'fr_FR',
+  de: 'de_DE',
+  es: 'es_ES'
+};
+
 const legacyTutorialPaths = new Set([
   '/projects/first-app/build',
   '/projects/coding-foundations/build',
@@ -61,6 +69,15 @@ export function tutorialLanguageVersions(tutorial: TutorialInfo) {
   }));
 }
 
+export function tutorialSocialLocales(tutorial: TutorialInfo, language: LanguageCode) {
+  const versions = tutorialLanguageVersions(tutorial);
+  if (versions.length === 0) return undefined;
+  return {
+    locale: socialLocales[language],
+    alternateLocale: versions.filter(({ code }) => code !== language).map(({ code }) => socialLocales[code])
+  };
+}
+
 export function tutorialAlternates(tutorial: TutorialInfo, language: LanguageCode) {
   const versions = tutorialLanguageVersions(tutorial);
   if (language !== 'en' && versions.length === 0) {
@@ -84,7 +101,11 @@ export function localizedTutorialMetadata(tutorial: TutorialInfo, language: Loca
   }
   const pathname = localizedTutorialPath(tutorial, language);
   return {
-    ...publicPageMetadata(pathname, { title: translation.title, description: translation.intro }),
+    ...publicPageMetadata(pathname, {
+      title: translation.title,
+      description: translation.intro,
+      socialLocales: tutorialSocialLocales(tutorial, language)
+    }),
     alternates: tutorialAlternates(tutorial, language)
   };
 }

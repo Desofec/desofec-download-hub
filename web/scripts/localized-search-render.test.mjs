@@ -8,6 +8,7 @@ import { loadWebModules } from './load-web-modules.mjs';
 
 const webDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const productionOrigin = 'https://www.desofec.com';
+const socialLocales = { en: 'en_US', fr: 'fr_FR', de: 'de_DE', es: 'es_ES' };
 const [localized, translations] = loadWebModules([
   'lib/localized-tutorials.ts',
   'lib/tutorial-translations.ts'
@@ -71,7 +72,7 @@ after(async () => {
 
 function attributes(tag) {
   return Object.fromEntries([...tag.matchAll(/\s([\w:-]+)="([^"]*)"/g)]
-    .map(([, name, value]) => [name.toLowerCase(), value.replaceAll('&amp;', '&')]));
+    .map(([, name, value]) => [name.toLowerCase(), htmlText(value)]));
 }
 
 function renderedMain(html) {
@@ -104,6 +105,19 @@ function checkAlternates(html, englishPath, currentPath) {
     es: `${productionOrigin}/es${englishPath}`,
     'x-default': `${productionOrigin}${englishPath}`
   });
+}
+
+function checkSocialMetadata(html, pathname, language, expectedTitle) {
+  const tags = [...html.matchAll(/<meta\b[^>]*>/gi)].map(([tag]) => attributes(tag));
+  const value = (property) => tags.find((tag) => tag.property === property)?.content;
+  assert.equal(value('og:url'), `${productionOrigin}${pathname}`, pathname);
+  assert.equal(value('og:locale'), socialLocales[language], pathname);
+  assert.deepEqual(
+    tags.filter((tag) => tag.property === 'og:locale:alternate').map((tag) => tag.content).sort(),
+    Object.entries(socialLocales).filter(([code]) => code !== language).map(([, locale]) => locale).sort(),
+    pathname
+  );
+  if (expectedTitle) assert.equal(value('og:title'), expectedTitle, `${pathname}: translated social title`);
 }
 
 async function page(pathname) {
@@ -168,12 +182,14 @@ test('all sitemap language versions return readable, self-canonical HTML with re
     assert.ok(checkboxes.every((input) => !/\schecked(?:[=>\s]|$)/i.test(input)), `${pathname}: no automatic completion`);
     assert.doesNotMatch(document, /<meta[^>]+name="robots"[^>]+noindex/i, pathname);
     checkAlternates(document, pathname.slice(3), pathname);
+    checkSocialMetadata(document, pathname, language, expectedPages.get(url));
   });
 
   await forEachLimit([...groups.keys()], 6, async (pathname) => {
     const { response: result, html: document } = await page(pathname);
     assert.equal(result.status, 200, pathname);
     checkAlternates(document, pathname, pathname);
+    checkSocialMetadata(document, pathname, 'en');
   });
 });
 
@@ -202,6 +218,10 @@ test('incomplete translations and private pages are not advertised', async () =>
     const { response, html } = await page(pathname);
     assert.ok(response.status === 404 || /<meta[^>]+name="robots"[^>]+noindex/i.test(html), pathname);
   }
+  const untranslated = await page('/tutorials/shopify-guide');
+  assert.equal(untranslated.response.status, 200);
+  assert.doesNotMatch(untranslated.html, /<meta[^>]+property="og:locale:alternate"/i);
+  assert.doesNotMatch(untranslated.html, /<link[^>]+hreflang=/i);
   const { html } = await page('/my-progress');
   assert.match(html, /<meta[^>]+name="robots"[^>]+noindex/i);
 });
