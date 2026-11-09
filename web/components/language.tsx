@@ -1,16 +1,20 @@
 'use client';
 
-import { useCallback, useEffect, useSyncExternalStore, type ReactNode } from 'react';
+import { createContext, useCallback, useContext, useEffect, useSyncExternalStore, type ReactNode } from 'react';
 import {
   defaultLanguage,
   dictionaries,
   isLanguageCode,
+  localizedTutorialHref,
+  tutorialRouteLanguage,
   type LanguageCode,
   type TranslationKey
 } from '@/lib/i18n';
 
 const STORAGE_KEY = 'desofec:language';
 const EVENT_NAME = 'desofec-language-change';
+const RouteLanguageContext = createContext<LanguageCode | undefined>(undefined);
+const TutorialPathsContext = createContext<readonly string[]>([]);
 
 function subscribe(callback: () => void) {
   window.addEventListener('storage', callback);
@@ -21,7 +25,9 @@ function subscribe(callback: () => void) {
   };
 }
 
-function readLanguage(): LanguageCode {
+function readLanguage(localizedPaths: readonly string[]): LanguageCode {
+  const routeLanguage = tutorialRouteLanguage(window.location.pathname, localizedPaths);
+  if (routeLanguage) return routeLanguage;
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
     return isLanguageCode(saved) ? saved : defaultLanguage;
@@ -34,11 +40,40 @@ export function setLanguage(code: LanguageCode) {
   try {
     localStorage.setItem(STORAGE_KEY, code);
   } catch {}
+  refreshLanguageFromPath();
+}
+
+export function refreshLanguageFromPath() {
   window.dispatchEvent(new Event(EVENT_NAME));
 }
 
 export function useLanguage() {
-  return useSyncExternalStore(subscribe, readLanguage, () => defaultLanguage);
+  const routeLanguage = useContext(RouteLanguageContext);
+  const localizedPaths = useContext(TutorialPathsContext);
+  return useSyncExternalStore(
+    subscribe,
+    () => routeLanguage ?? readLanguage(localizedPaths),
+    () => routeLanguage ?? defaultLanguage
+  );
+}
+
+export function TutorialPathsProvider({ paths, children }: { paths: readonly string[]; children: ReactNode }) {
+  return <TutorialPathsContext.Provider value={paths}>{children}</TutorialPathsContext.Provider>;
+}
+
+export function useLocalizedTutorialHref(href: string) {
+  const localizedPaths = useContext(TutorialPathsContext);
+  return localizedTutorialHref(href, useLanguage(), localizedPaths);
+}
+
+export function TutorialRouteLanguage({ language, children }: { language: LanguageCode; children: ReactNode }) {
+  useEffect(() => {
+    setLanguage(language);
+  }, [language]);
+
+  return <RouteLanguageContext.Provider value={language}>
+    <div lang={language}>{children}</div>
+  </RouteLanguageContext.Provider>;
 }
 
 export function useT() {

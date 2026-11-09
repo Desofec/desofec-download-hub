@@ -7,6 +7,7 @@ import type { LearningPath, StarterPack } from '@/lib/types';
 import { getSupabaseBrowserClient } from '@/lib/supabase-browser';
 import { useTr } from '@/components/tr';
 import { useLanguage } from '@/components/language';
+import { TutorialLink } from '@/components/tutorial-link';
 import { getTutorialTranslation } from '@/lib/tutorial-translations';
 
 export type ContinueTutorial = { id: string; title: string; href: string; stepIds: string[]; storageKey: string };
@@ -243,12 +244,12 @@ export function ContinueLearning({ paths, packs, checklists, tutorials = NO_TUTO
             {!userId && !item && <Link href="/account">{tr('Sign in to sync progress across devices')}</Link>}
           </div>
           <div className="continue-action">
-            <Link className="btn btn-primary" href={finished ? '/paths' : item?.href ?? '/paths'}>
+            <TutorialLink className="btn btn-primary" href={finished ? '/paths' : item?.href ?? '/paths'}>
               {finished ? tr('Explore learning paths') : item ? tr('Continue learning') : tr('Explore learning paths')}
-            </Link>
-            {finished && item && <Link className="text-link" href={item.href}>
+            </TutorialLink>
+            {finished && item && <TutorialLink className="text-link" href={item.href}>
                 {tr('Review')}
-              </Link>}
+              </TutorialLink>}
             {item && <Link className="text-link" href="/my-progress">
                 {tr('View all progress')}
               </Link>}

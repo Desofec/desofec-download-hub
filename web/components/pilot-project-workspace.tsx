@@ -5,6 +5,7 @@ import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { useAuth } from '@/components/auth-provider';
 import { PilotProjectAccount } from '@/components/pilot-project-account';
 import { ProjectBackup } from '@/components/project-backup';
+import { TutorialLink } from '@/components/tutorial-link';
 import { ServiceProjectJourney } from '@/components/service-project-journey';
 import { serviceProjectJourney } from '@/lib/service-project-journeys';
 import { useTr } from '@/components/tr';
@@ -225,7 +226,7 @@ function Workspace({ paths, projectId, initialPath }: WorkspaceProps) {
               onNavigate={(event) => { if (dirty && !window.confirm(tr('Discard unsaved brief and checklist changes?'))) event.preventDefault(); }}>{tr('Build a pilot proposal')}</Link>
             <Link className="btn btn-secondary" href={`/business-launchpad/results-tracker${query}`}
               onNavigate={(event) => { if (dirty && !window.confirm(tr('Discard unsaved brief and checklist changes?'))) event.preventDefault(); }}>{tr('Track pilot tests and results')}</Link>
-            <Link className="btn btn-secondary" href={`/tutorials/${saved.pathId}`}>{tr('Start the tutorial')}</Link>
+            <TutorialLink className="btn btn-secondary" href={`/tutorials/${saved.pathId}`}>{tr('Start the tutorial')}</TutorialLink>
             <Link className="btn btn-secondary" href={`/starter-packs/${projectKitId(saved.pathId)}`}>{tr('Open the service kit')}</Link>
             <button type="button" className="btn btn-secondary" onClick={() => attempt(() => {
               downloadPilotText(buildProjectSummary(saved, tr), 'pilot-project-summary.txt');

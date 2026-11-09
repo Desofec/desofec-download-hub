@@ -15,8 +15,10 @@ other. Domain/DNS settings are managed outside this repository.
 Set the production `NEXT_PUBLIC_SITE_URL` to `https://www.desofec.com` and redeploy
 so newsletter links use the same origin; explicit local/preview overrides remain
 supported. Email addresses still use `@desofec.com`, not `@www.desofec.com`.
-Submit `https://www.desofec.com/sitemap.xml` in Search Console after deployment.
-These settings help consolidate URLs but do not guarantee Google indexing.
+If it has not already been submitted, submit `https://www.desofec.com/sitemap.xml`
+in Search Console. Otherwise monitor the existing submission; releases do not
+require duplicate submissions. These settings help consolidate URLs but do not
+guarantee Google indexing.
 
 The homepage highlights four editorially selected practice tutorials with
 translated learning outcomes. These are not popularity or search-ranking claims.
@@ -75,6 +77,19 @@ progress or persist queries.
 Card headings use full tutorial translations when available and the UI phrase book
 otherwise; fallback title translations are also included in search. Translating a
 directory heading does not imply that its lesson body is translated.
+Tutorials with complete French, German and Spanish lesson translations also have
+language-specific public URLs, such as `/fr/tutorials/ai-video-business` and
+`/de/projects/ai-assisted-coding/build`. Their translated lesson text is rendered
+in the initial HTML, with self-canonical URLs, reciprocal language alternates and
+matching Open Graph language information for social previews, plus links in the
+existing sitemap. English URLs and tutorial progress keys remain
+unchanged. Tutorial links follow the selected language when a complete translation
+exists; an explicit unprefixed tutorial URL remains English. Incomplete translations
+do not get these URLs or language alternates; other pages continue to use the
+existing language selector. The sitemap's existing
+submission can discover new entries without being submitted again. These signals
+do not guarantee indexing or search rankings. After `npm run build`, run
+`npm run test:search-render` to check the built HTML, alternates and sitemap.
 The tools directory renders browsable tool links while its interactive search and
 comparison load; without JavaScript, those controls and saved-tool buttons are unavailable.
 
@@ -149,9 +164,11 @@ mailbox delivery, legal compliance or real-device accessibility.
 Using the owner's accounts, verify the production property in
 [Google Search Console](https://search.google.com/search-console) and
 [Bing Webmaster Tools](https://www.bing.com/webmasters/). Submit the existing sitemap
-and inspect the homepage, `/start-here` and relevant lesson URLs. The site includes
-the `/tutorials/search-visibility` guide; repeated indexing requests do not guarantee
-or accelerate inclusion. No account submission is performed by these code changes.
+only if it is not already submitted, and inspect the homepage, `/start-here` and
+relevant lesson URLs. The `/tutorials/search-visibility` guide and its translations
+explain how to check existing or pending sitemap submissions before adding one.
+Repeated indexing requests do not guarantee or accelerate inclusion. No account
+submission is performed by these code changes.
 
 Share a relevant lesson or the beginner starting route only in communities that
 permit it, disclose ownership and ask for actual feedback from consenting beginners.

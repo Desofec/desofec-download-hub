@@ -3,11 +3,13 @@ import { Suspense } from 'react';
 import { AuthProvider } from '@/components/auth-provider';
 import { BreakTimer } from '@/components/break-timer';
 import { FavoritesSync } from '@/components/favorites-sync';
+import { TutorialPathsProvider } from '@/components/language';
 import { PwaControls } from '@/components/pwa-controls';
 import { PrivacyAnalytics } from '@/components/privacy-analytics';
 import { SiteFooter } from '@/components/site-footer';
 import { SiteHeader } from '@/components/site-header';
 import { Tr } from '@/components/tr';
+import { localizedTutorials } from '@/lib/localized-tutorials';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -50,6 +52,7 @@ const jsonLd = {
 };
 
 const themeScript = `try{var t=localStorage.getItem('desofec:theme');if(['light','sky','sunrise','mint'].indexOf(t)>-1)document.documentElement.dataset.theme=t;if(localStorage.getItem('desofec:rainbow')==='on')document.documentElement.dataset.rainbow='on'}catch(e){}`;
+const localizedTutorialPaths = localizedTutorials.map((tutorial) => tutorial.href);
 
 export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
@@ -59,20 +62,22 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
       </head>
       <body>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-        <a className="skip-link" href="#main-content">
-          <Tr>Skip to content</Tr>
-        </a>
-        <AuthProvider>
-          <FavoritesSync />
-          <Suspense fallback={null}>
-            <SiteHeader />
-          </Suspense>
-          <PwaControls />
-          <main id="main-content" tabIndex={-1}>{children}</main>
-          <SiteFooter />
-          <BreakTimer />
-        </AuthProvider>
-        <PrivacyAnalytics />
+        <TutorialPathsProvider paths={localizedTutorialPaths}>
+          <a className="skip-link" href="#main-content">
+            <Tr>Skip to content</Tr>
+          </a>
+          <AuthProvider>
+            <FavoritesSync />
+            <Suspense fallback={null}>
+              <SiteHeader />
+            </Suspense>
+            <PwaControls />
+            <main id="main-content" tabIndex={-1}>{children}</main>
+            <SiteFooter />
+            <BreakTimer />
+          </AuthProvider>
+          <PrivacyAnalytics />
+        </TutorialPathsProvider>
       </body>
     </html>
   );

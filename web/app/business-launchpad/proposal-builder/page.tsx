@@ -1,6 +1,7 @@
 import { publicPageMetadata } from '@/lib/public-page-metadata';
 import Link from 'next/link';
 import { PilotProposalBuilder } from '@/components/pilot-proposal-builder';
+import { TutorialLink } from '@/components/tutorial-link';
 import { Tr } from '@/components/tr';
 import { Suspense } from 'react';
 
@@ -26,7 +27,7 @@ export default function ProposalBuilderPage({ searchParams }: { searchParams: Pr
           <div className="cta-row">
             <Link className="btn btn-secondary" href="/business-launchpad/projects"><Tr>Open the Pilot Project Workspace</Tr></Link>
             <Link className="btn btn-secondary" href="/business-launchpad"><Tr>AI Business Launchpad</Tr></Link>
-            <Link className="btn btn-secondary" href="/tutorials/ai-automation-services"><Tr>Start the automation service tutorial</Tr></Link>
+            <TutorialLink className="btn btn-secondary" href="/tutorials/ai-automation-services"><Tr>Start the automation service tutorial</Tr></TutorialLink>
             <Link className="btn btn-secondary" href="/business-launchpad/results-tracker"><Tr>Track pilot tests and results</Tr></Link>
           </div>
         </div>

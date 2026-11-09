@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ProjectCompletionDashboard } from '@/components/project-completion-dashboard';
 import { ProgressDashboard } from '@/components/progress-dashboard';
+import { TutorialLink } from '@/components/tutorial-link';
 import { Tr } from '@/components/tr';
 import { getCatalog } from '@/lib/catalog';
 import { tutorialStorageKey, tutorials } from '@/lib/tutorials';
@@ -38,7 +39,7 @@ export default async function StartHerePage() {
       <p><Tr>Go at your own pace. Reading, drafting, testing and feedback take separate time; checking a lesson does not create or verify deliverables.</Tr></p>
       <div className="cta-row">
         <Link className="btn btn-primary" href="/business-launchpad/projects?path=ai-content-services"><Tr>Start the guided content project</Tr></Link>
-        <Link className="btn btn-secondary" href="/tutorials/ai-content-services"><Tr>Preview the lessons</Tr></Link>
+        <TutorialLink className="btn btn-secondary" href="/tutorials/ai-content-services"><Tr>Preview the lessons</Tr></TutorialLink>
         <Link className="text-link" href="/business-launchpad/first-project"><Tr>Prefer another service? Choose a different practice project.</Tr></Link>
       </div>
     </section>

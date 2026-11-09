@@ -2,14 +2,14 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useRef, useState, useSyncExternalStore } from 'react';
+import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { useAuth } from '@/components/auth-provider';
 import { LanguageSwitcher } from '@/components/language-switcher';
 import { RainbowSwitch } from '@/components/rainbow-switch';
 import { ThemeToggle } from '@/components/theme-toggle';
-import { useT } from '@/components/language';
+import { refreshLanguageFromPath, useT } from '@/components/language';
 import { useTr } from '@/components/tr';
-import type { TranslationKey } from '@/lib/i18n';
+import { withoutLanguagePrefix, type TranslationKey } from '@/lib/i18n';
 
 const links: { href: string; label: TranslationKey; match?: string[] }[] = [
   { href: '/', label: 'nav.home' },
@@ -22,6 +22,7 @@ const links: { href: string; label: TranslationKey; match?: string[] }[] = [
 ];
 
 function isActive(pathname: string, href: string, match?: string[]) {
+  pathname = withoutLanguagePrefix(pathname);
   if (href === '/') return pathname === '/';
   return (match ?? [href]).some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`));
 }
@@ -38,6 +39,10 @@ export function SiteHeader() {
   const signedIn = hydrated && Boolean(session?.user.email);
   const t = useT();
   const tr = useTr();
+
+  useEffect(() => {
+    refreshLanguageFromPath();
+  }, [pathname]);
 
   return (
     <header className="site-header" onKeyDown={(event) => {

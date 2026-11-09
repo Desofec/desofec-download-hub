@@ -32,3 +32,5 @@ jobs:
         run: npm run lint
       - name: Build
         run: npm run build
+      - name: Verify localized search HTML
+        run: npm run test:search-render

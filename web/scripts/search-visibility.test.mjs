@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { test } from 'node:test';
 import ts from 'typescript';
+import { loadWebModules } from './load-web-modules.mjs';
 
 const source = await readFile(new URL('../lib/search-visibility-tutorial.ts', import.meta.url), 'utf8');
 const output = ts.transpileModule(source, {
@@ -41,6 +42,53 @@ test('Google and Bing lessons link to primary documentation and the Bing portal'
   assert.ok(searchVisibilitySteps[1].resources.some(({ url }) => url === searchVisibilityResources.googleProperty.url));
   assert.ok(searchVisibilitySteps[2].resources.some(({ url }) => url === searchVisibilityResources.googleSitemap.url));
   assert.ok(searchVisibilitySteps[4].resources.some(({ url }) => url === searchVisibilityResources.bingPortal.url));
+});
+
+test('Google and Bing sitemap guidance checks existing submissions in all four languages', () => {
+  const [translations] = loadWebModules(['lib/tutorial-translations.ts']);
+  const rules = {
+    en: {
+      existing: /already listed/,
+      absent: /only if (?:it is )?absent/,
+      pending: /pending/,
+      avoidRepeat: /rather than (?:submitting the same sitemap|submitting it) again/,
+      reuseSite: /use the existing entry and verify it only if needed/
+    },
+    fr: {
+      existing: /figur(?:e|ent) déjà dans la liste/,
+      absent: /seulement (?:si elle est absente|s’il est absent)/,
+      pending: /en attente/,
+      avoidRepeat: /plutôt que de renvoyer le même sitemap|au lieu de le répéter/,
+      reuseSite: /utilisez cette entrée et ne le vérifiez que si nécessaire/
+    },
+    de: {
+      existing: /bereits aufgeführt/,
+      absent: /nur (?:ein|hinzu), wenn sie fehl(?:t|en)/,
+      pending: /Verarbeitung noch aus|noch in Bearbeitung/,
+      avoidRepeat: /statt (?:dieselbe Sitemap erneut|sie erneut) einzureichen/,
+      reuseSite: /nutze den bestehenden Eintrag und bestätige sie nur bei Bedarf/
+    },
+    es: {
+      existing: /ya apare(?:ce|cen) en la lista/,
+      absent: /solo si falta(?:n)?/,
+      pending: /pendiente/,
+      avoidRepeat: /en lugar de (?:volver a enviar el mismo sitemap|repetirlo)/,
+      reuseSite: /usa la entrada existente y verifícala solo si es necesario/
+    }
+  };
+  for (const [language, checks] of Object.entries(rules)) {
+    const steps = language === 'en'
+      ? Object.fromEntries(searchVisibilitySteps.map((step) => [step.id, step]))
+      : translations.getTutorialTranslation('search-visibility', language).steps;
+    for (const id of ['submit-google-sitemap', 'set-up-bing-webmaster']) {
+      const guidance = steps[id].explanation.join(' ');
+      for (const [label, pattern] of Object.entries(checks).filter(([label]) => label !== 'reuseSite')) {
+        assert.match(guidance, pattern, `${language}/${id}: ${label}`);
+      }
+      assert.match(guidance, /https:\/\/www\.example\.com\/sitemap\.xml/, `${language}/${id}: canonical example`);
+    }
+    assert.match(steps['set-up-bing-webmaster'].explanation[0], checks.reuseSite, `${language}: reuse existing Bing site`);
+  }
 });
 
 test('Bing ownership file preserves the verification issued for the production property', async () => {

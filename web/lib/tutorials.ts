@@ -94,7 +94,7 @@ export const tutorials: TutorialInfo[] = [
     pathId: 'search-visibility',
     href: '/tutorials/search-visibility',
     title: 'Configure Google Search and Bing Webmaster Tools',
-    intro: 'Choose one canonical website address, submit your sitemap and check indexing in Google Search Console and Bing Webmaster Tools. Learn what Microsoft Edge is—and why it is not Bing’s webmaster service.',
+    intro: 'Choose one canonical website address, check or submit your sitemap and review indexing in Google Search Console and Bing Webmaster Tools. Learn what Microsoft Edge is—and why it is not Bing’s webmaster service.',
     time: '35 minutes',
     steps: searchVisibilitySteps,
     badge: 'Website guide',

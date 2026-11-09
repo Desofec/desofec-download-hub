@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { PackCard, ToolCard } from '@/components/cards';
 import { PathSteps } from '@/components/path-steps';
+import { TutorialLink } from '@/components/tutorial-link';
 import { getCatalog } from '@/lib/catalog';
 import { getTutorialForPath } from '@/lib/tutorials';
 import { Tr } from '@/components/tr';
@@ -68,9 +69,9 @@ export default async function PathDetailPage({ params }: { params: Promise<{ id:
               </Link>
             )}
             {tutorial && (
-              <Link className="btn btn-primary" href={tutorial.href}>
+              <TutorialLink className="btn btn-primary" href={tutorial.href}>
                 <Tr>Learn step by step: tutorial</Tr>
-              </Link>
+              </TutorialLink>
             )}
             {path.id === 'first-app' && (
               <Link className="btn btn-secondary" href="/projects/first-app">

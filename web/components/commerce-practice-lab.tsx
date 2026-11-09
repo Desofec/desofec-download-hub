@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { useTr } from '@/components/tr';
+import { TutorialLink } from '@/components/tutorial-link';
 import { downloadPilotText } from '@/lib/pilot-download';
 import {
   commerceExercises, commerceResultText, evaluateCommerce, sampleCommerceRows,
@@ -67,7 +68,7 @@ export function CommercePracticeLab({ initialTrack, projectId }: { initialTrack:
       {projectId && <Link className="btn btn-secondary" href={`/business-launchpad/evidence-workbook?project=${encodeURIComponent(projectId)}`}>
         {tr('Open private evidence workbook')}
       </Link>}
-      <Link className="btn btn-secondary" href={`/tutorials/${trackPaths[track]}`}>{tr('Start the tutorial')}</Link>
+      <TutorialLink className="btn btn-secondary" href={`/tutorials/${trackPaths[track]}`}>{tr('Start the tutorial')}</TutorialLink>
       <Link className="btn btn-secondary" href={`/paths/${trackPaths[track]}`}>{tr('View path')}</Link>
       <Link className="btn btn-secondary" href="/starter-packs/ai-commerce-services-kit">{tr('Open the service kit')}</Link>
     </div>

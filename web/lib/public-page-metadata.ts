@@ -2,7 +2,11 @@ import type { Metadata } from 'next';
 
 export function publicPageMetadata(
   pathname: string,
-  { title, description }: { title: string; description: string }
+  { title, description, socialLocales }: {
+    title: string;
+    description: string;
+    socialLocales?: { locale: string; alternateLocale: string[] };
+  }
 ): Metadata {
   return {
     title,
@@ -14,6 +18,7 @@ export function publicPageMetadata(
       title,
       description,
       url: pathname,
+      ...socialLocales,
       images: [{ url: '/opengraph-image', alt: 'Desofec AI Studio: beginner-friendly AI learning' }]
     },
     twitter: {

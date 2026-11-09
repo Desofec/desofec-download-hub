@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState, type FormEvent } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useAuth } from '@/components/auth-provider';
+import { TutorialLink } from '@/components/tutorial-link';
 import { useTr } from '@/components/tr';
 import { getSupabaseBrowserClient } from '@/lib/supabase-browser';
 import { createInviteToken, INVITE_DAYS, itemTypeLabels, type ItemType, type WorkspaceItem } from '@/lib/workspaces';
@@ -170,7 +171,7 @@ export function WorkspaceDetail({ items }: { items: WorkspaceItem[] }) {
           return (
             <li key={`${entry.item_type}:${entry.item_id}`}>
               <span className="workspace-kind">{tr(itemTypeLabels[entry.item_type])}</span>
-              <Link href={item.href}>{item.title}</Link>
+              <TutorialLink href={item.href}>{item.title}</TutorialLink>
               {canRemove && (
                 <button className="btn btn-secondary" type="button" onClick={() => unshare(entry)}>
                   {tr('Remove')}

@@ -1,9 +1,9 @@
 'use client';
 
-import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import { Tr, useTr } from '@/components/tr';
 import { useLanguage } from '@/components/language';
+import { TutorialLink } from '@/components/tutorial-link';
 import { getTutorialTranslation } from '@/lib/tutorial-translations';
 import { matchesTutorialFilters, tutorialTopics, type TutorialTopic } from '@/lib/tutorial-directory';
 
@@ -128,9 +128,9 @@ export function TutorialList({ items }: { items: TutorialCardData[] }) {
                 </>
               )}
             </p>
-            <Link className="btn btn-primary" href={tutorial.href}>
+            <TutorialLink className="btn btn-primary" href={tutorial.href}>
               <Tr>Start tutorial</Tr>
-            </Link>
+            </TutorialLink>
           </article>
         ))}
       </div>
