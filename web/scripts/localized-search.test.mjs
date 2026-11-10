@@ -54,7 +54,7 @@ test('content-creation tutorial retains separate progress and complete, safe tra
   assert.equal(tutorial.href, '/tutorials/content-creation');
   assert.equal(tutorial.time, '60 minutes');
   assert.equal(tutorial.starterPackId, 'content-creator-kit');
-  assert.equal(tutorial.starterPackLabel, 'Open the content creator kit (English download)');
+  assert.equal(tutorial.starterPackLabel, 'Open the content creator kit');
   assert.deepEqual(tutorial.steps.map(({ id }) => id), [
     'content-brief', 'content-draft', 'content-visual',
     'content-check', 'content-review', 'content-next-steps'
@@ -116,11 +116,93 @@ test('content-creation tutorial retains separate progress and complete, safe tra
   assert.ok(localized.hasLocalizedTutorialPages(tutorial));
   const [downloads] = loadWebModules(['lib/starter-pack-downloads.ts']);
   for (const language of ['en', 'fr', 'de', 'es']) {
+    const suffix = language === 'en' ? '' : `-${language}`;
     assert.equal(downloads.starterPackDownloadFile('content-creator-kit', 'downloads/content-creator-kit.md', language),
-      'downloads/content-creator-kit.md', `${language}: creator kit remains English-only`);
+      `downloads/content-creator-kit${suffix}.md`, `${language}: creator kit follows selected language`);
+    assert.equal(downloads.starterPackDownloadFile('ai-video-business-kit', 'downloads/ai-video-business-kit.md', language),
+      `downloads/ai-video-business-kit${suffix}.md`, `${language}: business-video kit still follows selected language`);
+    assert.equal(downloads.starterPackDownloadFile('freelance-client-discovery-kit', 'downloads/freelance-client-discovery-kit.md', language),
+      'downloads/freelance-client-discovery-kit.md', `${language}: untranslated kit remains English`);
   }
   const source = await readFile(new URL('../lib/content-creation-tutorial.ts', import.meta.url), 'utf8');
   assert.doesNotMatch(source, /localStorage|fetch\(|upsert|applyProgress|persist\(/, 'lessons do not mutate progress or publish');
+});
+
+test('content creator kit editions retain complete prompts and private-practice safeguards', async () => {
+  const editions = {
+    en: {
+      placeholders: ['[TOPIC]', '[AUDIENCE]', '[N]', '[POST]', '[PURPOSE]', '[TEXT]'],
+      privacy: /fictional Cedar Bakery exercise private/i,
+      approval: /no real owner to approve publication/i,
+      results: /no result to report/i,
+      rights: /copy other people's work or imitate a real person's voice without permission/i,
+      disclosure: /AI helped, if your audience or platform expects it/i,
+      privatePrompt: /Keep private information out of every prompt/i,
+      storyboard: /storyboard is 30 seconds in three 10-second scenes; it is a plan, not a finished video/i
+    },
+    fr: {
+      placeholders: ['[SUJET]', '[PUBLIC]', '[N]', '[PUBLICATION]', '[OBJECTIF]', '[TEXTE]'],
+      privacy: /exercice fictif de Cedar Bakery privé/i,
+      approval: /aucun propriétaire réel ne peut approuver sa publication/i,
+      results: /aucun résultat n’est à rapporter/i,
+      rights: /travail d’autrui.*voix d’une personne réelle sans autorisation/i,
+      disclosure: /IA vous a aidé si votre public ou la plateforme l’attend/i,
+      privatePrompt: /aucune information privée dans les prompts/i,
+      storyboard: /storyboard facultatif[\s\S]*30 secondes en trois scènes de 10 secondes[\s\S]*pas une vidéo terminée/i
+    },
+    de: {
+      placeholders: ['[THEMA]', '[ZIELGRUPPE]', '[N]', '[BEITRAG]', '[ZWECK]', '[TEXT]'],
+      privacy: /fiktive Übung mit Cedar Bakery privat/i,
+      approval: /keinen echten Inhaber, der eine Veröffentlichung freigeben kann/i,
+      results: /keine Ergebnisse zu melden/i,
+      rights: /Werke anderer nur mit Erlaubnis.*Stimme einer realen Person nicht ohne Erlaubnis/i,
+      disclosure: /KI geholfen hat, wenn Ihre Zielgruppe oder die Plattform dies erwartet/i,
+      privatePrompt: /keinen Prompt private Informationen/i,
+      storyboard: /optionale Storyboard[\s\S]*30 Sekunden in drei Szenen zu je 10 Sekunden[\s\S]*kein fertiges Video/i
+    },
+    es: {
+      placeholders: ['[TEMA]', '[PÚBLICO]', '[N]', '[PUBLICACIÓN]', '[PROPÓSITO]', '[TEXTO]'],
+      privacy: /privado el ejercicio ficticio de Cedar Bakery/i,
+      approval: /no hay un propietario real que pueda aprobar su publicación/i,
+      results: /ni resultados que comunicar/i,
+      rights: /trabajo de otras personas.*voz de una persona real sin permiso/i,
+      disclosure: /IA si tu público o la plataforma lo espera/i,
+      privatePrompt: /información privada en ningún prompt/i,
+      storyboard: /storyboard opcional[\s\S]*30 segundos y tiene tres escenas de 10 segundos[\s\S]*no un vídeo terminado/i
+    }
+  };
+  const english = await readFile(new URL('../../downloads/content-creator-kit.md', import.meta.url), 'utf8');
+  for (const [language, checks] of Object.entries(editions)) {
+    const suffix = language === 'en' ? '' : `-${language}`;
+    const file = `content-creator-kit${suffix}.md`;
+    const text = await readFile(new URL(`../../downloads/${file}`, import.meta.url), 'utf8');
+    assert.equal(text, await readFile(new URL(`../public/downloads/${file}`, import.meta.url), 'utf8'),
+      `${language}: public and source copies match`);
+    if (language !== 'en') assert.notEqual(text, english, `${language}: translated`);
+    assert.doesNotMatch(text, /\uFFFD|\p{L}\?\p{L}/u, `${language}: intact encoding`);
+
+    const sections = text.split(/^## /m).slice(1);
+    assert.equal(sections.length, 5, `${language}: all five sections`);
+    assert.equal((sections[0].match(/^\d\./gm) ?? []).length, 4, `${language}: four-step loop`);
+    const prompts = sections[1].split('\n').filter((line) => /^- \*\*/.test(line));
+    assert.equal(prompts.length, 5, `${language}: all prompt templates`);
+    assert.match(prompts[0], /\b10\b.*\b3\b/, `${language}: ideas`);
+    assert.match(prompts[1], /\b45\b.*\b5\b.*\b3\b/, `${language}: video script`);
+    assert.match(prompts[2], /\b3\b.*\[N\]/, `${language}: caption options`);
+    assert.match(prompts[4], /\b5\b/, `${language}: repurposed list`);
+    for (const placeholder of checks.placeholders) {
+      assert.ok(sections[1].includes(placeholder), `${language}: ${placeholder}`);
+    }
+    assert.match(sections[1], checks.storyboard, `${language}: storyboard is not an export`);
+    assert.equal((sections[2].match(/^- /gm) ?? []).length, 3, `${language}: all workflows`);
+    for (const safeguard of [checks.privacy, checks.approval, checks.results, checks.rights, checks.disclosure, checks.privatePrompt]) {
+      assert.match(sections[3], safeguard, `${language}: ${safeguard}`);
+    }
+    assert.match(sections[3], /licen|Lizenz/i, `${language}: licence check`);
+    assert.match(sections[4], /\b30\b/, `${language}: first 30 minutes`);
+    assert.equal((sections[4].match(/^\d\./gm) ?? []).length, 3, `${language}: first steps`);
+    assert.match(sections[4], /\b10\b/, `${language}: generate 10 ideas`);
+  }
 });
 
 test('a future path without a tutorial still finds relevant related tutorials', async () => {

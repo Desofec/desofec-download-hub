@@ -332,12 +332,12 @@ test('tutorial directory and learning paths distinguish tutorials from recommend
   assert.match(completeMain, /href="\/tutorials\/ai-video-creation"[^>]*>Learn step by step: tutorial<\/a>/);
 });
 
-test('content-creation lessons and their English-only kit are visible in every language', async () => {
+test('content-creation lessons link to their kit in every language', async () => {
   for (const [prefix, title, kitLabel, fiction] of [
-    ['', 'Create a responsible content post with AI', 'Open the content creator kit (English download)', 'fictional bakery'],
-    ['/fr', 'Créer une publication responsable avec l’IA', 'Ouvrir le kit de création de contenu (téléchargement en anglais)', 'boulangerie fictive'],
-    ['/de', 'Einen verantwortungsvollen Beitrag mit KI erstellen', 'Content-Creator-Kit öffnen (Download auf Englisch)', 'fiktiven Bäckerei'],
-    ['/es', 'Crear una publicación responsable con IA', 'Abrir el kit de creación de contenido (descarga en inglés)', 'panadería ficticia']
+    ['', 'Create a responsible content post with AI', 'Open the content creator kit', 'fictional bakery'],
+    ['/fr', 'Créer une publication responsable avec l’IA', 'Ouvrir le kit de création de contenu', 'boulangerie fictive'],
+    ['/de', 'Einen verantwortungsvollen Beitrag mit KI erstellen', 'Content-Creator-Kit öffnen', 'fiktiven Bäckerei'],
+    ['/es', 'Crear una publicación responsable con IA', 'Abrir el kit de creación de contenido', 'panadería ficticia']
   ]) {
     const pathname = `${prefix}/tutorials/content-creation`;
     const { response, html } = await page(pathname);
@@ -346,6 +346,7 @@ test('content-creation lessons and their English-only kit are visible in every l
     assert.ok(main.includes(title), pathname);
     assert.ok(main.toLowerCase().includes(fiction.toLowerCase()), pathname);
     assert.ok(main.includes(kitLabel), pathname);
+    assert.doesNotMatch(main, /English download|téléchargement en anglais|Download auf Englisch|descarga en inglés/i);
     assert.match(main, /href="\/starter-packs\/content-creator-kit"/);
     assert.ok(main.includes('08:00') && main.includes('14:00'), pathname);
   }

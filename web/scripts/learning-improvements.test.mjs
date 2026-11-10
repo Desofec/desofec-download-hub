@@ -61,7 +61,11 @@ test('only translated starter kits resolve to localized static downloads', async
       'ai-spreadsheets-kit',
       'ai-commerce-services-kit',
       'ai-video-business-kit',
-      'ai-video-creation-kit'
+      'ai-video-creation-kit',
+      'content-creator-kit',
+      'ai-cad-services-kit',
+      'micro-saas-validation-kit',
+      'ai-education-services-kit'
     ]) {
       const file = `downloads/${kit}.md`;
       const expected = locale === 'en' ? file : `downloads/${kit}-${locale}.md`;
