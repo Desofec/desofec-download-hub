@@ -60,7 +60,7 @@ const fr: Record<TranslationKey, string> = {
   'nav.language': 'Langue',
   'footer.copy': '© 2026 Desofec AI Studio',
   'footer.tagline': 'Choisissez les bons outils. Créez en toute confiance.',
-  'tutorial.stepsDone': '{done} étapes sur {total} terminées',
+  'tutorial.stepsDone': 'Étapes terminées : {done} sur {total}',
   'tutorial.markDone': 'Marquer cette étape comme terminée',
   'tutorial.check': 'Vérifiez que ça marche :',
   'tutorial.stuck': 'Bloqué ? Demandez à un assistant IA',

@@ -36,6 +36,8 @@ title in their screen-reader names, while keeping the visible labels and existin
 progress data unchanged. A title that falls back to English is identified as
 English. Completed cards retain full text contrast and a distinctive border;
 their checked controls and existing title decoration remain visible.
+French progress summaries use a count-neutral label for tutorials, learning paths,
+starter packs and progress views, including when zero or one step is complete.
 The header uses a scrollable compact menu on tablets and smaller laptops; Escape
 closes it and returns keyboard focus to the menu button. On medium desktop widths,
 the duplicate header call to action is hidden while the Start here link remains.
