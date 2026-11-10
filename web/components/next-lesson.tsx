@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { PathCard, ToolCard } from '@/components/cards';
 import { useTr } from '@/components/tr';
 import type { Goal, LearningPath, Recommendation, Tool } from '@/lib/types';
+import { toolsForIds } from '@/lib/tool-identities';
 
 export function NextLesson({
   goals,
@@ -21,7 +22,7 @@ export function NextLesson({
   const [goal, setGoal] = useState('');
   const matchingPaths = paths.filter((path) => path.goal === goal);
   const toolIds = recommendations[goal]?.tools ?? [];
-  const matchingTools = toolIds.flatMap((id) => tools.find((tool) => tool.id === id) ?? []);
+  const matchingTools = toolsForIds(tools, toolIds);
 
   return (
     <section className="progress-section" aria-labelledby="next-lesson-heading">

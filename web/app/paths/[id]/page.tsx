@@ -5,7 +5,8 @@ import { PackCard, ToolCard } from '@/components/cards';
 import { PathSteps } from '@/components/path-steps';
 import { TutorialLink } from '@/components/tutorial-link';
 import { getCatalog } from '@/lib/catalog';
-import { getTutorialForPath } from '@/lib/tutorials';
+import { getRelatedPathTutorials, getTutorialForPath } from '@/lib/tutorials';
+import { toolsForIds } from '@/lib/tool-identities';
 import { Tr } from '@/components/tr';
 
 export async function generateStaticParams() {
@@ -31,8 +32,9 @@ export default async function PathDetailPage({ params }: { params: Promise<{ id:
   if (!path) notFound();
 
   const tutorial = getTutorialForPath(path.id);
+  const relatedTutorials = tutorial ? [] : getRelatedPathTutorials(path, catalog.paths);
   const recommendation = catalog.recommendations[path.goal];
-  const tools = (recommendation?.tools ?? []).flatMap((toolId) => catalog.tools.find((tool) => tool.id === toolId) ?? []);
+  const tools = toolsForIds(catalog.tools, recommendation?.tools ?? []);
   const packs = (recommendation?.starters ?? []).flatMap(
     (packId) => catalog.starterPacks.find((pack) => pack.id === packId) ?? []
   );
@@ -59,6 +61,23 @@ export default async function PathDetailPage({ params }: { params: Promise<{ id:
           {path.id === 'ai-automation-services' && <p><Link href="/business-launchpad/automation-lab">
             <Tr>Open the no-send automation practice lab</Tr>
           </Link></p>}
+          {!tutorial && (
+            <div className="section-head">
+              <p><Tr>This path does not yet have its own tutorial.</Tr></p>
+              {relatedTutorials.length > 0 && (
+                <>
+                  <h2><Tr>Related tutorials</Tr></h2>
+                  <div className="cta-row">
+                    {relatedTutorials.map((related) => (
+                      <TutorialLink key={related.path.id} className="btn btn-secondary" href={related.tutorial.href}>
+                        <Tr>{related.path.title}</Tr>
+                      </TutorialLink>
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
+          )}
           <div className="cta-row">
             {tutorial?.practiceHref && <Link className="btn btn-primary" href={tutorial.practiceHref}>
               <Tr>Open commerce practice lab</Tr>
@@ -79,7 +98,7 @@ export default async function PathDetailPage({ params }: { params: Promise<{ id:
               </Link>
             )}
             <Link className="btn btn-primary" href={`/results/${encodeURIComponent(path.goal)}`}>
-              <Tr>Start this path</Tr>
+              <Tr>See recommendation</Tr>
             </Link>
             <Link className="btn btn-secondary" href="/paths">
               <Tr>Browse all paths</Tr>

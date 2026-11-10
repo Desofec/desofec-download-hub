@@ -65,7 +65,7 @@ export default async function TutorialPage({ params }: { params: Promise<{ id: s
           )}
           {tutorial.starterPackId && (
             <Link className="btn btn-secondary" href={`/starter-packs/${tutorial.starterPackId}`}>
-              <Tr>Open the service kit</Tr>
+              <Tr>{tutorial.starterPackLabel ?? 'Open the service kit'}</Tr>
             </Link>
           )}
           {id === 'freelance-client-discovery' && <>

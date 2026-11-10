@@ -34,6 +34,7 @@ const { hasLocalizedStarterPack, starterPackDownloadFile } = await loadModule('.
 const { toolMatchesSearch } = await loadModule('../lib/tool-search.ts');
 const { redactAnalyticsEvent } = await loadModule('../lib/analytics-privacy.ts');
 const { withToolReviews } = await loadModule('../lib/tool-review.ts');
+const toolIdentities = await loadModule('../lib/tool-identities.ts');
 
 test('newsletter confirmations route replies without changing consent or hiding delivery errors', async (t) => {
   const output = ts.transpileModule(await readWeb('app/actions.ts'), {
@@ -192,6 +193,13 @@ test('language notices and new interface copy are translated', async () => {
     'No paid AI is required for the worksheets. Many lessons and kit downloads are available in French, German and Spanish; when a download is only available in English, its button or page says so. Interviews, feedback and tool setup take additional time.',
     '(English)',
     'This download is currently available in English only.',
+    'Open the content creator kit (English download)',
+    'Explore hands-on tutorials with explanations, copy-ready examples and checks.',
+    'Related learning paths',
+    'Related tutorials',
+    'This path does not yet have its own tutorial.',
+    'See recommendation',
+    '(opens in a new tab)',
     'You finished every step. Be proud of what you built.'
   ];
   for (const locale of locales) {
@@ -218,6 +226,84 @@ test('tool search matches the translated text visitors see, ignoring accents', a
     'accent-insensitive'
   );
   assert.equal(tools.filter((tool) => toolMatchesSearch(tool, '   ', translate)).length, tools.length);
+});
+
+test('tool comparison links identify the tool and warn about the new tab', async () => {
+  const explorer = await readWeb('components/tools-explorer.tsx');
+  const visitRow = explorer.match(/<th scope="row"><Tr>Visit<\/Tr><\/th>[\s\S]*?<\/tr>/)?.[0];
+  assert.ok(visitRow);
+  assert.match(visitRow, /target="_blank" rel="noopener noreferrer"/);
+  assert.match(visitRow, /tool\.name[\s\S]*?<Tr>\(opens in a new tab\)<\/Tr>/);
+});
+
+test('historical GitHub IDs share one listing without silently changing favorites', async () => {
+  const tools = await readJson('content/tools.json');
+  const git = tools.find((tool) => tool.id === 'git');
+  const github = tools.find((tool) => tool.id === 'github');
+  assert.ok(git && github);
+  assert.equal(git.name, 'GitHub');
+  assert.equal(github.name, 'GitHub');
+  assert.equal(new URL(git.url).href, new URL(github.url).href);
+
+  const visible = toolIdentities.distinctTools(tools);
+  assert.equal(visible.length, tools.length - 1);
+  assert.deepEqual(visible.filter((tool) => toolIdentities.sameToolId(tool.id, 'github')).map((tool) => tool.id), ['git']);
+  assert.equal(toolIdentities.primaryToolId('github', tools), 'git');
+  assert.equal(toolIdentities.primaryToolId('git', [github]), 'github');
+  assert.equal(toolIdentities.findToolById([git], 'github'), git);
+  assert.equal(toolIdentities.findToolById([github], 'git'), github);
+  assert.equal(toolIdentities.findToolById([github], 'canva'), undefined);
+  assert.deepEqual(toolIdentities.toolDetailIds([git]).sort(), ['git', 'github']);
+  assert.deepEqual(toolIdentities.toolDetailIds([github]).sort(), ['git', 'github']);
+  assert.deepEqual(toolIdentities.toolsForIds(tools, ['github', 'canva', 'git']).map((tool) => tool.id), ['git', 'canva']);
+  assert.deepEqual(toolIdentities.distinctTools([github]).map((tool) => tool.id), ['github']);
+  assert.equal(toolIdentities.sameToolId('github', 'canva'), false);
+
+  for (const saved of [['git'], ['github'], ['git', 'github']]) {
+    assert.ok(toolIdentities.hasToolFavorite(saved, 'git'));
+    assert.ok(toolIdentities.hasToolFavorite(saved, 'github'));
+    assert.deepEqual(toolIdentities.favoriteIdsAfterToggle(saved, 'git', true), saved);
+    assert.deepEqual(toolIdentities.favoriteIdsAfterToggle([...saved, 'canva'], 'git', false), ['canva']);
+  }
+  assert.deepEqual(toolIdentities.favoriteIdsAfterToggle(['canva'], 'github', true), ['canva', 'github']);
+  assert.deepEqual(toolIdentities.favoriteIdsAfterToggle(['github', 'canva'], 'canva', false), ['github']);
+
+  const [favorites] = loadWebModules(['lib/favorites.ts']);
+  const originalStorage = globalThis.localStorage;
+  const originalWindow = globalThis.window;
+  const raw = JSON.stringify(['github', 'git', 'canva']);
+  let stored = raw;
+  let writes = 0;
+  const events = [];
+  try {
+    globalThis.localStorage = {
+      getItem: () => stored,
+      setItem: (key, value) => {
+        assert.equal(key, 'desofec:favorites:tools');
+        stored = value;
+        writes += 1;
+      }
+    };
+    globalThis.window = { dispatchEvent: (event) => events.push(event.type) };
+    const saved = favorites.readFavoriteIds();
+    assert.ok(toolIdentities.hasToolFavorite(saved, 'git'));
+    assert.equal(stored, raw, 'reading an old favorite does not rewrite it');
+    assert.equal(writes, 0);
+    favorites.updateFavoriteTool('git', false);
+    assert.deepEqual(JSON.parse(stored), ['canva']);
+    assert.equal(writes, 1, 'only the explicit removal writes');
+    assert.deepEqual(events, ['desofec-favorites-change']);
+  } finally {
+    if (originalStorage === undefined) delete globalThis.localStorage;
+    else globalThis.localStorage = originalStorage;
+    if (originalWindow === undefined) delete globalThis.window;
+    else globalThis.window = originalWindow;
+  }
+
+  const workspace = await readWeb('components/workspace-detail.tsx');
+  assert.match(workspace, /shareType === 'tool' \? distinctTools\(matchingItems\) : matchingItems/);
+  assert.match(workspace, /new Map\(items\.map/, 'previously shared alias IDs remain resolvable');
+  assert.match(workspace, /findToolById\(toolItems, entry\.item_id\)/, 'a shared alias survives either catalog record being absent');
 });
 
 test('updated tool names retain their stable IDs and review labels describe their limits', async () => {
@@ -758,7 +844,7 @@ test('project backup instructions, errors and accessible labels are translated',
 
 test('tool directory has a link-based fallback while interactive filters load', async () => {
   const page = await readWeb('app/tools/page.tsx');
-  assert.match(page, /<Suspense fallback=\{[\s\S]*tools\.map\([\s\S]*<Link href=\{`\/tools\//);
+  assert.match(page, /<Suspense fallback=\{[\s\S]*distinctTools\(tools\)\.map\([\s\S]*<Link href=\{`\/tools\//);
   assert.match(page, /tool-fallback/);
   assert.match(page, /Search and comparison require JavaScript/);
 });

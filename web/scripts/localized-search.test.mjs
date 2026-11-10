@@ -14,7 +14,7 @@ const [localized, registry, translations, i18n, search] = loadWebModules([
 test('only public tutorials with complete lesson translations get localized pages', () => {
   const { localizedTutorials, hasLocalizedTutorialPages, localizedTutorialLanguages } = localized;
   const ids = new Set(localizedTutorials.map((tutorial) => tutorial.pathId));
-  for (const id of ['ai-assisted-coding', 'first-app', 'coding-foundations', 'ai-video-business', 'ai-online-retail']) {
+  for (const id of ['ai-assisted-coding', 'first-app', 'coding-foundations', 'ai-video-business', 'ai-online-retail', 'content-creation']) {
     assert.ok(ids.has(id), id);
   }
   for (const id of ['ai-spreadsheets', 'shopify-guide', 'freelance-client-discovery']) {
@@ -46,6 +46,95 @@ test('only public tutorials with complete lesson translations get localized page
   assert.equal(localized.isLocalizedTutorialLanguage('en'), false);
   assert.equal(localized.isLocalizedTutorialLanguage('fr'), true);
   assert.equal(localized.isLocalizedTutorialLanguage('pt'), false);
+});
+
+test('content-creation tutorial retains separate progress and complete, safe translations', async () => {
+  const tutorial = registry.getTutorialForPath('content-creation');
+  assert.ok(tutorial);
+  assert.equal(tutorial.href, '/tutorials/content-creation');
+  assert.equal(tutorial.time, '60 minutes');
+  assert.equal(tutorial.starterPackId, 'content-creator-kit');
+  assert.equal(tutorial.starterPackLabel, 'Open the content creator kit (English download)');
+  assert.deepEqual(tutorial.steps.map(({ id }) => id), [
+    'content-brief', 'content-draft', 'content-visual',
+    'content-check', 'content-review', 'content-next-steps'
+  ]);
+  assert.equal(registry.tutorialStorageKey(tutorial.pathId), 'desofec:tutorial:content-creation');
+  assert.notEqual(registry.tutorialStorageKey(tutorial.pathId), 'desofec:progress:content-creation');
+
+  const paths = JSON.parse(await readFile(new URL('../content/paths.json', import.meta.url), 'utf8'));
+  const path = paths.find(({ id }) => id === tutorial.pathId);
+  assert.deepEqual(path.steps, [
+    'Choose an audience and a message',
+    'Draft with an AI assistant',
+    'Add visuals, voice or video',
+    'Polish, check facts and share'
+  ]);
+
+  for (const [language, fiction, blocked, noPublish, noResults] of [
+    ['en', /fictional/i, /BLOCKED/, /do not publish/i, /NOT COLLECTED/],
+    ['fr', /fictive/i, /BLOQUÉE/, /ne (?:pas publie|publiez pas)/i, /NON RECUEILLI/],
+    ['de', /fiktiv/i, /BLOCKIERT/, /nicht veröffentlichen/i, /NICHT ERHOBEN/],
+    ['es', /fictici/i, /BLOQUEADA/, /no publi(?:car|ques)/i, /NO RECOPILAD/]
+  ]) {
+    const text = language === 'en'
+      ? { title: tutorial.title, intro: tutorial.intro, steps: Object.fromEntries(tutorial.steps.map((step) => [step.id, step])) }
+      : translations.getTutorialTranslation(tutorial.pathId, language);
+    assert.ok(text?.title.trim() && text.intro.trim(), language);
+    assert.match(text.intro, fiction, language);
+    assert.deepEqual(Object.keys(text.steps).sort(), tutorial.steps.map(({ id }) => id).sort(), language);
+    for (const source of tutorial.steps) {
+      const step = text.steps[source.id];
+      assert.ok(step.title.trim() && step.file.trim() && step.code.trim() && step.check.trim() && step.aiPrompt.trim(),
+        `${language}/${source.id}: every learner-facing field`);
+      assert.equal(step.explanation.length, source.explanation.length, `${language}/${source.id}: paragraphs`);
+      assert.ok(step.explanation.every((paragraph) => paragraph.trim()), `${language}/${source.id}: explanations`);
+      assert.doesNotMatch(JSON.stringify(step), /\uFFFD|\p{L}\?\p{L}/u, `${language}/${source.id}: encoding`);
+      if (language !== 'en') {
+        for (const field of ['title', 'file', 'code', 'check', 'aiPrompt']) {
+          assert.notEqual(step[field], source[field], `${language}/${source.id}: translated ${field}`);
+        }
+      }
+    }
+
+    const brief = text.steps['content-brief'];
+    assert.match(brief.code, /Cedar Bakery/);
+    assert.match(brief.code, /08:00-14:00/);
+    assert.match(brief.code, fiction);
+    const example = text.steps['content-draft'].code.split('\n')[1];
+    const words = example.trim().split(/\s+/).length;
+    assert.ok(words >= 40 && words <= 60, `${language}: example has ${words} words`);
+    assert.match(example, /08:00/);
+    assert.match(example, /14:00/);
+    const visual = text.steps['content-visual'];
+    for (const interval of ['0-10', '10-20', '20-30']) assert.ok(visual.code.includes(interval), `${language}: ${interval}`);
+    assert.match(text.steps['content-check'].code, /08:00-14:00/);
+    assert.match(text.steps['content-review'].code, blocked);
+    assert.match(text.steps['content-review'].code, noPublish);
+    assert.match(text.steps['content-next-steps'].code, noResults);
+  }
+  assert.ok(localized.hasLocalizedTutorialPages(tutorial));
+  const [downloads] = loadWebModules(['lib/starter-pack-downloads.ts']);
+  for (const language of ['en', 'fr', 'de', 'es']) {
+    assert.equal(downloads.starterPackDownloadFile('content-creator-kit', 'downloads/content-creator-kit.md', language),
+      'downloads/content-creator-kit.md', `${language}: creator kit remains English-only`);
+  }
+  const source = await readFile(new URL('../lib/content-creation-tutorial.ts', import.meta.url), 'utf8');
+  assert.doesNotMatch(source, /localStorage|fetch\(|upsert|applyProgress|persist\(/, 'lessons do not mutate progress or publish');
+});
+
+test('a future path without a tutorial still finds relevant related tutorials', async () => {
+  const paths = JSON.parse(await readFile(new URL('../content/paths.json', import.meta.url), 'utf8'));
+  const base = paths.find(({ id }) => id === 'content-creation');
+  const missing = { ...base, id: 'future-content-path' };
+  assert.equal(registry.getTutorialForPath(missing.id), undefined);
+  const related = registry.getRelatedPathTutorials(missing, [...paths, missing]);
+  assert.ok(related.some(({ path }) => path.id === 'content-creation'));
+  assert.ok(related.some(({ path }) => path.id === 'ai-video-creation'));
+  assert.ok(related.every(({ path, tutorial }) => path.id !== missing.id && path.goal === missing.goal && tutorial.pathId === path.id));
+  const page = await readFile(new URL('../app/paths/[id]/page.tsx', import.meta.url), 'utf8');
+  assert.match(page, /tutorial \? \[\] : getRelatedPathTutorials\(path, catalog\.paths\)/);
+  assert.match(page, /This path does not yet have its own tutorial\./);
 });
 
 test('canonical and reciprocal alternates point to real language versions', () => {
@@ -104,6 +193,18 @@ test('tutorial search snippets fit search results without losing practice safegu
       const text = translations.getTutorialTranslation(tutorial.pathId, language);
       assertSnippet(tutorial.pathId, language, { title: text.title, description: text.intro });
     }
+  }
+
+  const content = registry.getTutorialForPath('content-creation');
+  for (const [language, fiction, privacy, noPublication] of [
+    ['en', /fictional bakery/i, /private/i, /do not publish/i],
+    ['fr', /boulangerie fictive/i, /privé/i, /sans publier/i],
+    ['de', /fiktive Bäckerei/i, /privat/i, /nicht/i],
+    ['es', /panadería ficticia/i, /privado/i, /no publiques/i]
+  ]) {
+    const source = language === 'en' ? content : translations.getTutorialTranslation(content.pathId, language);
+    const description = assertSnippet(content.pathId, language, { title: source.title, description: source.intro });
+    for (const safeguard of [fiction, privacy, noPublication]) assert.match(description, safeguard, language);
   }
 
   const video = registry.tutorials.find(({ pathId }) => pathId === 'ai-video-business');

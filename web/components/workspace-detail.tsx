@@ -5,9 +5,12 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useAuth } from '@/components/auth-provider';
 import { TutorialLink } from '@/components/tutorial-link';
+import { useLanguage } from '@/components/language';
 import { useTr } from '@/components/tr';
 import { getSupabaseBrowserClient } from '@/lib/supabase-browser';
 import { createInviteToken, INVITE_DAYS, itemTypeLabels, type ItemType, type WorkspaceItem } from '@/lib/workspaces';
+import { distinctTools, findToolById } from '@/lib/tool-identities';
+import { getTutorialTranslation } from '@/lib/tutorial-translations';
 
 type Shared = { item_type: ItemType; item_id: string; shared_by: string };
 type Invitation = { id: string; email: string; expires_at: string; accepted_at: string | null };
@@ -23,6 +26,7 @@ const itemTypes = Object.keys(itemTypeLabels) as ItemType[];
 
 export function WorkspaceDetail({ items }: { items: WorkspaceItem[] }) {
   const tr = useTr();
+  const language = useLanguage();
   const workspaceId = useSearchParams().get('id') ?? '';
   const { session, ready } = useAuth();
   const userId = session?.user.id;
@@ -66,8 +70,12 @@ export function WorkspaceDetail({ items }: { items: WorkspaceItem[] }) {
     void load();
   }, [load]);
 
-  const choices = items.filter((item) => item.type === shareType);
+  const matchingItems = items.filter((item) => item.type === shareType);
+  const choices = shareType === 'tool' ? distinctTools(matchingItems) : matchingItems;
   const selectedId = choices.some((item) => item.id === shareId) ? shareId : (choices[0]?.id ?? '');
+  const itemTitle = (item: WorkspaceItem) => item.type === 'tutorial'
+    ? (getTutorialTranslation(item.id, language)?.title ?? tr(item.title))
+    : tr(item.title);
 
   async function invite(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -151,6 +159,7 @@ export function WorkspaceDetail({ items }: { items: WorkspaceItem[] }) {
   }
 
   const lookup = new Map(items.map((item) => [`${item.type}:${item.id}`, item]));
+  const toolItems = items.filter((item) => item.type === 'tool');
 
   return (
     <div className="workspace-stack">
@@ -165,13 +174,14 @@ export function WorkspaceDetail({ items }: { items: WorkspaceItem[] }) {
       {detail.shared.length === 0 && <p>{tr('Nothing shared yet. Share a path, pack, tutorial or tool below.')}</p>}
       <ul className="workspace-list">
         {detail.shared.map((entry) => {
-          const item = lookup.get(`${entry.item_type}:${entry.item_id}`);
+          const item = lookup.get(`${entry.item_type}:${entry.item_id}`)
+            ?? (entry.item_type === 'tool' ? findToolById(toolItems, entry.item_id) : undefined);
           if (!item) return null;
           const canRemove = detail.isOwner || entry.shared_by === userId;
           return (
             <li key={`${entry.item_type}:${entry.item_id}`}>
               <span className="workspace-kind">{tr(itemTypeLabels[entry.item_type])}</span>
-              <TutorialLink href={item.href}>{item.title}</TutorialLink>
+              <TutorialLink href={item.href}>{itemTitle(item)}</TutorialLink>
               {canRemove && (
                 <button className="btn btn-secondary" type="button" onClick={() => unshare(entry)}>
                   {tr('Remove')}
@@ -192,7 +202,7 @@ export function WorkspaceDetail({ items }: { items: WorkspaceItem[] }) {
         <label htmlFor="share-item">{tr('Item')}</label>
         <select id="share-item" value={selectedId} onChange={(event) => setShareId(event.target.value)}>
           {choices.map((item) => (
-            <option key={item.id} value={item.id}>{item.title}</option>
+            <option key={item.id} value={item.id}>{itemTitle(item)}</option>
           ))}
         </select>
         <button className="btn btn-primary" type="button" onClick={share} disabled={!selectedId}>

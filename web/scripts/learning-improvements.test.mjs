@@ -47,7 +47,7 @@ const translationImports = {
   ...Object.fromEntries(['coding', 'ml-design', 'task-tracker', 'web-nocode', 'practical-fr',
     'practical-de', 'practical-es', 'content-services', 'automation-services',
     'commerce-services', 'cad-services', 'micro-saas', 'education-services',
-    'video-business'].map(name =>
+    'video-business', 'content-creation'].map(name =>
     [`@/lib/translations/${name}`, `../lib/translations/${name}.ts`])),
   '@/lib/search-visibility-tutorial': '../lib/search-visibility-tutorial.ts'
 };

@@ -283,8 +283,114 @@ test('every learning path identifies its completion controls', async () => {
     const pathname = `/paths/${encodeURIComponent(entry.id)}`;
     const { response, html } = await page(pathname);
     assert.equal(response.status, 200, pathname);
-    checkCompletionLabels(renderedMain(html), entry.steps, 'en', pathname);
+    const main = renderedMain(html);
+    checkCompletionLabels(main, entry.steps, 'en', pathname);
+    const links = [...main.matchAll(/<a\b[^>]*>/gi)].map(([tag]) => attributes(tag).href);
+    const tutorial = registry.tutorials.find(({ pathId }) => pathId === entry.id);
+    if (tutorial) {
+      assert.ok(links.includes(tutorial.href), `${pathname}: own tutorial`);
+      assert.doesNotMatch(main, /This path does not yet have its own tutorial\./);
+    } else {
+      assert.match(main, /This path does not yet have its own tutorial\./);
+      for (const related of paths.filter((candidate) => candidate.id !== entry.id && candidate.goal === entry.goal)) {
+        const relatedTutorial = registry.tutorials.find(({ pathId }) => pathId === related.id);
+        if (relatedTutorial) assert.ok(links.includes(relatedTutorial.href), `${pathname}: related ${related.id} tutorial`);
+      }
+    }
   });
+});
+
+test('tutorial directory and learning paths distinguish tutorials from recommendations', async () => {
+  const directory = await page('/tutorials');
+  assert.equal(directory.response.status, 200);
+  const directoryMain = htmlText(renderedMain(directory.html));
+  assert.match(directoryMain, /Explore hands-on tutorials with explanations, copy-ready examples and checks\./);
+  assert.doesNotMatch(directoryMain, /Every learning path has a hands-on tutorial/);
+  const cards = [...directoryMain.matchAll(/<article\b[^>]*>[\s\S]*?<\/article>/gi)].map(([card]) => card);
+  for (const id of ['ai-cad-services', 'micro-saas-validation', 'ai-education-services']) {
+    const tutorial = registry.tutorials.find(({ pathId }) => pathId === id);
+    const card = cards.find((entry) => entry.includes(tutorial.title));
+    assert.ok(card, `${id}: tutorial card`);
+    assert.doesNotMatch(card, /Instructions are currently English/, id);
+  }
+
+  const content = await page('/paths/content-creation');
+  assert.equal(content.response.status, 200);
+  const main = renderedMain(content.html);
+  assert.doesNotMatch(main, /This path does not yet have its own tutorial\./);
+  const links = [...main.matchAll(/<a\b[^>]*>[\s\S]*?<\/a>/gi)].map(([tag]) => ({
+    ...attributes(tag.match(/^<a\b[^>]*>/i)[0]),
+    text: htmlText(tag.replace(/<[^>]+>/g, ''))
+  }));
+  assert.ok(links.some((link) => link.href === '/tutorials/content-creation' && link.text === 'Learn step by step: tutorial'));
+  assert.ok(links.some((link) => link.href === '/results/create-content' && link.text === 'See recommendation'));
+
+  const complete = await page('/paths/ai-video-creation');
+  assert.equal(complete.response.status, 200);
+  const completeMain = renderedMain(complete.html);
+  assert.doesNotMatch(completeMain, /This path does not yet have its own tutorial\./);
+  assert.match(completeMain, /href="\/tutorials\/ai-video-creation"[^>]*>Learn step by step: tutorial<\/a>/);
+});
+
+test('content-creation lessons and their English-only kit are visible in every language', async () => {
+  for (const [prefix, title, kitLabel, fiction] of [
+    ['', 'Create a responsible content post with AI', 'Open the content creator kit (English download)', 'fictional bakery'],
+    ['/fr', 'Créer une publication responsable avec l’IA', 'Ouvrir le kit de création de contenu (téléchargement en anglais)', 'boulangerie fictive'],
+    ['/de', 'Einen verantwortungsvollen Beitrag mit KI erstellen', 'Content-Creator-Kit öffnen (Download auf Englisch)', 'fiktiven Bäckerei'],
+    ['/es', 'Crear una publicación responsable con IA', 'Abrir el kit de creación de contenido (descarga en inglés)', 'panadería ficticia']
+  ]) {
+    const pathname = `${prefix}/tutorials/content-creation`;
+    const { response, html } = await page(pathname);
+    assert.equal(response.status, 200, pathname);
+    const main = htmlText(renderedMain(html));
+    assert.ok(main.includes(title), pathname);
+    assert.ok(main.toLowerCase().includes(fiction.toLowerCase()), pathname);
+    assert.ok(main.includes(kitLabel), pathname);
+    assert.match(main, /href="\/starter-packs\/content-creator-kit"/);
+    assert.ok(main.includes('08:00') && main.includes('14:00'), pathname);
+  }
+});
+
+test('tool pages describe related paths and identify links that open a new tab', async () => {
+  const details = await page('/tools/runway');
+  assert.equal(details.response.status, 200);
+  const detailMain = renderedMain(details.html);
+  assert.match(detailMain, /Related learning paths/);
+  assert.doesNotMatch(detailMain, /Learning paths that use it/);
+
+  const pathPage = await page('/paths/ai-video-business');
+  assert.equal(pathPage.response.status, 200);
+  const toolLinks = [...renderedMain(pathPage.html).matchAll(/<a\b[^>]*target="_blank"[^>]*>[\s\S]*?<\/a>/gi)]
+    .map(([tag]) => htmlText(tag.replace(/<[^>]+>/g, '')))
+    .filter((text) => text.includes('Open tool'));
+  assert.ok(toolLinks.length >= 3, 'recommended tools are present');
+  for (const text of toolLinks) {
+    assert.match(text, /Open tool\s+–\s+\S.+\(opens in a new tab\)/);
+  }
+});
+
+test('GitHub has one public listing while both historical tool URLs remain usable', async () => {
+  const directory = await page('/tools');
+  assert.equal(directory.response.status, 200);
+  const links = [...renderedMain(directory.html).matchAll(/<a\b[^>]*>[\s\S]*?<\/a>/gi)].map(([tag]) => ({
+    ...attributes(tag.match(/^<a\b[^>]*>/i)[0]),
+    text: htmlText(tag.replace(/<[^>]+>/g, ''))
+  }));
+  assert.deepEqual(links.filter((link) => link.text === 'GitHub').map((link) => link.href), ['/tools/git']);
+
+  for (const pathname of ['/tools/git', '/tools/github']) {
+    const { response, html } = await page(pathname);
+    assert.equal(response.status, 200, pathname);
+    const main = renderedMain(html);
+    assert.match(main, /GitHub/);
+    assert.match(main, /Related learning paths/);
+    assert.ok([...html.matchAll(/<link\b[^>]*>/gi)].map(([tag]) => attributes(tag))
+      .some((link) => link.rel === 'canonical' && link.href === `${productionOrigin}/tools/git`), pathname);
+  }
+
+  const sitemap = await page('/sitemap.xml');
+  assert.match(sitemap.html, /<loc>https:\/\/www\.desofec\.com\/tools\/git<\/loc>/);
+  assert.doesNotMatch(sitemap.html, /<loc>https:\/\/www\.desofec\.com\/tools\/github<\/loc>/);
 });
 
 test('representative lessons render translated teaching text without JavaScript', async () => {

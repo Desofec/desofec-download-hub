@@ -149,7 +149,9 @@ test('SEO metadata uses page-specific canonical and social URLs instead of inher
   }
   for (const file of ['../app/tools/[id]/page.tsx', '../app/starter-packs/[id]/page.tsx']) {
     const source = await readFile(new URL(file, import.meta.url), 'utf8');
-    assert.match(source, /const canonical = `\/(?:tools|starter-packs)\/\$\{encodeURIComponent\(id\)\}`/);
+    assert.match(source, file.includes('/tools/')
+      ? /const canonical = `\/tools\/\$\{encodeURIComponent\(primaryToolId\(id, tools\)\)\}`/
+      : /const canonical = `\/starter-packs\/\$\{encodeURIComponent\(id\)\}`/);
     assert.match(source, /alternates:\s*\{\s*canonical\s*\}/);
     assert.match(source, /openGraph:\s*\{/);
     assert.match(source, /twitter:\s*\{/);
@@ -350,7 +352,7 @@ test('tutorial cards translate fallback headings and include them in search', as
   }
 });
 
-test('remaining tutorial card descriptions have three translations preserving lesson-language notices', async () => {
+test('remaining tutorial card descriptions have three translations', async () => {
   const descriptions = [];
   for (const file of ['../lib/tutorials.ts', '../lib/commerce-tool-guides.ts']) {
     const source = await readFile(new URL(file, import.meta.url), 'utf8');
@@ -372,13 +374,42 @@ test('remaining tutorial card descriptions have three translations preserving le
     for (const [index, book] of books.entries()) {
       assert.ok(book[description]?.trim(), `${index}: ${description}`);
       assert.notEqual(book[description], description);
-      if (description.includes('Instructions are currently English')) {
-        assert.match(book[description], [/anglais/, /Englisch/, /inglés/][index]);
-      }
     }
   }
   const component = await readFile(new URL('../components/tutorial-list.tsx', import.meta.url), 'utf8');
   assert.match(component, /translation\?\.intro \?\? '', tr\(item\.intro\)/);
   assert.match(component, /getTutorialTranslation\(tutorial\.pathId, language\)\?\.intro \|\| tr\(tutorial\.intro\)/);
   assert.match(component, /some lesson instructions remain in English/);
+});
+
+test('translated courses do not describe their lessons as English-only', async () => {
+  const [registry, localized, translations] = loadWebModules([
+    'lib/tutorials.ts',
+    'lib/localized-tutorials.ts',
+    'lib/tutorial-translations.ts'
+  ]);
+  const courses = [
+    'ai-cad-services',
+    'micro-saas-validation',
+    'ai-education-services'
+  ];
+  const staleNotice = {
+    fr: /(?:consignes|instructions) sont actuellement en anglais/i,
+    de: /anleitungen sind derzeit auf englisch/i,
+    es: /instrucciones están actualmente en inglés/i
+  };
+  for (const id of courses) {
+    const tutorial = registry.tutorials.find((entry) => entry.pathId === id);
+    assert.ok(tutorial, id);
+    assert.ok(localized.hasLocalizedTutorialPages(tutorial), id);
+    assert.doesNotMatch(tutorial.intro, /instructions are currently english/i, id);
+    for (const locale of ['fr', 'de', 'es']) {
+      const translation = translations.getTutorialTranslation(id, locale);
+      assert.ok(translation?.intro.trim(), `${locale}/${id}`);
+      assert.doesNotMatch(translation.intro, staleNotice[locale], `${locale}/${id}`);
+      const book = JSON.parse(await readFile(new URL(`../content/translations/ui-${locale}.json`, import.meta.url), 'utf8'));
+      assert.ok(book[tutorial.intro]?.trim(), `${locale}/${id}: card-search translation`);
+      assert.doesNotMatch(book[tutorial.intro], staleNotice[locale], `${locale}/${id}: card-search translation`);
+    }
+  }
 });

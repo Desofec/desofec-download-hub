@@ -3,6 +3,15 @@ import type { LanguageCode } from '@/lib/i18n';
 type SearchText = { title: string; description: string };
 
 const overrides: Record<string, Partial<Record<LanguageCode, Partial<SearchText>>>> = {
+  'content-creation': {
+    en: { description: 'Practise a short post for a fictional bakery. Check facts, rights and accessibility in private; do not publish the exercise.' },
+    fr: { description: 'Rédigez une publication pour une boulangerie fictive. Vérifiez faits, droits et accessibilité en privé, sans publier l’exercice.' },
+    de: {
+      title: 'Verantwortungsvollen KI-Beitrag erstellen',
+      description: 'Übe einen Beitrag für eine fiktive Bäckerei. Prüfe Fakten, Rechte und Barrierefreiheit privat; veröffentliche die Übung nicht.'
+    },
+    es: { description: 'Practica una publicación para una panadería ficticia. Revisa datos, derechos y accesibilidad en privado; no publiques el ejercicio.' }
+  },
   'ai-online-retail': {
     en: { description: 'Explore online retail with fictional data, checked costs and stock planning. No live store, payments or purchases.' },
     fr: { description: 'Explorez la vente en ligne avec des données fictives, coûts et stocks vérifiés, sans boutique, paiement ni achat réel.' },
