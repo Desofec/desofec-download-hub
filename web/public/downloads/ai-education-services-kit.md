@@ -1,7 +1,7 @@
 # AI Education Services Kit
 
 Desofec AI Studio. Original adult workshop practice, not accreditation or guaranteed learning/job outcomes.
-Instructions are currently English. No paid AI or personal learner data needed.
+English edition; French, German and Spanish editions are also available. No paid AI or personal learner data needed.
 
 ## 1. Adult workshop brief
 Audience: consenting adult beginners. Duration: 15 minutes.

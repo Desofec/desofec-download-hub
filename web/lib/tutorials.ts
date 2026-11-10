@@ -166,7 +166,7 @@ export const tutorials: TutorialInfo[] = [
     time: '60 minutes',
     steps: contentCreationSteps,
     starterPackId: 'content-creator-kit',
-    starterPackLabel: 'Open the content creator kit (English download)'
+    starterPackLabel: 'Open the content creator kit'
   },
   {
     pathId: 'ai-video-creation',

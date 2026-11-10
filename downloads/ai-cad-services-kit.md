@@ -1,7 +1,7 @@
 # AI + CAD Concept Services Kit
 
 Desofec AI Studio. CONCEPT ONLY - NOT FOR MANUFACTURE.
-Instructions are currently English. Educational practice only, not engineering approval or promised income.
+English edition; French, German and Spanish editions are also available. Educational practice only, not engineering approval or promised income.
 No confidential/proprietary designs or customer identifiers. No fabrication, installation or machine operation.
 
 ## 1. Bounded concept brief

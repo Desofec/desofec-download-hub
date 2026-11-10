@@ -431,7 +431,7 @@ reuse the existing project infrastructure. Unavailable real owner approval stays
 Apply **0013 after 0012** when pending, and review a targeted catalog update before deployment. The migration expands
 only the RPC allowlist, preserves ownership/quotas/CAS and is repeatable; an unexpected prior
 function definition fails explicitly rather than silently proceeding. French, German and
-Spanish cover catalog/workflow UI; the extended lessons and downloads remain English.
+Spanish cover catalog/workflow UI and the downloadable kit; the extended lessons remain English.
 
 ### Small-business workflow automation
 
@@ -551,10 +551,11 @@ for Business path and its business-video kit.
 ### Download language routing and freshness
 
 Every starter-pack download button — catalog cards on the home, starter-pack, path,
-results and tool pages, plus the kit detail page — uses `StarterPackDownload`, so the six
+results and tool pages, plus the kit detail page — uses `StarterPackDownload`, so the ten
 translated kits (`ai-content-services-kit`, `ai-automation-services-kit`,
-`ai-spreadsheets-kit`, `ai-commerce-services-kit`, `ai-video-business-kit` and
-`ai-video-creation-kit`) download in the selected language. Other kits stay English and
+`ai-spreadsheets-kit`, `ai-commerce-services-kit`, `ai-video-business-kit`,
+`ai-video-creation-kit`, `content-creator-kit`, `ai-cad-services-kit`,
+`micro-saas-validation-kit` and `ai-education-services-kit`) download in the selected language. Other kits stay English and
 are labelled “(English)” on cards and “currently available in English only” on detail
 pages when another language is selected. The tools search matches both English and the
 translated text shown on cards, ignoring accents. The service worker fetches
@@ -563,11 +564,16 @@ updated worksheets are revalidated rather than served directly from the service-
 cache. `npm run test:content` includes `scripts/web-app-reliability.test.mjs` and
 `scripts/service-worker.test.mjs` for these behaviours.
 
-The CAD concept, micro-SaaS validation and education services tutorials have translated
-lessons even though their separate starter kits remain English-only. The content-creation
-path has a six-lesson tutorial in English, French, German and Spanish. It uses a fictional
-bakery for private practice, preserves separate path and tutorial progress, and labels
-its linked content creator kit as an English-only download. A learning path without its
+The CAD concept, micro-SaaS validation and education services tutorials and their separate
+starter kits are available in English, French, German and Spanish. The kit translations retain
+the CAD dimensions and no-manufacture boundary, the micro-SaaS prototype's literal output
+and test limits, and the adult workshop's timing and consent safeguards. The content-creation
+path also has a six-lesson tutorial in these languages. It uses a fictional
+bakery for private practice and preserves separate path and tutorial progress. Its linked
+content creator kit also follows the selected language; the generic 45-second prompt is
+distinct from the tutorial's optional 30-second storyboard, which is not a finished video.
+All editions keep the fictional exercise private and do not claim owner approval or results.
+The translated kits are AI-assisted and still need native-speaker review. A learning path without its
 own tutorial states that limitation and links to tutorials for other paths sharing its
 goal, when available. Tool cards and comparison links identify both the tool and the
 new browser tab to screen readers.
@@ -805,9 +811,9 @@ existing titles, drafts, linked tests, review observations and retained revision
 when switching languages or loading the starter. Loading replaces only the unsaved form;
 an explicit save appends a revision without rewriting history. No migration or seed update is
 required. The downloadable service kit is a separate document with localized French, German and
-Spanish variants. Its detail-page download button follows the selected language; English and all
-other kits retain their existing files. The kit and variants are checked in both `downloads/` and
-`web/public/downloads/`; this does not localize other kits or change saved project content.
+Spanish variants. Its detail-page download button follows the selected language. The kit and variants
+are checked in both `downloads/` and `web/public/downloads/`; this does not change saved project content.
+The current list of translated kits appears under Download language routing and freshness.
 
 **For an existing Supabase database, review a targeted catalog update after pending migrations 0011 and 0012.**
 The catalog prerequisites include service goals, paths, kits and recommendations. The existing feedback
@@ -822,8 +828,8 @@ optional AI prompts. Column identifiers (`event_id`, `message`, `status`, `draft
 status codes (`QUEUED`, `REVIEW`, `INVALID`, `DUPLICATE`) and AUTO/APPT/REPORT plan codes
 stay unchanged to match the lab and saved projects; their meaning is explained in each language.
 The hub, catalog, checklist UI and the English/French/German/Spanish automation kit are available.
-The kit download button follows the selected language for English, French, German and Spanish;
-other kits retain their existing files and language behavior. The translated source documents and public
+The kit download button follows the selected language for English, French, German and Spanish.
+The translated source documents and public
 files are kept in sync and covered by content tests. The lab sample data/results and
 private workbook evidence content remain English with their existing notices; the lesson
 translation does not translate these separate surfaces. Costs are illustrative, not market

@@ -1,7 +1,7 @@
 # Micro-SaaS Validation Kit
 
 Desofec AI Studio. Educational validation, not a production service or revenue promise.
-Instructions are currently English. No paid AI, payment details, subscriptions or real customer data required.
+English edition; French, German and Spanish editions are also available. No paid AI, payment details, subscriptions or real customer data required.
 
 ## 1. Problem evidence
 Practice idea: format a short project update from name and status.

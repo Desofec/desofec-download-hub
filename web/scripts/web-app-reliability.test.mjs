@@ -17,7 +17,11 @@ const localizedPacks = [
   'ai-spreadsheets-kit',
   'ai-commerce-services-kit',
   'ai-video-business-kit',
-  'ai-video-creation-kit'
+  'ai-video-creation-kit',
+  'content-creator-kit',
+  'ai-cad-services-kit',
+  'micro-saas-validation-kit',
+  'ai-education-services-kit'
 ];
 
 async function loadModule(relative) {
@@ -177,7 +181,10 @@ test('localized kits route to existing files and English-only kits are labelled'
 });
 
 test('English kit editions no longer claim translations are unavailable', async () => {
-  for (const id of ['ai-content-services-kit', 'ai-automation-services-kit', 'ai-commerce-services-kit']) {
+  for (const id of [
+    'ai-content-services-kit', 'ai-automation-services-kit', 'ai-commerce-services-kit',
+    'ai-cad-services-kit', 'micro-saas-validation-kit', 'ai-education-services-kit'
+  ]) {
     for (const dir of [repoDir, path.join(webDir, 'public')]) {
       const text = await readFile(path.join(dir, 'downloads', `${id}.md`), 'utf8');
       assert.doesNotMatch(text, /currently English/, `${id}: stale English-only claim`);
@@ -193,7 +200,7 @@ test('language notices and new interface copy are translated', async () => {
     'No paid AI is required for the worksheets. Many lessons and kit downloads are available in French, German and Spanish; when a download is only available in English, its button or page says so. Interviews, feedback and tool setup take additional time.',
     '(English)',
     'This download is currently available in English only.',
-    'Open the content creator kit (English download)',
+    'Open the content creator kit',
     'Explore hands-on tutorials with explanations, copy-ready examples and checks.',
     'Related learning paths',
     'Related tutorials',
