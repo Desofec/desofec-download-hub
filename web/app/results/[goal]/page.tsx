@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { PackCard, ToolCard } from '@/components/cards';
 import { getCatalog } from '@/lib/catalog';
+import { toolsForIds } from '@/lib/tool-identities';
 import { Tr } from '@/components/tr';
 
 export async function generateStaticParams() {
@@ -30,7 +31,7 @@ export default async function ResultsPage({ params }: { params: Promise<{ goal: 
   const recommendation = catalog.recommendations[goal];
   if (!recommendation) notFound();
 
-  const tools = recommendation.tools.flatMap((id) => catalog.tools.find((tool) => tool.id === id) ?? []);
+  const tools = toolsForIds(catalog.tools, recommendation.tools);
   const packs = recommendation.starters.flatMap((id) => catalog.starterPacks.find((pack) => pack.id === id) ?? []);
 
   return (

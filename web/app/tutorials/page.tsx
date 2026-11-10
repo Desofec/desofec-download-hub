@@ -32,7 +32,7 @@ export default async function TutorialsPage() {
           <div>
             <span className="eyebrow"><Tr>Tutorials</Tr></span>
             <h1><Tr>Learn by building, step by step</Tr></h1>
-            <p><Tr>Every learning path has a hands-on tutorial with explanations, copy-ready examples and checks.</Tr></p>
+            <p><Tr>Explore hands-on tutorials with explanations, copy-ready examples and checks.</Tr></p>
             <Link className="btn btn-secondary" href="/plan">
               <Tr>Not sure where to start? Describe your idea</Tr>
             </Link>

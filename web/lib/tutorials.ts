@@ -26,6 +26,8 @@ import { clientDiscoverySteps } from '@/lib/client-discovery-tutorial';
 import { searchVisibilitySteps } from '@/lib/search-visibility-tutorial';
 import { onlineRetailSteps, marketplaceSteps, logisticsSteps } from '@/lib/commerce-services-tutorials';
 import { commerceToolGuides } from '@/lib/commerce-tool-guides';
+import { contentCreationSteps } from '@/lib/content-creation-tutorial';
+import type { LearningPath } from '@/lib/types';
 
 export type TutorialInfo = {
   pathId: string;
@@ -40,6 +42,7 @@ export type TutorialInfo = {
   backHref?: string;
   feedbackEnabled?: boolean;
   starterPackId?: string;
+  starterPackLabel?: string;
   toolId?: string;
   practiceHref?: string;
 };
@@ -154,6 +157,16 @@ export const tutorials: TutorialInfo[] = [
     intro: 'Start with real customer evidence, then draft and check product copy, FAQs and a small campaign. No paid tool is required for the exercises.',
     time: '60 minutes',
     steps: smallBusinessSteps
+  },
+  {
+    pathId: 'content-creation',
+    href: '/tutorials/content-creation',
+    title: 'Create a responsible content post with AI',
+    intro: 'Plan a short post for a fictional bakery, draft in your own voice and check facts, rights and accessibility. Practise privately; AI is optional.',
+    time: '60 minutes',
+    steps: contentCreationSteps,
+    starterPackId: 'content-creator-kit',
+    starterPackLabel: 'Open the content creator kit (English download)'
   },
   {
     pathId: 'ai-video-creation',
@@ -357,7 +370,7 @@ export const tutorials: TutorialInfo[] = [
     pathId: 'ai-cad-services',
     href: '/tutorials/ai-cad-services',
     title: 'Prepare an AI-assisted CAD concept service',
-    intro: 'Create and review a non-functional display-card concept with consistent dimensions and versioned views. Complete Design & CAD Basics first if needed. Instructions are currently English. Allow about 90 minutes; tool setup may take longer. No manufacturing or engineering approval.',
+    intro: 'Create and review a non-functional display-card concept with consistent dimensions and versioned views. Complete Design & CAD Basics first if needed. Allow about 90 minutes; tool setup may take longer. No manufacturing or engineering approval.',
     time: '90 minutes',
     steps: cadServicesSteps,
     serviceKitId: 'ai-cad-services-kit'
@@ -366,7 +379,7 @@ export const tutorials: TutorialInfo[] = [
     pathId: 'micro-saas-validation',
     href: '/tutorials/micro-saas-validation',
     title: 'Validate a micro-SaaS idea before building subscriptions',
-    intro: 'Gather problem evidence, test a local-only project-update formatter and decide what to investigate next. Instructions are currently English. Allow about 90 minutes plus interviews. No paid AI, billing or production launch required.',
+    intro: 'Gather problem evidence, test a local-only project-update formatter and decide what to investigate next. Allow about 90 minutes plus interviews. No paid AI, billing or production launch required.',
     time: '90 minutes',
     steps: microSaasSteps,
     serviceKitId: 'micro-saas-validation-kit'
@@ -375,7 +388,7 @@ export const tutorials: TutorialInfo[] = [
     pathId: 'ai-education-services',
     href: '/tutorials/ai-education-services',
     title: 'Prepare an original adult AI workshop service',
-    intro: 'Create a 15-minute claim-checking workshop with original materials, a checked answer key and accessible delivery. Instructions are currently English. Allow about 75 minutes plus an optional consenting-adult trial. No accreditation or guaranteed learning outcome.',
+    intro: 'Create a 15-minute claim-checking workshop with original materials, a checked answer key and accessible delivery. Allow about 75 minutes plus an optional consenting-adult trial. No accreditation or guaranteed learning outcome.',
     time: '75 minutes',
     steps: educationServicesSteps,
     serviceKitId: 'ai-education-services-kit'
@@ -389,4 +402,12 @@ export function tutorialStorageKey(pathId: string) {
 
 export function getTutorialForPath(pathId: string) {
   return tutorials.find((tutorial) => tutorial.pathId === pathId);
+}
+
+export function getRelatedPathTutorials(path: Pick<LearningPath, 'id' | 'goal'>, paths: readonly LearningPath[]) {
+  return paths.flatMap((relatedPath) => {
+    if (relatedPath.id === path.id || relatedPath.goal !== path.goal) return [];
+    const tutorial = getTutorialForPath(relatedPath.id);
+    return tutorial ? [{ path: relatedPath, tutorial }] : [];
+  });
 }

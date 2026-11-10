@@ -6,6 +6,7 @@ import { HeroArt } from '@/components/hero-art';
 import { NewsletterForm } from '@/components/newsletter-form';
 import { TutorialLink } from '@/components/tutorial-link';
 import { getCatalog } from '@/lib/catalog';
+import { distinctTools } from '@/lib/tool-identities';
 import { tutorialStorageKey, tutorials } from '@/lib/tutorials';
 import { Tr } from '@/components/tr';
 import { phrase } from '@/lib/phrase-mark';
@@ -60,6 +61,7 @@ const faqJsonLd = {
 
 export default async function HomePage() {
   const catalog = await getCatalog();
+  const tools = distinctTools(catalog.tools);
 
   return (
     <>
@@ -89,7 +91,7 @@ export default async function HomePage() {
                 <span><Tr>learning paths</Tr></span>
               </li>
               <li>
-                <strong>{catalog.tools.length}</strong>
+                <strong>{tools.length}</strong>
                 <span><Tr>starter tools</Tr></span>
               </li>
               <li>
@@ -237,7 +239,7 @@ export default async function HomePage() {
             </Link>
           </div>
           <div className="tool-grid">
-            {catalog.tools.slice(0, 6).map((tool) => (
+            {tools.slice(0, 6).map((tool) => (
               <ToolCard key={tool.id} tool={tool} cta="none" />
             ))}
           </div>

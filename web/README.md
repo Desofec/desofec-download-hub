@@ -563,6 +563,22 @@ updated worksheets are revalidated rather than served directly from the service-
 cache. `npm run test:content` includes `scripts/web-app-reliability.test.mjs` and
 `scripts/service-worker.test.mjs` for these behaviours.
 
+The CAD concept, micro-SaaS validation and education services tutorials have translated
+lessons even though their separate starter kits remain English-only. The content-creation
+path has a six-lesson tutorial in English, French, German and Spanish. It uses a fictional
+bakery for private practice, preserves separate path and tutorial progress, and labels
+its linked content creator kit as an English-only download. A learning path without its
+own tutorial states that limitation and links to tutorials for other paths sharing its
+goal, when available. Tool cards and comparison links identify both the tool and the
+new browser tab to screen readers.
+
+The historical `git` and `github` tool IDs both refer to GitHub. The library displays
+one listing while both detail URLs, existing recommendations, saved favorites and
+previously shared workspace items continue to work, including when either catalog record
+is absent. Displaying an existing favorite does not rewrite its saved ID; removing the
+combined favorite explicitly removes either historical ID. `/tools/git` is the canonical
+search URL when both records are present.
+
 ### Private Project Evidence Workbook
 
 Open a saved project, then **Open private evidence workbook**. The private, `noindex`

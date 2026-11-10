@@ -47,7 +47,7 @@ export function ToolCard({
           rel="noopener noreferrer"
         >
           <Tr>Open tool</Tr>
-          <span className="sr-only">{` – ${tool.name}`}</span>
+          <span className="sr-only">{` – ${tool.name} `}<Tr>(opens in a new tab)</Tr></span>
         </a>
         <Link className="btn btn-secondary" href={`/tools/${encodeURIComponent(tool.id)}`}>
           <Tr>Details</Tr>

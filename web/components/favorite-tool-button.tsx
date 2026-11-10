@@ -2,12 +2,13 @@
 
 import { useState } from 'react';
 import { useFavoriteToolIds, updateFavoriteTool } from '@/lib/favorites';
+import { hasToolFavorite } from '@/lib/tool-identities';
 import { useTr } from '@/components/tr';
 
 export function FavoriteToolButton({ toolId }: { toolId: string }) {
   const tr = useTr();
   const favorites = useFavoriteToolIds();
-  const isFavorite = favorites.includes(toolId);
+  const isFavorite = hasToolFavorite(favorites, toolId);
   const [storageError, setStorageError] = useState(false);
 
   function toggle() {

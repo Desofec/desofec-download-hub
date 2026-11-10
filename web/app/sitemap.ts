@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { getCatalog } from '@/lib/catalog';
+import { distinctTools } from '@/lib/tool-identities';
 import { localizedTutorialLanguages, localizedTutorialPath, localizedTutorials } from '@/lib/localized-tutorials';
 import { tutorials } from '@/lib/tutorials';
 
@@ -25,7 +26,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...paths.map((path) => ({
       url: new URL(`/paths/${encodeURIComponent(path.id)}`, siteUrl).toString()
     })),
-    ...tools.map((tool) => ({
+    ...distinctTools(tools).map((tool) => ({
       url: new URL(`/tools/${encodeURIComponent(tool.id)}`, siteUrl).toString()
     })),
     ...starterPacks.map((pack) => ({

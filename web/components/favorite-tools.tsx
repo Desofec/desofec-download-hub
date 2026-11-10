@@ -3,12 +3,13 @@
 import Link from 'next/link';
 import { useFavoriteToolIds } from '@/lib/favorites';
 import type { Tool } from '@/lib/types';
+import { distinctTools, hasToolFavorite } from '@/lib/tool-identities';
 import { ToolCard } from '@/components/cards';
 import { Tr } from '@/components/tr';
 
 export function FavoriteTools({ tools }: { tools: Tool[] }) {
   const favoriteIds = useFavoriteToolIds();
-  const favorites = tools.filter((tool) => favoriteIds.includes(tool.id));
+  const favorites = distinctTools(tools).filter((tool) => hasToolFavorite(favoriteIds, tool.id));
 
   return (
     <section className="progress-section">

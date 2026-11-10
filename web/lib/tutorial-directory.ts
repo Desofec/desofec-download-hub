@@ -11,7 +11,7 @@ export const tutorialTopics = [
 export type TutorialTopic = typeof tutorialTopics[number]['id'];
 
 const topicTutorials: Record<TutorialTopic, readonly string[]> = {
-  ai: ['ai-beginner', 'ai-productivity', 'research-with-ai', 'ml-foundations', 'ai-workflows-agents'],
+  ai: ['ai-beginner', 'ai-productivity', 'research-with-ai', 'ml-foundations', 'ai-workflows-agents', 'content-creation'],
   coding: ['first-app', 'coding-foundations', 'ai-assisted-coding', 'advanced-web-dev-ai',
     'ai-website-builder', 'web-starter', 'first-website-challenge', 'search-visibility', 'micro-saas-validation'],
   automation: ['no-code-automation', 'no-code-builder', 'advanced-no-code-automation',
@@ -22,7 +22,7 @@ const topicTutorials: Record<TutorialTopic, readonly string[]> = {
     'shopify-guide', 'sharetribe-guide', 'zoho-inventory-guide', 'shippo-guide', 'zendesk-guide', 'looker-studio-guide'],
   data: ['origin-data-analysis', 'auto-data-analysis', 'advanced-measurement-analysis',
     'data-visualization', 'ai-spreadsheets', 'ml-foundations', 'looker-studio-guide', 'zoho-inventory-guide'],
-  design: ['design-basics', 'ai-cad-services', 'ai-video-creation', 'ai-video-business'],
+  design: ['design-basics', 'ai-cad-services', 'ai-video-creation', 'ai-video-business', 'content-creation'],
   education: ['ai-for-education', 'ai-education-services', 'ai-career-skills']
 };
 

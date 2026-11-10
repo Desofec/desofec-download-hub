@@ -7,6 +7,7 @@ import type { Tool } from '@/lib/types';
 import { Tr, useTr } from '@/components/tr';
 import { ToolFreshness } from '@/components/tool-freshness';
 import { toolMatchesSearch } from '@/lib/tool-search';
+import { distinctTools, primaryToolId } from '@/lib/tool-identities';
 
 export function ToolsExplorer({ tools }: { tools: Tool[] }) {
   const tr = useTr();
@@ -14,8 +15,9 @@ export function ToolsExplorer({ tools }: { tools: Tool[] }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const categories = useMemo(() => ['All', ...new Set(tools.map((tool) => tool.category))], [tools]);
-  const skills = useMemo(() => ['All', ...new Set(tools.map((tool) => tool.skill))], [tools]);
+  const displayTools = useMemo(() => distinctTools(tools), [tools]);
+  const categories = useMemo(() => ['All', ...new Set(displayTools.map((tool) => tool.category))], [displayTools]);
+  const skills = useMemo(() => ['All', ...new Set(displayTools.map((tool) => tool.skill))], [displayTools]);
 
   const requestedCategory = searchParams.get('category') ?? 'All';
   const requestedSkill = searchParams.get('skill') ?? 'All';
@@ -24,9 +26,9 @@ export function ToolsExplorer({ tools }: { tools: Tool[] }) {
   const [query, setQuery] = useState(searchParams.get('q') ?? '');
 
   const comparedIds = useMemo(() => {
-    const ids = searchParams.get('compare')?.split(',') ?? [];
-    return [...new Set(ids)].filter((id) => tools.some((tool) => tool.id === id)).slice(0, 3);
-  }, [searchParams, tools]);
+    const ids = (searchParams.get('compare')?.split(',') ?? []).map((id) => primaryToolId(id, tools));
+    return [...new Set(ids)].filter((id) => displayTools.some((tool) => tool.id === id)).slice(0, 3);
+  }, [displayTools, searchParams, tools]);
 
   function updateUrl(next: { q?: string; category?: string; skill?: string; compare?: string[] }) {
     const values = { q: query, category, skill, compare: comparedIds, ...next };
@@ -53,11 +55,11 @@ export function ToolsExplorer({ tools }: { tools: Tool[] }) {
   }
 
   const comparedTools = comparedIds.flatMap((id) => {
-    const tool = tools.find((entry) => entry.id === id);
+    const tool = displayTools.find((entry) => entry.id === id);
     return tool ? [tool] : [];
   });
 
-  const visible = tools.filter(
+  const visible = displayTools.filter(
     (tool) =>
       (category === 'All' || tool.category === category) &&
       (skill === 'All' || tool.skill === skill) &&
@@ -113,7 +115,7 @@ export function ToolsExplorer({ tools }: { tools: Tool[] }) {
         </div>
         <div className="filter-summary">
           <p role="status">
-            <Tr values={{ shown: visible.length, total: tools.length }}>{'Showing {shown} of {total} tools'}</Tr>
+            <Tr values={{ shown: visible.length, total: displayTools.length }}>{'Showing {shown} of {total} tools'}</Tr>
           </p>
           {filtersActive && (
             <button className="chip" type="button" onClick={clearFilters}>
@@ -180,6 +182,7 @@ export function ToolsExplorer({ tools }: { tools: Tool[] }) {
                     <td key={tool.id}>
                       <a href={tool.url} target="_blank" rel="noopener noreferrer">
                         <Tr>Open tool</Tr>
+                        <span className="sr-only">{` – ${tool.name} `}<Tr>(opens in a new tab)</Tr></span>
                       </a>
                     </td>
                   ))}

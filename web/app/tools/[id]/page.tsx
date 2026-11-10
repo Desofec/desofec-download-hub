@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { PackCard, ToolCard } from '@/components/cards';
 import { FavoriteToolButton } from '@/components/favorite-tool-button';
 import { getCatalog } from '@/lib/catalog';
+import { distinctTools, findToolById, primaryToolId, sameToolId, toolDetailIds } from '@/lib/tool-identities';
 import { Tr } from '@/components/tr';
 import { ToolFreshness } from '@/components/tool-freshness';
 import { TutorialLink } from '@/components/tutorial-link';
@@ -11,14 +12,15 @@ import { tutorials } from '@/lib/tutorials';
 
 export async function generateStaticParams() {
   const { tools } = await getCatalog();
-  return tools.map((tool) => ({ id: tool.id }));
+  return toolDetailIds(tools).map((id) => ({ id }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;
-  const tool = (await getCatalog()).tools.find((entry) => entry.id === id);
+  const { tools } = await getCatalog();
+  const tool = findToolById(tools, id);
   if (!tool) return { title: 'Tool' };
-  const canonical = `/tools/${encodeURIComponent(id)}`;
+  const canonical = `/tools/${encodeURIComponent(primaryToolId(id, tools))}`;
   return {
     title: tool.name,
     description: tool.description,
@@ -31,19 +33,19 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 export default async function ToolDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const catalog = await getCatalog();
-  const tool = catalog.tools.find((entry) => entry.id === id);
+  const tool = findToolById(catalog.tools, id);
   if (!tool) notFound();
   const guide = tutorials.find((entry) => entry.toolId === tool.id);
 
   const goalIds = Object.entries(catalog.recommendations)
-    .filter(([, recommendation]) => recommendation.tools.includes(tool.id))
+    .filter(([, recommendation]) => recommendation.tools.some((toolId) => sameToolId(toolId, tool.id)))
     .map(([goalId]) => goalId);
   const goals = catalog.goals.filter((goal) => goalIds.includes(goal.id));
   const paths = catalog.paths.filter((path) => goalIds.includes(path.goal));
   const packIds = new Set(goalIds.flatMap((goalId) => catalog.recommendations[goalId]?.starters ?? []));
   const packs = catalog.starterPacks.filter((pack) => packIds.has(pack.id));
-  const similar = catalog.tools
-    .filter((entry) => entry.id !== tool.id && entry.category === tool.category)
+  const similar = distinctTools(catalog.tools)
+    .filter((entry) => !sameToolId(entry.id, tool.id) && entry.category === tool.category)
     .slice(0, 3);
 
   return (
@@ -111,7 +113,7 @@ export default async function ToolDetailPage({ params }: { params: Promise<{ id:
         <section className="section">
           <div className="container">
             <div className="section-head">
-              <h2><Tr>Learning paths that use it</Tr></h2>
+              <h2><Tr>Related learning paths</Tr></h2>
             </div>
             <div className="result-summary">
               {paths.map((path) => (

@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Suspense } from 'react';
 import { ToolsExplorer } from '@/components/tools-explorer';
 import { getCatalog } from '@/lib/catalog';
+import { distinctTools } from '@/lib/tool-identities';
 import { Tr } from '@/components/tr';
 
 export const metadata: Metadata = {
@@ -38,7 +39,7 @@ export default async function ToolsPage() {
             <p><Tr>Search and comparison require JavaScript. You can browse the tools below while they load.</Tr></p>
             <h2 className="sr-only"><Tr>All tools</Tr></h2>
             <ul className="tool-grid tool-fallback">
-              {tools.map((tool) => (
+              {distinctTools(tools).map((tool) => (
                 <li key={tool.id}><Link href={`/tools/${encodeURIComponent(tool.id)}`}>{tool.name}</Link></li>
               ))}
             </ul>

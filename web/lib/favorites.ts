@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useSyncExternalStore } from 'react';
+import { favoriteIdsAfterToggle } from '@/lib/tool-identities';
 
 const STORAGE_KEY = 'desofec:favorites:tools';
 const EVENT_NAME = 'desofec-favorites-change';
@@ -37,10 +38,8 @@ export function useFavoriteToolIds() {
 }
 
 export function updateFavoriteTool(toolId: string, favorite: boolean) {
-  const current = new Set(readFavoriteIds());
-  if (favorite) current.add(toolId);
-  else current.delete(toolId);
-  localStorage.setItem(STORAGE_KEY, JSON.stringify([...current]));
+  const next = favoriteIdsAfterToggle(readFavoriteIds(), toolId, favorite);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
   window.dispatchEvent(new Event(EVENT_NAME));
 }
 
