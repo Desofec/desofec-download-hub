@@ -432,6 +432,34 @@ test('path completion controls identify translated steps without changing progre
   }
 });
 
+test('French progress summaries are grammatical for zero, one and several completed steps', () => {
+  const [i18n, phrases] = loadWebModules(['lib/i18n.ts', 'lib/phrases.ts']);
+  const messages = [
+    ['{done} of {total} steps complete', ''],
+    ['{done} of {total} steps complete · {percent}%', ' · {percent} %'],
+    ['{done} of {total} steps done ({percent}%)', ' ({percent} %)'],
+    ['{done} of {total} steps · {percent}%', ' · {percent} %']
+  ];
+
+  for (const [done, total] of [[0, 0], [0, 1], [1, 1], [0, 6], [1, 6], [2, 6], [6, 6]]) {
+    const percent = total ? Math.round((done / total) * 100) : 0;
+    const values = { done, total, percent };
+    const expected = `Étapes terminées : ${done} sur ${total}`;
+    const tutorial = i18n.dictionaries.fr['tutorial.stepsDone']
+      .replace('{done}', String(done))
+      .replace('{total}', String(total));
+    assert.equal(tutorial, expected, `tutorial: ${done}/${total}`);
+    for (const [key, suffix] of messages) {
+      assert.equal(phrases.phraseLanguage(key, 'fr'), 'fr', `${key}: French translation exists`);
+      assert.equal(
+        phrases.translatePhrase(key, 'fr', values),
+        expected + suffix.replace('{percent}', String(percent)),
+        `${key}: ${done}/${total}`
+      );
+    }
+  }
+});
+
 test('analytics preserves public page views while removing sensitive URL information', () => {
   const event = {
     type: 'pageview',
