@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import Link from 'next/link';
 import { setLanguage, useLanguage, useT } from '@/components/language';
 import type { LanguageCode } from '@/lib/i18n';
@@ -11,6 +12,10 @@ export function TutorialLanguageNav({
 }) {
   const t = useT();
   const language = useLanguage();
+
+  useEffect(() => {
+    if (language === 'en') setLanguage('en');
+  }, [language]);
 
   return (
     <nav className="tutorial-language-links" aria-label={t('nav.language')}>

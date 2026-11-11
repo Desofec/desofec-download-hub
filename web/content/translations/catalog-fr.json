@@ -656,5 +656,19 @@
  "Publish a website from a GitHub repository with a free hobby plan and get a live web address in minutes.": "Publiez un site web depuis un dépôt GitHub avec une offre gratuite et obtenez une adresse en ligne en quelques minutes.",
  "Describe an app or website in plain words and get a working project with a live preview in your browser.": "Décrivez une app ou un site en mots simples et obtenez un projet fonctionnel avec aperçu en direct dans votre navigateur.",
  "Store your projects, track changes and collaborate or publish work for free.": "Stockez vos projets, suivez les modifications et collaborez ou publiez gratuitement votre travail.",
- "A free AI assistant for questions, writing help and image ideas, handy if you already use Microsoft tools.": "Un assistant IA gratuit pour les questions, l’aide à l’écriture et des idées d’images, pratique si vous utilisez déjà les outils Microsoft."
+ "A free AI assistant for questions, writing help and image ideas, handy if you already use Microsoft tools.": "Un assistant IA gratuit pour les questions, l’aide à l’écriture et des idées d’images, pratique si vous utilisez déjà les outils Microsoft.",
+ "AI Privacy and Fact-Checking": "Confidentialité et vérification des faits avec l’IA",
+ "Keep private details out of AI prompts and check every AI claim against real sources before you share or rely on it.": "Gardez les données privées hors des requêtes IA et vérifiez chaque affirmation de l’IA avec de vraies sources avant de la partager ou de vous y fier.",
+ "Spot and redact private details before prompting": "Repérer et masquer les données privées avant la requête",
+ "Split AI answers into checkable claims": "Découper les réponses de l’IA en affirmations vérifiables",
+ "Check each claim against a real source": "Vérifier chaque affirmation à l’aide d’une vraie source",
+ "Correct claims and record an honest review": "Corriger les affirmations et consigner une relecture honnête",
+ "AI Privacy and Fact-Checking Kit": "Kit IA : confidentialité et vérification des faits",
+ "A redaction checklist, claim-check worksheet and safe prompts for protecting private details and verifying AI answers against real sources.": "Une liste de contrôle de masquage, une fiche de vérification des affirmations et des requêtes sûres pour protéger les données privées et vérifier les réponses de l’IA avec de vraies sources.",
+ "Mark every detail as private or needed before you prompt.": "Classez chaque détail comme privé ou nécessaire avant la requête.",
+ "Replace names and contact details with placeholders and remove health details.": "Remplacez les noms et coordonnées par des repères et supprimez les informations de santé.",
+ "Check the AI tool's current privacy settings yourself.": "Vérifiez vous-même les paramètres de confidentialité actuels de l’outil d’IA.",
+ "Split the AI answer into one claim per line.": "Découpez la réponse de l’IA en une affirmation par ligne.",
+ "Check each claim and citation against your sources; never invent one.": "Vérifiez chaque affirmation et citation à l’aide de vos sources ; n’en inventez jamais.",
+ "Correct or remove unsupported claims and keep practice approval BLOCKED.": "Corrigez ou retirez les affirmations non étayées et gardez l’approbation de l’exercice BLOQUÉE."
 }

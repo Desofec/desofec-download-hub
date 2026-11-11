@@ -654,5 +654,19 @@
  "Publish a website from a GitHub repository with a free hobby plan and get a live web address in minutes.": "Veröffentliche eine Website aus einem GitHub-Repository mit einem kostenlosen Tarif und erhalte in Minuten eine Live-Adresse.",
  "Describe an app or website in plain words and get a working project with a live preview in your browser.": "Beschreibe eine App oder Website in einfachen Worten und erhalte ein funktionierendes Projekt mit Live-Vorschau im Browser.",
  "Store your projects, track changes and collaborate or publish work for free.": "Speichere deine Projekte, verfolge Änderungen und arbeite mit anderen zusammen oder veröffentliche deine Arbeit kostenlos.",
- "A free AI assistant for questions, writing help and image ideas, handy if you already use Microsoft tools.": "Ein kostenloser KI-Assistent für Fragen, Schreibhilfe und Bildideen, praktisch, wenn du schon Microsoft-Tools nutzt."
+ "A free AI assistant for questions, writing help and image ideas, handy if you already use Microsoft tools.": "Ein kostenloser KI-Assistent für Fragen, Schreibhilfe und Bildideen, praktisch, wenn du schon Microsoft-Tools nutzt.",
+ "AI Privacy and Fact-Checking": "Datenschutz und Faktenprüfung mit KI",
+ "Keep private details out of AI prompts and check every AI claim against real sources before you share or rely on it.": "Halten Sie private Angaben aus KI-Prompts heraus und prüfen Sie jede KI-Aussage anhand echter Quellen, bevor Sie sie teilen oder sich darauf verlassen.",
+ "Spot and redact private details before prompting": "Private Angaben vor dem Prompt erkennen und schwärzen",
+ "Split AI answers into checkable claims": "KI-Antworten in prüfbare Aussagen zerlegen",
+ "Check each claim against a real source": "Jede Aussage anhand einer echten Quelle prüfen",
+ "Correct claims and record an honest review": "Aussagen korrigieren und die Prüfung ehrlich festhalten",
+ "AI Privacy and Fact-Checking Kit": "KI-Kit: Datenschutz und Faktenprüfung",
+ "A redaction checklist, claim-check worksheet and safe prompts for protecting private details and verifying AI answers against real sources.": "Eine Checkliste zum Schwärzen, ein Arbeitsblatt zur Aussagenprüfung und sichere Prompts, um private Angaben zu schützen und KI-Antworten anhand echter Quellen zu prüfen.",
+ "Mark every detail as private or needed before you prompt.": "Markieren Sie vor dem Prompt jedes Detail als privat oder benötigt.",
+ "Replace names and contact details with placeholders and remove health details.": "Ersetzen Sie Namen und Kontaktdaten durch Platzhalter und entfernen Sie Gesundheitsangaben.",
+ "Check the AI tool's current privacy settings yourself.": "Prüfen Sie die aktuellen Datenschutzeinstellungen des KI-Tools selbst.",
+ "Split the AI answer into one claim per line.": "Zerlegen Sie die KI-Antwort in eine Aussage pro Zeile.",
+ "Check each claim and citation against your sources; never invent one.": "Prüfen Sie jede Aussage und jedes Zitat anhand Ihrer Quellen; erfinden Sie nie eines.",
+ "Correct or remove unsupported claims and keep practice approval BLOCKED.": "Korrigieren oder entfernen Sie unbelegte Aussagen und lassen Sie die Übungsfreigabe BLOCKIERT."
 }

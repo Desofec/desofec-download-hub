@@ -551,11 +551,12 @@ for Business path and its business-video kit.
 ### Download language routing and freshness
 
 Every starter-pack download button — catalog cards on the home, starter-pack, path,
-results and tool pages, plus the kit detail page — uses `StarterPackDownload`, so the ten
+results and tool pages, plus the kit detail page — uses `StarterPackDownload`, so the eleven
 translated kits (`ai-content-services-kit`, `ai-automation-services-kit`,
 `ai-spreadsheets-kit`, `ai-commerce-services-kit`, `ai-video-business-kit`,
 `ai-video-creation-kit`, `content-creator-kit`, `ai-cad-services-kit`,
-`micro-saas-validation-kit` and `ai-education-services-kit`) download in the selected language. Other kits stay English and
+`micro-saas-validation-kit`, `ai-education-services-kit` and
+`ai-privacy-fact-checking-kit`) download in the selected language. Other kits stay English and
 are labelled “(English)” on cards and “currently available in English only” on detail
 pages when another language is selected. The tools search matches both English and the
 translated text shown on cards, ignoring accents. The service worker fetches
@@ -573,6 +574,17 @@ bakery for private practice and preserves separate path and tutorial progress. I
 content creator kit also follows the selected language; the generic 45-second prompt is
 distinct from the tutorial's optional 30-second storyboard, which is not a finished video.
 All editions keep the fictional exercise private and do not claim owner approval or results.
+The AI Privacy and Fact-Checking path (`/tutorials/ai-privacy-fact-checking`) has six
+lessons in English, French, German and Spanish. Learners redact four private details from a
+fictional library note, split an AI answer into claims, check each against a short source sheet
+and record SUPPORTED, CONTRADICTED, NEEDS SOURCE or CITATION NOT FOUND before correcting the
+answer. The review stays BLOCKED from sending or publishing, with results NOT COLLECTED; it is
+not legal advice. Its `ai-privacy-fact-checking-kit` follows the selected language. For an
+existing Supabase-backed deployment, review `supabase/catalog-updates/ai-privacy-fact-checking.sql`
+and obtain production authorization before applying it in coordination with deployment; refresh
+the hour-cached catalog afterward. Do not apply the generated seed wholesale to production.
+Opening the English version of a translated tutorial also selects English for linked kits;
+this does not change saved lesson progress.
 The translated kits are AI-assisted and still need native-speaker review. A learning path without its
 own tutorial states that limitation and links to tutorials for other paths sharing its
 goal, when available. Tool cards and comparison links identify both the tool and the

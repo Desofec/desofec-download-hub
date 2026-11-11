@@ -242,5 +242,13 @@
     "Reconcile the known subtotal of 21 and the one unresolved row.",
     "Label the chart honestly without presenting unknown values as zero.",
     "Save notes and recheck all formulas after reopening the workbook."
+  ],
+  "ai-privacy-fact-checking-kit": [
+    "Mark every detail as private or needed before you prompt.",
+    "Replace names and contact details with placeholders and remove health details.",
+    "Check the AI tool's current privacy settings yourself.",
+    "Split the AI answer into one claim per line.",
+    "Check each claim and citation against your sources; never invent one.",
+    "Correct or remove unsupported claims and keep practice approval BLOCKED."
   ]
 }

@@ -215,5 +215,12 @@
     "description": "Three fictional practice tracks for online retail, marketplace operations and logistics, with AI prompts, checked results and handover worksheets.",
     "level": "Beginner",
     "file": "downloads/ai-commerce-services-kit.md"
+  },
+  {
+    "id": "ai-privacy-fact-checking-kit",
+    "title": "AI Privacy and Fact-Checking Kit",
+    "description": "A redaction checklist, claim-check worksheet and safe prompts for protecting private details and verifying AI answers against real sources.",
+    "level": "Beginner",
+    "file": "downloads/ai-privacy-fact-checking-kit.md"
   }
 ]

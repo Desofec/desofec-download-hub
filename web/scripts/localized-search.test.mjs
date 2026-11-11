@@ -1,6 +1,8 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { test } from 'node:test';
+import { runInNewContext } from 'node:vm';
+import ts from 'typescript';
 import { loadWebModules } from './load-web-modules.mjs';
 
 const [localized, registry, translations, i18n, search] = loadWebModules([
@@ -14,7 +16,7 @@ const [localized, registry, translations, i18n, search] = loadWebModules([
 test('only public tutorials with complete lesson translations get localized pages', () => {
   const { localizedTutorials, hasLocalizedTutorialPages, localizedTutorialLanguages } = localized;
   const ids = new Set(localizedTutorials.map((tutorial) => tutorial.pathId));
-  for (const id of ['ai-assisted-coding', 'first-app', 'coding-foundations', 'ai-video-business', 'ai-online-retail', 'content-creation']) {
+  for (const id of ['ai-assisted-coding', 'first-app', 'coding-foundations', 'ai-video-business', 'ai-online-retail', 'content-creation', 'ai-privacy-fact-checking']) {
     assert.ok(ids.has(id), id);
   }
   for (const id of ['ai-spreadsheets', 'shopify-guide', 'freelance-client-discovery']) {
@@ -202,6 +204,146 @@ test('content creator kit editions retain complete prompts and private-practice 
     assert.match(sections[4], /\b30\b/, `${language}: first 30 minutes`);
     assert.equal((sections[4].match(/^\d\./gm) ?? []).length, 3, `${language}: first steps`);
     assert.match(sections[4], /\b10\b/, `${language}: generate 10 ideas`);
+  }
+});
+
+test('privacy and fact-checking tutorial keeps stable progress, exact facts and safeguards in every language', async () => {
+  const tutorial = registry.getTutorialForPath('ai-privacy-fact-checking');
+  assert.ok(tutorial);
+  assert.equal(tutorial.href, '/tutorials/ai-privacy-fact-checking');
+  assert.equal(tutorial.time, '60 minutes');
+  assert.equal(tutorial.starterPackId, 'ai-privacy-fact-checking-kit');
+  assert.equal(tutorial.starterPackLabel, 'Open the privacy and fact-checking kit');
+  assert.deepEqual(tutorial.steps.map(({ id }) => id), [
+    'privacy-map', 'privacy-redact', 'claims-list',
+    'claims-sources', 'claims-verdicts', 'privacy-review'
+  ]);
+  assert.equal(registry.tutorialStorageKey(tutorial.pathId), 'desofec:tutorial:ai-privacy-fact-checking');
+
+  const paths = JSON.parse(await readFile(new URL('../content/paths.json', import.meta.url), 'utf8'));
+  const path = paths.find(({ id }) => id === tutorial.pathId);
+  assert.equal(path.goal, 'research-ai');
+  assert.deepEqual(path.steps, [
+    'Spot and redact private details before prompting',
+    'Split AI answers into checkable claims',
+    'Check each claim against a real source',
+    'Correct claims and record an honest review'
+  ]);
+
+  const words = {
+    en: { fiction: /fictional/i, privateWord: 'PRIVATE', contradicted: 'CONTRADICTED', supported: 'SUPPORTED', needsSource: 'NEEDS SOURCE',
+      notFound: 'CITATION NOT FOUND', unverified: 'UNVERIFIED', blocked: 'BLOCKED', notCollected: 'NOT COLLECTED', noSend: /do not send or publish/i, legal: /not legal advice/i,
+      room: /room B/i, health: /medical appointment/i, placeholders: ['[PERSON A]', '[EMAIL]', '[PHONE]'] },
+    fr: { fiction: /fictive/i, privateWord: 'PRIVÉ', contradicted: 'CONTREDITE', supported: 'CONFIRMÉE', needsSource: 'SOURCE REQUISE',
+      notFound: 'CITATION INTROUVABLE', unverified: 'NON VÉRIFIÉE', blocked: 'BLOQUÉE', notCollected: 'NON RECUEILLIS', noSend: /ne pas envoyer ni publier/i, legal: /avis juridique/i,
+      room: /salle B/i, health: /rendez-vous médical/i, placeholders: ['[PERSONNE A]', '[E-MAIL]', '[TÉLÉPHONE]'] },
+    de: { fiction: /fiktiv/i, privateWord: 'PRIVAT', contradicted: 'WIDERLEGT', supported: 'BELEGT', needsSource: 'QUELLE FEHLT',
+      notFound: 'ZITAT NICHT GEFUNDEN', unverified: 'UNBESTÄTIGT', blocked: 'BLOCKIERT', notCollected: 'NICHT ERHOBEN', noSend: /nicht versenden oder veröffentlichen/i, legal: /keine Rechtsberatung/i,
+      room: /raum B/i, health: /Arzttermin/i, placeholders: ['[PERSON A]', '[E-MAIL]', '[TELEFON]'] },
+    es: { fiction: /ficticia/i, privateWord: 'PRIVADO', contradicted: 'CONTRADICHA', supported: 'RESPALDADA', needsSource: 'FALTA FUENTE',
+      notFound: 'CITA NO ENCONTRADA', unverified: 'NO VERIFICADA', blocked: 'BLOQUEADA', notCollected: 'NO RECOPILADOS', noSend: /no enviar ni publicar/i, legal: /asesoramiento jurídico/i,
+      room: /sala B/i, health: /cita médica/i, placeholders: ['[PERSONA A]', '[CORREO]', '[TELÉFONO]'] }
+  };
+  for (const [language, w] of Object.entries(words)) {
+    const text = language === 'en'
+      ? { title: tutorial.title, intro: tutorial.intro, steps: Object.fromEntries(tutorial.steps.map((step) => [step.id, step])) }
+      : translations.getTutorialTranslation(tutorial.pathId, language);
+    assert.ok(text?.title.trim() && text.intro.trim(), language);
+    assert.match(text.intro, w.fiction, language);
+    assert.deepEqual(Object.keys(text.steps).sort(), tutorial.steps.map(({ id }) => id).sort(), language);
+    for (const source of tutorial.steps) {
+      const step = text.steps[source.id];
+      assert.ok(step.title.trim() && step.file.trim() && step.code.trim() && step.check.trim() && step.aiPrompt.trim(),
+        `${language}/${source.id}: every learner-facing field`);
+      assert.equal(step.explanation.length, source.explanation.length, `${language}/${source.id}: paragraphs`);
+      assert.doesNotMatch(JSON.stringify(step), /\uFFFD|\p{L}\?\p{L}/u, `${language}/${source.id}: encoding`);
+      if (language !== 'en') {
+        for (const field of ['title', 'file', 'code', 'check', 'aiPrompt']) {
+          assert.notEqual(step[field], source[field], `${language}/${source.id}: translated ${field}`);
+        }
+      }
+    }
+
+    const map = text.steps['privacy-map'].code;
+    for (const fact of ['Alex Example', 'alex@example.test', '+00 0000 0000', '2030-03-14', '18:00']) assert.ok(map.includes(fact), `${language}: ${fact}`);
+    assert.equal(map.split(w.privateWord).length - 1, 4, `${language}: four private items`);
+    const redacted = text.steps['privacy-redact'].code.split('\n')[1];
+    for (const secret of ['Alex Example', 'alex@example.test', '+00 0000 0000']) assert.ok(!redacted.includes(secret), `${language}: ${secret} redacted`);
+    assert.ok(redacted.includes('2030-03-14') && redacted.includes('18:00'), `${language}: task facts kept`);
+    assert.match(redacted, w.room, `${language}: room kept`);
+    assert.doesNotMatch(redacted, w.health, `${language}: health detail removed`);
+    for (const placeholder of w.placeholders) assert.ok(redacted.includes(placeholder), `${language}: ${placeholder}`);
+    assert.match(text.steps['privacy-redact'].code, /0 (?:of|sur|von|de) 4/);
+
+    const claims = text.steps['claims-list'].code;
+    for (const id of ['C1', 'C2', 'C3', 'C4', 'C5', 'S1', '50', '1952', 'City Library Report 2029']) assert.ok(claims.includes(id), `${language}: ${id}`);
+    for (const [id, fact] of [['C1', '7'], ['C2', '10:00-14:00'], ['C4', '50'], ['C5', '1952'], ['S1', 'City Library Report 2029']]) {
+      const line = claims.split('\n').find((entry) => entry.startsWith(`${id} `));
+      assert.ok(line?.includes(fact), `${language}: ${id} retains ${fact}`);
+    }
+    const check = text.steps['claims-sources'].code;
+    assert.equal(check.split(w.contradicted).length - 1, 2, `${language}: two contradicted`);
+    assert.equal(check.split(w.supported).length - 1, 2, `${language}: two supported`);
+    assert.equal(check.split(w.needsSource).length - 1, 1, `${language}: one needs source`);
+    for (const [id, verdict] of [
+      ['C1', w.contradicted], ['C2', w.supported], ['C3', w.supported],
+      ['C4', w.contradicted], ['C5', w.needsSource], ['S1', w.notFound]
+    ]) {
+      const line = check.split('\n').find((entry) => entry.startsWith(`${id} `));
+      assert.ok(line?.includes(verdict), `${language}: ${id} is ${verdict}`);
+    }
+    assert.ok(check.split('\n').find((entry) => entry.startsWith('C4 '))?.includes('12'), `${language}: C4 evidence is 12`);
+    assert.ok(check.includes(w.notFound) && check.includes('09:00-18:00') && check.includes('10:00-14:00') && check.includes('12'), language);
+    const corrected = text.steps['claims-verdicts'].code.split('\n\n')[0];
+    assert.ok(corrected.includes('12') && !corrected.includes('50') && !corrected.includes('1952') && !corrected.includes('City Library Report'),
+      `${language}: corrected summary has no contradicted, unverified or unfound claims`);
+    assert.ok(text.steps['claims-verdicts'].code.includes(w.unverified), language);
+    const review = text.steps['privacy-review'];
+    assert.ok(review.code.includes(w.blocked) && review.code.includes(w.notCollected), language);
+    assert.match(review.code, w.noSend, language);
+    assert.match(review.explanation.join(' '), w.legal, language);
+  }
+  assert.ok(localized.hasLocalizedTutorialPages(tutorial));
+  for (const language of ['en', ...localized.localizedTutorialLanguages]) {
+    const text = language === 'en' ? tutorial : translations.getTutorialTranslation(tutorial.pathId, language);
+    const metadata = search.tutorialSearchText(tutorial.pathId, language, { title: text.title, description: text.intro });
+    assert.ok(`${metadata.title} | Desofec AI Studio`.length < 70, `${language}: title length`);
+    assert.ok(metadata.description.length >= 25 && metadata.description.length <= 160, `${language}: description length`);
+  }
+  const [downloads] = loadWebModules(['lib/starter-pack-downloads.ts']);
+  for (const language of ['en', 'fr', 'de', 'es']) {
+    const suffix = language === 'en' ? '' : `-${language}`;
+    assert.equal(downloads.starterPackDownloadFile('ai-privacy-fact-checking-kit', 'downloads/ai-privacy-fact-checking-kit.md', language),
+      `downloads/ai-privacy-fact-checking-kit${suffix}.md`, `${language}: privacy kit follows selected language`);
+    assert.equal(downloads.starterPackDownloadFile('content-creator-kit', 'downloads/content-creator-kit.md', language),
+      `downloads/content-creator-kit${suffix}.md`, `${language}: creator kit still follows selected language`);
+    assert.equal(downloads.starterPackDownloadFile('freelance-client-discovery-kit', 'downloads/freelance-client-discovery-kit.md', language),
+      'downloads/freelance-client-discovery-kit.md', `${language}: untranslated kit remains English`);
+  }
+  const source = await readFile(new URL('../lib/ai-privacy-fact-checking-tutorial.ts', import.meta.url), 'utf8');
+  assert.doesNotMatch(source, /localStorage|fetch\(|upsert|applyProgress|persist\(/, 'lessons do not mutate progress or publish');
+});
+
+test('privacy and fact-checking kit editions keep exercise facts and safeguards', async () => {
+  const editions = {
+    en: [/PRIVATE/, /CITATION NOT FOUND/, /UNVERIFIED/, /BLOCKED/, /NOT COLLECTED/, /not legal advice/i, /\[PERSON A\]/],
+    fr: [/PRIVÉ/, /CITATION INTROUVABLE/, /NON VÉRIFIÉE/, /BLOQUÉE/, /NON RECUEILLIS/, /pas un avis juridique/i, /\[PERSONNE A\]/],
+    de: [/PRIVAT/, /ZITAT NICHT GEFUNDEN/, /UNBESTÄTIGT/, /BLOCKIERT/, /NICHT ERHOBEN/, /keine Rechtsberatung/i, /\[PERSON A\]/],
+    es: [/PRIVADO/, /CITA NO ENCONTRADA/, /NO VERIFICADA/, /BLOQUEADA/, /NO RECOPILADOS/, /no asesoramiento jurídico/i, /\[PERSONA A\]/]
+  };
+  const english = await readFile(new URL('../../downloads/ai-privacy-fact-checking-kit.md', import.meta.url), 'utf8');
+  for (const [language, safeguards] of Object.entries(editions)) {
+    const file = `ai-privacy-fact-checking-kit${language === 'en' ? '' : `-${language}`}.md`;
+    const text = await readFile(new URL(`../../downloads/${file}`, import.meta.url), 'utf8');
+    assert.equal(text, await readFile(new URL(`../public/downloads/${file}`, import.meta.url), 'utf8'), `${language}: public copy matches`);
+    if (language !== 'en') assert.notEqual(text, english, `${language}: translated`);
+    assert.doesNotMatch(text, /\uFFFD|\p{L}\?\p{L}/u, `${language}: intact encoding`);
+    assert.equal(text.split(/^## /m).length - 1, 5, `${language}: five sections`);
+    for (const fact of ['alex@example.test', '2030-03-14', '18:00', '09:00-18:00', '10:00-14:00', '12', '50', '1952',
+      'City Library Report 2029', 'Riverside Library', 'C1', 'S1']) {
+      assert.ok(text.includes(fact), `${language}: ${fact}`);
+    }
+    for (const safeguard of safeguards) assert.match(text, safeguard, `${language}: ${safeguard}`);
   }
 });
 
@@ -394,6 +536,63 @@ test('language selection cannot follow an unrelated cached tutorial', () => {
     ]),
     '/projects/ai-assisted-coding/build'
   );
+});
+
+test('English tutorial navigation remembers its language for linked kits', async () => {
+  const source = await readFile(new URL('../components/tutorial-language-nav.tsx', import.meta.url), 'utf8');
+  const output = ts.transpileModule(source, {
+    compilerOptions: {
+      module: ts.ModuleKind.CommonJS,
+      target: ts.ScriptTarget.ES2020,
+      jsx: ts.JsxEmit.ReactJSX,
+      esModuleInterop: true
+    }
+  }).outputText;
+  const testModule = { exports: {} };
+  let routeLanguage = 'en';
+  let savedLanguage = 'fr';
+  const calls = [];
+  const jsx = (type, props) => ({ type, props });
+  const imports = {
+    react: { useEffect: (effect) => effect() },
+    'react/jsx-runtime': { jsx, jsxs: jsx },
+    'next/link': { __esModule: true, default: 'a' },
+    '@/components/language': {
+      useLanguage: () => routeLanguage,
+      useT: () => (key) => key,
+      setLanguage: (language) => { savedLanguage = language; calls.push(language); }
+    }
+  };
+  runInNewContext(output, {
+    module: testModule, exports: testModule.exports,
+    require: (name) => {
+      assert.ok(name in imports, `unexpected import: ${name}`);
+      return imports[name];
+    }
+  });
+  const versions = [{ code: 'en', label: 'English', href: '/tutorials/example' },
+    { code: 'fr', label: 'Français', href: '/fr/tutorials/example' }];
+  const english = testModule.exports.TutorialLanguageNav({ versions });
+  assert.equal(savedLanguage, 'en');
+  assert.deepEqual(calls, ['en']);
+
+  routeLanguage = 'fr';
+  savedLanguage = 'fr';
+  calls.length = 0;
+  const french = testModule.exports.TutorialLanguageNav({ versions });
+  assert.equal(savedLanguage, 'fr', 'the French route is not overridden');
+  assert.deepEqual(calls, []);
+  for (const language of ['de', 'es']) {
+    routeLanguage = language;
+    savedLanguage = language;
+    testModule.exports.TutorialLanguageNav({ versions });
+    assert.equal(savedLanguage, language, `${language} is not overridden`);
+    assert.deepEqual(calls, []);
+  }
+  english.props.children[1][1].props.onClick();
+  assert.equal(savedLanguage, 'fr', 'language links still save the selected language');
+  french.props.children[1][0].props.onClick();
+  assert.equal(savedLanguage, 'en', 'switching back to English still saves the selection');
 });
 
 test('tutorial entry points use the shared language-aware link', async () => {

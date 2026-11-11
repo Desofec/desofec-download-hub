@@ -13,9 +13,9 @@ const output = ts.transpileModule(source, {
 const { commerceToolGuides } = await import(`data:text/javascript;base64,${Buffer.from(output).toString('base64')}`);
 const ids = ['shopify', 'sharetribe', 'zoho-inventory', 'shippo', 'zendesk', 'looker-studio'];
 
-test('six distinct commerce tools bring the catalog to 51 without adding paths', async () => {
+test('six distinct commerce tools remain available alongside the privacy path', async () => {
   assert.equal(catalog.tools.length, 51);
-  assert.equal(catalog.paths.length, 35);
+  assert.equal(catalog.paths.length, 36);
   const rec = catalog.recommendations['build-ai-commerce'];
   for (const id of ids) {
     assert.ok(catalog.tools.find((tool) => tool.id === id));
