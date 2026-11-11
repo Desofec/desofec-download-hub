@@ -11,7 +11,8 @@ const localizedStarterPacks = new Set([
   'ai-cad-services-kit',
   'micro-saas-validation-kit',
   'ai-education-services-kit',
-  'ai-privacy-fact-checking-kit'
+  'ai-privacy-fact-checking-kit',
+  'ai-multilingual-work-kit'
 ]);
 
 export function hasLocalizedStarterPack(packId: string) {

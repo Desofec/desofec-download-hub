@@ -16,7 +16,7 @@ const [localized, registry, translations, i18n, search] = loadWebModules([
 test('only public tutorials with complete lesson translations get localized pages', () => {
   const { localizedTutorials, hasLocalizedTutorialPages, localizedTutorialLanguages } = localized;
   const ids = new Set(localizedTutorials.map((tutorial) => tutorial.pathId));
-  for (const id of ['ai-assisted-coding', 'first-app', 'coding-foundations', 'ai-video-business', 'ai-online-retail', 'content-creation', 'ai-privacy-fact-checking']) {
+  for (const id of ['ai-assisted-coding', 'first-app', 'coding-foundations', 'ai-video-business', 'ai-online-retail', 'content-creation', 'ai-privacy-fact-checking', 'ai-multilingual-work']) {
     assert.ok(ids.has(id), id);
   }
   for (const id of ['ai-spreadsheets', 'shopify-guide', 'freelance-client-discovery']) {

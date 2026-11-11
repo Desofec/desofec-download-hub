@@ -28,6 +28,7 @@ import { onlineRetailSteps, marketplaceSteps, logisticsSteps } from '@/lib/comme
 import { commerceToolGuides } from '@/lib/commerce-tool-guides';
 import { contentCreationSteps } from '@/lib/content-creation-tutorial';
 import { aiPrivacyFactCheckingSteps } from '@/lib/ai-privacy-fact-checking-tutorial';
+import { aiMultilingualWorkSteps } from '@/lib/ai-multilingual-work-tutorial';
 import type { LearningPath } from '@/lib/types';
 
 export type TutorialInfo = {
@@ -178,6 +179,16 @@ export const tutorials: TutorialInfo[] = [
     steps: aiPrivacyFactCheckingSteps,
     starterPackId: 'ai-privacy-fact-checking-kit',
     starterPackLabel: 'Open the privacy and fact-checking kit'
+  },
+  {
+    pathId: 'ai-multilingual-work',
+    href: '/tutorials/ai-multilingual-work',
+    title: 'Translate and work across languages with AI',
+    intro: 'Translate a fictional notice from English into Spanish, check the facts and prepare a private review. AI is optional.',
+    time: '75 minutes',
+    steps: aiMultilingualWorkSteps,
+    starterPackId: 'ai-multilingual-work-kit',
+    starterPackLabel: 'Open the multilingual work and translation kit'
   },
   {
     pathId: 'ai-video-creation',

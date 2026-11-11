@@ -222,5 +222,12 @@
     "description": "A redaction checklist, claim-check worksheet and safe prompts for protecting private details and verifying AI answers against real sources.",
     "level": "Beginner",
     "file": "downloads/ai-privacy-fact-checking-kit.md"
+  },
+  {
+    "id": "ai-multilingual-work-kit",
+    "title": "Multilingual Work and Translation Kit",
+    "description": "A translation brief, privacy checklist, glossary and source-by-source review for a fictional English-to-Spanish notice.",
+    "level": "Beginner",
+    "file": "downloads/ai-multilingual-work-kit.md"
   }
 ]

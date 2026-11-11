@@ -250,5 +250,13 @@
     "Split the AI answer into one claim per line.",
     "Check each claim and citation against your sources; never invent one.",
     "Correct or remove unsupported claims and keep practice approval BLOCKED."
+  ],
+  "ai-multilingual-work-kit": [
+    "Define the audience, source language and target language.",
+    "Check permission and remove private or confidential details.",
+    "Preserve names, dates, times, time zones, numbers and key terms.",
+    "Translate by source segment and compare the draft with the original.",
+    "Record uncertainty and get a competent human review for real work.",
+    "Keep fictional practice private and approval BLOCKED."
   ]
 }
