@@ -21,7 +21,8 @@ const localizedPacks = [
   'content-creator-kit',
   'ai-cad-services-kit',
   'micro-saas-validation-kit',
-  'ai-education-services-kit'
+  'ai-education-services-kit',
+  'ai-privacy-fact-checking-kit'
 ];
 
 async function loadModule(relative) {

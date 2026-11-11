@@ -471,5 +471,14 @@
     "badge": "Business",
     "steps": ["Define logistics scope and custody", "Reconcile receiving and usable stock", "Simulate picking and stock reservations", "Review dispatch evidence and returns", "Check service costs and handover"],
     "goal": "build-ai-commerce"
+  },
+  {
+    "id": "ai-privacy-fact-checking",
+    "title": "AI Privacy and Fact-Checking",
+    "level": "Beginner",
+    "description": "Keep private details out of AI prompts and check every AI claim against real sources before you share or rely on it.",
+    "badge": "Research",
+    "steps": ["Spot and redact private details before prompting", "Split AI answers into checkable claims", "Check each claim against a real source", "Correct claims and record an honest review"],
+    "goal": "research-ai"
   }
 ]

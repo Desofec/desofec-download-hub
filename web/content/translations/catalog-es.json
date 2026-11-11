@@ -655,5 +655,19 @@
  "Publish a website from a GitHub repository with a free hobby plan and get a live web address in minutes.": "Publica un sitio desde un repositorio de GitHub con un plan gratuito y obtén una dirección web en minutos.",
  "Describe an app or website in plain words and get a working project with a live preview in your browser.": "Describe una app o sitio con palabras sencillas y obtén un proyecto funcional con vista previa en vivo en tu navegador.",
  "Store your projects, track changes and collaborate or publish work for free.": "Guarda tus proyectos, registra los cambios y colabora o publica tu trabajo gratis.",
- "A free AI assistant for questions, writing help and image ideas, handy if you already use Microsoft tools.": "Un asistente de IA gratuito para preguntas, ayuda con la escritura e ideas de imágenes, útil si ya usas herramientas de Microsoft."
+ "A free AI assistant for questions, writing help and image ideas, handy if you already use Microsoft tools.": "Un asistente de IA gratuito para preguntas, ayuda con la escritura e ideas de imágenes, útil si ya usas herramientas de Microsoft.",
+ "AI Privacy and Fact-Checking": "Privacidad y verificación de datos con IA",
+ "Keep private details out of AI prompts and check every AI claim against real sources before you share or rely on it.": "Mantén los datos privados fuera de los prompts de IA y comprueba cada afirmación de la IA con fuentes reales antes de compartirla o confiar en ella.",
+ "Spot and redact private details before prompting": "Detectar y ocultar datos privados antes del prompt",
+ "Split AI answers into checkable claims": "Dividir las respuestas de IA en afirmaciones comprobables",
+ "Check each claim against a real source": "Comprobar cada afirmación con una fuente real",
+ "Correct claims and record an honest review": "Corregir afirmaciones y registrar una revisión honesta",
+ "AI Privacy and Fact-Checking Kit": "Kit de IA: privacidad y verificación de datos",
+ "A redaction checklist, claim-check worksheet and safe prompts for protecting private details and verifying AI answers against real sources.": "Una lista de control para anonimizar, una hoja de comprobación de afirmaciones y prompts seguros para proteger datos privados y verificar respuestas de IA con fuentes reales.",
+ "Mark every detail as private or needed before you prompt.": "Marca cada dato como privado o necesario antes del prompt.",
+ "Replace names and contact details with placeholders and remove health details.": "Sustituye nombres y datos de contacto por marcadores y elimina los datos de salud.",
+ "Check the AI tool's current privacy settings yourself.": "Revisa tú mismo la configuración de privacidad actual de la herramienta de IA.",
+ "Split the AI answer into one claim per line.": "Divide la respuesta de la IA en una afirmación por línea.",
+ "Check each claim and citation against your sources; never invent one.": "Comprueba cada afirmación y cita con tus fuentes; nunca inventes ninguna.",
+ "Correct or remove unsupported claims and keep practice approval BLOCKED.": "Corrige o elimina las afirmaciones sin respaldo y mantén BLOQUEADA la aprobación de la práctica."
 }

@@ -27,6 +27,7 @@ import { searchVisibilitySteps } from '@/lib/search-visibility-tutorial';
 import { onlineRetailSteps, marketplaceSteps, logisticsSteps } from '@/lib/commerce-services-tutorials';
 import { commerceToolGuides } from '@/lib/commerce-tool-guides';
 import { contentCreationSteps } from '@/lib/content-creation-tutorial';
+import { aiPrivacyFactCheckingSteps } from '@/lib/ai-privacy-fact-checking-tutorial';
 import type { LearningPath } from '@/lib/types';
 
 export type TutorialInfo = {
@@ -167,6 +168,16 @@ export const tutorials: TutorialInfo[] = [
     steps: contentCreationSteps,
     starterPackId: 'content-creator-kit',
     starterPackLabel: 'Open the content creator kit'
+  },
+  {
+    pathId: 'ai-privacy-fact-checking',
+    href: '/tutorials/ai-privacy-fact-checking',
+    title: 'Protect privacy and fact-check AI answers',
+    intro: 'Remove private details before prompting, then check each AI claim against a source. Practise privately with a fictional library; AI is optional.',
+    time: '60 minutes',
+    steps: aiPrivacyFactCheckingSteps,
+    starterPackId: 'ai-privacy-fact-checking-kit',
+    starterPackLabel: 'Open the privacy and fact-checking kit'
   },
   {
     pathId: 'ai-video-creation',

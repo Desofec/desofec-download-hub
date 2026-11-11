@@ -112,7 +112,8 @@ insert into public.starter_packs (id, title, description, level, file_path, posi
   ('ai-education-services-kit', 'AI Education Services Kit', 'An adult workshop brief, original lesson plan, checked rubric and accessible delivery checklist.', 'Beginner', 'downloads/ai-education-services-kit.md', 27),
   ('ai-video-business-kit', 'AI Video Creation for Business Kit', 'Three short-form video briefs, script and caption worksheets, seven evidence checks and a private service handover.', 'Beginner', 'downloads/ai-video-business-kit.md', 28),
   ('freelance-client-discovery-kit', 'Freelance Client Discovery & Project Scoping Kit', 'Neutral discovery questions, a project-fit checklist, bounded scope and proposed change worksheets for fictional practice.', 'Beginner', 'downloads/freelance-client-discovery-kit.md', 29),
-  ('ai-commerce-services-kit', 'AI-Powered Commerce and Logistics Kit', 'Three fictional practice tracks for online retail, marketplace operations and logistics, with AI prompts, checked results and handover worksheets.', 'Beginner', 'downloads/ai-commerce-services-kit.md', 30)
+  ('ai-commerce-services-kit', 'AI-Powered Commerce and Logistics Kit', 'Three fictional practice tracks for online retail, marketplace operations and logistics, with AI prompts, checked results and handover worksheets.', 'Beginner', 'downloads/ai-commerce-services-kit.md', 30),
+  ('ai-privacy-fact-checking-kit', 'AI Privacy and Fact-Checking Kit', 'A redaction checklist, claim-check worksheet and safe prompts for protecting private details and verifying AI answers against real sources.', 'Beginner', 'downloads/ai-privacy-fact-checking-kit.md', 31)
 on conflict (id) do update set title = excluded.title, description = excluded.description, level = excluded.level, file_path = excluded.file_path, position = excluded.position;
 
 insert into public.paths (id, title, level, description, badge, goal_id, steps, position) values
@@ -150,7 +151,8 @@ insert into public.paths (id, title, level, description, badge, goal_id, steps, 
   ('freelance-client-discovery', 'Freelance Client Discovery & Project Scoping', 'Beginner', 'Practise client discovery questions, project-fit checks, bounded scope and proposed changes before preparing a service proposal.', 'Business', 'scope-freelance-project', array['Separate client facts from assumptions', 'Define deliverables and acceptance checks', 'Review skills, permissions and project fit', 'Propose controlled scope changes']::text[], 31),
   ('ai-online-retail', 'AI-Powered Online Retail', 'Beginner', 'Explore online retail with AI-assisted product drafts, checked costs, inventory planning and customer support using fictional data.', 'Business', 'build-ai-commerce', array['Define a retail model and validate customer needs', 'Compare fulfillment and check contribution', 'Draft factual product copy with AI', 'Check inventory and customer reports', 'Prepare a reviewed retail-support handover']::text[], 32),
   ('ai-marketplace-model', 'AI-Powered Marketplace Business Model', 'Beginner', 'Prototype a multi-vendor marketplace with seller checklists, AI-assisted catalog review, commission reconciliation and human-moderated support.', 'Business', 'build-ai-commerce', array['Define operator, seller and buyer responsibilities', 'Plan seller onboarding and platform checks', 'Review catalog facts and matching', 'Reconcile orders, refunds and commission', 'Prepare moderated support and prototype handover']::text[], 33),
-  ('ai-logistics-services', 'AI-Powered Logistics Services', 'Beginner', 'Practise receiving, inventory reservations, dispatch and returns records, and AI-assisted exception reports without live shipments.', 'Business', 'build-ai-commerce', array['Define logistics scope and custody', 'Reconcile receiving and usable stock', 'Simulate picking and stock reservations', 'Review dispatch evidence and returns', 'Check service costs and handover']::text[], 34)
+  ('ai-logistics-services', 'AI-Powered Logistics Services', 'Beginner', 'Practise receiving, inventory reservations, dispatch and returns records, and AI-assisted exception reports without live shipments.', 'Business', 'build-ai-commerce', array['Define logistics scope and custody', 'Reconcile receiving and usable stock', 'Simulate picking and stock reservations', 'Review dispatch evidence and returns', 'Check service costs and handover']::text[], 34),
+  ('ai-privacy-fact-checking', 'AI Privacy and Fact-Checking', 'Beginner', 'Keep private details out of AI prompts and check every AI claim against real sources before you share or rely on it.', 'Research', 'research-ai', array['Spot and redact private details before prompting', 'Split AI answers into checkable claims', 'Check each claim against a real source', 'Correct claims and record an honest review']::text[], 35)
 on conflict (id) do update set title = excluded.title, level = excluded.level, description = excluded.description, badge = excluded.badge, goal_id = excluded.goal_id, steps = excluded.steps, position = excluded.position;
 
 insert into public.recommendations (goal_id, title, summary, steps) values
@@ -354,6 +356,7 @@ insert into public.recommendation_starters (goal_id, pack_id, position) values
   ('visualize-data', 'data-visualization-kit', 0),
   ('research-ai', 'research-prompt-kit', 0),
   ('research-ai', 'ai-prompt-pack', 1),
+  ('research-ai', 'ai-privacy-fact-checking-kit', 2),
   ('ai-education', 'ai-for-education-kit', 0),
   ('ai-education', 'ai-prompt-pack', 1),
   ('ai-small-business', 'ai-small-business-kit', 0),

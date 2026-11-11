@@ -3,6 +3,18 @@ import type { LanguageCode } from '@/lib/i18n';
 type SearchText = { title: string; description: string };
 
 const overrides: Record<string, Partial<Record<LanguageCode, Partial<SearchText>>>> = {
+  'ai-privacy-fact-checking': {
+    en: { description: 'Redact private details before prompting and check AI claims against a source. Practise privately with a fictional library.' },
+    fr: {
+      title: 'Protéger ses données et vérifier l’IA',
+      description: 'Masquez les données privées avant la requête et vérifiez les affirmations de l’IA avec une source, en privé, sur un cas fictif.'
+    },
+    de: { description: 'Schwärzen Sie private Angaben vor dem Prompt und prüfen Sie KI-Aussagen anhand einer Quelle – privat und mit fiktivem Beispiel.' },
+    es: {
+      title: 'Proteger la privacidad y verificar la IA',
+      description: 'Oculta datos privados antes del prompt y comprueba las afirmaciones de la IA con una fuente, en privado y con un caso ficticio.'
+    }
+  },
   'content-creation': {
     en: { description: 'Practise a short post for a fictional bakery. Check facts, rights and accessibility in private; do not publish the exercise.' },
     fr: { description: 'Rédigez une publication pour une boulangerie fictive. Vérifiez faits, droits et accessibilité en privé, sans publier l’exercice.' },
