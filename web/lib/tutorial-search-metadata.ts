@@ -3,6 +3,12 @@ import type { LanguageCode } from '@/lib/i18n';
 type SearchText = { title: string; description: string };
 
 const overrides: Record<string, Partial<Record<LanguageCode, Partial<SearchText>>>> = {
+  'ai-workflows-agents': {
+    en: { description: 'Design a private workflow with fictional data, then test limits, duplicates and approvals. AI is optional.' },
+    fr: { description: 'Concevez un workflow privé avec des données fictives et vérifiez limites, doublons et autorisations. L’IA est facultative.' },
+    de: { description: 'Entwirf mit fiktiven Daten einen privaten Workflow und prüfe Grenzen, Duplikate und Freigaben. KI ist optional.' },
+    es: { description: 'Diseña un flujo privado con datos ficticios y comprueba límites, duplicados y aprobaciones. La IA es opcional.' }
+  },
   'ai-meeting-notes': {
     en: { description: 'Practise source-linked meeting notes, actions and a private follow-up with a fictional example and privacy checks.' },
     fr: { description: 'Préparez des notes et un suivi privés à partir d’un exemple fictif, en vérifiant les sources et la confidentialité.' },

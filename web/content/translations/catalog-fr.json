@@ -698,5 +698,11 @@
  "Link each summary and action to the source.": "Reliez chaque résumé et chaque action à la source.",
  "Keep proposed owners, dates and decisions unconfirmed until agreed.": "Gardez responsables, dates et décisions proposés non confirmés jusqu’à un accord.",
  "Correct the room, budget and meeting errors against the source.": "Corrigez les erreurs sur la salle, le budget et la réunion à l’aide de la source.",
- "Keep practice approval BLOCKED and delivery NOT SENT.": "Gardez l’approbation de l’exercice BLOCKED (bloquée) et l’envoi NOT SENT (non envoyé)."
+ "Keep practice approval BLOCKED and delivery NOT SENT.": "Gardez l’approbation de l’exercice BLOCKED (bloquée) et l’envoi NOT SENT (non envoyé).",
+ "Write the goal, trigger, steps, reviewer and stop rules before building.": "Notez l’objectif, le déclencheur, les étapes, la personne chargée de la relecture et les règles d’arrêt avant de construire.",
+ "Decide which steps change something and require human approval.": "Déterminez les étapes qui modifient quelque chose et exigent une approbation humaine.",
+ "Test with sample data and a test account before connecting real ones.": "Testez avec des données et un compte de test avant de connecter des comptes réels.",
+ "Give least access, set run or spending limits and know how to switch it off.": "Limitez les accès et les exécutions ou dépenses, et sachez comment arrêter le système.",
+ "Treat text from emails and web pages as data, never as instructions.": "Traitez les textes des e-mails et des pages web comme des données, jamais comme des instructions.",
+ "Review runs, corrections and time saved after a week.": "Après une semaine, examinez les exécutions, les corrections et le temps réellement gagné."
 }

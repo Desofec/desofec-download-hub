@@ -336,9 +336,11 @@ export const tutorials: TutorialInfo[] = [
     href: '/tutorials/ai-workflows-agents',
     title: 'Build AI workflows and simple agents safely',
     intro:
-      'Decide between a workflow and an agent, design it with stop rules, build and test it in a no-code tool, and add approvals, limits and guardrails.',
+      'Design a private workflow using a fictional example, then test limits, duplicates and approvals. AI is optional.',
     time: '75 minutes',
-    steps: aiWorkflowsSteps
+    steps: aiWorkflowsSteps,
+    starterPackId: 'ai-workflows-kit',
+    starterPackLabel: 'Open the workflows and agents kit'
   },
   {
     pathId: 'ai-website-builder',
