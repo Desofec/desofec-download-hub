@@ -684,5 +684,19 @@
  "Preserve names, dates, times, time zones, numbers and key terms.": "Conservez les noms, dates, heures, fuseaux horaires, nombres et termes clés.",
  "Translate by source segment and compare the draft with the original.": "Traduisez par segment et comparez le brouillon à l’original.",
  "Record uncertainty and get a competent human review for real work.": "Notez les incertitudes et faites relire les travaux réels par une personne compétente.",
- "Keep fictional practice private and approval BLOCKED.": "Gardez l’exercice fictif privé et son approbation BLOQUÉE."
+ "Keep fictional practice private and approval BLOCKED.": "Gardez l’exercice fictif privé et son approbation BLOQUÉE.",
+ "AI Meeting Notes and Follow-Up": "Notes de réunion et suivi avec l’IA",
+ "Turn fictional meeting notes into checked summaries, action items and a private follow-up while respecting consent and privacy.": "Transformez des notes fictives en résumés vérifiés, actions et suivi privé, dans le respect du consentement et de la confidentialité.",
+ "Plan notice, permissions and privacy": "Prévoir information, autorisations et confidentialité",
+ "Create a source-linked meeting summary": "Créer un résumé de réunion relié aux sources",
+ "Track actions and unresolved decisions": "Suivre les actions et décisions non résolues",
+ "Verify and prepare a private follow-up": "Vérifier et préparer un suivi privé",
+ "AI Meeting Notes and Follow-Up Kit": "Kit de notes de réunion et de suivi avec l’IA",
+ "A privacy plan, fictional source notes, action register and private follow-up with source checks.": "Un plan de confidentialité, des notes fictives, un registre des actions et un suivi privé vérifié avec les sources.",
+ "Inform participants and check permission before any real recording or AI transcription.": "Informez les participants et vérifiez les autorisations avant tout enregistrement réel ou transcription IA.",
+ "Use fictional or approved, minimal information and restrict access.": "Utilisez des informations fictives ou autorisées, réduites au nécessaire, et limitez les accès.",
+ "Link each summary and action to the source.": "Reliez chaque résumé et chaque action à la source.",
+ "Keep proposed owners, dates and decisions unconfirmed until agreed.": "Gardez responsables, dates et décisions proposés non confirmés jusqu’à un accord.",
+ "Correct the room, budget and meeting errors against the source.": "Corrigez les erreurs sur la salle, le budget et la réunion à l’aide de la source.",
+ "Keep practice approval BLOCKED and delivery NOT SENT.": "Gardez l’approbation de l’exercice BLOCKED (bloquée) et l’envoi NOT SENT (non envoyé)."
 }

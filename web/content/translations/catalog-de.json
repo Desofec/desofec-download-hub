@@ -682,5 +682,19 @@
  "Preserve names, dates, times, time zones, numbers and key terms.": "Erhalten Sie Namen, Daten, Zeiten, Zeitzonen, Zahlen und Schlüsselbegriffe.",
  "Translate by source segment and compare the draft with the original.": "Übersetzen Sie nach Quellabschnitt und vergleichen Sie den Entwurf mit dem Original.",
  "Record uncertainty and get a competent human review for real work.": "Halten Sie Unsicherheiten fest und lassen Sie echte Arbeiten kompetent prüfen.",
- "Keep fictional practice private and approval BLOCKED.": "Halten Sie die fiktive Übung privat und die Freigabe BLOCKIERT."
+ "Keep fictional practice private and approval BLOCKED.": "Halten Sie die fiktive Übung privat und die Freigabe BLOCKIERT.",
+ "AI Meeting Notes and Follow-Up": "Besprechungsnotizen und Nachbereitung mit KI",
+ "Turn fictional meeting notes into checked summaries, action items and a private follow-up while respecting consent and privacy.": "Erstellen Sie aus fiktiven Besprechungsnotizen geprüfte Zusammenfassungen, Aufgaben und eine private Nachbereitung unter Beachtung von Einwilligung und Datenschutz.",
+ "Plan notice, permissions and privacy": "Information, Erlaubnisse und Datenschutz planen",
+ "Create a source-linked meeting summary": "Eine Besprechungszusammenfassung mit Quellen erstellen",
+ "Track actions and unresolved decisions": "Aufgaben und offene Entscheidungen festhalten",
+ "Verify and prepare a private follow-up": "Private Nachbereitung prüfen und vorbereiten",
+ "AI Meeting Notes and Follow-Up Kit": "Kit für Besprechungsnotizen und Nachbereitung mit KI",
+ "A privacy plan, fictional source notes, action register and private follow-up with source checks.": "Ein Datenschutzplan, fiktive Quellnotizen, ein Aufgabenregister und eine anhand der Quellen geprüfte private Nachbereitung.",
+ "Inform participants and check permission before any real recording or AI transcription.": "Informieren Sie Teilnehmende und prüfen Sie Erlaubnisse vor echten Aufnahmen oder KI-Transkriptionen.",
+ "Use fictional or approved, minimal information and restrict access.": "Nutzen Sie fiktive oder erlaubte, auf das Nötige begrenzte Informationen und beschränken Sie Zugriff.",
+ "Link each summary and action to the source.": "Verknüpfen Sie jede Zusammenfassung und Aufgabe mit der Quelle.",
+ "Keep proposed owners, dates and decisions unconfirmed until agreed.": "Halten Sie vorgeschlagene Zuständigkeiten, Daten und Entscheidungen bis zur Einigung unbestätigt.",
+ "Correct the room, budget and meeting errors against the source.": "Korrigieren Sie Fehler zu Raum, Budget und Treffen anhand der Quelle.",
+ "Keep practice approval BLOCKED and delivery NOT SENT.": "Halten Sie die Übungsfreigabe BLOCKED (blockiert) und die Zustellung NOT SENT (nicht gesendet)."
 }

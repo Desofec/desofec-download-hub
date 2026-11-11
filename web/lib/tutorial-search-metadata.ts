@@ -3,6 +3,15 @@ import type { LanguageCode } from '@/lib/i18n';
 type SearchText = { title: string; description: string };
 
 const overrides: Record<string, Partial<Record<LanguageCode, Partial<SearchText>>>> = {
+  'ai-meeting-notes': {
+    en: { description: 'Practise source-linked meeting notes, actions and a private follow-up with a fictional example and privacy checks.' },
+    fr: { description: 'Préparez des notes et un suivi privés à partir d’un exemple fictif, en vérifiant les sources et la confidentialité.' },
+    de: {
+      title: 'Besprechungsnotizen und Nachbereitung mit KI',
+      description: 'Üben Sie mit fiktiven Notizen, prüfen Sie Quellen und Aufgaben und schützen Sie die Privatsphäre.'
+    },
+    es: { description: 'Practica notas y seguimiento privados con un ejemplo ficticio, comprueba las fuentes y protege la privacidad.' }
+  },
   'ai-multilingual-work': {
     en: { description: 'Translate a fictional notice from English to Spanish. Check meaning, privacy and facts in a private exercise.' },
     fr: {

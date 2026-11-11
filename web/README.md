@@ -552,12 +552,12 @@ for Business path and its business-video kit.
 ### Download language routing and freshness
 
 Every starter-pack download button — catalog cards on the home, starter-pack, path,
-results and tool pages, plus the kit detail page — uses `StarterPackDownload`, so the twelve
+results and tool pages, plus the kit detail page — uses `StarterPackDownload`, so the thirteen
 translated kits (`ai-content-services-kit`, `ai-automation-services-kit`,
 `ai-spreadsheets-kit`, `ai-commerce-services-kit`, `ai-video-business-kit`,
 `ai-video-creation-kit`, `content-creator-kit`, `ai-cad-services-kit`,
 `micro-saas-validation-kit`, `ai-education-services-kit`,
-`ai-privacy-fact-checking-kit` and `ai-multilingual-work-kit`) download in the selected language. Other kits stay English and
+`ai-privacy-fact-checking-kit`, `ai-multilingual-work-kit` and `ai-meeting-notes-kit`) download in the selected language. Other kits stay English and
 are labelled “(English)” on cards and “currently available in English only” on detail
 pages when another language is selected. The tools search matches both English and the
 translated text shown on cards, ignoring accents. The service worker fetches
@@ -593,6 +593,14 @@ facts, and records blocked approval and uncollected feedback. It does not claim 
 guaranteed accuracy. For an existing Supabase-backed deployment, review the targeted
 `supabase/catalog-updates/ai-multilingual-work.sql` and obtain authorization before applying it in
 coordination with deployment. Never apply the generated seed wholesale to an existing database.
+The Meeting Notes and Follow-Up path (`/tutorials/ai-meeting-notes`) provides six lessons and
+a selected-language kit in English, French, German and Spanish. Learners plan notice and permissions,
+then use fictional written source lines to distinguish proposed actions and meetings from confirmed
+ones. The exercise keeps approval BLOCKED and delivery NOT SENT; it does not record, send or schedule.
+Before sharing real meeting information, learners must check applicable rules and a service's current
+data handling and costs. For an existing Supabase-backed deployment, review the targeted
+`supabase/catalog-updates/ai-meeting-notes.sql` and obtain authorization before applying it in
+coordination with deployment. Do not apply the generated seed wholesale to an existing database.
 The translated kits are AI-assisted and still need native-speaker review. A learning path without its
 own tutorial states that limitation and links to tutorials for other paths sharing its
 goal, when available. Tool cards and comparison links identify both the tool and the

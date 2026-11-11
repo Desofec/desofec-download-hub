@@ -29,6 +29,7 @@ import { commerceToolGuides } from '@/lib/commerce-tool-guides';
 import { contentCreationSteps } from '@/lib/content-creation-tutorial';
 import { aiPrivacyFactCheckingSteps } from '@/lib/ai-privacy-fact-checking-tutorial';
 import { aiMultilingualWorkSteps } from '@/lib/ai-multilingual-work-tutorial';
+import { aiMeetingNotesSteps } from '@/lib/ai-meeting-notes-tutorial';
 import type { LearningPath } from '@/lib/types';
 
 export type TutorialInfo = {
@@ -189,6 +190,16 @@ export const tutorials: TutorialInfo[] = [
     steps: aiMultilingualWorkSteps,
     starterPackId: 'ai-multilingual-work-kit',
     starterPackLabel: 'Open the multilingual work and translation kit'
+  },
+  {
+    pathId: 'ai-meeting-notes',
+    href: '/tutorials/ai-meeting-notes',
+    title: 'Meeting notes and follow-up with AI',
+    intro: 'Prepare notes and a follow-up from a fictional example, check actions and protect privacy. AI is optional.',
+    time: '75 minutes',
+    steps: aiMeetingNotesSteps,
+    starterPackId: 'ai-meeting-notes-kit',
+    starterPackLabel: 'Open the meeting notes and follow-up kit'
   },
   {
     pathId: 'ai-video-creation',

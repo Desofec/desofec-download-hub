@@ -489,5 +489,14 @@
     "badge": "AI",
     "steps": ["Define the audience and source", "Check permission and protect private information", "Translate with a glossary and compare every segment", "Correct changed facts and record an honest review"],
     "goal": "ai-productivity"
+  },
+  {
+    "id": "ai-meeting-notes",
+    "title": "AI Meeting Notes and Follow-Up",
+    "level": "Beginner",
+    "description": "Turn fictional meeting notes into checked summaries, action items and a private follow-up while respecting consent and privacy.",
+    "badge": "AI",
+    "steps": ["Plan notice, permissions and privacy", "Create a source-linked meeting summary", "Track actions and unresolved decisions", "Verify and prepare a private follow-up"],
+    "goal": "ai-productivity"
   }
 ]
