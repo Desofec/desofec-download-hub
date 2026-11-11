@@ -669,5 +669,19 @@
  "Check the AI tool's current privacy settings yourself.": "Revisa tú mismo la configuración de privacidad actual de la herramienta de IA.",
  "Split the AI answer into one claim per line.": "Divide la respuesta de la IA en una afirmación por línea.",
  "Check each claim and citation against your sources; never invent one.": "Comprueba cada afirmación y cita con tus fuentes; nunca inventes ninguna.",
- "Correct or remove unsupported claims and keep practice approval BLOCKED.": "Corrige o elimina las afirmaciones sin respaldo y mantén BLOQUEADA la aprobación de la práctica."
+ "Correct or remove unsupported claims and keep practice approval BLOCKED.": "Corrige o elimina las afirmaciones sin respaldo y mantén BLOQUEADA la aprobación de la práctica.",
+ "Multilingual Work and Translation with AI": "Trabajo multilingüe y traducción con IA",
+ "Translate a fictional notice into Spanish, protect private information and check meaning, numbers and terminology with human review.": "Traduce un aviso ficticio al español, protege los datos privados y comprueba significado, cifras y términos con revisión humana.",
+ "Define the audience and source": "Definir el público y la fuente",
+ "Check permission and protect private information": "Comprobar permisos y proteger datos privados",
+ "Translate with a glossary and compare every segment": "Traducir con un glosario y comparar cada segmento",
+ "Correct changed facts and record an honest review": "Corregir datos modificados y registrar una revisión honesta",
+ "Multilingual Work and Translation Kit": "Kit de trabajo multilingüe y traducción",
+ "A translation brief, privacy checklist, glossary and source-by-source review for a fictional English-to-Spanish notice.": "Un brief, lista de privacidad, glosario y revisión por segmentos para un aviso ficticio traducido del inglés al español.",
+ "Define the audience, source language and target language.": "Define el público y los idiomas de origen y destino.",
+ "Check permission and remove private or confidential details.": "Comprueba los permisos y elimina los datos privados o confidenciales.",
+ "Preserve names, dates, times, time zones, numbers and key terms.": "Conserva nombres, fechas, horas, zonas horarias, números y términos clave.",
+ "Translate by source segment and compare the draft with the original.": "Traduce por segmento de origen y compara el borrador con el original.",
+ "Record uncertainty and get a competent human review for real work.": "Anota las dudas y pide una revisión humana competente para trabajos reales.",
+ "Keep fictional practice private and approval BLOCKED.": "Mantén privada la práctica ficticia y BLOQUEADA su aprobación."
 }

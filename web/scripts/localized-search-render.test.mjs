@@ -377,6 +377,29 @@ test('privacy lessons and downloadable kits render in all four languages', async
   }
 });
 
+test('multilingual lessons and matching kits render in all four languages', async () => {
+  for (const [language, prefix, title, kitLabel, fiction, blocked] of [
+    ['en', '', 'Translate and work across languages with AI', 'Open the multilingual work and translation kit', 'fictional notice', 'BLOCKED'],
+    ['fr', '/fr', 'Traduire et travailler entre les langues avec l’IA', 'Ouvrir le kit de travail multilingue et de traduction', 'annonce fictive', 'BLOQUÉE'],
+    ['de', '/de', 'Mehrsprachig arbeiten und mit KI übersetzen', 'Kit für mehrsprachige Arbeit und Übersetzung öffnen', 'fiktive Mitteilung', 'BLOCKIERT'],
+    ['es', '/es', 'Trabajar entre idiomas y traducir con IA', 'Abrir el kit de trabajo multilingüe y traducción', 'aviso ficticio', 'BLOQUEADA']
+  ]) {
+    const pathname = `${prefix}/tutorials/ai-multilingual-work`;
+    const { response, html } = await page(pathname);
+    assert.equal(response.status, 200, pathname);
+    const main = htmlText(renderedMain(html));
+    for (const text of [title, kitLabel, fiction, blocked, '2030-06-14', '2030-06-12', '14:00-15:00 UTC', '20 plazas']) {
+      assert.ok(main.includes(text), `${pathname}: ${text}`);
+    }
+    assert.match(main, /href="\/starter-packs\/ai-multilingual-work-kit"/);
+    const suffix = language === 'en' ? '' : `-${language}`;
+    const file = `ai-multilingual-work-kit${suffix}.md`;
+    const download = await page(`/downloads/${file}`);
+    assert.equal(download.response.status, 200, `${language}: kit download`);
+    assert.equal(download.html, await readFile(path.join(webDir, 'public', 'downloads', file), 'utf8'));
+  }
+});
+
 test('tool pages describe related paths and identify links that open a new tab', async () => {
   const details = await page('/tools/runway');
   assert.equal(details.response.status, 200);

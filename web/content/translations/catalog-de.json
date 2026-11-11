@@ -668,5 +668,19 @@
  "Check the AI tool's current privacy settings yourself.": "Prüfen Sie die aktuellen Datenschutzeinstellungen des KI-Tools selbst.",
  "Split the AI answer into one claim per line.": "Zerlegen Sie die KI-Antwort in eine Aussage pro Zeile.",
  "Check each claim and citation against your sources; never invent one.": "Prüfen Sie jede Aussage und jedes Zitat anhand Ihrer Quellen; erfinden Sie nie eines.",
- "Correct or remove unsupported claims and keep practice approval BLOCKED.": "Korrigieren oder entfernen Sie unbelegte Aussagen und lassen Sie die Übungsfreigabe BLOCKIERT."
+ "Correct or remove unsupported claims and keep practice approval BLOCKED.": "Korrigieren oder entfernen Sie unbelegte Aussagen und lassen Sie die Übungsfreigabe BLOCKIERT.",
+ "Multilingual Work and Translation with AI": "Mehrsprachige Arbeit und Übersetzung mit KI",
+ "Translate a fictional notice into Spanish, protect private information and check meaning, numbers and terminology with human review.": "Übersetzen Sie eine fiktive Mitteilung ins Spanische, schützen Sie private Angaben und prüfen Sie Bedeutung, Zahlen und Begriffe mit menschlicher Hilfe.",
+ "Define the audience and source": "Zielgruppe und Quelle festlegen",
+ "Check permission and protect private information": "Erlaubnis prüfen und private Angaben schützen",
+ "Translate with a glossary and compare every segment": "Mit Glossar übersetzen und jeden Abschnitt vergleichen",
+ "Correct changed facts and record an honest review": "Veränderte Fakten korrigieren und die Prüfung ehrlich festhalten",
+ "Multilingual Work and Translation Kit": "Kit für mehrsprachige Arbeit und Übersetzung",
+ "A translation brief, privacy checklist, glossary and source-by-source review for a fictional English-to-Spanish notice.": "Ein Übersetzungsbriefing, eine Datenschutzcheckliste, ein Glossar und ein Abschnittsvergleich für eine fiktive Englisch-Spanisch-Mitteilung.",
+ "Define the audience, source language and target language.": "Legen Sie Zielgruppe, Ausgangs- und Zielsprache fest.",
+ "Check permission and remove private or confidential details.": "Prüfen Sie die Erlaubnis und entfernen Sie private oder vertrauliche Angaben.",
+ "Preserve names, dates, times, time zones, numbers and key terms.": "Erhalten Sie Namen, Daten, Zeiten, Zeitzonen, Zahlen und Schlüsselbegriffe.",
+ "Translate by source segment and compare the draft with the original.": "Übersetzen Sie nach Quellabschnitt und vergleichen Sie den Entwurf mit dem Original.",
+ "Record uncertainty and get a competent human review for real work.": "Halten Sie Unsicherheiten fest und lassen Sie echte Arbeiten kompetent prüfen.",
+ "Keep fictional practice private and approval BLOCKED.": "Halten Sie die fiktive Übung privat und die Freigabe BLOCKIERT."
 }

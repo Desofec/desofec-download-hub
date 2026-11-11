@@ -3,6 +3,15 @@ import type { LanguageCode } from '@/lib/i18n';
 type SearchText = { title: string; description: string };
 
 const overrides: Record<string, Partial<Record<LanguageCode, Partial<SearchText>>>> = {
+  'ai-multilingual-work': {
+    en: { description: 'Translate a fictional notice from English to Spanish. Check meaning, privacy and facts in a private exercise.' },
+    fr: {
+      title: 'Traduire et travailler avec l’IA',
+      description: 'Traduisez une annonce fictive de l’anglais à l’espagnol. Vérifiez le sens, les données privées et les faits en privé.'
+    },
+    de: { description: 'Übersetze eine fiktive Mitteilung von Englisch nach Spanisch. Prüfe Bedeutung, Datenschutz und Fakten in einer privaten Übung.' },
+    es: { description: 'Traduce un aviso ficticio del inglés al español. Comprueba significado, privacidad y datos en un ejercicio privado.' }
+  },
   'ai-privacy-fact-checking': {
     en: { description: 'Redact private details before prompting and check AI claims against a source. Practise privately with a fictional library.' },
     fr: {

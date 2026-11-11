@@ -531,8 +531,9 @@ inspection. The proposal requires timeline and data handling as well as shared s
 All VIDEO plans start pending with empty actual evidence; a fictional owner approval stays blocked.
 Saved milestones indicate recorded work, not passing tests or permission to publish.
 
-**Deployment:** apply `0012_video_business_projects.sql` after `0011`, then the regenerated
-`supabase/seed.sql`, before deploying. Migration 0012 only extends the account RPC's accepted paths;
+**Deployment:** apply `0012_video_business_projects.sql` after `0011` where needed. For an existing
+database, use a reviewed, targeted catalog update rather than applying the generated seed wholesale.
+Migration 0012 only extends the account RPC's accepted paths;
 owner isolation, locking, quotas, document limits and compare-and-swap remain unchanged. Reload all
 app tabs after deployment; older app versions cannot read business-video projects. The six business-video
 lessons and downloadable kit are available in English, French, German and Spanish. Catalog, journey,
@@ -551,12 +552,12 @@ for Business path and its business-video kit.
 ### Download language routing and freshness
 
 Every starter-pack download button — catalog cards on the home, starter-pack, path,
-results and tool pages, plus the kit detail page — uses `StarterPackDownload`, so the eleven
+results and tool pages, plus the kit detail page — uses `StarterPackDownload`, so the twelve
 translated kits (`ai-content-services-kit`, `ai-automation-services-kit`,
 `ai-spreadsheets-kit`, `ai-commerce-services-kit`, `ai-video-business-kit`,
 `ai-video-creation-kit`, `content-creator-kit`, `ai-cad-services-kit`,
-`micro-saas-validation-kit`, `ai-education-services-kit` and
-`ai-privacy-fact-checking-kit`) download in the selected language. Other kits stay English and
+`micro-saas-validation-kit`, `ai-education-services-kit`,
+`ai-privacy-fact-checking-kit` and `ai-multilingual-work-kit`) download in the selected language. Other kits stay English and
 are labelled “(English)” on cards and “currently available in English only” on detail
 pages when another language is selected. The tools search matches both English and the
 translated text shown on cards, ignoring accents. The service worker fetches
@@ -585,6 +586,13 @@ and obtain production authorization before applying it in coordination with depl
 the hour-cached catalog afterward. Do not apply the generated seed wholesale to production.
 Opening the English version of a translated tutorial also selects English for linked kits;
 this does not change saved lesson progress.
+The Multilingual Work and Translation path (`/tutorials/ai-multilingual-work`) provides six lessons
+and a selected-language kit in English, French, German and Spanish. The shared exercise translates a
+fictional English workshop notice into Spanish, checks source segments and two deliberately changed
+facts, and records blocked approval and uncollected feedback. It does not claim certification or
+guaranteed accuracy. For an existing Supabase-backed deployment, review the targeted
+`supabase/catalog-updates/ai-multilingual-work.sql` and obtain authorization before applying it in
+coordination with deployment. Never apply the generated seed wholesale to an existing database.
 The translated kits are AI-assisted and still need native-speaker review. A learning path without its
 own tutorial states that limitation and links to tutorials for other paths sharing its
 goal, when available. Tool cards and comparison links identify both the tool and the

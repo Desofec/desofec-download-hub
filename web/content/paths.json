@@ -480,5 +480,14 @@
     "badge": "Research",
     "steps": ["Spot and redact private details before prompting", "Split AI answers into checkable claims", "Check each claim against a real source", "Correct claims and record an honest review"],
     "goal": "research-ai"
+  },
+  {
+    "id": "ai-multilingual-work",
+    "title": "Multilingual Work and Translation with AI",
+    "level": "Beginner",
+    "description": "Translate a fictional notice into Spanish, protect private information and check meaning, numbers and terminology with human review.",
+    "badge": "AI",
+    "steps": ["Define the audience and source", "Check permission and protect private information", "Translate with a glossary and compare every segment", "Correct changed facts and record an honest review"],
+    "goal": "ai-productivity"
   }
 ]
