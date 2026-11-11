@@ -352,6 +352,31 @@ test('content-creation lessons link to their kit in every language', async () =>
   }
 });
 
+test('privacy lessons and downloadable kits render in all four languages', async () => {
+  for (const [language, prefix, title, kitLabel, fiction, blocked] of [
+    ['en', '', 'Protect privacy and fact-check AI answers', 'Open the privacy and fact-checking kit', 'fictional library', 'BLOCKED'],
+    ['fr', '/fr', 'Protéger la vie privée et vérifier les réponses de l’IA', 'Ouvrir le kit confidentialité et vérification des faits', 'bibliothèque fictive', 'BLOQUÉE'],
+    ['de', '/de', 'Privatsphäre schützen und KI-Antworten prüfen', 'Kit für Datenschutz und Faktenprüfung öffnen', 'fiktiven Bibliothek', 'BLOCKIERT'],
+    ['es', '/es', 'Proteger la privacidad y verificar respuestas de IA', 'Abrir el kit de privacidad y verificación de datos', 'biblioteca ficticia', 'BLOQUEADA']
+  ]) {
+    const pathname = `${prefix}/tutorials/ai-privacy-fact-checking`;
+    const { response, html } = await page(pathname);
+    assert.equal(response.status, 200, pathname);
+    const main = htmlText(renderedMain(html));
+    for (const text of [title, kitLabel, fiction, blocked, 'C1', 'C5', 'S1', '1952']) {
+      assert.ok(main.includes(text), `${pathname}: ${text}`);
+    }
+    assert.match(main, /href="\/starter-packs\/ai-privacy-fact-checking-kit"/);
+
+    const suffix = language === 'en' ? '' : `-${language}`;
+    const file = `ai-privacy-fact-checking-kit${suffix}.md`;
+    const download = await page(`/downloads/${file}`);
+    assert.equal(download.response.status, 200, `${language}: kit download`);
+    assert.equal(download.html, await readFile(path.join(webDir, 'public', 'downloads', file), 'utf8'),
+      `${language}: served kit matches the localized worksheet`);
+  }
+});
+
 test('tool pages describe related paths and identify links that open a new tab', async () => {
   const details = await page('/tools/runway');
   assert.equal(details.response.status, 200);

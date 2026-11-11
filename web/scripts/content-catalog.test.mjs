@@ -41,7 +41,8 @@ test('practical AI paths have recommendations, kits and catalog translations', a
     { id: 'ai-content-services', goal: 'offer-content-services', kit: 'ai-content-services-kit', tools: ['canva'] },
     { id: 'ai-cad-services', goal: 'offer-cad-services', kit: 'ai-cad-services-kit', tools: ['fusion-360'] },
     { id: 'micro-saas-validation', goal: 'validate-micro-saas', kit: 'micro-saas-validation-kit', tools: ['vscode'] },
-    { id: 'ai-education-services', goal: 'offer-education-services', kit: 'ai-education-services-kit', tools: ['notebooklm'] }
+    { id: 'ai-education-services', goal: 'offer-education-services', kit: 'ai-education-services-kit', tools: ['notebooklm'] },
+    { id: 'ai-privacy-fact-checking', goal: 'research-ai', kit: 'ai-privacy-fact-checking-kit', tools: [] }
   ];
 
   for (const addition of additions) {
@@ -56,6 +57,10 @@ test('practical AI paths have recommendations, kits and catalog translations', a
     const checklist = catalog.starterPackChecklists[addition.kit];
     assert.ok(checklist.length >= 5);
     const strings = [learningPath.title, learningPath.description, ...learningPath.steps, pack.title, pack.description];
+    if (addition.id === 'ai-privacy-fact-checking') {
+      assert.equal(checklist.length, 6);
+      strings.push(...checklist);
+    }
     if (['scope-freelance-project', 'offer-content-services', 'offer-cad-services', 'validate-micro-saas', 'offer-education-services', 'create-business-videos'].includes(addition.goal)) {
       assert.equal(checklist.length, 5);
       strings.push(goal.name, goal.description, goal.badge, recommendation.title, recommendation.summary,
@@ -122,6 +127,29 @@ test('practical AI paths have recommendations, kits and catalog translations', a
       for (const text of strings) assert.ok(translations[text], `${locale}: missing "${text}"`);
     }
   }
+});
+
+test('privacy catalog update matches the source data and only inserts the intended rows', async () => {
+  const catalog = await readAndValidateCatalog(repoDir);
+  const learningPath = catalog.paths.find(({ id }) => id === 'ai-privacy-fact-checking');
+  const pack = catalog.starterPacks.find(({ id }) => id === 'ai-privacy-fact-checking-kit');
+  const update = await readFile(path.join(repoDir, 'supabase', 'catalog-updates', 'ai-privacy-fact-checking.sql'), 'utf8');
+  const sqlLiteral = (value) => `'${value.replaceAll("'", "''")}'`;
+  for (const value of [
+    learningPath.id, learningPath.title, learningPath.level, learningPath.description,
+    learningPath.badge, learningPath.goal, ...learningPath.steps,
+    pack.id, pack.title, pack.description, pack.level, pack.file
+  ]) {
+    assert.ok(update.includes(sqlLiteral(value)), `catalog update is missing ${value}`);
+  }
+  assert.ok(catalog.recommendations[learningPath.goal].starters.includes(pack.id));
+  assert.deepEqual([...update.matchAll(/\binsert\s+into\s+public\.([a-z_]+)/gi)].map((match) => match[1]), [
+    'starter_packs', 'paths', 'recommendation_starters'
+  ]);
+  assert.equal((update.match(/\bon conflict\s*\([^)]*\)\s*do nothing/gi) ?? []).length, 3);
+  assert.doesNotMatch(update, /\b(?:delete\s+from|truncate|update|alter\s+table|drop\s+table)\s+public\./i);
+  assert.match(update, /existing privacy kit differs/i);
+  assert.match(update, /existing privacy path differs/i);
 });
 
 test('business launchpad catalog, checklist and hub copy have complete translations', async () => {

@@ -579,8 +579,12 @@ lessons in English, French, German and Spanish. Learners redact four private det
 fictional library note, split an AI answer into claims, check each against a short source sheet
 and record SUPPORTED, CONTRADICTED, NEEDS SOURCE or CITATION NOT FOUND before correcting the
 answer. The review stays BLOCKED from sending or publishing, with results NOT COLLECTED; it is
-not legal advice. Its `ai-privacy-fact-checking-kit` follows the selected language. Production
-needs the regenerated `supabase/seed.sql` applied before the path and kit appear in the catalog.
+not legal advice. Its `ai-privacy-fact-checking-kit` follows the selected language. For an
+existing Supabase-backed deployment, review `supabase/catalog-updates/ai-privacy-fact-checking.sql`
+and obtain production authorization before applying it in coordination with deployment; refresh
+the hour-cached catalog afterward. Do not apply the generated seed wholesale to production.
+Opening the English version of a translated tutorial also selects English for linked kits;
+this does not change saved lesson progress.
 The translated kits are AI-assisted and still need native-speaker review. A learning path without its
 own tutorial states that limitation and links to tutorials for other paths sharing its
 goal, when available. Tool cards and comparison links identify both the tool and the

@@ -1,6 +1,8 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { test } from 'node:test';
+import { runInNewContext } from 'node:vm';
+import ts from 'typescript';
 import { loadWebModules } from './load-web-modules.mjs';
 
 const [localized, registry, translations, i18n, search] = loadWebModules([
@@ -221,17 +223,26 @@ test('privacy and fact-checking tutorial keeps stable progress, exact facts and 
   const paths = JSON.parse(await readFile(new URL('../content/paths.json', import.meta.url), 'utf8'));
   const path = paths.find(({ id }) => id === tutorial.pathId);
   assert.equal(path.goal, 'research-ai');
-  assert.equal(path.steps.length, 4);
+  assert.deepEqual(path.steps, [
+    'Spot and redact private details before prompting',
+    'Split AI answers into checkable claims',
+    'Check each claim against a real source',
+    'Correct claims and record an honest review'
+  ]);
 
   const words = {
     en: { fiction: /fictional/i, privateWord: 'PRIVATE', contradicted: 'CONTRADICTED', supported: 'SUPPORTED', needsSource: 'NEEDS SOURCE',
-      notFound: 'CITATION NOT FOUND', unverified: 'UNVERIFIED', blocked: 'BLOCKED', notCollected: 'NOT COLLECTED', noSend: /do not send or publish/i, legal: /not legal advice/i },
+      notFound: 'CITATION NOT FOUND', unverified: 'UNVERIFIED', blocked: 'BLOCKED', notCollected: 'NOT COLLECTED', noSend: /do not send or publish/i, legal: /not legal advice/i,
+      room: /room B/i, health: /medical appointment/i, placeholders: ['[PERSON A]', '[EMAIL]', '[PHONE]'] },
     fr: { fiction: /fictive/i, privateWord: 'PRIVÉ', contradicted: 'CONTREDITE', supported: 'CONFIRMÉE', needsSource: 'SOURCE REQUISE',
-      notFound: 'CITATION INTROUVABLE', unverified: 'NON VÉRIFIÉE', blocked: 'BLOQUÉE', notCollected: 'NON RECUEILLIS', noSend: /ne pas envoyer ni publier/i, legal: /avis juridique/i },
+      notFound: 'CITATION INTROUVABLE', unverified: 'NON VÉRIFIÉE', blocked: 'BLOQUÉE', notCollected: 'NON RECUEILLIS', noSend: /ne pas envoyer ni publier/i, legal: /avis juridique/i,
+      room: /salle B/i, health: /rendez-vous médical/i, placeholders: ['[PERSONNE A]', '[E-MAIL]', '[TÉLÉPHONE]'] },
     de: { fiction: /fiktiv/i, privateWord: 'PRIVAT', contradicted: 'WIDERLEGT', supported: 'BELEGT', needsSource: 'QUELLE FEHLT',
-      notFound: 'ZITAT NICHT GEFUNDEN', unverified: 'UNBESTÄTIGT', blocked: 'BLOCKIERT', notCollected: 'NICHT ERHOBEN', noSend: /nicht versenden oder veröffentlichen/i, legal: /keine Rechtsberatung/i },
+      notFound: 'ZITAT NICHT GEFUNDEN', unverified: 'UNBESTÄTIGT', blocked: 'BLOCKIERT', notCollected: 'NICHT ERHOBEN', noSend: /nicht versenden oder veröffentlichen/i, legal: /keine Rechtsberatung/i,
+      room: /raum B/i, health: /Arzttermin/i, placeholders: ['[PERSON A]', '[E-MAIL]', '[TELEFON]'] },
     es: { fiction: /ficticia/i, privateWord: 'PRIVADO', contradicted: 'CONTRADICHA', supported: 'RESPALDADA', needsSource: 'FALTA FUENTE',
-      notFound: 'CITA NO ENCONTRADA', unverified: 'NO VERIFICADA', blocked: 'BLOQUEADA', notCollected: 'NO RECOPILADOS', noSend: /no enviar ni publicar/i, legal: /asesoramiento jurídico/i }
+      notFound: 'CITA NO ENCONTRADA', unverified: 'NO VERIFICADA', blocked: 'BLOQUEADA', notCollected: 'NO RECOPILADOS', noSend: /no enviar ni publicar/i, legal: /asesoramiento jurídico/i,
+      room: /sala B/i, health: /cita médica/i, placeholders: ['[PERSONA A]', '[CORREO]', '[TELÉFONO]'] }
   };
   for (const [language, w] of Object.entries(words)) {
     const text = language === 'en'
@@ -259,14 +270,29 @@ test('privacy and fact-checking tutorial keeps stable progress, exact facts and 
     const redacted = text.steps['privacy-redact'].code.split('\n')[1];
     for (const secret of ['Alex Example', 'alex@example.test', '+00 0000 0000']) assert.ok(!redacted.includes(secret), `${language}: ${secret} redacted`);
     assert.ok(redacted.includes('2030-03-14') && redacted.includes('18:00'), `${language}: task facts kept`);
+    assert.match(redacted, w.room, `${language}: room kept`);
+    assert.doesNotMatch(redacted, w.health, `${language}: health detail removed`);
+    for (const placeholder of w.placeholders) assert.ok(redacted.includes(placeholder), `${language}: ${placeholder}`);
     assert.match(text.steps['privacy-redact'].code, /0 (?:of|sur|von|de) 4/);
 
     const claims = text.steps['claims-list'].code;
     for (const id of ['C1', 'C2', 'C3', 'C4', 'C5', 'S1', '50', '1952', 'City Library Report 2029']) assert.ok(claims.includes(id), `${language}: ${id}`);
+    for (const [id, fact] of [['C1', '7'], ['C2', '10:00-14:00'], ['C4', '50'], ['C5', '1952'], ['S1', 'City Library Report 2029']]) {
+      const line = claims.split('\n').find((entry) => entry.startsWith(`${id} `));
+      assert.ok(line?.includes(fact), `${language}: ${id} retains ${fact}`);
+    }
     const check = text.steps['claims-sources'].code;
     assert.equal(check.split(w.contradicted).length - 1, 2, `${language}: two contradicted`);
     assert.equal(check.split(w.supported).length - 1, 2, `${language}: two supported`);
     assert.equal(check.split(w.needsSource).length - 1, 1, `${language}: one needs source`);
+    for (const [id, verdict] of [
+      ['C1', w.contradicted], ['C2', w.supported], ['C3', w.supported],
+      ['C4', w.contradicted], ['C5', w.needsSource], ['S1', w.notFound]
+    ]) {
+      const line = check.split('\n').find((entry) => entry.startsWith(`${id} `));
+      assert.ok(line?.includes(verdict), `${language}: ${id} is ${verdict}`);
+    }
+    assert.ok(check.split('\n').find((entry) => entry.startsWith('C4 '))?.includes('12'), `${language}: C4 evidence is 12`);
     assert.ok(check.includes(w.notFound) && check.includes('09:00-18:00') && check.includes('10:00-14:00') && check.includes('12'), language);
     const corrected = text.steps['claims-verdicts'].code.split('\n\n')[0];
     assert.ok(corrected.includes('12') && !corrected.includes('50') && !corrected.includes('1952') && !corrected.includes('City Library Report'),
@@ -510,6 +536,63 @@ test('language selection cannot follow an unrelated cached tutorial', () => {
     ]),
     '/projects/ai-assisted-coding/build'
   );
+});
+
+test('English tutorial navigation remembers its language for linked kits', async () => {
+  const source = await readFile(new URL('../components/tutorial-language-nav.tsx', import.meta.url), 'utf8');
+  const output = ts.transpileModule(source, {
+    compilerOptions: {
+      module: ts.ModuleKind.CommonJS,
+      target: ts.ScriptTarget.ES2020,
+      jsx: ts.JsxEmit.ReactJSX,
+      esModuleInterop: true
+    }
+  }).outputText;
+  const testModule = { exports: {} };
+  let routeLanguage = 'en';
+  let savedLanguage = 'fr';
+  const calls = [];
+  const jsx = (type, props) => ({ type, props });
+  const imports = {
+    react: { useEffect: (effect) => effect() },
+    'react/jsx-runtime': { jsx, jsxs: jsx },
+    'next/link': { __esModule: true, default: 'a' },
+    '@/components/language': {
+      useLanguage: () => routeLanguage,
+      useT: () => (key) => key,
+      setLanguage: (language) => { savedLanguage = language; calls.push(language); }
+    }
+  };
+  runInNewContext(output, {
+    module: testModule, exports: testModule.exports,
+    require: (name) => {
+      assert.ok(name in imports, `unexpected import: ${name}`);
+      return imports[name];
+    }
+  });
+  const versions = [{ code: 'en', label: 'English', href: '/tutorials/example' },
+    { code: 'fr', label: 'Français', href: '/fr/tutorials/example' }];
+  const english = testModule.exports.TutorialLanguageNav({ versions });
+  assert.equal(savedLanguage, 'en');
+  assert.deepEqual(calls, ['en']);
+
+  routeLanguage = 'fr';
+  savedLanguage = 'fr';
+  calls.length = 0;
+  const french = testModule.exports.TutorialLanguageNav({ versions });
+  assert.equal(savedLanguage, 'fr', 'the French route is not overridden');
+  assert.deepEqual(calls, []);
+  for (const language of ['de', 'es']) {
+    routeLanguage = language;
+    savedLanguage = language;
+    testModule.exports.TutorialLanguageNav({ versions });
+    assert.equal(savedLanguage, language, `${language} is not overridden`);
+    assert.deepEqual(calls, []);
+  }
+  english.props.children[1][1].props.onClick();
+  assert.equal(savedLanguage, 'fr', 'language links still save the selected language');
+  french.props.children[1][0].props.onClick();
+  assert.equal(savedLanguage, 'en', 'switching back to English still saves the selection');
 });
 
 test('tutorial entry points use the shared language-aware link', async () => {
