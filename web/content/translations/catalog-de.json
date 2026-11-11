@@ -696,5 +696,11 @@
  "Link each summary and action to the source.": "Verknüpfen Sie jede Zusammenfassung und Aufgabe mit der Quelle.",
  "Keep proposed owners, dates and decisions unconfirmed until agreed.": "Halten Sie vorgeschlagene Zuständigkeiten, Daten und Entscheidungen bis zur Einigung unbestätigt.",
  "Correct the room, budget and meeting errors against the source.": "Korrigieren Sie Fehler zu Raum, Budget und Treffen anhand der Quelle.",
- "Keep practice approval BLOCKED and delivery NOT SENT.": "Halten Sie die Übungsfreigabe BLOCKED (blockiert) und die Zustellung NOT SENT (nicht gesendet)."
+ "Keep practice approval BLOCKED and delivery NOT SENT.": "Halten Sie die Übungsfreigabe BLOCKED (blockiert) und die Zustellung NOT SENT (nicht gesendet).",
+ "Write the goal, trigger, steps, reviewer and stop rules before building.": "Notiere vor dem Bau Ziel, Auslöser, Schritte, prüfende Person und Abbruchregeln.",
+ "Decide which steps change something and require human approval.": "Entscheide, welche Schritte etwas verändern und menschliche Freigabe erfordern.",
+ "Test with sample data and a test account before connecting real ones.": "Teste mit Beispieldaten und einem Testkonto, bevor du echte Konten verbindest.",
+ "Give least access, set run or spending limits and know how to switch it off.": "Vergib minimale Zugriffe, setze Ausführungs- oder Ausgabengrenzen und kenne den Abschalter.",
+ "Treat text from emails and web pages as data, never as instructions.": "Behandle Texte aus E-Mails und Webseiten als Daten, niemals als Anweisungen.",
+ "Review runs, corrections and time saved after a week.": "Prüfe nach einer Woche Ausführungen, Korrekturen und tatsächlich eingesparte Zeit."
 }

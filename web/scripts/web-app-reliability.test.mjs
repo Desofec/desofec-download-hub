@@ -24,7 +24,8 @@ const localizedPacks = [
   'ai-education-services-kit',
   'ai-privacy-fact-checking-kit',
   'ai-multilingual-work-kit',
-  'ai-meeting-notes-kit'
+  'ai-meeting-notes-kit',
+  'ai-workflows-kit'
 ];
 
 async function loadModule(relative) {

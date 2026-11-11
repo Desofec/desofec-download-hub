@@ -424,6 +424,31 @@ test('meeting-notes lessons and matching kits render in all four languages', asy
   }
 });
 
+test('workflow lessons and matching kits render in all four languages', async () => {
+  for (const [language, prefix, title, kitLabel, fiction] of [
+    ['en', '', 'Build AI workflows and simple agents safely', 'Open the workflows and agents kit', 'fictional'],
+    ['fr', '/fr', 'Créer des workflows et agents IA en sécurité', 'Ouvrir le kit workflows et agents', 'fictif'],
+    ['de', '/de', 'KI-Workflows und Agenten sicher erstellen', 'Kit für Workflows und Agenten öffnen', 'fiktiv'],
+    ['es', '/es', 'Crear flujos y agentes de IA de forma segura', 'Abrir el kit de flujos y agentes', 'ficticio']
+  ]) {
+    const pathname = `${prefix}/tutorials/ai-workflows-agents`;
+    const { response, html } = await page(pathname);
+    assert.equal(response.status, 200, pathname);
+    const main = htmlText(renderedMain(html));
+    for (const text of [title, kitLabel, fiction, '2030-07-18', 'DUPLICATE', 'INVALID', 'CONFLICT',
+      'NOT RUN', 'BLOCKED', 'NOT SENT', 'read_fixture', 'draft_note', 'send_message']) {
+      assert.ok(main.includes(text), `${pathname}: ${text}`);
+    }
+    assert.match(main, /href="\/starter-packs\/ai-workflows-kit"/);
+    assert.equal([...main.matchAll(/class="step-check"/g)].length, 6, `${pathname}: six progress controls`);
+    const suffix = language === 'en' ? '' : `-${language}`;
+    const file = `ai-workflows-kit${suffix}.md`;
+    const download = await page(`/downloads/${file}`);
+    assert.equal(download.response.status, 200, `${language}: kit download`);
+    assert.equal(download.html, await readFile(path.join(webDir, 'public', 'downloads', file), 'utf8'));
+  }
+});
+
 test('tool pages describe related paths and identify links that open a new tab', async () => {
   const details = await page('/tools/runway');
   assert.equal(details.response.status, 200);

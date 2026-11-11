@@ -552,12 +552,13 @@ for Business path and its business-video kit.
 ### Download language routing and freshness
 
 Every starter-pack download button — catalog cards on the home, starter-pack, path,
-results and tool pages, plus the kit detail page — uses `StarterPackDownload`, so the thirteen
+results and tool pages, plus the kit detail page — uses `StarterPackDownload`, so the fourteen
 translated kits (`ai-content-services-kit`, `ai-automation-services-kit`,
 `ai-spreadsheets-kit`, `ai-commerce-services-kit`, `ai-video-business-kit`,
 `ai-video-creation-kit`, `content-creator-kit`, `ai-cad-services-kit`,
 `micro-saas-validation-kit`, `ai-education-services-kit`,
-`ai-privacy-fact-checking-kit`, `ai-multilingual-work-kit` and `ai-meeting-notes-kit`) download in the selected language. Other kits stay English and
+`ai-privacy-fact-checking-kit`, `ai-multilingual-work-kit`, `ai-meeting-notes-kit` and
+`ai-workflows-kit`) download in the selected language. Other kits stay English and
 are labelled “(English)” on cards and “currently available in English only” on detail
 pages when another language is selected. The tools search matches both English and the
 translated text shown on cards, ignoring accents. The service worker fetches
@@ -601,6 +602,16 @@ Before sharing real meeting information, learners must check applicable rules an
 data handling and costs. For an existing Supabase-backed deployment, review the targeted
 `supabase/catalog-updates/ai-meeting-notes.sql` and obtain authorization before applying it in
 coordination with deployment. Do not apply the generated seed wholesale to an existing database.
+The existing AI Workflows and Agents tutorial (`/tutorials/ai-workflows-agents`) and
+its selected-language kit now provide six lessons in English, French, German and Spanish.
+The fictional, private exercise distinguishes expected results from actual tests and preserves
+the original tutorial and path progress IDs. Its optional JavaScript demonstrations use no AI and make
+no network calls: the batch example handles five fixed inputs with temporary in-memory state, and the agent
+simulation limits steps and blocks a non-allow-listed send. Neither is production automation:
+real systems require durable, atomic idempotency, separately enforced permissions and limits, and
+human approval checked for the exact external action and recipient. The exercise remains
+BLOCKED for approval and NOT SENT. The existing kit checklist and catalog records are unchanged;
+no production catalog update is required for this improvement.
 The translated kits are AI-assisted and still need native-speaker review. A learning path without its
 own tutorial states that limitation and links to tutorials for other paths sharing its
 goal, when available. Tool cards and comparison links identify both the tool and the

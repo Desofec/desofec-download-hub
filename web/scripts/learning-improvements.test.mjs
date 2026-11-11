@@ -47,9 +47,10 @@ const translationImports = {
   ...Object.fromEntries(['coding', 'ml-design', 'task-tracker', 'web-nocode', 'practical-fr',
     'practical-de', 'practical-es', 'content-services', 'automation-services',
     'commerce-services', 'cad-services', 'micro-saas', 'education-services',
-    'video-business', 'content-creation', 'privacy-fact-checking', 'multilingual-work', 'meeting-notes'].map(name =>
+    'video-business', 'content-creation', 'privacy-fact-checking', 'multilingual-work', 'meeting-notes', 'workflows-agents'].map(name =>
     [`@/lib/translations/${name}`, `../lib/translations/${name}.ts`])),
   '@/lib/ai-meeting-notes-tutorial': '../lib/ai-meeting-notes-tutorial.ts',
+  '@/lib/ai-workflows-tutorial': '../lib/ai-workflows-tutorial.ts',
   '@/lib/search-visibility-tutorial': '../lib/search-visibility-tutorial.ts'
 };
 
@@ -69,7 +70,8 @@ test('only translated starter kits resolve to localized static downloads', async
       'ai-education-services-kit',
       'ai-privacy-fact-checking-kit',
       'ai-multilingual-work-kit',
-      'ai-meeting-notes-kit'
+      'ai-meeting-notes-kit',
+      'ai-workflows-kit'
     ]) {
       const file = `downloads/${kit}.md`;
       const expected = locale === 'en' ? file : `downloads/${kit}-${locale}.md`;

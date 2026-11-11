@@ -17,6 +17,7 @@ import { contentCreationTranslations } from '@/lib/translations/content-creation
 import { privacyFactCheckingTranslations } from '@/lib/translations/privacy-fact-checking';
 import { multilingualWorkTranslations } from '@/lib/translations/multilingual-work';
 import { meetingNotesTranslations } from '@/lib/translations/meeting-notes';
+import { workflowsAgentsTranslations } from '@/lib/translations/workflows-agents';
 import { searchVisibilityResources } from '@/lib/search-visibility-tutorial';
 
 const { googleProperty, googleSitemap, googleRecrawl, bingGettingStarted } = searchVisibilityResources;
@@ -490,6 +491,7 @@ export const tutorialTranslations: Record<string, Partial<Record<Exclude<Languag
   ...privacyFactCheckingTranslations,
   ...multilingualWorkTranslations,
   ...meetingNotesTranslations,
+  ...workflowsAgentsTranslations,
   ...baseTranslations,
   ...taskTrackerTranslations,
   ...codingTranslations,
