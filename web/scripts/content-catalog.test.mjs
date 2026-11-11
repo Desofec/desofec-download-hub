@@ -43,7 +43,8 @@ test('practical AI paths have recommendations, kits and catalog translations', a
     { id: 'micro-saas-validation', goal: 'validate-micro-saas', kit: 'micro-saas-validation-kit', tools: ['vscode'] },
     { id: 'ai-education-services', goal: 'offer-education-services', kit: 'ai-education-services-kit', tools: ['notebooklm'] },
     { id: 'ai-privacy-fact-checking', goal: 'research-ai', kit: 'ai-privacy-fact-checking-kit', tools: [] },
-    { id: 'ai-multilingual-work', goal: 'ai-productivity', kit: 'ai-multilingual-work-kit', tools: [] }
+    { id: 'ai-multilingual-work', goal: 'ai-productivity', kit: 'ai-multilingual-work-kit', tools: [] },
+    { id: 'ai-meeting-notes', goal: 'ai-productivity', kit: 'ai-meeting-notes-kit', tools: [] }
   ];
 
   for (const addition of additions) {
@@ -58,7 +59,7 @@ test('practical AI paths have recommendations, kits and catalog translations', a
     const checklist = catalog.starterPackChecklists[addition.kit];
     assert.ok(checklist.length >= 5);
     const strings = [learningPath.title, learningPath.description, ...learningPath.steps, pack.title, pack.description];
-    if (['ai-privacy-fact-checking', 'ai-multilingual-work'].includes(addition.id)) {
+    if (['ai-privacy-fact-checking', 'ai-multilingual-work', 'ai-meeting-notes'].includes(addition.id)) {
       assert.equal(checklist.length, 6);
       strings.push(...checklist);
     }
@@ -133,7 +134,11 @@ test('practical AI paths have recommendations, kits and catalog translations', a
 test('new learning catalog updates match the source data and only insert the intended rows', async () => {
   const catalog = await readAndValidateCatalog(repoDir);
   const sqlLiteral = (value) => `'${value.replaceAll("'", "''")}'`;
-  for (const [id, label] of [['ai-privacy-fact-checking', 'privacy'], ['ai-multilingual-work', 'multilingual']]) {
+  for (const [id, label] of [
+    ['ai-privacy-fact-checking', 'privacy'],
+    ['ai-multilingual-work', 'multilingual'],
+    ['ai-meeting-notes', 'meeting notes']
+  ]) {
     const learningPath = catalog.paths.find((entry) => entry.id === id);
     const pack = catalog.starterPacks.find((entry) => entry.id === `${id}-kit`);
     const update = await readFile(path.join(repoDir, 'supabase', 'catalog-updates', `${id}.sql`), 'utf8');

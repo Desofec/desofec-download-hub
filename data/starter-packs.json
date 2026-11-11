@@ -229,5 +229,12 @@
     "description": "A translation brief, privacy checklist, glossary and source-by-source review for a fictional English-to-Spanish notice.",
     "level": "Beginner",
     "file": "downloads/ai-multilingual-work-kit.md"
+  },
+  {
+    "id": "ai-meeting-notes-kit",
+    "title": "AI Meeting Notes and Follow-Up Kit",
+    "description": "A privacy plan, fictional source notes, action register and private follow-up with source checks.",
+    "level": "Beginner",
+    "file": "downloads/ai-meeting-notes-kit.md"
   }
 ]

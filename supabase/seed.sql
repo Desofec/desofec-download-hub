@@ -114,7 +114,8 @@ insert into public.starter_packs (id, title, description, level, file_path, posi
   ('freelance-client-discovery-kit', 'Freelance Client Discovery & Project Scoping Kit', 'Neutral discovery questions, a project-fit checklist, bounded scope and proposed change worksheets for fictional practice.', 'Beginner', 'downloads/freelance-client-discovery-kit.md', 29),
   ('ai-commerce-services-kit', 'AI-Powered Commerce and Logistics Kit', 'Three fictional practice tracks for online retail, marketplace operations and logistics, with AI prompts, checked results and handover worksheets.', 'Beginner', 'downloads/ai-commerce-services-kit.md', 30),
   ('ai-privacy-fact-checking-kit', 'AI Privacy and Fact-Checking Kit', 'A redaction checklist, claim-check worksheet and safe prompts for protecting private details and verifying AI answers against real sources.', 'Beginner', 'downloads/ai-privacy-fact-checking-kit.md', 31),
-  ('ai-multilingual-work-kit', 'Multilingual Work and Translation Kit', 'A translation brief, privacy checklist, glossary and source-by-source review for a fictional English-to-Spanish notice.', 'Beginner', 'downloads/ai-multilingual-work-kit.md', 32)
+  ('ai-multilingual-work-kit', 'Multilingual Work and Translation Kit', 'A translation brief, privacy checklist, glossary and source-by-source review for a fictional English-to-Spanish notice.', 'Beginner', 'downloads/ai-multilingual-work-kit.md', 32),
+  ('ai-meeting-notes-kit', 'AI Meeting Notes and Follow-Up Kit', 'A privacy plan, fictional source notes, action register and private follow-up with source checks.', 'Beginner', 'downloads/ai-meeting-notes-kit.md', 33)
 on conflict (id) do update set title = excluded.title, description = excluded.description, level = excluded.level, file_path = excluded.file_path, position = excluded.position;
 
 insert into public.paths (id, title, level, description, badge, goal_id, steps, position) values
@@ -154,7 +155,8 @@ insert into public.paths (id, title, level, description, badge, goal_id, steps, 
   ('ai-marketplace-model', 'AI-Powered Marketplace Business Model', 'Beginner', 'Prototype a multi-vendor marketplace with seller checklists, AI-assisted catalog review, commission reconciliation and human-moderated support.', 'Business', 'build-ai-commerce', array['Define operator, seller and buyer responsibilities', 'Plan seller onboarding and platform checks', 'Review catalog facts and matching', 'Reconcile orders, refunds and commission', 'Prepare moderated support and prototype handover']::text[], 33),
   ('ai-logistics-services', 'AI-Powered Logistics Services', 'Beginner', 'Practise receiving, inventory reservations, dispatch and returns records, and AI-assisted exception reports without live shipments.', 'Business', 'build-ai-commerce', array['Define logistics scope and custody', 'Reconcile receiving and usable stock', 'Simulate picking and stock reservations', 'Review dispatch evidence and returns', 'Check service costs and handover']::text[], 34),
   ('ai-privacy-fact-checking', 'AI Privacy and Fact-Checking', 'Beginner', 'Keep private details out of AI prompts and check every AI claim against real sources before you share or rely on it.', 'Research', 'research-ai', array['Spot and redact private details before prompting', 'Split AI answers into checkable claims', 'Check each claim against a real source', 'Correct claims and record an honest review']::text[], 35),
-  ('ai-multilingual-work', 'Multilingual Work and Translation with AI', 'Beginner', 'Translate a fictional notice into Spanish, protect private information and check meaning, numbers and terminology with human review.', 'AI', 'ai-productivity', array['Define the audience and source', 'Check permission and protect private information', 'Translate with a glossary and compare every segment', 'Correct changed facts and record an honest review']::text[], 36)
+  ('ai-multilingual-work', 'Multilingual Work and Translation with AI', 'Beginner', 'Translate a fictional notice into Spanish, protect private information and check meaning, numbers and terminology with human review.', 'AI', 'ai-productivity', array['Define the audience and source', 'Check permission and protect private information', 'Translate with a glossary and compare every segment', 'Correct changed facts and record an honest review']::text[], 36),
+  ('ai-meeting-notes', 'AI Meeting Notes and Follow-Up', 'Beginner', 'Turn fictional meeting notes into checked summaries, action items and a private follow-up while respecting consent and privacy.', 'AI', 'ai-productivity', array['Plan notice, permissions and privacy', 'Create a source-linked meeting summary', 'Track actions and unresolved decisions', 'Verify and prepare a private follow-up']::text[], 37)
 on conflict (id) do update set title = excluded.title, level = excluded.level, description = excluded.description, badge = excluded.badge, goal_id = excluded.goal_id, steps = excluded.steps, position = excluded.position;
 
 insert into public.recommendations (goal_id, title, summary, steps) values
@@ -350,6 +352,7 @@ insert into public.recommendation_starters (goal_id, pack_id, position) values
   ('ai-productivity', 'ai-prompt-pack', 1),
   ('ai-productivity', 'ai-workflows-kit', 2),
   ('ai-productivity', 'ai-multilingual-work-kit', 3),
+  ('ai-productivity', 'ai-meeting-notes-kit', 4),
   ('create-content', 'content-creator-kit', 0),
   ('create-content', 'ai-prompt-pack', 1),
   ('create-content', 'ai-video-creation-kit', 2),

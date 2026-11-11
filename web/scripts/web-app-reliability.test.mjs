@@ -23,7 +23,8 @@ const localizedPacks = [
   'micro-saas-validation-kit',
   'ai-education-services-kit',
   'ai-privacy-fact-checking-kit',
-  'ai-multilingual-work-kit'
+  'ai-multilingual-work-kit',
+  'ai-meeting-notes-kit'
 ];
 
 async function loadModule(relative) {

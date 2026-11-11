@@ -400,6 +400,30 @@ test('multilingual lessons and matching kits render in all four languages', asyn
   }
 });
 
+test('meeting-notes lessons and matching kits render in all four languages', async () => {
+  for (const [language, prefix, title, kitLabel, fiction] of [
+    ['en', '', 'Meeting notes and follow-up with AI', 'Open the meeting notes and follow-up kit', 'fictional'],
+    ['fr', '/fr', 'Notes de réunion et suivi avec l’IA', 'Ouvrir le kit de notes de réunion et de suivi', 'fictif'],
+    ['de', '/de', 'Besprechungsnotizen und Nachbereitung mit KI', 'Kit für Besprechungsnotizen und Nachbereitung öffnen', 'fiktiv'],
+    ['es', '/es', 'Notas de reuniones y seguimiento con IA', 'Abrir el kit de notas de reuniones y seguimiento', 'ficticio']
+  ]) {
+    const pathname = `${prefix}/tutorials/ai-meeting-notes`;
+    const { response, html } = await page(pathname);
+    assert.equal(response.status, 200, pathname);
+    const main = htmlText(renderedMain(html));
+    for (const text of [title, kitLabel, fiction, '2030-07-18', '2030-07-04', '2030-07-02',
+      '2030-07-03', '2030-07-06', '10:00 UTC', 'UNCONFIRMED', 'NOT APPROVED', 'PROPOSED', 'BLOCKED', 'NOT SENT']) {
+      assert.ok(main.includes(text), `${pathname}: ${text}`);
+    }
+    assert.match(main, /href="\/starter-packs\/ai-meeting-notes-kit"/);
+    const suffix = language === 'en' ? '' : `-${language}`;
+    const file = `ai-meeting-notes-kit${suffix}.md`;
+    const download = await page(`/downloads/${file}`);
+    assert.equal(download.response.status, 200, `${language}: kit download`);
+    assert.equal(download.html, await readFile(path.join(webDir, 'public', 'downloads', file), 'utf8'));
+  }
+});
+
 test('tool pages describe related paths and identify links that open a new tab', async () => {
   const details = await page('/tools/runway');
   assert.equal(details.response.status, 200);

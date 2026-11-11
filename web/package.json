@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test:content": "node --test scripts/content-catalog.test.mjs scripts/learning-improvements.test.mjs scripts/ai-digests.test.mjs scripts/feedback-guide.test.mjs scripts/search-visibility.test.mjs scripts/localized-search.test.mjs scripts/multilingual-work.test.mjs scripts/commerce-services.test.mjs scripts/commerce-tools.test.mjs scripts/commerce-practice.test.mjs scripts/video-business-localization.test.mjs scripts/video-creation-kit-localization.test.mjs scripts/service-kit-localization.test.mjs scripts/web-app-reliability.test.mjs scripts/service-worker.test.mjs",
+    "test:content": "node --test scripts/content-catalog.test.mjs scripts/learning-improvements.test.mjs scripts/ai-digests.test.mjs scripts/feedback-guide.test.mjs scripts/search-visibility.test.mjs scripts/localized-search.test.mjs scripts/multilingual-work.test.mjs scripts/meeting-notes.test.mjs scripts/commerce-services.test.mjs scripts/commerce-tools.test.mjs scripts/commerce-practice.test.mjs scripts/video-business-localization.test.mjs scripts/video-creation-kit-localization.test.mjs scripts/service-kit-localization.test.mjs scripts/web-app-reliability.test.mjs scripts/service-worker.test.mjs",
     "test:search-render": "node --test scripts/localized-search-render.test.mjs",
     "validate-content": "node scripts/validate-content.mjs",
     "sync-content": "node scripts/sync-content.mjs"

@@ -258,5 +258,13 @@
     "Translate by source segment and compare the draft with the original.",
     "Record uncertainty and get a competent human review for real work.",
     "Keep fictional practice private and approval BLOCKED."
+  ],
+  "ai-meeting-notes-kit": [
+    "Inform participants and check permission before any real recording or AI transcription.",
+    "Use fictional or approved, minimal information and restrict access.",
+    "Link each summary and action to the source.",
+    "Keep proposed owners, dates and decisions unconfirmed until agreed.",
+    "Correct the room, budget and meeting errors against the source.",
+    "Keep practice approval BLOCKED and delivery NOT SENT."
   ]
 }

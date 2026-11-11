@@ -11,7 +11,7 @@ export const tutorialTopics = [
 export type TutorialTopic = typeof tutorialTopics[number]['id'];
 
 const topicTutorials: Record<TutorialTopic, readonly string[]> = {
-  ai: ['ai-beginner', 'ai-productivity', 'research-with-ai', 'ml-foundations', 'ai-workflows-agents', 'content-creation', 'ai-privacy-fact-checking', 'ai-multilingual-work'],
+  ai: ['ai-beginner', 'ai-productivity', 'research-with-ai', 'ml-foundations', 'ai-workflows-agents', 'content-creation', 'ai-privacy-fact-checking', 'ai-multilingual-work', 'ai-meeting-notes'],
   coding: ['first-app', 'coding-foundations', 'ai-assisted-coding', 'advanced-web-dev-ai',
     'ai-website-builder', 'web-starter', 'first-website-challenge', 'search-visibility', 'micro-saas-validation'],
   automation: ['no-code-automation', 'no-code-builder', 'advanced-no-code-automation',
