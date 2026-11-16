@@ -1620,6 +1620,15 @@ h3 {
   outline-offset: 3px;
 }
 
+.complaint-practice .path-card p + p {
+  margin-top: 0.75rem;
+}
+
+.complaint-practice .path-card a {
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
 .proposal-number-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
