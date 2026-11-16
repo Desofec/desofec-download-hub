@@ -6,7 +6,8 @@ const privateRoutes = [
   '/business-launchpad/results-tracker', '/business-launchpad/client-discovery',
   '/business-launchpad/case-study-builder', '/business-launchpad/evidence-workbook',
   '/business-launchpad/review-centre', '/business-launchpad/commerce-pilot-planner',
-  '/business-launchpad/commerce-pilot-review', '/business-launchpad/commerce-readiness'
+  '/business-launchpad/commerce-pilot-review', '/business-launchpad/commerce-readiness',
+  '/business-launchpad/complaint-case-pack'
 ];
 
 export function redactAnalyticsEvent(event: BeforeSendEvent): BeforeSendEvent | null {

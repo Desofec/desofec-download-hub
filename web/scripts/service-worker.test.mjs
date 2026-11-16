@@ -78,6 +78,23 @@ function worker() {
   };
 }
 
+test('fictional complaint practice navigations are not cached or replayed offline', async () => {
+  const app = worker();
+  const cache = await app.caches.open('desofec-studio-v1');
+  const path = '/business-launchpad/complaint-case-pack?example=1';
+  await cache.put('/offline.html', response('offline page'));
+  let cacheMode;
+  app.setNetwork(async (_request, options) => {
+    cacheMode = options.cache;
+    return response('practice page');
+  });
+  assert.equal(await (await app.fetchEvent(path, 'navigate')).text(), 'practice page');
+  assert.equal(cacheMode, 'no-store');
+  assert.equal(await cache.match(path), undefined);
+  app.setNetwork(async () => { throw new Error('Offline'); });
+  assert.equal(await (await app.fetchEvent(path, 'navigate')).text(), 'offline page');
+});
+
 test('download requests revalidate online, then use the refreshed copy offline', async () => {
   const app = worker();
   const cache = await app.caches.open('desofec-studio-v1');

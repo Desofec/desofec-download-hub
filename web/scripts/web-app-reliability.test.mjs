@@ -582,7 +582,8 @@ test('analytics excludes private routes including nested and encoded paths', () 
     '/business-launchpad/results-tracker', '/business-launchpad/client-discovery',
     '/business-launchpad/case-study-builder', '/business-launchpad/evidence-workbook',
     '/business-launchpad/review-centre', '/business-launchpad/commerce-pilot-planner',
-    '/business-launchpad/commerce-pilot-review', '/business-launchpad/commerce-readiness'
+    '/business-launchpad/commerce-pilot-review', '/business-launchpad/commerce-readiness',
+    '/business-launchpad/complaint-case-pack'
   ]) {
     for (const suffix of ['', '/private-id', '?token=private#invite']) {
       assert.equal(redactAnalyticsEvent({ type: 'pageview', url: `https://www.desofec.com${route}${suffix}` }), null, `${route}${suffix}`);

@@ -47,6 +47,7 @@ export default async function BusinessLaunchpadPage() {
           <div className="cta-row">
             <Link className="btn btn-primary" href="/start-here"><Tr>Start here</Tr></Link>
             <a className="btn btn-secondary" href="#launchpad-services"><Tr>Choose a service learning path</Tr></a>
+            <Link className="btn btn-secondary" href="/business-launchpad/complaint-case-pack"><Tr>Try the fictional complaint case-pack</Tr></Link>
             <Link className="btn btn-secondary" href="/business-launchpad/projects"><Tr>Open existing projects</Tr></Link>
           </div>
           <details className="more-options">

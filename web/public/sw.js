@@ -39,6 +39,14 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
+  if (request.mode === 'navigate' && /^\/business-launchpad\/complaint-case-pack(?:\/|$)/.test(url.pathname)) {
+    event.respondWith(
+      fetch(request, { cache: 'no-store' })
+        .catch(async () => (await caches.match(OFFLINE_URL)) || Response.error())
+    );
+    return;
+  }
+
   if (request.mode === 'navigate') {
     event.respondWith(
       fetch(request)
