@@ -10,7 +10,7 @@ const repoDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../.
 
 test('production metadata, crawler discovery and newsletter defaults use the www origin', async () => {
   const files = {
-    'app/layout.tsx': 5,
+    'app/layout.tsx': 7,
     'app/robots.ts': 1,
     'app/sitemap.ts': 1,
     'app/business-launchpad/automation-lab/page.tsx': 1,

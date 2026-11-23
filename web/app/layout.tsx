@@ -39,13 +39,17 @@ const jsonLd = {
       '@id': 'https://www.desofec.com/#website',
       url: 'https://www.desofec.com',
       name: 'Desofec AI Studio',
+      alternateName: ['Desofec', 'desofec.com'],
       description: 'Beginner-friendly AI tools, learning paths, tutorials and starter packs.',
-      inLanguage: ['en', 'fr', 'de', 'es']
+      inLanguage: ['en', 'fr', 'de', 'es'],
+      publisher: { '@id': 'https://www.desofec.com/#org' }
     },
     {
       '@type': 'Organization',
       '@id': 'https://www.desofec.com/#org',
       name: 'Desofec AI Studio',
+      alternateName: 'Desofec',
+      logo: 'https://www.desofec.com/icon-512.png',
       url: 'https://www.desofec.com'
     }
   ]
