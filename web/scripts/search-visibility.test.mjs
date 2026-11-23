@@ -130,6 +130,30 @@ test('homepage displays learning paths rather than the separate goal count', asy
   assert.ok(paths.length > goals.length, 'learning paths and goals are distinct counts');
 });
 
+test('root structured data identifies the website and its organization', async () => {
+  const layout = await readFile(new URL('../app/layout.tsx', import.meta.url), 'utf8');
+  const file = ts.createSourceFile('layout.tsx', layout, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
+  const declaration = file.statements
+    .filter(ts.isVariableStatement)
+    .flatMap((statement) => statement.declarationList.declarations)
+    .find((item) => item.name.getText(file) === 'jsonLd');
+  assert.ok(declaration?.initializer, 'root JSON-LD is present');
+  const output = ts.transpileModule(`export default ${declaration.initializer.getText(file)};`, {
+    compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2020 }
+  }).outputText;
+  const { default: jsonLd } = await import(`data:text/javascript;base64,${Buffer.from(output).toString('base64')}`);
+  const graph = JSON.parse(JSON.stringify(jsonLd))['@graph'];
+  const website = graph.find((item) => item['@type'] === 'WebSite');
+  const organization = graph.find((item) => item['@type'] === 'Organization');
+  assert.equal(website.name, 'Desofec AI Studio');
+  assert.deepEqual(website.alternateName, ['Desofec', 'desofec.com']);
+  assert.deepEqual(website.publisher, { '@id': 'https://www.desofec.com/#org' });
+  assert.equal(organization['@id'], website.publisher['@id']);
+  assert.equal(organization.alternateName, 'Desofec');
+  assert.equal(organization.logo, 'https://www.desofec.com/icon-512.png');
+  assert.match(layout, /type="application\/ld\+json" dangerouslySetInnerHTML=\{\{ __html: JSON\.stringify\(jsonLd\) \}\}/);
+});
+
 test('SEO metadata uses page-specific canonical and social URLs instead of inheriting the homepage URL', async () => {
   const layout = await readFile(new URL('../app/layout.tsx', import.meta.url), 'utf8');
   assert.doesNotMatch(layout, /alternates:\s*\{\s*canonical:/, 'a root canonical would be inherited by child routes');
