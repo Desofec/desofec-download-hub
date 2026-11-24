@@ -298,6 +298,27 @@ test('workflow path renders its search and social metadata without changing othe
   }
 });
 
+test('workflow path introduces the choice and puts tutorial and kit before the steps', async () => {
+  const { response, html } = await page('/paths/ai-workflows-agents');
+  assert.equal(response.status, 200);
+  const main = renderedMain(html);
+  const text = htmlText(main.replace(/<[^>]*>/g, ''));
+  assert.match(text, /Category: Advanced/);
+  assert.match(text, /Skill level: Intermediate/);
+  assert.match(text, /A workflow follows steps chosen in advance\./);
+  assert.match(text, /An agent can choose its next step or tool/);
+  assert.match(text, /testing a private draft with fictional data/);
+  const steps = main.indexOf('Your learning steps');
+  const tutorial = main.indexOf('href="/tutorials/ai-workflows-agents"');
+  const kit = main.indexOf('href="/starter-packs/ai-workflows-kit"');
+  assert.ok(tutorial >= 0 && tutorial < steps, 'tutorial link appears before learning steps');
+  assert.ok(kit >= 0 && kit < steps, 'kit link appears before learning steps');
+
+  const comparison = await page('/paths/content-creation');
+  assert.equal(comparison.response.status, 200);
+  assert.doesNotMatch(renderedMain(comparison.html), /Workflows and agents: what is the difference\?/);
+});
+
 test('other English learning entries identify every lesson completion control', async () => {
   for (const tutorial of registry.tutorials.filter((entry) => !localized.hasLocalizedTutorialPages(entry))) {
     const { response, html } = await page(tutorial.href);

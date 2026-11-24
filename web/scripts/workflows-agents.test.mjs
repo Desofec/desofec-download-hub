@@ -26,6 +26,22 @@ const languageChecks = {
   es: { fiction: /fictici[oa]/i, room: /sala sin confirmar/i, noSend: /no envíes/i }
 };
 
+test('workflow path introduction is translated in each supported language', () => {
+  const text = [
+    'Category', 'Skill level',
+    'Workflows and agents: what is the difference?',
+    'A workflow follows steps chosen in advance. An agent can choose its next step or tool based on what it finds, so it needs clear limits and human oversight.',
+    'Practise choosing the simpler approach, designing stop rules and testing a private draft with fictional data. Learn to check errors, approvals and guardrails; AI is optional.',
+    'Learn step by step: tutorial', 'Open the workflows and agents kit'
+  ];
+  for (const language of ['fr', 'de', 'es']) {
+    for (const phrase of text) {
+      assert.equal(phrases.phraseLanguage(phrase, language), language, `${language}: ${phrase}`);
+      assert.notEqual(phrases.translatePhrase(phrase, language), phrase, `${language}: ${phrase}`);
+    }
+  }
+});
+
 function runDemo(code) {
   const output = [];
   const forbidden = () => { throw new Error('The offline demo attempted an external action'); };
