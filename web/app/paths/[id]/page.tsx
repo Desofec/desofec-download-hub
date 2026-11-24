@@ -17,12 +17,17 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;
   const path = (await getCatalog()).paths.find((entry) => entry.id === id);
-  return path ? {
-    title: path.title, description: path.description,
+  if (!path) return { title: 'Learning path' };
+  const { title, description } = id === 'ai-workflows-agents' ? {
+    title: 'AI Agent Workflows: Step-by-Step Learning Path',
+    description: 'Learn to design, build and test AI workflows and simple agents step by step, with practical exercises, approval checks and safety guardrails.'
+  } : path;
+  return {
+    title, description,
     alternates: { canonical: `/paths/${encodeURIComponent(id)}` },
-    openGraph: { title: path.title, description: path.description, url: `/paths/${encodeURIComponent(id)}` },
-    twitter: { card: 'summary_large_image', title: path.title, description: path.description }
-  } : { title: 'Learning path' };
+    openGraph: { title, description, url: `/paths/${encodeURIComponent(id)}` },
+    twitter: { card: 'summary_large_image', title, description }
+  };
 }
 
 export default async function PathDetailPage({ params }: { params: Promise<{ id: string }> }) {
