@@ -268,6 +268,36 @@ test('English-only tutorials render concise search snippets', async () => {
   }
 });
 
+test('workflow path renders its search and social metadata without changing other paths', async () => {
+  const paths = JSON.parse(await readFile(path.join(webDir, 'content', 'paths.json'), 'utf8'));
+  const other = paths.find(({ id }) => id === 'content-creation');
+  assert.ok(other, 'comparison path exists');
+  for (const entry of [
+    {
+      id: 'ai-workflows-agents',
+      title: 'AI Agent Workflows: Step-by-Step Learning Path',
+      description: 'Learn to design, build and test AI workflows and simple agents step by step, with practical exercises, approval checks and safety guardrails.'
+    },
+    other
+  ]) {
+    const pathname = `/paths/${entry.id}`;
+    const { response, html } = await page(pathname);
+    assert.equal(response.status, 200, pathname);
+    const title = html.match(/<title>([^<]*)<\/title>/i)?.[1];
+    assert.equal(htmlText(title), `${entry.title} | Desofec AI Studio`, pathname);
+    const tags = [...html.matchAll(/<meta\b[^>]*>/gi)].map(([tag]) => attributes(tag));
+    const value = (key, name) => tags.find((tag) => tag[key] === name)?.content;
+    assert.equal(value('name', 'description'), entry.description, pathname);
+    assert.equal(value('property', 'og:title'), entry.title, pathname);
+    assert.equal(value('property', 'og:description'), entry.description, pathname);
+    assert.equal(value('property', 'og:url'), `${productionOrigin}${pathname}`, pathname);
+    assert.equal(value('name', 'twitter:title'), entry.title, pathname);
+    assert.equal(value('name', 'twitter:description'), entry.description, pathname);
+    const links = [...html.matchAll(/<link\b[^>]*>/gi)].map(([tag]) => attributes(tag));
+    assert.equal(links.find((link) => link.rel === 'canonical')?.href, `${productionOrigin}${pathname}`, pathname);
+  }
+});
+
 test('other English learning entries identify every lesson completion control', async () => {
   for (const tutorial of registry.tutorials.filter((entry) => !localized.hasLocalizedTutorialPages(entry))) {
     const { response, html } = await page(tutorial.href);
