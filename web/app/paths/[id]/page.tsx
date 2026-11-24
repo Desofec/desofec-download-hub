@@ -43,6 +43,7 @@ export default async function PathDetailPage({ params }: { params: Promise<{ id:
   const packs = (recommendation?.starters ?? []).flatMap(
     (packId) => catalog.starterPacks.find((pack) => pack.id === packId) ?? []
   );
+  const isWorkflowsPath = path.id === 'ai-workflows-agents';
 
   return (
     <>
@@ -54,9 +55,24 @@ export default async function PathDetailPage({ params }: { params: Promise<{ id:
             <p><Tr>{path.description}</Tr></p>
           </div>
           <div className="tool-meta path-meta">
-            <span className="path-badge"><Tr>{path.badge}</Tr></span>
-            <span className="skill-chip"><Tr>{path.level}</Tr></span>
+            <span className="path-badge">{isWorkflowsPath && <><Tr>Category</Tr>: </>}<Tr>{path.badge}</Tr></span>
+            <span className="skill-chip">{isWorkflowsPath && <><Tr>Skill level</Tr>: </>}<Tr>{path.level}</Tr></span>
           </div>
+          {isWorkflowsPath && tutorial && (
+            <div className="section-head">
+              <h2><Tr>Workflows and agents: what is the difference?</Tr></h2>
+              <p><Tr>A workflow follows steps chosen in advance. An agent can choose its next step or tool based on what it finds, so it needs clear limits and human oversight.</Tr></p>
+              <p><Tr>Practise choosing the simpler approach, designing stop rules and testing a private draft with fictional data. Learn to check errors, approvals and guardrails; AI is optional.</Tr></p>
+              <div className="cta-row">
+                <TutorialLink className="btn btn-primary" href={tutorial.href}>
+                  <Tr>Learn step by step: tutorial</Tr>
+                </TutorialLink>
+                {tutorial.starterPackId && <Link className="btn btn-secondary" href={`/starter-packs/${tutorial.starterPackId}`}>
+                  <Tr>{tutorial.starterPackLabel ?? 'Open the service kit'}</Tr>
+                </Link>}
+              </div>
+            </div>
+          )}
           <div className="section-head">
             <h2><Tr>Your learning steps</Tr></h2>
           </div>
@@ -92,7 +108,7 @@ export default async function PathDetailPage({ params }: { params: Promise<{ id:
                 <Tr>Start a practice project</Tr>
               </Link>
             )}
-            {tutorial && (
+            {tutorial && !isWorkflowsPath && (
               <TutorialLink className="btn btn-primary" href={tutorial.href}>
                 <Tr>Learn step by step: tutorial</Tr>
               </TutorialLink>
