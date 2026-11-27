@@ -59,8 +59,8 @@ function DeviceProjects() {
       {notice && <p role="status">{tr(notice)}</p>}
       {!snapshot.projects.length && <div className="path-card">
         <h3>{tr('Your first work sample starts here')}</h3>
-        <p>{tr('No device projects yet. Start the recommended content practice, or explicitly load a saved account copy in the workspace.')}</p>
-        <Link className="btn btn-primary" href="/business-launchpad/projects?path=ai-content-services">{tr('Start the guided content project')}</Link>
+        <p>{tr('No device projects yet. Start the recommended AI workflow practice, or explicitly load a saved account copy in the workspace.')}</p>
+        <Link className="btn btn-primary" href="/business-launchpad/projects?path=ai-automation-services">{tr('Start the guided AI workflow project')}</Link>
       </div>}
       <div className="path-grid">
         {snapshot.projects.map(({ id, title, progress }) => {

@@ -1554,6 +1554,9 @@ test('start here and dashboard have translated states, safe routes and no new pr
   assert.match(startHere, /href="\/business-launchpad\/projects\?path=ai-automation-services"/);
   assert.doesNotMatch(startHere, /bakery/i);
   assert.doesNotMatch(home, /recommended fictional content project/);
+  const dashboard = await readFile(new URL('../components/project-completion-dashboard.tsx', import.meta.url), 'utf8');
+  assert.match(dashboard, /href="\/business-launchpad\/projects\?path=ai-automation-services"/);
+  assert.doesNotMatch(dashboard, /recommended content practice|Start the guided content project/);
 });
 
 test('guided content milestones are sequential, saved-data derived and accept documented blocked outcomes without approval', async () => {

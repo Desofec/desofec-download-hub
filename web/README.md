@@ -694,7 +694,10 @@ older app versions must not edit review-bearing projects because they do not ret
 
 ### Start Here and project completion dashboard
 
-`/start-here` recommends the existing fictional content-service journey, with alternatives via
+`/start-here` recommends the existing fictional AI automation-service journey: a human-reviewed
+customer-enquiry queue with draft replies, failure handling, cost limits and an off switch.
+No real inbox is connected and no messages are sent. The dashboard's empty-state link follows
+the same recommendation; saved projects and their progress are unchanged. Alternatives remain via
 the first-project chooser. Home and header primary entry points lead here; `/onboarding` remains
 available for other learning goals. The same read-only device-project dashboard appears on
 `/my-progress`. It reuses `serviceProjectJourney`, not a new completion scheme or saved state.
