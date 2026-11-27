@@ -518,6 +518,27 @@ test('tool pages describe related paths and identify links that open a new tab',
   }
 });
 
+test('built homepage and path directory links announce their card destinations', async () => {
+  for (const pathname of ['/', '/paths']) {
+    const { response, html } = await page(pathname);
+    assert.equal(response.status, 200);
+    const cards = [...renderedMain(html).matchAll(/<article class="(goal-card|path-card)">([\s\S]*?)<\/article>/g)];
+    assert.ok(cards.length > 1, `${pathname}: multiple learning cards`);
+    const names = cards.map(([, kind, card]) => {
+      const title = htmlText(card.match(/<h3>([\s\S]*?)<\/h3>/)[1].replace(/<[^>]+>/g, ''));
+      const [, tag, contents] = card.match(/(<a\b[^>]*>)([\s\S]*?)<\/a>/);
+      const context = contents.match(/<span class="sr-only">([\s\S]*?)<\/span>/);
+      assert.ok(context, `${pathname}/${title}: accessible context`);
+      assert.equal(htmlText(context[1].replace(/<[^>]+>/g, '')), `: ${title}`);
+      const label = kind === 'goal-card' ? 'Start here' : 'View path';
+      assert.equal(htmlText(contents.replace(context[0], '').replace(/<[^>]+>/g, '')), label);
+      assert.match(attributes(tag).href, kind === 'goal-card' ? /^\/onboarding\?goal=/ : /^\/paths\//);
+      return htmlText(contents.replace(/<[^>]+>/g, ''));
+    });
+    assert.equal(new Set(names).size, cards.length, `${pathname}: distinguishable link names`);
+  }
+});
+
 test('GitHub has one public listing while both historical tool URLs remain usable', async () => {
   const directory = await page('/tools');
   assert.equal(directory.response.status, 200);

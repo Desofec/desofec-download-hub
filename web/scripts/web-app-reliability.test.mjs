@@ -1,10 +1,13 @@
 import assert from 'node:assert/strict';
 import { createHash, randomBytes } from 'node:crypto';
 import { access, readFile } from 'node:fs/promises';
+import { createRequire } from 'node:module';
 import path from 'node:path';
 import { test } from 'node:test';
 import { fileURLToPath } from 'node:url';
 import { runInNewContext } from 'node:vm';
+import { createElement } from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
 import ts from 'typescript';
 import { loadWebModules } from './load-web-modules.mjs';
 
@@ -159,6 +162,69 @@ test('every starter-pack download surface uses selected-language routing', async
   assert.match(cards, /<StarterPackDownload packId=\{pack\.id\} file=\{pack\.file\} variant="card" \/>/);
   const detail = await readWeb('app/starter-packs/[id]/page.tsx');
   assert.match(detail, /<StarterPackDownload packId=\{pack\.id\} file=\{pack\.file\} \/>/);
+});
+
+test('learning card links retain visible labels and have distinct translated destination names', async (t) => {
+  const require = createRequire(import.meta.url);
+  const [{ translatePhrase }] = loadWebModules(['lib/phrases.ts']);
+  let language = 'en';
+  function component(source, dependencies) {
+    const output = ts.transpileModule(source, {
+      compilerOptions: {
+        module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020,
+        jsx: ts.JsxEmit.ReactJSX, esModuleInterop: true
+      }
+    }).outputText;
+    const exports = {};
+    runInNewContext(output, {
+      exports,
+      require(name) {
+        if (Object.hasOwn(dependencies, name)) return dependencies[name];
+        return require(name);
+      }
+    });
+    return exports;
+  }
+  const { Tr } = component(await readWeb('components/tr.tsx'), {
+    '@/components/language': { useLanguage: () => language },
+    '@/lib/phrases': { translatePhrase }
+  });
+  const { GoalCard, PathCard } = component(await readWeb('components/cards.tsx'), {
+    '@/components/tr': { Tr },
+    '@/components/favorite-tool-button': { FavoriteToolButton: () => null },
+    '@/components/starter-pack-download': { StarterPackDownload: () => null },
+    '@/components/tool-freshness': { ToolFreshness: () => null }
+  });
+  const goals = (await readJson('content/goals.json')).slice(0, 2);
+  const paths = (await readJson('content/paths.json')).slice(0, 2);
+  for (const locale of ['en', ...locales]) {
+    await t.test(locale, () => {
+      language = locale;
+      for (const [Card, entries, prop, titleKey, label, href] of [
+        [GoalCard, goals, 'goal', 'name', 'Start here', id => `/onboarding?goal=${encodeURIComponent(id)}`],
+        [PathCard, paths, 'path', 'title', 'View path', id => `/paths/${encodeURIComponent(id)}`]
+      ]) {
+        const html = renderToStaticMarkup(createElement('div', null,
+          entries.map(entry => createElement(Card, { key: entry.id, [prop]: entry, showSteps: true }))));
+        const links = [...html.matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a>/g)];
+        assert.equal(links.length, entries.length);
+        const names = links.map(([, attributes, contents], index) => {
+          const entry = entries[index];
+          const context = contents.match(/<span class="sr-only">([\s\S]*?)<\/span>/);
+          assert.ok(context, `${locale}/${entry.id}: screen-reader destination context`);
+          const title = translatePhrase(entry[titleKey], locale);
+          assert.equal(context[1], `: ${title}`);
+          assert.equal(contents.replace(context[0], ''), translatePhrase(label, locale), 'visible label unchanged');
+          assert.ok(attributes.includes(`href="${href(entry.id)}"`), 'destination unchanged');
+          assert.ok(attributes.includes('class="btn btn-secondary"'), 'styling unchanged');
+          assert.doesNotMatch(attributes, /aria-label|aria-labelledby/, 'name includes the visible label');
+          if (locale !== 'en') assert.notEqual(title, entry[titleKey], 'destination is translated');
+          return contents.replace(/<[^>]+>/g, '');
+        });
+        assert.equal(new Set(names).size, entries.length, `${locale}: multiple links have distinct names`);
+      }
+    });
+  }
 });
 
 test('localized kits route to existing files and English-only kits are labelled', async () => {

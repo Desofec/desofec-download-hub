@@ -14,6 +14,7 @@ export function GoalCard({ goal }: { goal: Goal }) {
       <div className="card-cta">
         <Link className="btn btn-secondary" href={`/onboarding?goal=${encodeURIComponent(goal.id)}`}>
           <Tr>Start here</Tr>
+          <span className="sr-only">{': '}<Tr>{goal.name}</Tr></span>
         </Link>
       </div>
     </article>
@@ -92,6 +93,7 @@ export function PathCard({ path, showSteps = false }: { path: LearningPath; show
       <div className="card-cta">
         <Link className="btn btn-secondary" href={`/paths/${encodeURIComponent(path.id)}`}>
           <Tr>View path</Tr>
+          <span className="sr-only">{': '}<Tr>{path.title}</Tr></span>
         </Link>
       </div>
     </article>
