@@ -1549,6 +1549,11 @@ test('start here and dashboard have translated states, safe routes and no new pr
   const header = await readFile(new URL('../components/site-header.tsx', import.meta.url), 'utf8');
   assert.match(home, /href="\/start-here"/);
   assert.match(header, /href: '\/start-here'/);
+  const startHere = await readFile(new URL('../app/start-here/page.tsx', import.meta.url), 'utf8');
+  assert.match(startHere, /const recommended = 'ai-automation-services';/);
+  assert.match(startHere, /href="\/business-launchpad\/projects\?path=ai-automation-services"/);
+  assert.doesNotMatch(startHere, /bakery/i);
+  assert.doesNotMatch(home, /recommended fictional content project/);
 });
 
 test('guided content milestones are sequential, saved-data derived and accept documented blocked outcomes without approval', async () => {

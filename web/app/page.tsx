@@ -151,7 +151,7 @@ export default async function HomePage() {
               </article>;
             })}
           </div>
-          <p><Tr>Not sure where to begin? Follow the recommended fictional content project at your own pace.</Tr></p>
+          <p><Tr>Not sure where to begin? Follow the recommended AI workflow assistant project at your own pace.</Tr></p>
           <div className="cta-row">
             <Link className="btn btn-primary" href="/start-here"><Tr>Start here</Tr></Link>
             <Link className="btn btn-secondary" href="/tools"><Tr>Explore tools</Tr></Link>

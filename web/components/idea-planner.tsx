@@ -98,7 +98,7 @@ export function IdeaPlanner({ goals, paths }: { goals: PlannerGoal[]; paths: Pla
           maxLength={MAX_LENGTH}
           value={idea}
           onChange={(event) => setIdea(event.target.value)}
-          placeholder={tr('Example: I want to build a website for my bakery and automate my orders.')}
+          placeholder={tr('Example: I want an AI assistant that sorts my work emails and drafts follow-ups for me to review.')}
         />
         <div className="cta-row">
           <button type="submit" className="btn btn-primary" disabled={idea.trim().length < 3}>

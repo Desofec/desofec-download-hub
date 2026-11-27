@@ -598,7 +598,7 @@ test('English tutorial navigation remembers its language for linked kits', async
 test('tutorial entry points use the shared language-aware link', async () => {
   const entryPoints = [
     ['../app/page.tsx', /<TutorialLink href=\{tutorial\.href\}/],
-    ['../app/start-here/page.tsx', /<TutorialLink[^>]*href="\/tutorials\/ai-content-services"/],
+    ['../app/start-here/page.tsx', /<TutorialLink[^>]*href="\/tutorials\/ai-automation-services"/],
     ['../app/paths/[id]/page.tsx', /<TutorialLink[^>]*href=\{tutorial\.href\}/],
     ['../app/tools/[id]/page.tsx', /<TutorialLink[^>]*href=\{guide\.href\}/],
     ['../app/business-launchpad/page.tsx', /<TutorialLink[^>]*href=\{tutorial\.href\}/],
