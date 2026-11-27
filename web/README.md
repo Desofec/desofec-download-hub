@@ -36,6 +36,9 @@ title in their screen-reader names, while keeping the visible labels and existin
 progress data unchanged. A title that falls back to English is identified as
 English. Completed cards retain full text contrast and a distinctive border;
 their checked controls and existing title decoration remain visible.
+Learning goal and path card links include the translated goal name or path title
+in screen-reader-only text, keeping the visible "Start here" and "View path"
+labels, destinations and styling unchanged.
 French progress summaries use a count-neutral label for tutorials, learning paths,
 starter packs and progress views, including when zero or one step is complete.
 The header uses a scrollable compact menu on tablets and smaller laptops; Escape
