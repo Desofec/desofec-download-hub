@@ -9,7 +9,7 @@ import { tutorialStorageKey, tutorials } from '@/lib/tutorials';
 
 export const metadata: Metadata = {
   title: 'Start Here: Build Your First Practice Portfolio',
-  description: 'Learn a practical service, complete a guided fictional project and build an honest portfolio. Start with one beginner-friendly content exercise.',
+  description: 'Learn a practical service, complete a guided fictional project and build an honest portfolio. Start with one beginner-friendly AI workflow exercise.',
   alternates: { canonical: '/start-here' },
   openGraph: {
     title: 'Start Here: Build Your First Practice Portfolio',
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
 
 export default async function StartHerePage() {
   const { paths, starterPacks, starterPackChecklists } = await getCatalog();
-  const recommended = 'ai-content-services';
+  const recommended = 'ai-automation-services';
   return <section className="section"><div className="container first-app-project">
     <div className="section-head">
       <span className="eyebrow"><Tr>Start here</Tr></span>
@@ -34,12 +34,12 @@ export default async function StartHerePage() {
       <p><Tr>Practice is not verified client work, certification or a promise of clients or income. Use fictional information and review your evidence before sharing.</Tr></p>
     </div>
     <section className="path-card" aria-labelledby="recommended-first-project">
-      <h2 id="recommended-first-project"><Tr>Recommended first project: a fictional bakery content package</Tr></h2>
-      <p><Tr>Create three short posts and four FAQ answers from supplied facts. Check claims and permissions, record revisions and turn your saved work into a clearly labelled practice case study.</Tr></p>
+      <h2 id="recommended-first-project"><Tr>Recommended first project: a fictional AI workflow assistant for customer enquiries</Tr></h2>
+      <p><Tr>Design a human-reviewed AI workflow that sorts fictional customer enquiries into a review queue, prepares draft replies for approval and handles a failure safely. Set cost limits and an off switch, then turn your saved work into a clearly labelled practice case study. No real inbox is connected and no messages are sent.</Tr></p>
       <p><Tr>Go at your own pace. Reading, drafting, testing and feedback take separate time; checking a lesson does not create or verify deliverables.</Tr></p>
       <div className="cta-row">
-        <Link className="btn btn-primary" href="/business-launchpad/projects?path=ai-content-services"><Tr>Start the guided content project</Tr></Link>
-        <TutorialLink className="btn btn-secondary" href="/tutorials/ai-content-services"><Tr>Preview the lessons</Tr></TutorialLink>
+        <Link className="btn btn-primary" href="/business-launchpad/projects?path=ai-automation-services"><Tr>Start the guided AI workflow project</Tr></Link>
+        <TutorialLink className="btn btn-secondary" href="/tutorials/ai-automation-services"><Tr>Preview the lessons</Tr></TutorialLink>
         <Link className="text-link" href="/business-launchpad/first-project"><Tr>Prefer another service? Choose a different practice project.</Tr></Link>
       </div>
     </section>
