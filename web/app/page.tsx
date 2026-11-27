@@ -36,8 +36,8 @@ const highlights = [
 ];
 
 const featuredLessons = [
+  { id: 'ai-automation-services', title: phrase('Practise an AI workflow assistant'), outcome: phrase('Sort fictional customer enquiries into a review queue, prepare replies for human approval and practise safe failure handling—without connecting a real inbox or sending messages.') },
   { id: 'ai-content-services', title: phrase('Create a practice content package'), outcome: phrase('Draft posts and FAQ answers from fictional facts, check claims, and prepare an honest work sample.') },
-  { id: 'ai-automation-services', title: phrase('Practise small-business automation'), outcome: phrase('Explore enquiry tracking, reminders or reports with fictional data and a no-send practice lab.') },
   { id: 'ai-spreadsheets', title: phrase('Clean spreadsheets and check reports'), outcome: phrase('Practise data cleaning, PDF transcription checks and formulas with fictional orders.') },
   { id: 'ai-video-business', title: phrase('Plan short business videos'), outcome: phrase('Work through scripts, storyboards, captions and permissions before editing a fictional video project.') }
 ];
