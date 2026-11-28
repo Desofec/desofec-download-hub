@@ -622,6 +622,18 @@ test('tutorial entry points use the shared language-aware link', async () => {
   assert.match(discovery, /<TutorialLink[^>]*href="\/tutorials\/freelance-client-discovery" onNavigate=\{\(event\) => \{\s*if \(!discard\(\)\) event\.preventDefault\(\);/);
 });
 
+test('homepage leads with the human-reviewed fictional AI workflow practice in every language', async () => {
+  const homepage = await readFile(new URL('../app/page.tsx', import.meta.url), 'utf8');
+  const automationIndex = homepage.indexOf("id: 'ai-automation-services'");
+  const contentIndex = homepage.indexOf("id: 'ai-content-services'");
+  assert.ok(automationIndex >= 0 && automationIndex < contentIndex, 'AI workflow practice comes before content practice');
+  for (const locale of ['fr', 'de', 'es']) {
+    const book = JSON.parse(await readFile(new URL(`../content/translations/ui-${locale}.json`, import.meta.url), 'utf8'));
+    assert.ok(book['Practise an AI workflow assistant'], `${locale}: translated workflow heading`);
+    assert.ok(book['Sort fictional customer enquiries into a review queue, prepare replies for human approval and practise safe failure handling—without connecting a real inbox or sending messages.'], `${locale}: translated safe-practice description`);
+  }
+});
+
 test('localized pages reuse original tutorials and the existing sitemap', async () => {
   const hosted = await readFile(new URL('../components/localized-hosted-tutorial.tsx', import.meta.url), 'utf8');
   const legacy = await readFile(new URL('../components/localized-legacy-tutorial.tsx', import.meta.url), 'utf8');
